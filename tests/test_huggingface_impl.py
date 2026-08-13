@@ -22,7 +22,7 @@ try:
     # Mock instructor
     sys.modules["instructor"] = MagicMock()
     
-    # Also mock semantica.semantic_extract.config to avoid initialization issues
+    # Also mock sloth_graphmind.semantic_extract.config to avoid initialization issues
     mock_config_module = MagicMock()
     mock_config_instance = MagicMock()
     # Setup default return values for config
@@ -31,7 +31,7 @@ try:
     
     mock_config_module.config = mock_config_instance
     mock_config_module.Config = MagicMock(return_value=mock_config_instance)
-    sys.modules["semantica.semantic_extract.config"] = mock_config_module
+    sys.modules["sloth_graphmind.semantic_extract.config"] = mock_config_module
     
     print("Mocks setup complete.", flush=True)
 except Exception as e:
@@ -44,9 +44,9 @@ print(f"Added to path: {sys.path[0]}", flush=True)
 
 try:
     print("Importing methods...", flush=True)
-    from semantica.semantic_extract.methods import extract_entities_huggingface, extract_relations_huggingface, extract_triplets_huggingface
+    from sloth_graphmind.semantic_extract.methods import extract_entities_huggingface, extract_relations_huggingface, extract_triplets_huggingface
     print("Importing Entity class...", flush=True)
-    from semantica.semantic_extract.ner_extractor import Entity
+    from sloth_graphmind.semantic_extract.ner_extractor import Entity
     print("Imports successful.", flush=True)
 except Exception as e:
     print(f"Import failed: {e}", flush=True)

@@ -5,7 +5,7 @@ Test suite for the DatalogReasoner module.
 import pytest
 from typing import List, Dict, Any
 
-from semantica.reasoning.datalog_reasoner import DatalogReasoner, DatalogFact
+from sloth_graphmind.reasoning.datalog_reasoner import DatalogReasoner, DatalogFact
 
 @pytest.fixture
 def reasoner():

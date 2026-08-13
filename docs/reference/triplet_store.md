@@ -4,7 +4,7 @@ description: "Embedded and server-backed RDF storage with SPARQL queries and bul
 icon: "table"
 ---
 
-`semantica.triplet_store` provides **W3C-standard RDF storage** with **SPARQL 1.1** query support. Use it when you need **semantic web compatibility**, OWL-style reasoning, SPARQL-based queries, or standards-compliant RDF serialization.
+`sloth_graphmind.triplet_store` provides **W3C-standard RDF storage** with **SPARQL 1.1** query support. Use it when you need **semantic web compatibility**, OWL-style reasoning, SPARQL-based queries, or standards-compliant RDF serialization.
 
 ## Exported Classes
 
@@ -29,11 +29,11 @@ icon: "table"
 
 ## Getting Started
 
-**`TripletStore`** wraps the backend of your choice. Construct a `Triplet` object (from `semantica.semantic_extract.types`) and call `add_triplet()`:
+**`TripletStore`** wraps the backend of your choice. Construct a `Triplet` object (from `sloth_graphmind.semantic_extract.types`) and call `add_triplet()`:
 
 ```python
-from semantica.triplet_store import TripletStore
-from semantica.semantic_extract.types import Triplet
+from sloth_graphmind.triplet_store import TripletStore
+from sloth_graphmind.semantic_extract.types import Triplet
 
 store = TripletStore(
     backend="blazegraph",
@@ -67,7 +67,7 @@ for row in result.bindings:
 <Steps>
   <Step title="Connect to a backend">
     ```python
-    from semantica.triplet_store import TripletStore
+    from sloth_graphmind.triplet_store import TripletStore
 
     store = TripletStore(
         backend="blazegraph",
@@ -77,7 +77,7 @@ for row in result.bindings:
   </Step>
   <Step title="Add triplets">
     ```python
-    from semantica.semantic_extract.types import Triplet
+    from sloth_graphmind.semantic_extract.types import Triplet
 
     # Add a single triplet
     store.add_triplet(Triplet(
@@ -120,7 +120,7 @@ for row in result.bindings:
 <Tabs>
   <Tab title="Oxigraph">
     ```bash
-    pip install "semantica[tripletstore-oxigraph]"
+    pip install "sloth_graphmind[tripletstore-oxigraph]"
     ```
 
     ```python
@@ -143,7 +143,7 @@ for row in result.bindings:
     ```
 
     ```python
-    from semantica.triplet_store import TripletStore
+    from sloth_graphmind.triplet_store import TripletStore
 
     store = TripletStore(
         backend="blazegraph",
@@ -182,7 +182,7 @@ for row in result.bindings:
     store = TripletStore(
         backend="rdf4j",
         endpoint="http://localhost:8080/rdf4j-server",
-        repository_id="semantica",   # passed through **config
+        repository_id="sloth_graphmind",   # passed through **config
     )
     ```
 
@@ -208,10 +208,10 @@ for row in result.bindings:
 
 ## Triplet Object
 
-All store operations use the `Triplet` dataclass from `semantica.semantic_extract.types`:
+All store operations use the `Triplet` dataclass from `sloth_graphmind.semantic_extract.types`:
 
 ```python
-from semantica.semantic_extract.types import Triplet
+from sloth_graphmind.semantic_extract.types import Triplet
 
 t = Triplet(
     subject="http://example.org/apple_inc",     # required: full URI string
@@ -231,7 +231,7 @@ t = Triplet(
 | `metadata` | `dict` | `{}` | Arbitrary metadata |
 
 <Warning>
-  **`add_triplet()` takes a `Triplet` object, not keyword arguments.** Use `Triplet(subject=..., predicate=..., object=...)` from `semantica.semantic_extract.types` and pass the object: not `subject=`, `predicate=`, `obj=` to `add_triplet`.
+  **`add_triplet()` takes a `Triplet` object, not keyword arguments.** Use `Triplet(subject=..., predicate=..., object=...)` from `sloth_graphmind.semantic_extract.types` and pass the object: not `subject=`, `predicate=`, `obj=` to `add_triplet`.
 </Warning>
 
 ## TripletStore Methods
@@ -255,7 +255,7 @@ t = Triplet(
 `execute_query()` is the single entry point for all SPARQL operations. It returns a `QueryResult`: access results via `.bindings`:
 
 ```python
-from semantica.triplet_store import TripletStore
+from sloth_graphmind.triplet_store import TripletStore
 
 store = TripletStore(backend="blazegraph", endpoint="http://localhost:9999/blazegraph/sparql")
 
@@ -302,17 +302,17 @@ store.execute_query("""
 
 ## SPARQL CONSTRUCT Templates
 
-`semantica.triplet_store.construct_templates` provides parameterized SPARQL `CONSTRUCT` query templates: define a reusable query once, substitute typed parameters safely, and persist the resulting triples in one call. This is available for the **Blazegraph backend only** (see [Backends](#backends) above) — `BlazegraphStore.execute_sparql()` is the only backend with CONSTRUCT-aware RDF parsing.
+`sloth_graphmind.triplet_store.construct_templates` provides parameterized SPARQL `CONSTRUCT` query templates: define a reusable query once, substitute typed parameters safely, and persist the resulting triples in one call. This is available for the **Blazegraph backend only** (see [Backends](#backends) above) — `BlazegraphStore.execute_sparql()` is the only backend with CONSTRUCT-aware RDF parsing.
 
 ```python
-from semantica.triplet_store.construct_templates import (
+from sloth_graphmind.triplet_store.construct_templates import (
     ConstructTemplate,
     ParameterDescriptor,
     ConstructTemplateRegistry,
     render_construct_template,
     execute_construct_template,
 )
-from semantica.triplet_store import BlazegraphStore
+from sloth_graphmind.triplet_store import BlazegraphStore
 
 # Define and register a template
 template = ConstructTemplate(
@@ -391,7 +391,7 @@ Oxigraph, Blazegraph, and RDF4J support named graphs. Scope `execute_query()` to
 
 ```python
 # Add a triplet to a named graph
-from semantica.semantic_extract.types import Triplet
+from sloth_graphmind.semantic_extract.types import Triplet
 
 t = Triplet(
     subject="http://example.org/a",
@@ -431,8 +431,8 @@ result = store.execute_query("""
 `add_triplets()` batches writes via the internal `BulkLoader`. Access `store.bulk_loader` to configure it:
 
 ```python
-from semantica.triplet_store import TripletStore
-from semantica.semantic_extract.types import Triplet
+from sloth_graphmind.triplet_store import TripletStore
+from sloth_graphmind.semantic_extract.types import Triplet
 
 store = TripletStore(backend="blazegraph", endpoint="http://localhost:9999/blazegraph/sparql")
 
@@ -452,7 +452,7 @@ if not validation["valid"]:
 `BulkLoader` can also be used directly with a `progress_callback`:
 
 ```python
-from semantica.triplet_store import BulkLoader
+from sloth_graphmind.triplet_store import BulkLoader
 
 loader = BulkLoader(batch_size=2000, max_retries=5, retry_delay=2.0)
 
@@ -533,9 +533,9 @@ for t in delta["removed_triples"]:
 The Export module writes RDF that the triplet store can then receive via `add_triplets()`:
 
 ```python
-from semantica.export import RDFExporter
-from semantica.triplet_store import TripletStore
-from semantica.semantic_extract.types import Triplet
+from sloth_graphmind.export import RDFExporter
+from sloth_graphmind.triplet_store import TripletStore
+from sloth_graphmind.semantic_extract.types import Triplet
 
 # Export KG to Turtle
 exporter = RDFExporter()

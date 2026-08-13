@@ -1,6 +1,6 @@
 import unittest
 from datetime import datetime
-from semantica.normalize.data_cleaner import (
+from sloth_graphmind.normalize.data_cleaner import (
     DataCleaner,
     DuplicateDetector,
     DataValidator,

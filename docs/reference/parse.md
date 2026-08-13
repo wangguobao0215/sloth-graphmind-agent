@@ -4,7 +4,7 @@ description: "Document parsing and text extraction: DocumentParser for standard 
 icon: "file-lines"
 ---
 
-**`semantica.parse`** extracts **structured text, layout, tables, and metadata** from unstructured documents:
+**`sloth_graphmind.parse`** extracts **structured text, layout, tables, and metadata** from unstructured documents:
 
 - `DocumentParser`: broad format support (PDF, DOCX, HTML, JSON, CSV, PPTX, XLSX), no extra dependencies
 - `DoclingParser`: complex layouts, merged-cell tables, multi-column PDFs, OCR (`pip install docling`)
@@ -19,7 +19,7 @@ icon: "file-lines"
 The parse module works out of the box for standard formats:
 
 ```python
-from semantica.parse import DocumentParser
+from sloth_graphmind.parse import DocumentParser
 
 parser = DocumentParser()
 result = parser.parse("document.pdf")
@@ -33,7 +33,7 @@ pip install docling
 ```
 
 ```python
-from semantica.parse import DoclingParser
+from sloth_graphmind.parse import DoclingParser
 
 parser = DoclingParser(export_format="markdown")
 result = parser.parse("document.pdf", extract_tables=True)
@@ -43,7 +43,7 @@ print(result["tables"])  # Enhanced table extraction
 ### First Document Parsing
 
 ```python
-from semantica.parse import DocumentParser
+from sloth_graphmind.parse import DocumentParser
 
 # Parse any supported format
 parser = DocumentParser()
@@ -71,7 +71,7 @@ print(f"Extracted {len(text)} characters from {metadata.get('page_count', 0)} pa
     | **Best for** | Clean documents, broad format support, production pipelines |
 
     ```python
-    from semantica.parse import DocumentParser
+    from sloth_graphmind.parse import DocumentParser
 
     parser = DocumentParser()
     result = parser.parse("contract.pdf")
@@ -92,7 +92,7 @@ print(f"Extracted {len(text)} characters from {metadata.get('page_count', 0)} pa
     | **Best for** | Merged-cell tables, scanned documents, multi-column layouts |
 
     ```python
-    from semantica.parse import DoclingParser
+    from sloth_graphmind.parse import DoclingParser
 
     parser = DoclingParser(export_format="markdown")
     result = parser.parse(
@@ -116,7 +116,7 @@ print(f"Extracted {len(text)} characters from {metadata.get('page_count', 0)} pa
     Process multiple files in parallel with per-file error isolation.
 
     ```python
-    from semantica.parse import DocumentParser
+    from sloth_graphmind.parse import DocumentParser
 
     parser  = DocumentParser()
     results = parser.parse_batch(
@@ -156,7 +156,7 @@ print(f"Extracted {len(text)} characters from {metadata.get('page_count', 0)} pa
 Standard parser for clean, machine-readable documents:
 
 ```python
-from semantica.parse import DocumentParser
+from sloth_graphmind.parse import DocumentParser
 
 parser = DocumentParser()
 result = parser.parse("data/report.pdf")
@@ -178,7 +178,7 @@ pip install docling
 ```
 
 ```python
-from semantica.parse import DoclingParser
+from sloth_graphmind.parse import DoclingParser
 
 parser = DoclingParser(
     export_format="markdown",      # Export format: "markdown" | "html" | "json"
@@ -278,8 +278,8 @@ metadata = {
 The most common pattern: ingest a directory then parse each source:
 
 ```python
-from semantica.ingest import FileIngestor
-from semantica.parse import DoclingParser
+from sloth_graphmind.ingest import FileIngestor
+from sloth_graphmind.parse import DoclingParser
 
 ingestor = FileIngestor()
 parser   = DoclingParser(export_format="markdown")

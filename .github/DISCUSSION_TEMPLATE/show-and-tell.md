@@ -13,7 +13,7 @@ Provide a brief summary of your project (1-2 sentences).
 
 Describe the functionality and purpose of your project.
 
-### Semantica Features Used
+### GraphMind Features Used
 
 - [ ] Data Ingestion
 - [ ] Entity Extraction
@@ -46,7 +46,7 @@ Share any interesting findings, metrics, or outcomes.
 
 ```python
 # Your code here
-# Show how you used Semantica
+# Show how you used GraphMind
 ```
 
 ## Screenshots / Media

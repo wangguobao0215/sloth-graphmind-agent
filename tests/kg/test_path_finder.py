@@ -9,7 +9,7 @@ import pytest
 import networkx as nx
 from unittest.mock import Mock
 
-from semantica.kg.path_finder import PathFinder
+from sloth_graphmind.kg.path_finder import PathFinder
 
 
 class TestPathFinder:
@@ -897,11 +897,11 @@ class TestBidirectionalPathFinding:
 
     def test_path_response_directed_field_exists(self):
         """PathResponse must carry a directed field."""
-        from semantica.explorer.schemas import PathResponse
+        from sloth_graphmind.explorer.schemas import PathResponse
         r = PathResponse(source="A", target="B", algorithm="bfs", path=["A", "B"], directed=False)
         assert r.directed is False
 
     def test_path_response_directed_field_defaults_true(self):
-        from semantica.explorer.schemas import PathResponse
+        from sloth_graphmind.explorer.schemas import PathResponse
         r = PathResponse(source="A", target="B", algorithm="bfs", path=["A", "B"])
         assert r.directed is True

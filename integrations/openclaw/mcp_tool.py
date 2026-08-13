@@ -33,7 +33,7 @@ class OpenClawMCPConfig:
     ----------
     server_command:
         Shell command used to launch the Semantica MCP server.
-        Defaults to ``"python -m semantica.mcp_server"``.
+        Defaults to ``"python -m sloth_graphmind.mcp_server"``.
     transport:
         MCP transport protocol.  OpenClaw supports ``"stdio"`` (default)
         and ``"sse"``.
@@ -50,7 +50,7 @@ class OpenClawMCPConfig:
 
     def __init__(
         self,
-        server_command: str = "python -m semantica.mcp_server",
+        server_command: str = "python -m sloth_graphmind.mcp_server",
         transport: str = "stdio",
         name: str = "semantica",
     ) -> None:

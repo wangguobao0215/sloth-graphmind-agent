@@ -1,6 +1,6 @@
 # Support
 
-Need help with Semantica? You've come to the right place!
+Need help with GraphMind? You've come to the right place!
 
 ## Getting Help
 
@@ -20,8 +20,8 @@ Start with our comprehensive documentation:
 
 **Best for**: General questions, feature discussions, and getting help
 
-- [Ask a question](https://github.com/semantica-agi/semantica/discussions/new?category=q-a)
-- [Browse discussions](https://github.com/semantica-agi/semantica/discussions)
+- [Ask a question](https://github.com/sloth_graphmind-agi/sloth_graphmind/discussions/new?category=q-a)
+- [Browse discussions](https://github.com/sloth_graphmind-agi/sloth_graphmind/discussions)
 
 #### Discord
 
@@ -33,8 +33,8 @@ Start with our comprehensive documentation:
 
 **Best for**: Bug reports and feature requests
 
-- [Report a bug](https://github.com/semantica-agi/semantica/issues/new?template=bug_report.md)
-- [Request a feature](https://github.com/semantica-agi/semantica/issues/new?template=feature_request.md)
+- [Report a bug](https://github.com/sloth_graphmind-agi/sloth_graphmind/issues/new?template=bug_report.md)
+- [Request a feature](https://github.com/sloth_graphmind-agi/sloth_graphmind/issues/new?template=feature_request.md)
 
 ### Before Asking
 
@@ -47,7 +47,7 @@ Start with our comprehensive documentation:
 
 ### Bug Reports
 
-Use our [bug report template](https://github.com/semantica-agi/semantica/issues/new?template=bug_report.md) to report bugs.
+Use our [bug report template](https://github.com/sloth_graphmind-agi/sloth_graphmind/issues/new?template=bug_report.md) to report bugs.
 
 Include:
 - Clear description of the bug
@@ -58,7 +58,7 @@ Include:
 
 ### Feature Requests
 
-Use our [feature request template](https://github.com/semantica-agi/semantica/issues/new?template=feature_request.md) to suggest features.
+Use our [feature request template](https://github.com/sloth_graphmind-agi/sloth_graphmind/issues/new?template=feature_request.md) to suggest features.
 
 Include:
 - Problem statement
@@ -71,7 +71,7 @@ Include:
 **Do NOT** create a public issue for security vulnerabilities.
 
 Instead:
-- Email: kaif@getsemantica.ai
+- Email: kaif@graphmind.ai
 - Subject: [SECURITY] Brief description
 - See [Security Policy](SECURITY.md) for details
 
@@ -79,7 +79,7 @@ Instead:
 
 For enterprise support, custom development, or consulting:
 
-- **Email**: kaif@getsemantica.ai
+- **Email**: kaif@graphmind.ai
 - **Subject**: [ENTERPRISE] Your request
 
 ## Response Times
@@ -93,7 +93,7 @@ For enterprise support, custom development, or consulting:
 
 ### Learning
 
-- [Documentation](https://semantica.readthedocs.io/)
+- [Documentation](https://sloth_graphmind.readthedocs.io/)
 - [Cookbook Tutorials](docs/cookbook.md)
 - [Code Examples](docs/examples.md)
 - [Use Cases](docs/use-cases.md)

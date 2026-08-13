@@ -60,11 +60,11 @@ def mock_databricks_connection():
 class TestDatabricksConnector:
     """Test DatabricksConnector class."""
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_connector_init_with_token(self, mock_sql):
         """Test connector initialization with personal access token authentication."""
-        from semantica.ingest.databricks_ingestor import DatabricksConnector
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksConnector
 
         connector = DatabricksConnector(
             host="https://adb-xxx.azuredatabricks.net",
@@ -79,11 +79,11 @@ class TestDatabricksConnector:
         assert connector.catalog == "TEST_CATALOG"
         assert connector.schema == "default"
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_connector_init_from_env(self, mock_sql):
         """Test connector initialization from environment variables."""
-        from semantica.ingest.databricks_ingestor import DatabricksConnector
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksConnector
 
         with patch.dict(
             os.environ,
@@ -99,31 +99,31 @@ class TestDatabricksConnector:
             assert connector.token == "env_token"
             assert connector.http_path == "/sql/1.0/warehouses/env"
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_connector_init_missing_host(self, mock_sql):
         """Test connector initialization fails without host."""
-        from semantica.ingest.databricks_ingestor import DatabricksConnector
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksConnector
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         with pytest.raises(ValidationError, match="Databricks host is required"):
             DatabricksConnector(token="test_token")
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_connector_init_missing_auth(self, mock_sql):
         """Test connector initialization fails without any authentication method."""
-        from semantica.ingest.databricks_ingestor import DatabricksConnector
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksConnector
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         with pytest.raises(ValidationError, match="Databricks authentication is required"):
             DatabricksConnector(host="https://adb-xxx.azuredatabricks.net")
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_connector_connect_token_auth(self, mock_sql, mock_databricks_connection):
         """Test connection with personal access token authentication."""
-        from semantica.ingest.databricks_ingestor import DatabricksConnector
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksConnector
 
         mock_conn, _ = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -144,10 +144,10 @@ class TestDatabricksConnector:
         assert call_kwargs["http_path"] == "/sql/1.0/warehouses/xxxx"
         assert call_kwargs["access_token"] == "test_token"
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.oauth_service_principal")
-    @patch("semantica.ingest.databricks_ingestor.Config")
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.oauth_service_principal")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.Config")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_connector_connect_oauth_m2m(
         self, mock_sql, mock_config, mock_oauth_sp, mock_databricks_connection
     ):
@@ -157,7 +157,7 @@ class TestDatabricksConnector:
         direct kwargs to sql.connect(); the correct mechanism is a
         credentials_provider callable wrapping oauth_service_principal().
         """
-        from semantica.ingest.databricks_ingestor import DatabricksConnector
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksConnector
 
         mock_conn, _ = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -190,12 +190,12 @@ class TestDatabricksConnector:
         )
         mock_oauth_sp.assert_called_once_with(mock_config.return_value)
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_connector_connect_missing_http_path(self, mock_sql):
         """Test connection fails without http_path."""
-        from semantica.ingest.databricks_ingestor import DatabricksConnector
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksConnector
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         connector = DatabricksConnector(
             host="https://adb-xxx.azuredatabricks.net",
@@ -205,11 +205,11 @@ class TestDatabricksConnector:
         with pytest.raises(ValidationError, match="http_path"):
             connector.connect()
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_connector_disconnect(self, mock_sql, mock_databricks_connection):
         """Test connection disconnect."""
-        from semantica.ingest.databricks_ingestor import DatabricksConnector
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksConnector
 
         mock_conn, _ = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -226,11 +226,11 @@ class TestDatabricksConnector:
         mock_conn.close.assert_called_once()
         assert connector.connection is None
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_connector_test_connection_success(self, mock_sql, mock_databricks_connection):
         """Test successful connection test."""
-        from semantica.ingest.databricks_ingestor import DatabricksConnector
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksConnector
 
         mock_conn, mock_cursor = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -246,11 +246,11 @@ class TestDatabricksConnector:
         assert result is True
         mock_cursor.execute.assert_called_with("SELECT 1")
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_connector_test_connection_failure(self, mock_sql):
         """Test connection test failure."""
-        from semantica.ingest.databricks_ingestor import DatabricksConnector
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksConnector
 
         mock_sql.connect = Mock(side_effect=Exception("Connection failed"))
 
@@ -268,11 +268,11 @@ class TestDatabricksConnector:
 class TestDatabricksIngestor:
     """Test DatabricksIngestor class."""
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_ingestor_init(self, mock_sql):
         """Test ingestor initialization."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         ingestor = DatabricksIngestor(
             host="https://adb-xxx.azuredatabricks.net",
@@ -283,11 +283,11 @@ class TestDatabricksIngestor:
         assert ingestor.connector is not None
         assert ingestor.connector.host == "https://adb-xxx.azuredatabricks.net"
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_ingest_table_basic(self, mock_sql, mock_databricks_connection):
         """Test basic table ingestion."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_conn, mock_cursor = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -318,11 +318,11 @@ class TestDatabricksIngestor:
         assert "id" in data.columns
         assert data.data[0]["name"] == "Alice"
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_ingest_table_closes_connection(self, mock_sql, mock_databricks_connection):
         """Test that ingest_table() closes the SQL connection after use instead of leaking it."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_conn, _ = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -338,11 +338,11 @@ class TestDatabricksIngestor:
         mock_conn.close.assert_called_once()
         assert ingestor.connector.connection is None
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_ingest_table_catalog_only(self, mock_sql, mock_databricks_connection):
         """Test table ingestion still qualifies the reference when only catalog is provided."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_conn, mock_cursor = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -361,11 +361,11 @@ class TestDatabricksIngestor:
         assert "`main`.`customers`" in executed_query
         assert "None" not in executed_query
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_ingest_table_with_limit(self, mock_sql, mock_databricks_connection):
         """Test table ingestion with limit."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_conn, mock_cursor = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -381,11 +381,11 @@ class TestDatabricksIngestor:
         executed_query = mock_cursor.execute.call_args[0][0]
         assert "LIMIT 100" in executed_query
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_ingest_table_with_where(self, mock_sql, mock_databricks_connection):
         """Test table ingestion with WHERE clause."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_conn, mock_cursor = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -401,11 +401,11 @@ class TestDatabricksIngestor:
         executed_query = mock_cursor.execute.call_args[0][0]
         assert "WHERE value > 100" in executed_query
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_ingest_table_rejects_unsafe_order_by(self, mock_sql, mock_databricks_connection):
         """Test table ingestion rejects unsafe ORDER BY clauses."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_conn, _ = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -416,16 +416,16 @@ class TestDatabricksIngestor:
             http_path="/sql/1.0/warehouses/xxxx",
         )
 
-        from semantica.utils.exceptions import ProcessingError
+        from sloth_graphmind.utils.exceptions import ProcessingError
 
         with pytest.raises(ProcessingError):
             ingestor.ingest_table("customers", order_by="value; DROP TABLE customers")
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_ingest_query_basic(self, mock_sql, mock_databricks_connection):
         """Test basic query execution."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_conn, mock_cursor = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -446,11 +446,11 @@ class TestDatabricksIngestor:
         assert data.query == query
         assert data.data[0]["total"] == 1000
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_ingest_query_closes_connection(self, mock_sql, mock_databricks_connection):
         """Test that ingest_query() closes the SQL connection after use instead of leaking it."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_conn, _ = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -466,11 +466,11 @@ class TestDatabricksIngestor:
         mock_conn.close.assert_called_once()
         assert ingestor.connector.connection is None
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_ingest_query_with_batching(self, mock_sql, mock_databricks_connection):
         """Test query execution with batch fetching."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_conn, mock_cursor = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -491,12 +491,12 @@ class TestDatabricksIngestor:
         assert data.row_count == 3
         assert len(data.data) == 3
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
-    @patch("semantica.ingest.databricks_ingestor.WorkspaceClient")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.WorkspaceClient")
     def test_get_table_schema(self, mock_ws_client_cls, mock_sql):
         """Test getting table schema information."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_column_1 = Mock(name="id")
         mock_column_1.name = "id"
@@ -535,13 +535,13 @@ class TestDatabricksIngestor:
             full_name="TEST_CATALOG.TEST_SCHEMA.customers"
         )
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
-    @patch("semantica.ingest.databricks_ingestor.WorkspaceClient")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.WorkspaceClient")
     def test_get_table_schema_requires_schema(self, mock_ws_client_cls, mock_sql):
         """Test that get_table_schema() raises instead of calling the SDK with a missing schema."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
-        from semantica.utils.exceptions import ProcessingError
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.utils.exceptions import ProcessingError
 
         mock_ws_client = Mock()
         mock_ws_client_cls.return_value = mock_ws_client
@@ -559,12 +559,12 @@ class TestDatabricksIngestor:
 
         mock_ws_client.tables.get.assert_not_called()
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
-    @patch("semantica.ingest.databricks_ingestor.WorkspaceClient")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.WorkspaceClient")
     def test_list_catalogs(self, mock_ws_client_cls, mock_sql):
         """Test listing catalogs."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_catalog_1 = Mock()
         mock_catalog_1.name = "main"
@@ -586,12 +586,12 @@ class TestDatabricksIngestor:
         assert len(catalogs) == 2
         assert "main" in catalogs
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
-    @patch("semantica.ingest.databricks_ingestor.WorkspaceClient")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.WorkspaceClient")
     def test_list_tables(self, mock_ws_client_cls, mock_sql):
         """Test listing tables in a catalog/schema."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_table_1 = Mock()
         mock_table_1.name = "customers"
@@ -618,13 +618,13 @@ class TestDatabricksIngestor:
             catalog_name="TEST_CATALOG", schema_name="TEST_SCHEMA"
         )
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
-    @patch("semantica.ingest.databricks_ingestor.WorkspaceClient")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.WorkspaceClient")
     def test_list_tables_requires_schema(self, mock_ws_client_cls, mock_sql):
         """Test that list_tables() raises instead of calling the SDK with schema_name=None."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
-        from semantica.utils.exceptions import ProcessingError
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.utils.exceptions import ProcessingError
 
         mock_ws_client = Mock()
         mock_ws_client_cls.return_value = mock_ws_client
@@ -643,12 +643,12 @@ class TestDatabricksIngestor:
 
         mock_ws_client.tables.list.assert_not_called()
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
-    @patch("semantica.ingest.databricks_ingestor.WorkspaceClient")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.WorkspaceClient")
     def test_get_table_lineage(self, mock_ws_client_cls, mock_sql):
         """Test getting table lineage."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_ws_client = Mock()
         mock_ws_client.api_client.do = Mock(
@@ -673,12 +673,12 @@ class TestDatabricksIngestor:
         assert lineage["downstream"] == ["main.default.customer_summary"]
         assert "columns" not in lineage
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
-    @patch("semantica.ingest.databricks_ingestor.WorkspaceClient")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.WorkspaceClient")
     def test_get_table_lineage_with_column_lineage(self, mock_ws_client_cls, mock_sql):
         """Test that include_column_lineage=True fetches per-column lineage."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_column_1 = Mock()
         mock_column_1.name = "id"
@@ -737,13 +737,13 @@ class TestDatabricksIngestor:
         assert lineage["columns"]["id"]["downstream"] == []
         assert lineage["columns"]["name"]["upstream"] == []
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
-    @patch("semantica.ingest.databricks_ingestor.WorkspaceClient")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.WorkspaceClient")
     def test_get_table_lineage_requires_schema(self, mock_ws_client_cls, mock_sql):
         """Test that get_table_lineage() validates schema before calling the REST API."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
-        from semantica.utils.exceptions import ProcessingError
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.utils.exceptions import ProcessingError
 
         mock_ws_client = Mock()
         mock_ws_client_cls.return_value = mock_ws_client
@@ -761,11 +761,11 @@ class TestDatabricksIngestor:
 
         mock_ws_client.api_client.do.assert_not_called()
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_export_as_documents(self, mock_sql):
         """Test exporting data as documents."""
-        from semantica.ingest.databricks_ingestor import DatabricksData, DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksData, DatabricksIngestor
 
         ingestor = DatabricksIngestor(
             host="https://adb-xxx.azuredatabricks.net",
@@ -795,11 +795,11 @@ class TestDatabricksIngestor:
         assert documents[0]["metadata"]["source"] == "databricks"
         assert documents[0]["metadata"]["table"] == "employees"
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_context_manager(self, mock_sql, mock_databricks_connection):
         """Test using ingestor as context manager."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_conn, _ = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -813,14 +813,14 @@ class TestDatabricksIngestor:
 
         mock_conn.close.assert_called()
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_context_manager_reuses_connection_across_calls(
         self, mock_sql, mock_databricks_connection
     ):
         """Test that ingest_table()/ingest_query() reuse (not leak) the connection
         opened by __enter__, and only close it once on __exit__."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         mock_conn, mock_cursor = mock_databricks_connection
         mock_sql.connect = Mock(return_value=mock_conn)
@@ -846,11 +846,11 @@ class TestDatabricksIngestor:
         mock_sql.connect.assert_called_once()
         mock_conn.close.assert_called_once()
 
-    @patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
-    @patch("semantica.ingest.databricks_ingestor.databricks_sql")
+    @patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.databricks_ingestor.databricks_sql")
     def test_convert_datetime(self, mock_sql):
         """Test datetime conversion in _convert_rows."""
-        from semantica.ingest.databricks_ingestor import DatabricksIngestor
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksIngestor
 
         ingestor = DatabricksIngestor(
             host="https://adb-xxx.azuredatabricks.net",
@@ -868,8 +868,8 @@ class TestDatabricksIngestor:
 
     def test_import_error_without_databricks(self):
         """Test that proper error is raised when databricks libraries are not installed."""
-        with patch("semantica.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", False):
-            from semantica.ingest.databricks_ingestor import DatabricksConnector
+        with patch("sloth_graphmind.ingest.databricks_ingestor.DATABRICKS_AVAILABLE", False):
+            from sloth_graphmind.ingest.databricks_ingestor import DatabricksConnector
 
             with pytest.raises(ImportError, match="databricks-sdk"):
                 DatabricksConnector(
@@ -883,7 +883,7 @@ class TestDatabricksData:
 
     def test_databricks_data_creation(self):
         """Test DatabricksData creation."""
-        from semantica.ingest.databricks_ingestor import DatabricksData
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksData
 
         data = DatabricksData(
             data=[{"col1": "val1"}],
@@ -899,7 +899,7 @@ class TestDatabricksData:
 
     def test_databricks_data_with_metadata(self):
         """Test DatabricksData with metadata."""
-        from semantica.ingest.databricks_ingestor import DatabricksData
+        from sloth_graphmind.ingest.databricks_ingestor import DatabricksData
 
         metadata = {"custom_field": "value"}
         data = DatabricksData(

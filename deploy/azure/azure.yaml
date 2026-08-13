@@ -1,6 +1,6 @@
-name: semantica-knowledge-explorer
+name: sloth_graphmind-knowledge-explorer
 metadata:
-  template: semantica-knowledge-explorer@0.1.0
+  template: sloth_graphmind-knowledge-explorer@0.1.0
 services:
   explorer:
     project: ../..

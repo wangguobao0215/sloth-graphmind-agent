@@ -5,12 +5,12 @@ from pathlib import Path
 from typing import Dict, Any
 from unittest.mock import MagicMock, patch
 
-from semantica.core.config_manager import ConfigManager, Config, ConfigurationError
-from semantica.core.lifecycle import LifecycleManager, SystemState, HealthStatus
-from semantica.core.plugin_registry import PluginRegistry, PluginInfo
-from semantica.core.registry import method_registry, MethodRegistry
-from semantica.core.orchestrator import Semantica
-from semantica.core import methods
+from sloth_graphmind.core.config_manager import ConfigManager, Config, ConfigurationError
+from sloth_graphmind.core.lifecycle import LifecycleManager, SystemState, HealthStatus
+from sloth_graphmind.core.plugin_registry import PluginRegistry, PluginInfo
+from sloth_graphmind.core.registry import method_registry, MethodRegistry
+from sloth_graphmind.core.orchestrator import Semantica
+from sloth_graphmind.core import methods
 
 class TestConfigManager(unittest.TestCase):
     def setUp(self):
@@ -100,7 +100,7 @@ class DummyPlugin:
 
 class TestPluginRegistry(unittest.TestCase):
     def setUp(self):
-        self.patcher = patch("semantica.core.plugin_registry.get_progress_tracker")
+        self.patcher = patch("sloth_graphmind.core.plugin_registry.get_progress_tracker")
         self.mock_get_tracker = self.patcher.start()
         self.mock_get_tracker.return_value = MagicMock()
         self.registry = PluginRegistry()
@@ -143,7 +143,7 @@ class TestMethodRegistry(unittest.TestCase):
 
 class TestSemanticaOrchestrator(unittest.TestCase):
     def setUp(self):
-        self.patcher = patch("semantica.core.orchestrator.get_progress_tracker")
+        self.patcher = patch("sloth_graphmind.core.orchestrator.get_progress_tracker")
         self.mock_get_tracker = self.patcher.start()
         self.mock_get_tracker.return_value = MagicMock()
         self.semantica = Semantica()
@@ -151,14 +151,14 @@ class TestSemanticaOrchestrator(unittest.TestCase):
     def tearDown(self):
         self.patcher.stop()
 
-    @patch("semantica.core.orchestrator.LifecycleManager.startup")
+    @patch("sloth_graphmind.core.orchestrator.LifecycleManager.startup")
     def test_initialize(self, mock_startup):
-        self.semantica.initialize()
-        self.assertTrue(self.semantica._initialized)
+        self.sloth_graphmind.initialize()
+        self.assertTrue(self.sloth_graphmind._initialized)
         mock_startup.assert_called_once()
 
-    @patch("semantica.core.orchestrator.Semantica._create_pipeline")
-    @patch("semantica.core.orchestrator.Semantica._validate_sources")
+    @patch("sloth_graphmind.core.orchestrator.Semantica._create_pipeline")
+    @patch("sloth_graphmind.core.orchestrator.Semantica._validate_sources")
     def test_build_knowledge_base(self, mock_validate, mock_pipeline):
         # Mock internal methods to avoid complex dependencies
         mock_validate.return_value = ["doc1.pdf"]
@@ -175,7 +175,7 @@ class TestSemanticaOrchestrator(unittest.TestCase):
         pass
 
 class TestCoreMethods(unittest.TestCase):
-    @patch("semantica.core.methods.Semantica")
+    @patch("sloth_graphmind.core.methods.Semantica")
     def test_build_knowledge_base_wrapper(self, MockSemantica):
         mock_instance = MockSemantica.return_value
         mock_instance.build_knowledge_base.return_value = {"status": "ok"}

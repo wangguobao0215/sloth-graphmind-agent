@@ -2,9 +2,9 @@ import unittest
 from unittest.mock import patch, MagicMock
 from pathlib import Path
 import json
-import semantica.utils.helpers as helpers
-import semantica.utils.validators as validators
-from semantica.utils.exceptions import ValidationError
+import sloth_graphmind.utils.helpers as helpers
+import sloth_graphmind.utils.validators as validators
+from sloth_graphmind.utils.exceptions import ValidationError
 
 class TestHelpers(unittest.TestCase):
 

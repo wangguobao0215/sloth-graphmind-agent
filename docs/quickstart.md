@@ -5,7 +5,7 @@ icon: "rocket"
 ---
 
 <Info>
-  **v0.5.0** — Ontology Hub, Distance Intelligence, Parquet & XML ingestion, 12 security fixes. <a href="https://github.com/semantica-agi/semantica/releases" style={{color:"#10B981",fontWeight:600,textDecoration:"none"}}>What's new →</a>
+  **v0.5.0** — Ontology Hub, Distance Intelligence, Parquet & XML ingestion, 12 security fixes. <a href="https://github.com/sloth_graphmind-agi/sloth_graphmind/releases" style={{color:"#10B981",fontWeight:600,textDecoration:"none"}}>What's new →</a>
 </Info>
 
 This guide walks you through the end-to-end pipeline for building your first knowledge graph. Start here after installation. An LLM API key is optional: pattern-based extraction works out of the box.
@@ -16,16 +16,16 @@ This guide walks you through the end-to-end pipeline for building your first kno
 <CodeGroup>
 
 ```bash pip (recommended)
-pip install semantica
+pip install sloth_graphmind
 ```
 
 ```bash With all extras
-pip install semantica[all]
+pip install sloth_graphmind[all]
 ```
 
 ```bash From source
-git clone https://github.com/semantica-agi/semantica.git
-cd semantica
+git clone https://github.com/sloth_graphmind-agi/sloth_graphmind.git
+cd sloth_graphmind
 pip install -e ".[dev]"
 ```
 
@@ -34,14 +34,14 @@ pip install -e ".[dev]"
 Verify:
 
 ```bash
-python -c "import semantica; print(semantica.__version__)"
+python -c "import sloth_graphmind; print(sloth_graphmind.__version__)"
 # 0.5.0
 ```
 
 
 ## Full Pipeline
 
-<img src="/assets/img/diagrams/pipeline-flow.svg" alt="Semantica end-to-end pipeline: Ingest → Parse → Normalize → Extract → Build KG → QA → Store → Deliver" style={{ width: '100%', borderRadius: '10px', margin: '0 0 24px' }} />
+<img src="/assets/img/diagrams/pipeline-flow.svg" alt="GraphMind end-to-end pipeline: Ingest → Parse → Normalize → Extract → Build KG → QA → Store → Deliver" style={{ width: '100%', borderRadius: '10px', margin: '0 0 24px' }} />
 
 <Steps>
 
@@ -52,7 +52,7 @@ Load a document from a file, directory, URL, or database.
 <CodeGroup>
 
 ```python File
-from semantica.ingest import FileIngestor
+from sloth_graphmind.ingest import FileIngestor
 
 ingestor = FileIngestor()
 sources  = ingestor.ingest("data/report.pdf")
@@ -60,14 +60,14 @@ sources  = ingestor.ingest("data/report.pdf")
 ```
 
 ```python Web
-from semantica.ingest import WebIngestor
+from sloth_graphmind.ingest import WebIngestor
 
 ingestor = WebIngestor(max_depth=2)
 sources  = ingestor.ingest("https://example.com/article")
 ```
 
 ```python Parquet / XML (v0.5.0)
-from semantica.ingest import ParquetIngestor, XMLIngestor
+from sloth_graphmind.ingest import ParquetIngestor, XMLIngestor
 
 # Single file or Hive-partitioned directory
 sources = ParquetIngestor().ingest("data/events.parquet")
@@ -85,7 +85,7 @@ sources = XMLIngestor(validate_xsd="schema.xsd").ingest("data/records/")
 Extract structured text and layout from raw documents.
 
 ```python
-from semantica.parse import DocumentParser
+from sloth_graphmind.parse import DocumentParser
 
 parser = DocumentParser()
 parsed = parser.parse(sources[0])
@@ -99,7 +99,7 @@ print(parsed.metadata)    # title, author, date, source
 </Tip>
 
 ```python
-from semantica.parse import DoclingParser
+from sloth_graphmind.parse import DoclingParser
 
 parser = DoclingParser()
 parsed = parser.parse(sources[0])
@@ -115,7 +115,7 @@ Identify named entities and extract typed relationships between them.
 <CodeGroup>
 
 ```python Pattern-based (fast, no API key)
-from semantica.semantic_extract import NERExtractor, RelationExtractor
+from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
 
 ner      = NERExtractor(method="pattern")
 entities = ner.extract(parsed)
@@ -127,8 +127,8 @@ relationships = rel.extract(parsed, entities=entities)
 ```
 
 ```python LLM-powered (higher accuracy)
-from semantica.semantic_extract import NERExtractor, RelationExtractor
-from semantica.llms import Groq
+from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
+from sloth_graphmind.llms import Groq
 
 llm = Groq(model="llama-3.3-70b-versatile")
 
@@ -148,7 +148,7 @@ relationships = rel.extract(parsed, entities=entities)
 Assemble extracted entities and relationships into a queryable knowledge graph.
 
 ```python
-from semantica.kg import GraphBuilder
+from sloth_graphmind.kg import GraphBuilder
 
 builder = GraphBuilder(merge_entities=True)
 graph   = builder.build({"entities": entities, "relationships": relationships})
@@ -167,7 +167,7 @@ print(f"Graph: {len(graph['entities'])} nodes, {len(graph['relationships'])} edg
 Render an interactive, zoomable knowledge graph in the browser.
 
 ```python
-from semantica.visualization import KGVisualizer
+from sloth_graphmind.visualization import KGVisualizer
 
 viz = KGVisualizer(
     layout="force",        # "force" | "hierarchical" | "circular"
@@ -186,7 +186,7 @@ Export to any downstream format.
 <CodeGroup>
 
 ```python RDF / Semantic Web
-from semantica.export import RDFExporter
+from sloth_graphmind.export import RDFExporter
 
 exporter = RDFExporter()
 exporter.export(graph, file_path="graph.ttl",    format="turtle")
@@ -195,7 +195,7 @@ exporter.export(graph, file_path="graph.nt",     format="nt")
 ```
 
 ```python Parquet / Analytics
-from semantica.export import ParquetExporter
+from sloth_graphmind.export import ParquetExporter
 
 exporter = ParquetExporter()
 exporter.export(graph, file_path="output/graph.parquet")
@@ -203,7 +203,7 @@ exporter.export(graph, file_path="output/graph.parquet")
 ```
 
 ```python ArangoDB
-from semantica.export import ArangoAQLExporter
+from sloth_graphmind.export import ArangoAQLExporter
 
 exporter = ArangoAQLExporter()
 aql      = exporter.export(graph)
@@ -222,8 +222,8 @@ aql      = exporter.export(graph)
 Track every agent decision with full causal chains and provenance: one extra import:
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 context = AgentContext(
     vector_store=VectorStore(backend="faiss", dimension=768),
@@ -256,7 +256,7 @@ influence  = context.analyze_decision_influence(decision_id)
 <Accordion title="Process raw text directly: no file needed" icon="text">
 
 ```python
-from semantica.semantic_extract import NERExtractor, RelationExtractor
+from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
 
 text = "Apple Inc. was founded by Steve Jobs, Steve Wozniak, and Ronald Wayne in 1976 in Cupertino, California."
 
@@ -272,7 +272,7 @@ relationships = rel.extract(text, entities=entities)
 <Accordion title="Multi-source incremental graph build" icon="layer-group">
 
 ```python
-from semantica.kg import GraphBuilder
+from sloth_graphmind.kg import GraphBuilder
 
 builder     = GraphBuilder(merge_entities=True)
 all_entities, all_rels = [], []
@@ -291,7 +291,7 @@ graph = builder.build({"entities": all_entities, "relationships": all_rels})
 <Accordion title="Temporal knowledge graph with point-in-time queries" icon="clock">
 
 ```python
-from semantica.kg import GraphBuilder, TemporalGraphQuery
+from sloth_graphmind.kg import GraphBuilder, TemporalGraphQuery
 
 builder = GraphBuilder()
 kg = builder.build({
@@ -327,8 +327,8 @@ print(f"Relationships active in 2023: {result_2023['num_relationships']}")
 <Accordion title="Persistent graph store: Neo4j, FalkorDB, Apache AGE" icon="database">
 
 ```python
-from semantica.graph_store import Neo4jStore
-from semantica.kg import GraphBuilder
+from sloth_graphmind.graph_store import Neo4jStore
+from sloth_graphmind.kg import GraphBuilder
 
 store = Neo4jStore(
     uri="bolt://localhost:7687",
@@ -346,8 +346,8 @@ graph   = builder.build({"entities": entities, "relationships": relationships})
 <Accordion title="Full provenance pipeline: W3C PROV-O" icon="link">
 
 ```python
-from semantica.provenance import ProvenanceManager
-from semantica.kg import GraphBuilder
+from sloth_graphmind.provenance import ProvenanceManager
+from sloth_graphmind.kg import GraphBuilder
 
 prov    = ProvenanceManager()
 prov.track_entity("Apple Inc.", "data/report.pdf", metadata={"confidence": 0.98})
@@ -375,7 +375,7 @@ print(sources[0])
 The document likely contains scanned images rather than machine-readable text. Enable OCR:
 
 ```python
-from semantica.parse import DocumentParser
+from sloth_graphmind.parse import DocumentParser
 
 parser = DocumentParser(ocr=True)  # enables Tesseract OCR
 parsed = parser.parse(sources[0])
@@ -388,11 +388,11 @@ parsed = parser.parse(sources[0])
 Enable parallel processing and GPU acceleration:
 
 ```bash
-pip install semantica[gpu]
+pip install sloth_graphmind[gpu]
 ```
 
 ```python
-from semantica.pipeline import Pipeline
+from sloth_graphmind.pipeline import Pipeline
 
 pipeline = Pipeline(workers=8, batch_size=32)
 pipeline.run(sources)
@@ -405,7 +405,7 @@ pipeline.run(sources)
 Switch from in-memory NetworkX to a persistent backend:
 
 ```python
-from semantica.graph_store import FalkorDBStore
+from sloth_graphmind.graph_store import FalkorDBStore
 
 store   = FalkorDBStore(host="localhost", port=6379)
 builder = GraphBuilder(merge_entities=True, graph_store=store)
@@ -418,7 +418,7 @@ builder = GraphBuilder(merge_entities=True, graph_store=store)
 Fixed in **v0.5.0**. Upgrade:
 
 ```bash
-pip install --upgrade semantica
+pip install --upgrade sloth_graphmind
 ```
 
 </Accordion>
@@ -428,7 +428,7 @@ pip install --upgrade semantica
 
 ## Next Steps
 
-- [Core Concepts](concepts) — Knowledge graphs, ontologies, reasoning engines: the mental model behind Semantica.
+- [Core Concepts](concepts) — Knowledge graphs, ontologies, reasoning engines: the mental model behind GraphMind.
 - [Module Reference](modules) — Every module explained with key classes and common chains.
 - [API Reference](reference/context) — Complete documentation for every module, class, and parameter.
 - [Cookbook](cookbook) — 40+ interactive Jupyter notebooks with real-world datasets.

@@ -9,7 +9,7 @@ import logging
 from mcp.schemas import EXPORT_GRAPH, GET_PROVENANCE
 from mcp.session import get_graph
 
-log = logging.getLogger("semantica.mcp.tools.export")
+log = logging.getLogger("sloth_graphmind.mcp.tools.export")
 
 _FORMAT_ALIASES: dict[str, str] = {
     "ttl": "turtle",
@@ -59,7 +59,7 @@ def handle_export_graph(args: dict) -> dict:
 
         if fmt in ("graphml",):
             try:
-                from semantica.export import GraphMLExporter
+                from sloth_graphmind.export import GraphMLExporter
                 exporter = GraphMLExporter()
                 data = exporter.export(graph)
                 return {"format": "graphml", "data": data}
@@ -68,7 +68,7 @@ def handle_export_graph(args: dict) -> dict:
 
         if fmt in ("parquet",):
             try:
-                from semantica.export import ParquetExporter
+                from sloth_graphmind.export import ParquetExporter
                 exporter = ParquetExporter()
                 data = exporter.export(graph, include_metadata)
                 return {"format": "parquet", "data": str(data)}
@@ -79,7 +79,7 @@ def handle_export_graph(args: dict) -> dict:
         rdf_fmt = _FORMAT_ALIASES.get(fmt)
         if rdf_fmt:
             try:
-                from semantica.export import RDFExporter
+                from sloth_graphmind.export import RDFExporter
                 rdf_str = RDFExporter().export_to_rdf(graph, format=rdf_fmt)
                 return {"format": rdf_fmt, "data": rdf_str}
             except Exception as exc:
@@ -103,7 +103,7 @@ def handle_get_provenance(args: dict) -> dict:
 
         # Try ProvenanceTracker first
         try:
-            from semantica.kg import ProvenanceTracker
+            from sloth_graphmind.kg import ProvenanceTracker
             tracker = ProvenanceTracker()
             records = tracker.get_provenance(node_id)
             result = records if isinstance(records, list) else list(records)
@@ -135,7 +135,7 @@ EXPORT_TOOLS = [
     {
         "name": "export_graph",
         "description": (
-            "Export the Semantica knowledge graph to JSON, CSV, GraphML, Parquet, "
+            "Export the GraphMind knowledge graph to JSON, CSV, GraphML, Parquet, "
             "Turtle (RDF), N-Triples, RDF/XML, or JSON-LD."
         ),
         "inputSchema": EXPORT_GRAPH,

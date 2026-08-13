@@ -21,7 +21,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from semantica.explorer.routes import ontology as ontology_mod
+from sloth_graphmind.explorer.routes import ontology as ontology_mod
 
 
 def _fake_getaddrinfo(host, *args, **kwargs):

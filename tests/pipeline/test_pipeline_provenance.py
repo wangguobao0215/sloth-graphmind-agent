@@ -11,9 +11,9 @@ from unittest.mock import patch
 
 import pytest
 
-from semantica.pipeline import PipelineBuilder
-from semantica.pipeline.pipeline_provenance import PipelineWithProvenance
-from semantica.pipeline.execution_engine import ExecutionResult
+from sloth_graphmind.pipeline import PipelineBuilder
+from sloth_graphmind.pipeline.pipeline_provenance import PipelineWithProvenance
+from sloth_graphmind.pipeline.execution_engine import ExecutionResult
 
 
 class TestPipelineWithProvenance:
@@ -46,9 +46,9 @@ class TestPipelineWithProvenance:
         assert len(runner.steps) == 2
 
     def test_provenance_disabled_when_import_fails(self, simple_pipeline):
-        """When semantica.provenance is unavailable, provenance should be disabled."""
+        """When sloth_graphmind.provenance is unavailable, provenance should be disabled."""
         # Force the provenance import to raise ImportError
-        with patch.dict(sys.modules, {"semantica.provenance": None}):
+        with patch.dict(sys.modules, {"sloth_graphmind.provenance": None}):
             runner = PipelineWithProvenance(simple_pipeline, provenance=True)
             assert runner.provenance is False
             assert runner._prov_manager is None

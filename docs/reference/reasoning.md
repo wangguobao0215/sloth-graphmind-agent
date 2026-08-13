@@ -4,7 +4,7 @@ description: "Forward chaining, Rete, deductive, abductive, SPARQL, Datalog, and
 icon: "microchip"
 ---
 
-`semantica.reasoning` derives new knowledge from existing facts using logical rules:
+`sloth_graphmind.reasoning` derives new knowledge from existing facts using logical rules:
 
 - Six reasoning engines: forward chaining, Rete, SPARQL, Datalog, temporal, and LLM-powered GraphReasoner
 - Every engine produces explainable inference paths: traceable chains of rules and facts
@@ -44,7 +44,7 @@ icon: "microchip"
 The most common pattern is the `Reasoner` for IF/THEN forward-chaining:
 
 ```python
-from semantica.reasoning import Reasoner, Rule, RuleType
+from sloth_graphmind.reasoning import Reasoner, Rule, RuleType
 
 reasoner = Reasoner()
 
@@ -67,7 +67,7 @@ for r in results:
 Or build rules programmatically using the `Rule` dataclass:
 
 ```python
-from semantica.reasoning import Rule, RuleType
+from sloth_graphmind.reasoning import Rule, RuleType
 
 rule = Rule(
     rule_id="rule_001",
@@ -86,7 +86,7 @@ reasoner.add_rule(rule)
 **`Reasoner`** is the unified entry point for rule-based inference: iterates facts and rules to a **fixpoint**, then optionally proves a specific goal via backward chaining:
 
 ```python
-from semantica.reasoning import Reasoner, Rule, RuleType, InferenceResult
+from sloth_graphmind.reasoning import Reasoner, Rule, RuleType, InferenceResult
 
 reasoner = Reasoner()
 
@@ -133,7 +133,7 @@ conclusions = reasoner.infer_facts(
 ### Rule and Fact dataclass fields
 
 ```python
-from semantica.reasoning import Rule, Fact, RuleType
+from sloth_graphmind.reasoning import Rule, Fact, RuleType
 
 # Rule: all fields
 rule = Rule(
@@ -147,7 +147,7 @@ rule = Rule(
 )
 
 # Fact: for working with the Rete engine directly
-from semantica.reasoning import Fact
+from sloth_graphmind.reasoning import Fact
 fact = Fact(
     fact_id="f001",                # required: unique identifier
     predicate="Manager",
@@ -162,7 +162,7 @@ fact = Fact(
 **`GraphReasoner`** uses an LLM to answer **natural language queries** over a knowledge graph dict: no SPARQL or rule authoring required:
 
 ```python
-from semantica.reasoning import GraphReasoner
+from sloth_graphmind.reasoning import GraphReasoner
 
 # Initialize: uses openai by default; override via kwargs
 reasoner = GraphReasoner(provider="openai", model="gpt-4o-mini")
@@ -192,7 +192,7 @@ print(answer)
 High-performance Rete pattern matching for large rule sets:
 
 ```python
-from semantica.reasoning import ReteEngine, Rule, Fact, RuleType
+from sloth_graphmind.reasoning import ReteEngine, Rule, Fact, RuleType
 
 engine = ReteEngine()
 
@@ -239,7 +239,7 @@ engine.reset()
 **`SPARQLReasoner`** extends SPARQL with **inference rule expansion**: add IF-THEN rules and they are automatically woven into queries before execution:
 
 ```python
-from semantica.reasoning import SPARQLReasoner
+from sloth_graphmind.reasoning import SPARQLReasoner
 
 reasoner = SPARQLReasoner()
 
@@ -285,7 +285,7 @@ SPARQLReasoner(
 Pure-Python bottom-up semi-naive fixpoint evaluation for recursive Horn clause rules. Termination is **guaranteed**: the engine detects fixpoint convergence and stops:
 
 ```python
-from semantica.reasoning import DatalogReasoner, DatalogFact
+from sloth_graphmind.reasoning import DatalogReasoner, DatalogFact
 
 datalog = DatalogReasoner()
 
@@ -315,7 +315,7 @@ datalog.clear()
 ### DatalogFact, DatalogRule fields
 
 ```python
-from semantica.reasoning import DatalogFact, DatalogRule
+from sloth_graphmind.reasoning import DatalogFact, DatalogRule
 
 # DatalogFact: ground fact; args must all be constants (lowercase start)
 fact = DatalogFact(predicate="parent", args=("alice", "bob"))
@@ -342,7 +342,7 @@ Pure-Python Allen interval algebra: all 13 relations, no LLM calls:
 
 ```python
 from datetime import datetime
-from semantica.reasoning import TemporalReasoningEngine, TemporalInterval, IntervalRelation
+from sloth_graphmind.reasoning import TemporalReasoningEngine, TemporalInterval, IntervalRelation
 
 engine = TemporalReasoningEngine()
 
@@ -389,7 +389,7 @@ All 13 Allen interval algebra relations:
 Generate structured explanations for any `InferenceResult`:
 
 ```python
-from semantica.reasoning import ExplanationGenerator, Reasoner, Rule
+from sloth_graphmind.reasoning import ExplanationGenerator, Reasoner, Rule
 
 reasoner = Reasoner()
 reasoner.add_fact("Manager(John)")

@@ -12,7 +12,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from semantica.export import ArangoAQLExporter
+from sloth_graphmind.export import ArangoAQLExporter
 
 
 class TestArangoAQLExporter(unittest.TestCase):

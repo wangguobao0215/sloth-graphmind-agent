@@ -4,12 +4,12 @@ from unittest.mock import MagicMock, patch
 import sys
 import os
 
-from semantica.ontology.ontology_evaluator import OntologyEvaluator, EvaluationResult
-from semantica.ontology.competency_questions import CompetencyQuestionsManager, CompetencyQuestion
-from semantica.change_management import VersionManager, OntologyVersion
-from semantica.ontology.associative_class import AssociativeClassBuilder, AssociativeClass
-from semantica.ontology.reuse_manager import ReuseManager
-from semantica.ontology.engine import OntologyEngine
+from sloth_graphmind.ontology.ontology_evaluator import OntologyEvaluator, EvaluationResult
+from sloth_graphmind.ontology.competency_questions import CompetencyQuestionsManager, CompetencyQuestion
+from sloth_graphmind.change_management import VersionManager, OntologyVersion
+from sloth_graphmind.ontology.associative_class import AssociativeClassBuilder, AssociativeClass
+from sloth_graphmind.ontology.reuse_manager import ReuseManager
+from sloth_graphmind.ontology.engine import OntologyEngine
 
 class TestOntologyAdvanced(unittest.TestCase):
 
@@ -20,14 +20,14 @@ class TestOntologyAdvanced(unittest.TestCase):
         
         # Patch loggers and trackers
         self.patchers = [
-            patch('semantica.ontology.ontology_evaluator.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.ontology_evaluator.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.ontology.competency_questions.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.competency_questions.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.change_management.ontology_version_manager.get_logger', return_value=self.mock_logger),
-            patch('semantica.change_management.ontology_version_manager.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.ontology.associative_class.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.associative_class.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.ontology.ontology_evaluator.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.ontology_evaluator.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.ontology.competency_questions.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.competency_questions.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.change_management.ontology_version_manager.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.change_management.ontology_version_manager.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.ontology.associative_class.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.associative_class.get_progress_tracker', return_value=self.mock_tracker),
         ]
         
         for p in self.patchers:
@@ -95,7 +95,7 @@ class TestOntologyAdvanced(unittest.TestCase):
             self.assertEqual(result.completeness_score, 0.9)
 
     # --- VersionManager Tests ---
-    @patch('semantica.change_management.ontology_version_manager.NamespaceManager')
+    @patch('sloth_graphmind.change_management.ontology_version_manager.NamespaceManager')
     def test_version_manager_create(self, mock_ns_cls):
         manager = VersionManager(base_uri="http://example.org/")
         ontology = {"metadata": {}}
@@ -245,13 +245,13 @@ class TestSHACLHierarchicalAndValidation(unittest.TestCase):
     }
 
     def _make_gen(self, **kwargs):
-        from semantica.ontology.ontology_generator import SHACLGenerator
+        from sloth_graphmind.ontology.ontology_generator import SHACLGenerator
 
         with patch(
-            "semantica.ontology.ontology_generator.get_logger",
+            "sloth_graphmind.ontology.ontology_generator.get_logger",
             return_value=MagicMock(),
         ), patch(
-            "semantica.ontology.ontology_generator.get_progress_tracker",
+            "sloth_graphmind.ontology.ontology_generator.get_progress_tracker",
             return_value=MagicMock(start_tracking=MagicMock(return_value="t")),
         ):
             return SHACLGenerator(**kwargs)
@@ -356,11 +356,11 @@ class TestSHACLHierarchicalAndValidation(unittest.TestCase):
     def test_engine_to_shacl_returns_non_empty_string(self):
         mock_progress = MagicMock()
         mock_progress.start_tracking.return_value = "tid"
-        with patch("semantica.ontology.engine.get_logger", return_value=MagicMock()), \
-             patch("semantica.ontology.engine.get_progress_tracker", return_value=mock_progress), \
-             patch("semantica.ontology.ontology_generator.get_logger", return_value=MagicMock()), \
-             patch("semantica.ontology.ontology_generator.get_progress_tracker", return_value=mock_progress):
-            from semantica.ontology.engine import OntologyEngine
+        with patch("sloth_graphmind.ontology.engine.get_logger", return_value=MagicMock()), \
+             patch("sloth_graphmind.ontology.engine.get_progress_tracker", return_value=mock_progress), \
+             patch("sloth_graphmind.ontology.ontology_generator.get_logger", return_value=MagicMock()), \
+             patch("sloth_graphmind.ontology.ontology_generator.get_progress_tracker", return_value=mock_progress):
+            from sloth_graphmind.ontology.engine import OntologyEngine
             engine = OntologyEngine()
             result = engine.to_shacl(self._HIER_ONTOLOGY)
         self.assertIsInstance(result, str)
@@ -372,11 +372,11 @@ class TestSHACLHierarchicalAndValidation(unittest.TestCase):
         import json
         mock_progress = MagicMock()
         mock_progress.start_tracking.return_value = "tid"
-        with patch("semantica.ontology.engine.get_logger", return_value=MagicMock()), \
-             patch("semantica.ontology.engine.get_progress_tracker", return_value=mock_progress), \
-             patch("semantica.ontology.ontology_generator.get_logger", return_value=MagicMock()), \
-             patch("semantica.ontology.ontology_generator.get_progress_tracker", return_value=mock_progress):
-            from semantica.ontology.engine import OntologyEngine
+        with patch("sloth_graphmind.ontology.engine.get_logger", return_value=MagicMock()), \
+             patch("sloth_graphmind.ontology.engine.get_progress_tracker", return_value=mock_progress), \
+             patch("sloth_graphmind.ontology.ontology_generator.get_logger", return_value=MagicMock()), \
+             patch("sloth_graphmind.ontology.ontology_generator.get_progress_tracker", return_value=mock_progress):
+            from sloth_graphmind.ontology.engine import OntologyEngine
             engine = OntologyEngine()
             result = engine.to_shacl(self._HIER_ONTOLOGY, format="json-ld")
         parsed = json.loads(result)
@@ -384,13 +384,13 @@ class TestSHACLHierarchicalAndValidation(unittest.TestCase):
 
     # 30
     def test_shacl_validation_report_summary_conforms(self):
-        from semantica.ontology.ontology_validator import SHACLValidationReport
+        from sloth_graphmind.ontology.ontology_validator import SHACLValidationReport
         report = SHACLValidationReport(conforms=True)
         self.assertIn("conforms", report.summary().lower())
 
     # 31
     def test_shacl_validation_report_summary_violations(self):
-        from semantica.ontology.ontology_validator import (
+        from sloth_graphmind.ontology.ontology_validator import (
             SHACLValidationReport,
             SHACLViolation,
         )
@@ -400,7 +400,7 @@ class TestSHACLHierarchicalAndValidation(unittest.TestCase):
 
     # 32
     def test_explain_violations_populates_explanation(self):
-        from semantica.ontology.ontology_validator import (
+        from sloth_graphmind.ontology.ontology_validator import (
             SHACLValidationReport,
             SHACLViolation,
         )
@@ -416,7 +416,7 @@ class TestSHACLHierarchicalAndValidation(unittest.TestCase):
 
     # 33
     def test_shacl_violation_to_dict(self):
-        from semantica.ontology.ontology_validator import SHACLViolation
+        from sloth_graphmind.ontology.ontology_validator import SHACLViolation
         v = SHACLViolation(
             focus_node="https://example.com/n",
             constraint="DatatypeConstraintComponent",
@@ -429,7 +429,7 @@ class TestSHACLHierarchicalAndValidation(unittest.TestCase):
 
     # 34
     def test_validation_report_to_dict_structure(self):
-        from semantica.ontology.ontology_validator import (
+        from sloth_graphmind.ontology.ontology_validator import (
             SHACLValidationReport,
             SHACLViolation,
         )

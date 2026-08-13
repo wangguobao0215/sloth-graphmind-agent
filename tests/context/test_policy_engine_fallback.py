@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from semantica.context import ContextGraph, PolicyEngine
-from semantica.context.decision_models import Policy, Decision
+from sloth_graphmind.context import ContextGraph, PolicyEngine
+from sloth_graphmind.context.decision_models import Policy, Decision
 
 
 def _make_policy(pid="p1", version="1.0.0", min_conf=0.8):

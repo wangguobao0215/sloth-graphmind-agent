@@ -9,25 +9,25 @@ from typing import Any
 
 from mcp.schemas import EXTRACT_ALL, EXTRACT_ENTITIES, EXTRACT_RELATIONS
 
-log = logging.getLogger("semantica.mcp.tools.extraction")
+log = logging.getLogger("sloth_graphmind.mcp.tools.extraction")
 
 
 def _clear_cache() -> None:
     try:
-        from semantica.semantic_extract.cache import _result_cache
+        from sloth_graphmind.semantic_extract.cache import _result_cache
         _result_cache.clear()
     except Exception:
         log.debug("Could not clear semantic_extract cache; continuing", exc_info=True)
 
 
 def handle_extract_entities(args: dict) -> dict:
-    """Extract named entities from text using Semantica NER."""
+    """Extract named entities from text using GraphMind NER."""
     text = args.get("text", "").strip()
     if not text:
         return {"error": "text is required", "entities": []}
     _clear_cache()
     try:
-        from semantica.semantic_extract import NamedEntityRecognizer
+        from sloth_graphmind.semantic_extract import NamedEntityRecognizer
         entities = NamedEntityRecognizer().extract(text) or []
         return {
             "entities": [
@@ -54,7 +54,7 @@ def handle_extract_relations(args: dict) -> dict:
         return {"error": "text is required", "relations": [], "triplets": []}
     _clear_cache()
     try:
-        from semantica.semantic_extract import NamedEntityRecognizer, RelationExtractor, TripletExtractor
+        from sloth_graphmind.semantic_extract import NamedEntityRecognizer, RelationExtractor, TripletExtractor
         entities = NamedEntityRecognizer().extract(text) or []
         relations = RelationExtractor().extract(text, entities) or []
         triplets = TripletExtractor().extract(text) or []
@@ -94,7 +94,7 @@ def handle_extract_all(args: dict) -> dict:
     _clear_cache()
     result: dict[str, Any] = {}
     try:
-        from semantica.semantic_extract import (
+        from sloth_graphmind.semantic_extract import (
             CoreferenceResolver,
             EventDetector,
             NamedEntityRecognizer,
@@ -161,7 +161,7 @@ EXTRACTION_TOOLS = [
     },
     {
         "name": "extract_all",
-        "description": "Run the full Semantica extraction pipeline: NER, coreference resolution, relation extraction, event detection, and triplet generation.",
+        "description": "Run the full GraphMind extraction pipeline: NER, coreference resolution, relation extraction, event detection, and triplet generation.",
         "inputSchema": EXTRACT_ALL,
         "_handler": handle_extract_all,
     },

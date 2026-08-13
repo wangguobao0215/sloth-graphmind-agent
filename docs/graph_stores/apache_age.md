@@ -7,7 +7,7 @@ icon: "database"
 **Backend**: PostgreSQL + [Apache AGE](https://age.apache.org/)  
 **Driver**: `psycopg2`
 
-Apache AGE is a PostgreSQL extension that adds graph database functionality, enabling you to run openCypher queries alongside traditional SQL. This backend lets Semantica use AGE as a property graph store with the same interface as Neo4j and FalkorDB.
+Apache AGE is a PostgreSQL extension that adds graph database functionality, enabling you to run openCypher queries alongside traditional SQL. This backend lets GraphMind use AGE as a property graph store with the same interface as Neo4j and FalkorDB.
 
 
 ## Prerequisites
@@ -32,12 +32,12 @@ pip install psycopg2-binary
     Use `GraphStore(backend="age", …)`: the same interface as Neo4j and FalkorDB:
 
     ```python
-    from semantica.graph_store import GraphStore
+    from sloth_graphmind.graph_store import GraphStore
 
     store = GraphStore(
         backend="age",
         connection_string="host=localhost dbname=agedb user=postgres password=secret",
-        graph_name="semantica",
+        graph_name="sloth_graphmind",
     )
     store.connect()
 
@@ -54,7 +54,7 @@ pip install psycopg2-binary
     Import `ApacheAgeStore` directly when you need AGE-specific behaviour:
 
     ```python
-    from semantica.graph_store.age_store import ApacheAgeStore
+    from sloth_graphmind.graph_store.age_store import ApacheAgeStore
 
     store = ApacheAgeStore(
         connection_string="host=localhost dbname=agedb user=postgres password=secret",
@@ -80,12 +80,12 @@ pip install psycopg2-binary
 | Variable | Description | Default |
 | :---------- | :------------- | :--------- |
 | `GRAPH_STORE_AGE_CONNECTION_STRING` | PostgreSQL connection string | `host=localhost dbname=agedb user=postgres password=postgres` |
-| `GRAPH_STORE_AGE_GRAPH_NAME` | AGE graph name | `semantica` |
+| `GRAPH_STORE_AGE_GRAPH_NAME` | AGE graph name | `sloth_graphmind` |
 
 ### Programmatic Configuration
 
 ```python
-from semantica.graph_store.config import graph_store_config
+from sloth_graphmind.graph_store.config import graph_store_config
 
 graph_store_config.set("age_connection_string", "host=db.example.com dbname=prod_age user=app")
 graph_store_config.set("age_graph_name", "production")
@@ -135,7 +135,7 @@ node = store.create_node(
 
 ## Label Handling
 
-AGE supports exactly **one label per vertex**. Semantica handles this transparently:
+AGE supports exactly **one label per vertex**. GraphMind handles this transparently:
 
 - `labels[0]` → used as the primary AGE vertex label.
 - `labels[1:]` → stored in a `labels` property array on the vertex.
@@ -197,7 +197,7 @@ The store uses explicit PostgreSQL transactions:
 
 ## API Reference
 
-All methods match the standard Semantica graph store backend interface:
+All methods match the standard GraphMind graph store backend interface:
 
 | Method | Description |
 | :-------- | :------------- |

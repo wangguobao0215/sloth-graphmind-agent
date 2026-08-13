@@ -1,11 +1,11 @@
 
 import unittest
 from unittest.mock import MagicMock, patch
-from semantica.semantic_extract.methods import extract_relations_llm, extract_entities_llm, extract_triplets_llm
-from semantica.semantic_extract.ner_extractor import Entity
+from sloth_graphmind.semantic_extract.methods import extract_relations_llm, extract_entities_llm, extract_triplets_llm
+from sloth_graphmind.semantic_extract.ner_extractor import Entity
 
 class TestMaxTokensPropagation(unittest.TestCase):
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_max_tokens_propagation_relations(self, mock_create_provider):
         """Test that max_tokens is passed to generate_typed in extract_relations_llm."""
         # Setup mock
@@ -38,7 +38,7 @@ class TestMaxTokensPropagation(unittest.TestCase):
         self.assertIn("max_tokens", kwargs)
         self.assertEqual(kwargs["max_tokens"], 128000)
 
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_max_tokens_propagation_entities(self, mock_create_provider):
         """Test that max_tokens is passed to generate_typed in extract_entities_llm."""
         # Setup mock
@@ -67,7 +67,7 @@ class TestMaxTokensPropagation(unittest.TestCase):
         self.assertIn("max_tokens", kwargs)
         self.assertEqual(kwargs["max_tokens"], 128000)
 
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_max_tokens_propagation_triplets(self, mock_create_provider):
         """Test that max_tokens is passed to generate_typed in extract_triplets_llm."""
         # Setup mock

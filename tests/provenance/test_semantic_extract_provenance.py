@@ -5,7 +5,7 @@ Tests that provenance tracking works correctly for all extraction classes.
 """
 
 import pytest
-from semantica.provenance import ProvenanceManager
+from sloth_graphmind.provenance import ProvenanceManager
 
 
 class TestNERExtractorProvenance:
@@ -14,7 +14,7 @@ class TestNERExtractorProvenance:
     def test_without_provenance(self):
         """Test NER works without provenance (backward compatible)."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
             ner = NERExtractorWithProvenance(provenance=False)
             assert ner is not None
             assert ner.provenance is False
@@ -24,7 +24,7 @@ class TestNERExtractorProvenance:
     def test_with_provenance_enabled(self):
         """Test NER tracks provenance when enabled."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
             ner = NERExtractorWithProvenance(provenance=True)
             assert ner.provenance is True
             assert ner._prov_manager is not None
@@ -34,7 +34,7 @@ class TestNERExtractorProvenance:
     def test_graceful_degradation(self):
         """Test graceful degradation if provenance unavailable."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
             # Should not raise errors even if provenance fails
             ner = NERExtractorWithProvenance(provenance=True)
             assert ner is not None
@@ -48,7 +48,7 @@ class TestRelationExtractorProvenance:
     def test_without_provenance(self):
         """Test relation extractor works without provenance."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import RelationExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import RelationExtractorWithProvenance
             extractor = RelationExtractorWithProvenance(provenance=False)
             assert extractor is not None
             assert extractor.provenance is False
@@ -58,7 +58,7 @@ class TestRelationExtractorProvenance:
     def test_with_provenance_enabled(self):
         """Test relation extractor tracks provenance."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import RelationExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import RelationExtractorWithProvenance
             extractor = RelationExtractorWithProvenance(provenance=True)
             assert extractor.provenance is True
         except ImportError:
@@ -71,7 +71,7 @@ class TestEventDetectorProvenance:
     def test_without_provenance(self):
         """Test event detector works without provenance."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import EventDetectorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import EventDetectorWithProvenance
             detector = EventDetectorWithProvenance(provenance=False)
             assert detector is not None
         except ImportError:
@@ -80,7 +80,7 @@ class TestEventDetectorProvenance:
     def test_with_provenance_enabled(self):
         """Test event detector tracks provenance."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import EventDetectorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import EventDetectorWithProvenance
             detector = EventDetectorWithProvenance(provenance=True)
             assert detector.provenance is True
         except ImportError:
@@ -93,7 +93,7 @@ class TestProvenanceEdgeCases:
     def test_empty_text_extraction(self):
         """Test extraction with empty text."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
             ner = NERExtractorWithProvenance(provenance=True)
             # Should handle empty text gracefully
             assert ner is not None
@@ -103,7 +103,7 @@ class TestProvenanceEdgeCases:
     def test_none_source_tracking(self):
         """Test provenance tracking with None source."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
             ner = NERExtractorWithProvenance(provenance=True)
             # Should handle None source gracefully
             assert ner._prov_manager is not None
@@ -113,7 +113,7 @@ class TestProvenanceEdgeCases:
     def test_very_long_text(self):
         """Test extraction with very long text."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
             ner = NERExtractorWithProvenance(provenance=True)
             long_text = "A" * 10000
             # Should handle long text without issues
@@ -124,7 +124,7 @@ class TestProvenanceEdgeCases:
     def test_special_characters_in_text(self):
         """Test extraction with special characters."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
             ner = NERExtractorWithProvenance(provenance=True)
             special_text = "Test @#$%^&*() text with 中文 and émojis 🎉"
             # Should handle special characters
@@ -135,7 +135,7 @@ class TestProvenanceEdgeCases:
     def test_multiple_extractors_same_manager(self):
         """Test multiple extractors sharing provenance manager."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import (
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import (
                 NERExtractorWithProvenance,
                 RelationExtractorWithProvenance
             )
@@ -150,7 +150,7 @@ class TestProvenanceEdgeCases:
     def test_provenance_disabled_then_enabled(self):
         """Test switching from disabled to enabled provenance."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
             # First without provenance
             ner1 = NERExtractorWithProvenance(provenance=False)
             assert ner1.provenance is False
@@ -164,7 +164,7 @@ class TestProvenanceEdgeCases:
     def test_concurrent_extractions(self):
         """Test concurrent extraction operations."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
             ner = NERExtractorWithProvenance(provenance=True)
             # Simulate concurrent operations
             texts = ["Text 1", "Text 2", "Text 3"]
@@ -176,7 +176,7 @@ class TestProvenanceEdgeCases:
     def test_unicode_source_names(self):
         """Test provenance with unicode source names."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
             ner = NERExtractorWithProvenance(provenance=True)
             unicode_source = "文档_français_документ.pdf"
             # Should handle unicode source names
@@ -187,7 +187,7 @@ class TestProvenanceEdgeCases:
     def test_extraction_with_metadata(self):
         """Test extraction with additional metadata."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
             ner = NERExtractorWithProvenance(provenance=True)
             # Should support additional metadata
             assert ner._prov_manager is not None
@@ -197,7 +197,7 @@ class TestProvenanceEdgeCases:
     def test_provenance_manager_unavailable(self):
         """Test graceful degradation when ProvenanceManager unavailable."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
             # Should not raise exception even if provenance fails
             ner = NERExtractorWithProvenance(provenance=True)
             assert ner is not None
@@ -211,7 +211,7 @@ class TestRealProvenanceTracking:
     def test_ner_tracks_entities_with_provenance(self):
         """Test that NER actually tracks extracted entities."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import NERExtractorWithProvenance
             
             # Create NER with provenance enabled
             ner = NERExtractorWithProvenance(provenance=True)

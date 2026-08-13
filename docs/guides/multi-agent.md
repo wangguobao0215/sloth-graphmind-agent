@@ -13,8 +13,8 @@ A multi-agent system is a software architecture where multiple autonomous agents
 - **Parallel processing** — multiple agents can work simultaneously on different aspects of the same problem
 - **Human-like workflow decomposition** — mimics how human teams naturally divide complex analytical work
 
-**Semantica's coordination approach:**
-Semantica coordinates agents through shared context (memory and knowledge graphs) rather than message brokers or API calls between services. Agents read and write to the same underlying data structures, enabling seamless information sharing without complex middleware.
+**GraphMind's coordination approach:**
+GraphMind coordinates agents through shared context (memory and knowledge graphs) rather than message brokers or API calls between services. Agents read and write to the same underlying data structures, enabling seamless information sharing without complex middleware.
 
 **Single-agent vs multi-agent architectures:**
 - **Single-agent** — one `AgentContext` handles all tasks from ingestion through final output
@@ -52,7 +52,7 @@ Semantica coordinates agents through shared context (memory and knowledge graphs
 
 **Important consideration:** Multi-agent systems introduce additional architectural complexity including state management, coordination patterns, and debugging challenges. Only choose multi-agent approaches when the benefits of specialization and separation of concerns outweigh this added complexity.
 
-Semantica coordinates multiple agents through a shared `ContextGraph` — agents read and write to the same graph, or hand off serialized state via `save()` and `load()`, with no message broker required. Use this pattern when splitting work across ingestion, enrichment, reasoning, and reporting roles that must share a single evidence base.
+GraphMind coordinates multiple agents through a shared `ContextGraph` — agents read and write to the same graph, or hand off serialized state via `save()` and `load()`, with no message broker required. Use this pattern when splitting work across ingestion, enrichment, reasoning, and reporting roles that must share a single evidence base.
 
 <Info>
   This guide covers multi-agent coordination. For the memory layer each agent uses internally, see [Agent Memory](agent-memory). For graph traversal and entity linking, see [Context Graphs](context-graphs). For decision recording and precedent matching, see [Decision Intelligence](decision-intelligence).
@@ -76,8 +76,8 @@ The OSINT (**Open Source Intelligence** — publicly available information) coll
 
 ```python
 import threading
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 # One graph, one vector store — both agents write to these
 shared_graph = ContextGraph(advanced_analytics=True)
@@ -178,9 +178,9 @@ print("Ingestion complete. State saved for reasoning agent.")
 The reasoning agent starts fresh, loads the state, and has full access to everything the ingestion agents built.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import LiteLLM
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import LiteLLM
 
 # Create a context to load the checkpoint into — load() will overwrite existing state
 reasoning_vs    = VectorStore(backend="faiss", dimension=768)
@@ -307,9 +307,9 @@ A three-agent intelligence fusion cell: an OSINT collector ingests public feeds,
 
 ```python
 import threading
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import HuggingFaceLLM
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import HuggingFaceLLM
 
 # Shared graph for concurrent multi-INT collection
 shared_graph = ContextGraph(advanced_analytics=True)
@@ -385,9 +385,9 @@ fusion_officer.save("./fusion/pir_report/")
 A three-tier SOC pipeline: Tier 1 triages the alert with a fast Groq model, Tier 2 escalates with a deep Claude analysis if Tier 1 confidence is low, and a manager agent reads the full incident thread across all tiers. All three tiers share one `ContextGraph` — each tier namespaces its findings with a tier-scoped `conversation_id`.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import Groq, LiteLLM
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import Groq, LiteLLM
 
 shared_graph = ContextGraph()
 shared_vs    = VectorStore(backend="faiss", dimension=768)
@@ -475,9 +475,9 @@ A three-agent drug discovery pipeline: a literature agent ingests PubMed papers,
 
 ```python
 import threading
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import LiteLLM
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import LiteLLM
 
 shared_graph = ContextGraph(advanced_analytics=True)
 shared_vs    = VectorStore(backend="faiss", dimension=768)
@@ -553,9 +553,9 @@ chief.save("./drug_discovery/kras_g12c_checkpoint/")
 A four-agent credit committee: a risk desk agent computes PD/LGD, a compliance desk agent checks Basel III and EBA requirements, a credit officer agent applies policy, and a committee chair agent reads across all three desks to produce the final decision with a complete audit trail. Each desk namespaces its findings; the chair reads across all namespaces.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import LiteLLM
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import LiteLLM
 
 shared_graph = ContextGraph(advanced_analytics=True)
 shared_vs    = VectorStore(backend="faiss", dimension=768)

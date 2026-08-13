@@ -1,5 +1,5 @@
 import unittest
-from semantica.reasoning.reasoner import Reasoner, Rule, RuleType, Fact, InferenceResult
+from sloth_graphmind.reasoning.reasoner import Reasoner, Rule, RuleType, Fact, InferenceResult
 
 class TestReasoner(unittest.TestCase):
     def setUp(self):

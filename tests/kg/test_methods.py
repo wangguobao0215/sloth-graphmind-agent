@@ -9,7 +9,7 @@ import pytest
 import numpy as np
 from unittest.mock import Mock, patch
 
-from semantica.kg.methods import (
+from sloth_graphmind.kg.methods import (
     compute_node_embeddings,
     calculate_similarity,
     predict_links,
@@ -28,7 +28,7 @@ class TestComputeNodeEmbeddings:
         self.mock_graph_store = Mock()
         self.mock_graph_store.get_nodes_by_label.return_value = ["node1", "node2", "node3"]
     
-    @patch('semantica.kg.methods.NodeEmbedder')
+    @patch('sloth_graphmind.kg.methods.NodeEmbedder')
     def test_compute_node_embeddings_default(self, mock_embedder_class):
         """Test compute_node_embeddings with default parameters."""
         mock_embedder = Mock()
@@ -41,7 +41,7 @@ class TestComputeNodeEmbeddings:
         mock_embedder.compute_embeddings.assert_called_once()
         assert result == {"node1": [0.1, 0.2]}
     
-    @patch('semantica.kg.methods.NodeEmbedder')
+    @patch('sloth_graphmind.kg.methods.NodeEmbedder')
     def test_compute_node_embeddings_custom_params(self, mock_embedder_class):
         """Test compute_node_embeddings with custom parameters."""
         mock_embedder = Mock()
@@ -65,7 +65,7 @@ class TestComputeNodeEmbeddings:
         )
         assert result == {"node1": [0.1, 0.2]}
     
-    @patch('semantica.kg.methods.NodeEmbedder')
+    @patch('sloth_graphmind.kg.methods.NodeEmbedder')
     def test_compute_node_embeddings_error(self, mock_embedder_class):
         """Test compute_node_embeddings error handling."""
         mock_embedder = Mock()
@@ -84,7 +84,7 @@ class TestCalculateSimilarity:
         self.mock_graph_store = Mock()
         self.mock_graph_store.get_node_property.return_value = [0.1, 0.2, 0.3]
     
-    @patch('semantica.kg.methods.SimilarityCalculator')
+    @patch('sloth_graphmind.kg.methods.SimilarityCalculator')
     def test_calculate_similarity_cosine(self, mock_calculator_class):
         """Test calculate_similarity with cosine method."""
         mock_calculator = Mock()
@@ -102,7 +102,7 @@ class TestCalculateSimilarity:
         mock_calculator.cosine_similarity.assert_called_once()
         assert result == 0.85
     
-    @patch('semantica.kg.methods.SimilarityCalculator')
+    @patch('sloth_graphmind.kg.methods.SimilarityCalculator')
     def test_calculate_similarity_euclidean(self, mock_calculator_class):
         """Test calculate_similarity with euclidean method."""
         mock_calculator = Mock()
@@ -119,7 +119,7 @@ class TestCalculateSimilarity:
         mock_calculator.euclidean_distance.assert_called_once()
         assert result == 0.15
     
-    @patch('semantica.kg.methods.SimilarityCalculator')
+    @patch('sloth_graphmind.kg.methods.SimilarityCalculator')
     def test_calculate_similarity_manhattan(self, mock_calculator_class):
         """Test calculate_similarity with manhattan method."""
         mock_calculator = Mock()
@@ -136,7 +136,7 @@ class TestCalculateSimilarity:
         mock_calculator.manhattan_distance.assert_called_once()
         assert result == 0.3
     
-    @patch('semantica.kg.methods.SimilarityCalculator')
+    @patch('sloth_graphmind.kg.methods.SimilarityCalculator')
     def test_calculate_similarity_correlation(self, mock_calculator_class):
         """Test calculate_similarity with correlation method."""
         mock_calculator = Mock()
@@ -153,7 +153,7 @@ class TestCalculateSimilarity:
         mock_calculator.correlation_similarity.assert_called_once()
         assert result == 0.92
     
-    @patch('semantica.kg.methods.SimilarityCalculator')
+    @patch('sloth_graphmind.kg.methods.SimilarityCalculator')
     def test_calculate_similarity_invalid_method(self, mock_calculator_class):
         """Test calculate_similarity with invalid method."""
         mock_calculator = Mock()
@@ -167,7 +167,7 @@ class TestCalculateSimilarity:
                 method="invalid_method"
             )
     
-    @patch('semantica.kg.methods.SimilarityCalculator')
+    @patch('sloth_graphmind.kg.methods.SimilarityCalculator')
     def test_calculate_similarity_missing_embeddings(self, mock_calculator_class):
         """Test calculate_similarity with missing embeddings."""
         mock_calculator = Mock()
@@ -180,7 +180,7 @@ class TestCalculateSimilarity:
             else:
                 return None
         
-        with patch('semantica.kg.methods._get_node_embedding', side_effect=mock_get_embedding):
+        with patch('sloth_graphmind.kg.methods._get_node_embedding', side_effect=mock_get_embedding):
             with pytest.raises(ValueError, match="One or both nodes not found"):
                 calculate_similarity(self.mock_graph_store, "node1", "node2")
 
@@ -193,7 +193,7 @@ class TestPredictLinks:
         self.mock_graph_store = Mock()
         self.mock_graph_store.get_nodes_by_label.return_value = ["node1", "node2", "node3"]
     
-    @patch('semantica.kg.methods.LinkPredictor')
+    @patch('sloth_graphmind.kg.methods.LinkPredictor')
     def test_predict_links_default(self, mock_predictor_class):
         """Test predict_links with default parameters."""
         mock_predictor = Mock()
@@ -206,7 +206,7 @@ class TestPredictLinks:
         mock_predictor.predict_links.assert_called_once()
         assert result == [("node1", "node2", 0.85)]
     
-    @patch('semantica.kg.methods.LinkPredictor')
+    @patch('sloth_graphmind.kg.methods.LinkPredictor')
     def test_predict_links_custom_params(self, mock_predictor_class):
         """Test predict_links with custom parameters."""
         mock_predictor = Mock()
@@ -230,7 +230,7 @@ class TestPredictLinks:
         )
         assert result == [("node1", "node2", 0.85)]
     
-    @patch('semantica.kg.methods.LinkPredictor')
+    @patch('sloth_graphmind.kg.methods.LinkPredictor')
     def test_predict_links_error(self, mock_predictor_class):
         """Test predict_links error handling."""
         mock_predictor = Mock()
@@ -250,7 +250,7 @@ class TestFindShortestPath:
         self.mock_graph.nodes.return_value = ["A", "B", "C", "D"]
         self.mock_graph.has_node.return_value = True
     
-    @patch('semantica.kg.methods.PathFinder')
+    @patch('sloth_graphmind.kg.methods.PathFinder')
     def test_find_shortest_path_dijkstra(self, mock_finder_class):
         """Test find_shortest_path with dijkstra method."""
         mock_finder = Mock()
@@ -270,7 +270,7 @@ class TestFindShortestPath:
         )
         assert result == ["A", "B", "C", "D"]
     
-    @patch('semantica.kg.methods.PathFinder')
+    @patch('sloth_graphmind.kg.methods.PathFinder')
     def test_find_shortest_path_astar(self, mock_finder_class):
         """Test find_shortest_path with astar method."""
         mock_finder = Mock()
@@ -287,7 +287,7 @@ class TestFindShortestPath:
         mock_finder.a_star_search.assert_called_once()
         assert result == ["A", "C", "D"]
     
-    @patch('semantica.kg.methods.PathFinder')
+    @patch('sloth_graphmind.kg.methods.PathFinder')
     def test_find_shortest_path_bfs(self, mock_finder_class):
         """Test find_shortest_path with bfs method."""
         mock_finder = Mock()
@@ -304,7 +304,7 @@ class TestFindShortestPath:
         mock_finder.bfs_shortest_path.assert_called_once()
         assert result == ["A", "D"]
     
-    @patch('semantica.kg.methods.PathFinder')
+    @patch('sloth_graphmind.kg.methods.PathFinder')
     def test_find_shortest_path_invalid_method(self, mock_finder_class):
         """Test find_shortest_path with invalid method."""
         mock_finder = Mock()
@@ -318,7 +318,7 @@ class TestFindShortestPath:
                 method="invalid_method"
             )
     
-    @patch('semantica.kg.methods.PathFinder')
+    @patch('sloth_graphmind.kg.methods.PathFinder')
     def test_find_shortest_path_astar_default_heuristic(self, mock_finder_class):
         """Test find_shortest_path with astar and default heuristic."""
         mock_finder = Mock()
@@ -345,7 +345,7 @@ class TestCalculatePageRank:
         self.mock_graph = Mock()
         self.mock_graph.nodes.return_value = ["A", "B", "C", "D"]
     
-    @patch('semantica.kg.methods.CentralityCalculator')
+    @patch('sloth_graphmind.kg.methods.CentralityCalculator')
     def test_calculate_pagerank_default(self, mock_calculator_class):
         """Test calculate_pagerank with default parameters."""
         mock_calculator = Mock()
@@ -360,7 +360,7 @@ class TestCalculatePageRank:
         mock_calculator.calculate_pagerank.assert_called_once()
         assert result == {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}
     
-    @patch('semantica.kg.methods.CentralityCalculator')
+    @patch('sloth_graphmind.kg.methods.CentralityCalculator')
     def test_calculate_pagerank_custom_params(self, mock_calculator_class):
         """Test calculate_pagerank with custom parameters."""
         mock_calculator = Mock()
@@ -386,7 +386,7 @@ class TestCalculatePageRank:
         )
         assert result == {"A": 0.4, "B": 0.3, "C": 0.2, "D": 0.1}
     
-    @patch('semantica.kg.methods.CentralityCalculator')
+    @patch('sloth_graphmind.kg.methods.CentralityCalculator')
     def test_calculate_pagerank_error(self, mock_calculator_class):
         """Test calculate_pagerank error handling."""
         mock_calculator = Mock()
@@ -405,7 +405,7 @@ class TestDetectCommunitiesLabelPropagation:
         self.mock_graph = Mock()
         self.mock_graph.nodes.return_value = ["A", "B", "C", "D"]
     
-    @patch('semantica.kg.methods.CommunityDetector')
+    @patch('sloth_graphmind.kg.methods.CommunityDetector')
     def test_detect_communities_default(self, mock_detector_class):
         """Test detect_communities_label_propagation with default parameters."""
         mock_detector = Mock()
@@ -424,7 +424,7 @@ class TestDetectCommunitiesLabelPropagation:
         assert result["algorithm"] == "label_propagation"
         assert len(result["communities"]) == 2
     
-    @patch('semantica.kg.methods.CommunityDetector')
+    @patch('sloth_graphmind.kg.methods.CommunityDetector')
     def test_detect_communities_custom_params(self, mock_detector_class):
         """Test detect_communities_label_propagation with custom parameters."""
         mock_detector = Mock()
@@ -451,7 +451,7 @@ class TestDetectCommunitiesLabelPropagation:
         )
         assert result["iterations"] == 25
     
-    @patch('semantica.kg.methods.CommunityDetector')
+    @patch('sloth_graphmind.kg.methods.CommunityDetector')
     def test_detect_communities_error(self, mock_detector_class):
         """Test detect_communities_label_propagation error handling."""
         mock_detector = Mock()
@@ -533,8 +533,8 @@ class TestMethodsIntegration:
         self.mock_graph_store = Mock()
         self.mock_graph = Mock()
     
-    @patch('semantica.kg.methods.NodeEmbedder')
-    @patch('semantica.kg.methods.SimilarityCalculator')
+    @patch('sloth_graphmind.kg.methods.NodeEmbedder')
+    @patch('sloth_graphmind.kg.methods.SimilarityCalculator')
     def test_embedding_similarity_pipeline(self, mock_calculator_class, mock_embedder_class):
         """Test complete embedding to similarity pipeline."""
         # Mock embedding computation
@@ -564,8 +564,8 @@ class TestMethodsIntegration:
         similarity = calculate_similarity(self.mock_graph_store, "node1", "node2")
         assert similarity == 0.0
     
-    @patch('semantica.kg.methods.LinkPredictor')
-    @patch('semantica.kg.methods.PathFinder')
+    @patch('sloth_graphmind.kg.methods.LinkPredictor')
+    @patch('sloth_graphmind.kg.methods.PathFinder')
     def test_link_prediction_path_finding_pipeline(self, mock_finder_class, mock_predictor_class):
         """Test link prediction to path finding pipeline."""
         # Mock link prediction
@@ -588,8 +588,8 @@ class TestMethodsIntegration:
             path = find_shortest_path(self.mock_graph, source, target)
             assert path == ["A", "B", "C"]
     
-    @patch('semantica.kg.methods.CentralityCalculator')
-    @patch('semantica.kg.methods.CommunityDetector')
+    @patch('sloth_graphmind.kg.methods.CentralityCalculator')
+    @patch('sloth_graphmind.kg.methods.CommunityDetector')
     def test_centrality_community_pipeline(self, mock_detector_class, mock_calculator_class):
         """Test centrality to community detection pipeline."""
         # Mock PageRank calculation

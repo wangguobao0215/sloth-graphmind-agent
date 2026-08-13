@@ -8,9 +8,9 @@ from dataclasses import asdict
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from semantica.semantic_extract.ner_extractor import NERExtractor, Entity
-from semantica.semantic_extract.named_entity_recognizer import NamedEntityRecognizer
-from semantica.semantic_extract.methods import get_entity_method
+from sloth_graphmind.semantic_extract.ner_extractor import NERExtractor, Entity
+from sloth_graphmind.semantic_extract.named_entity_recognizer import NamedEntityRecognizer
+from sloth_graphmind.semantic_extract.methods import get_entity_method
 
 class TestNERConfigurations(unittest.TestCase):
     """
@@ -25,7 +25,7 @@ class TestNERConfigurations(unittest.TestCase):
     def setUp(self):
         self.text = "Apple Inc. was founded by Steve Jobs."
 
-    @patch('semantica.semantic_extract.methods.create_provider')
+    @patch('sloth_graphmind.semantic_extract.methods.create_provider')
     def test_ner_llm_config(self, mock_create_provider):
         """Test NER with LLM configuration"""
         print("\nTesting NER with LLM configuration...")
@@ -59,7 +59,7 @@ class TestNERConfigurations(unittest.TestCase):
         self.assertEqual(entities[0].metadata["extraction_method"], "llm")
         self.assertEqual(entities[0].metadata["model"], "gpt-4")
 
-    @patch('semantica.semantic_extract.methods.spacy')
+    @patch('sloth_graphmind.semantic_extract.methods.spacy')
     def test_ner_ml_config_spacy_available(self, mock_spacy):
         """Test NER with ML (spaCy) configuration when spaCy is available"""
         print("\nTesting NER with ML (spaCy) configuration...")
@@ -88,7 +88,7 @@ class TestNERConfigurations(unittest.TestCase):
         mock_spacy.load.return_value = mock_nlp
         
         # Patch SPACY_AVAILABLE in methods module
-        with patch('semantica.semantic_extract.methods.SPACY_AVAILABLE', True):
+        with patch('sloth_graphmind.semantic_extract.methods.SPACY_AVAILABLE', True):
             extractor = NERExtractor(method="ml", model="en_core_web_trf")
             entities = extractor.extract_entities(self.text)
             
@@ -101,20 +101,20 @@ class TestNERConfigurations(unittest.TestCase):
             self.assertEqual(entities[0].metadata["extraction_method"], "ml")
             self.assertEqual(entities[0].metadata["model"], "en_core_web_trf")
 
-    @patch('semantica.semantic_extract.ner_extractor.spacy')
+    @patch('sloth_graphmind.semantic_extract.ner_extractor.spacy')
     def test_ner_ml_init_falls_back_when_spacy_runtime_is_broken(self, mock_spacy):
         """Test NER init does not crash when spaCy is installed but unusable at runtime."""
         mock_spacy.load.side_effect = RuntimeError("ConfigSchemaNlp is not fully defined")
 
-        with patch('semantica.semantic_extract.ner_extractor.SPACY_AVAILABLE', True):
+        with patch('sloth_graphmind.semantic_extract.ner_extractor.SPACY_AVAILABLE', True):
             extractor = NERExtractor(method="ml", model="en_core_web_sm")
 
         self.assertIsNone(extractor.nlp)
         self.assertFalse(extractor._ml_runtime_usable)
 
-    @patch('semantica.semantic_extract.ner_extractor.spacy')
-    @patch('semantica.semantic_extract.methods.get_entity_method')
-    @patch('semantica.semantic_extract.methods.spacy')
+    @patch('sloth_graphmind.semantic_extract.ner_extractor.spacy')
+    @patch('sloth_graphmind.semantic_extract.methods.get_entity_method')
+    @patch('sloth_graphmind.semantic_extract.methods.spacy')
     def test_ner_ml_runtime_failure_disables_repeated_ml_load_attempts(
         self,
         mock_methods_spacy,
@@ -126,7 +126,7 @@ class TestNERConfigurations(unittest.TestCase):
         mock_ml_method = MagicMock(return_value=[])
         mock_get_method.side_effect = lambda name: mock_ml_method if name == "ml" else (lambda *_args, **_kwargs: [])
 
-        with patch('semantica.semantic_extract.ner_extractor.SPACY_AVAILABLE', True):
+        with patch('sloth_graphmind.semantic_extract.ner_extractor.SPACY_AVAILABLE', True):
             extractor = NERExtractor(method=["ml", "pattern"], model="en_core_web_sm")
 
         entities = extractor.extract_entities(self.text)
@@ -175,8 +175,8 @@ class TestNERConfigurations(unittest.TestCase):
         # "Apple Inc." -> "Apple Inc" (dot is outside \b if not matched?)
         # Let's check the result strictly
         
-    @patch('semantica.semantic_extract.methods.create_provider')
-    @patch('semantica.semantic_extract.methods.spacy')
+    @patch('sloth_graphmind.semantic_extract.methods.create_provider')
+    @patch('sloth_graphmind.semantic_extract.methods.spacy')
     def test_ner_ensemble_config(self, mock_spacy, mock_create_provider):
         """Test NER with Ensemble (Multiple Methods)"""
         print("\nTesting NER with Ensemble configuration...")
@@ -209,7 +209,7 @@ class TestNERConfigurations(unittest.TestCase):
         mock_nlp.return_value = mock_doc
         mock_spacy.load.return_value = mock_nlp
         
-        with patch('semantica.semantic_extract.methods.SPACY_AVAILABLE', True):
+        with patch('sloth_graphmind.semantic_extract.methods.SPACY_AVAILABLE', True):
             # Init extractor with list of methods
             extractor = NERExtractor(method=["llm", "ml"], ensemble_voting=True)
             entities = extractor.extract_entities(self.text)
@@ -221,7 +221,7 @@ class TestNERConfigurations(unittest.TestCase):
             self.assertIn("Apple Inc.", texts)
             self.assertIn("Steve Jobs", texts)
 
-    @patch('semantica.semantic_extract.methods.HuggingFaceModelLoader')
+    @patch('sloth_graphmind.semantic_extract.methods.HuggingFaceModelLoader')
     def test_ner_huggingface_config(self, mock_loader_cls):
         """Test NER with HuggingFace configuration"""
         print("\nTesting NER with HuggingFace configuration...")

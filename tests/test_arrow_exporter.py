@@ -20,8 +20,8 @@ try:
 except ImportError:
     ARROW_AVAILABLE = False
 
-from semantica.export import ArrowExporter
-from semantica.utils.exceptions import ValidationError, ProcessingError
+from sloth_graphmind.export import ArrowExporter
+from sloth_graphmind.utils.exceptions import ValidationError, ProcessingError
 
 
 @unittest.skipIf(not ARROW_AVAILABLE, "pyarrow not installed")
@@ -102,7 +102,7 @@ class TestArrowExporter(unittest.TestCase):
             # For now, we just verify the constant
             if not ARROW_AVAILABLE:
                 with self.assertRaises(ImportError):
-                    from semantica.export.arrow_exporter import ArrowExporter as TestExporter
+                    from sloth_graphmind.export.arrow_exporter import ArrowExporter as TestExporter
 
     def test_export_entities_basic(self):
         """Test basic entity export to Arrow."""
@@ -118,7 +118,7 @@ class TestArrowExporter(unittest.TestCase):
                 table = reader.read_all()
                 
                 # Verify schema
-                from semantica.export.arrow_exporter import ENTITY_SCHEMA
+                from sloth_graphmind.export.arrow_exporter import ENTITY_SCHEMA
                 self.assertEqual(table.schema, ENTITY_SCHEMA)
                 
                 # Verify data
@@ -275,7 +275,7 @@ class TestArrowExporter(unittest.TestCase):
 
     def test_schema_validation(self):
         """Test explicit schema validation."""
-        from semantica.export.arrow_exporter import ENTITY_SCHEMA, RELATIONSHIP_SCHEMA
+        from sloth_graphmind.export.arrow_exporter import ENTITY_SCHEMA, RELATIONSHIP_SCHEMA
         
         # Verify entity schema structure
         self.assertIsNotNone(ENTITY_SCHEMA)
@@ -467,7 +467,7 @@ class TestArrowExporterIntegration(unittest.TestCase):
     @unittest.skipIf(not ARROW_AVAILABLE, "pyarrow not installed")
     def test_export_arrow_method(self):
         """Test export_arrow convenience function."""
-        from semantica.export.methods import export_arrow
+        from sloth_graphmind.export.methods import export_arrow
         
         output_path = Path(self.test_dir) / "entities_method.arrow"
         export_arrow(self.entities, str(output_path))

@@ -1,7 +1,7 @@
 import unittest
 
-from semantica.semantic_extract.methods import extract_relations_llm
-from semantica.semantic_extract.ner_extractor import Entity
+from sloth_graphmind.semantic_extract.methods import extract_relations_llm
+from sloth_graphmind.semantic_extract.ner_extractor import Entity
 
 
 class FakeProvider:
@@ -32,7 +32,7 @@ class TestLLMRelationExtraction(unittest.TestCase):
 
     def _monkeypatch_provider(self, provider_instance):
         # Monkeypatch create_provider used by extract_relations_llm
-        import semantica.semantic_extract.methods as methods
+        import sloth_graphmind.semantic_extract.methods as methods
         self._orig_create_provider = methods.create_provider
 
         def _fake_create_provider(provider, model=None, **kwargs):
@@ -43,7 +43,7 @@ class TestLLMRelationExtraction(unittest.TestCase):
     def tearDown(self):
         # Restore original create_provider if patched
         try:
-            import semantica.semantic_extract.methods as methods
+            import sloth_graphmind.semantic_extract.methods as methods
             if hasattr(self, "_orig_create_provider"):
                 methods.create_provider = self._orig_create_provider
         except Exception:

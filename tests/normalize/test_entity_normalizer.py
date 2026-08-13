@@ -1,5 +1,5 @@
 import unittest
-from semantica.normalize.entity_normalizer import (
+from sloth_graphmind.normalize.entity_normalizer import (
     EntityNormalizer,
     AliasResolver,
     EntityDisambiguator,

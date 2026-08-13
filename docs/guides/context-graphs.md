@@ -1,6 +1,6 @@
 ---
 title: "Context Graphs"
-description: "How Semantica stores, links, searches, and traverses knowledge as a thread-safe in-memory property graph — with temporal validity, cross-graph navigation, proximity-blended retrieval, and conversation-to-graph construction."
+description: "How GraphMind stores, links, searches, and traverses knowledge as a thread-safe in-memory property graph — with temporal validity, cross-graph navigation, proximity-blended retrieval, and conversation-to-graph construction."
 icon: "diagram-project"
 ---
 
@@ -64,7 +64,7 @@ You can construct a ContextGraph in two ways:
 The simplest possible graph needs no arguments:
 
 ```python
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 ```
@@ -303,7 +303,7 @@ for n in neighbors:
 
 ```python
 import threading
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 
@@ -334,8 +334,8 @@ The lock is re-entrant, so internal calls that themselves acquire the lock (for 
 `AgentContext` wraps the graph with a FAISS vector index and lets you retrieve by semantic similarity, with optional blending of graph proximity:
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 graph = ContextGraph()
 # ... (populated with CTI nodes as above)
@@ -378,7 +378,7 @@ for r in results:
 `link_graph()` connects two separate graphs, and `cross_graph_path()` finds paths that span the boundary:
 
 ```python
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 
 actor_graph  = ContextGraph()
 victim_graph = ContextGraph()
@@ -486,8 +486,8 @@ When used together via `AgentContext`, you can blend both approaches — find se
     Three separate ingest workers write to a shared `ContextGraph` simultaneously (MISP, NVD, classified STIX). Temporal validity prevents stale campaign data from appearing in current-threat queries.
 
 ```python
-from semantica.context import ContextGraph, AgentContext
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import ContextGraph, AgentContext
+from sloth_graphmind.vector_store import VectorStore
 from datetime import datetime
 
 graph = ContextGraph(advanced_analytics=True, community_detection=True)
@@ -538,7 +538,7 @@ for n in blast_radius:
     During an active incident, hosts are nodes and observed lateral connections are edges. The graph answers which hosts are on the critical path and what the attacker's reachable network looks like from the initial foothold.
 
 ```python
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph(advanced_analytics=True)
 
@@ -583,7 +583,7 @@ for n in all_paths:
     A clinical trial knowledge graph tracks drugs, biomarkers, patient populations, adverse events, and regulatory milestones. Each regulatory milestone has a validity window — queries must respect those windows to prevent stale efficacy data from being cited alongside current safety findings.
 
 ```python
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 from datetime import datetime
 
 graph = ContextGraph(advanced_analytics=True)
@@ -626,7 +626,7 @@ for n in drug_neighbors:
     A counterparty risk graph connects banks, SPVs, exposure instruments, guarantors, and regulatory entities. Entities have reporting-period validity — a counterparty's CDS exposure node is valid only for the quarter it was reported.
 
 ```python
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 from datetime import datetime
 
 graph = ContextGraph(advanced_analytics=True, community_detection=True)

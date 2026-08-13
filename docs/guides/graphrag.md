@@ -79,8 +79,8 @@ GraphRAG activates automatically when you pass `knowledge_graph=` to `AgentConte
 Before you can query the graph, you need to build it. The setup is three objects: a vector store for embedding-based retrieval, a `ContextGraph` for structural traversal, and an `AgentContext` that wires them together.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 # FAISS runs locally with no external dependencies
 vs = VectorStore(backend="faiss", dimension=768)
@@ -185,7 +185,7 @@ apt29_intel = context.retrieve(
 `retrieve()` gives you the grounded context. `query_with_reasoning()` goes one step further: it passes that subgraph context to an LLM and returns the answer together with the multi-hop path the retrieval system traced through the graph. That path is your audit trail.
 
 ```python
-from semantica.llms import LiteLLM
+from sloth_graphmind.llms import LiteLLM
 
 llm = LiteLLM(model="anthropic/claude-sonnet-4-20250514")
 
@@ -239,9 +239,9 @@ Multi-INT intelligence fusion: OSINT threat feeds, NVD CVE data, and HUMINT summ
 In classified environments the graph can be partitioned by data handling caveat — each `AgentContext` operates over the subset of documents cleared for the querying user. The `reasoning_path` output doubles as a sanitisable audit trail for downgraded reporting.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import LiteLLM
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import LiteLLM
 
 vs    = VectorStore(backend="faiss", dimension=768)
 graph = ContextGraph()
@@ -307,9 +307,9 @@ Security operations: real-time alert triage against a graph containing hosts, CV
 The `decision_tracking=True` flag records every triage query as an auditable decision, with the full context that was provided to the LLM — essential for post-incident review and SOC metrics.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import LiteLLM
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import LiteLLM
 
 vs    = VectorStore(backend="faiss", dimension=768)
 graph = ContextGraph()
@@ -376,9 +376,9 @@ Clinical decision support: FDA drug labels, clinical guidelines, and trial summa
 Setting `max_expansion_hops=3` is deliberate: the pharmacokinetic chain from amiodarone to elevated warfarin plasma levels runs drug → CYP2C9 inhibition → warfarin metabolism reduced → bleeding risk, which is exactly three structural hops.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import LiteLLM
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import LiteLLM
 
 vs    = VectorStore(backend="faiss", dimension=768)
 graph = ContextGraph()
@@ -450,9 +450,9 @@ Regulatory compliance: Basel III (CRE20), BCBS 239, SR 11-7, and EBA IRRBB guide
 The `reasoning_path` output serves directly as the audit trail required by regulators to demonstrate that a capital calculation was grounded in cited regulatory text.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import LiteLLM
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import LiteLLM
 
 vs    = VectorStore(backend="faiss", dimension=768)
 graph = ContextGraph()

@@ -19,9 +19,9 @@ sys.modules['sklearn'] = MagicMock()
 sys.modules['sklearn.decomposition'] = MagicMock()
 sys.modules['sklearn.manifold'] = MagicMock()
 
-from semantica.visualization.analytics_visualizer import AnalyticsVisualizer
-from semantica.visualization.embedding_visualizer import EmbeddingVisualizer
-from semantica.visualization.utils.color_schemes import ColorScheme
+from sloth_graphmind.visualization.analytics_visualizer import AnalyticsVisualizer
+from sloth_graphmind.visualization.embedding_visualizer import EmbeddingVisualizer
+from sloth_graphmind.visualization.utils.color_schemes import ColorScheme
 
 class TestVisualizationAdvanced(unittest.TestCase):
 
@@ -30,10 +30,10 @@ class TestVisualizationAdvanced(unittest.TestCase):
         self.mock_tracker = MagicMock()
         
         self.patchers = [
-            patch('semantica.visualization.analytics_visualizer.get_logger', return_value=self.mock_logger),
-            patch('semantica.visualization.analytics_visualizer.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.visualization.embedding_visualizer.get_logger', return_value=self.mock_logger),
-            patch('semantica.visualization.embedding_visualizer.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.visualization.analytics_visualizer.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.visualization.analytics_visualizer.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.visualization.embedding_visualizer.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.visualization.embedding_visualizer.get_progress_tracker', return_value=self.mock_tracker),
         ]
         
         for p in self.patchers:
@@ -92,9 +92,9 @@ class TestVisualizationAdvanced(unittest.TestCase):
         import plotly.graph_objects as go
         
         # Mock UMAP/TSNE/PCA
-        with patch('semantica.visualization.embedding_visualizer.umap') as mock_umap, \
-             patch('semantica.visualization.embedding_visualizer.TSNE') as mock_tsne, \
-             patch('semantica.visualization.embedding_visualizer.PCA') as mock_pca:
+        with patch('sloth_graphmind.visualization.embedding_visualizer.umap') as mock_umap, \
+             patch('sloth_graphmind.visualization.embedding_visualizer.TSNE') as mock_tsne, \
+             patch('sloth_graphmind.visualization.embedding_visualizer.PCA') as mock_pca:
             
             # Setup mock returns
             mock_reducer = MagicMock()

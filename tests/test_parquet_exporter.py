@@ -18,8 +18,8 @@ try:
 except ImportError:
     PARQUET_AVAILABLE = False
 
-from semantica.export import ParquetExporter
-from semantica.utils.exceptions import ValidationError
+from sloth_graphmind.export import ParquetExporter
+from sloth_graphmind.utils.exceptions import ValidationError
 
 
 @unittest.skipIf(not PARQUET_AVAILABLE, "pyarrow not installed")
@@ -114,7 +114,7 @@ class TestParquetExporter(unittest.TestCase):
         table = pq.read_table(str(output_path))
 
         # Verify schema
-        from semantica.export.parquet_exporter import ENTITY_SCHEMA
+        from sloth_graphmind.export.parquet_exporter import ENTITY_SCHEMA
 
         self.assertEqual(table.schema, ENTITY_SCHEMA)
 
@@ -224,7 +224,7 @@ class TestParquetExporter(unittest.TestCase):
         table = pq.read_table(str(output_path))
 
         # Verify schema
-        from semantica.export.parquet_exporter import RELATIONSHIP_SCHEMA
+        from sloth_graphmind.export.parquet_exporter import RELATIONSHIP_SCHEMA
 
         self.assertEqual(table.schema, RELATIONSHIP_SCHEMA)
 

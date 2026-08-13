@@ -13,9 +13,9 @@ from unittest.mock import patch
 
 import pytest
 
-from semantica.context.context_graph import ContextGraph
-from semantica.explorer.app import create_app
-from semantica.explorer.session import GraphSession
+from sloth_graphmind.context.context_graph import ContextGraph
+from sloth_graphmind.explorer.app import create_app
+from sloth_graphmind.explorer.session import GraphSession
 
 try:
     from starlette.testclient import TestClient
@@ -25,7 +25,7 @@ except ImportError:
         allow_module_level=True,
     )
 
-import semantica.explorer.routes.sparql as sparql_mod
+import sloth_graphmind.explorer.routes.sparql as sparql_mod
 
 
 def _build_sample_graph() -> ContextGraph:
@@ -95,7 +95,7 @@ def test_construct_query_succeeds(client):
     assert payload["columns"] == ["subject", "predicate", "object"]
     assert payload["total"] > 0
     assert any(
-        row["subject"] == "http://semantica.local/entity/python"
+        row["subject"] == "http://sloth_graphmind.local/entity/python"
         and row["predicate"] == "http://www.w3.org/2000/01/rdf-schema#label"
         and row["object"] == "Python programming language"
         for row in payload["rows"]
@@ -103,30 +103,30 @@ def test_construct_query_succeeds(client):
 
 
 def test_describe_query_succeeds(client):
-    resp = _post(client, "DESCRIBE <http://semantica.local/entity/python>")
+    resp = _post(client, "DESCRIBE <http://sloth_graphmind.local/entity/python>")
     assert resp.status_code == 200
     payload = resp.json()
     assert payload["error"] is None
     assert payload["columns"] == ["subject", "predicate", "object"]
     assert payload["total"] > 0
     assert any(
-        row["subject"] == "http://semantica.local/entity/python"
+        row["subject"] == "http://sloth_graphmind.local/entity/python"
         and row["predicate"] == "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
-        and row["object"] == "http://semantica.local/entity/language"
+        and row["object"] == "http://sloth_graphmind.local/entity/language"
         for row in payload["rows"]
     )
 
 
 def test_lowercase_query_keyword_is_accepted(client):
     """The allowlist regex is case-insensitive; confirm lowercase keywords work too."""
-    resp = _post(client, "select ?s where { ?s a <http://semantica.local/entity/language> }")
+    resp = _post(client, "select ?s where { ?s a <http://sloth_graphmind.local/entity/language> }")
     assert resp.status_code == 200
     payload = resp.json()
     assert payload["error"] is None
 
 
 def test_select_with_no_results_returns_empty_rows(client):
-    resp = _post(client, "SELECT ?s WHERE { ?s a <http://semantica.local/entity/nonexistent> }")
+    resp = _post(client, "SELECT ?s WHERE { ?s a <http://sloth_graphmind.local/entity/nonexistent> }")
     assert resp.status_code == 200
     payload = resp.json()
     assert payload["error"] is None
@@ -141,8 +141,8 @@ def test_select_with_no_results_returns_empty_rows(client):
 @pytest.mark.parametrize(
     "query",
     [
-        "INSERT DATA { <http://semantica.local/entity/x> a <http://semantica.local/entity/hacked> }",
-        "DELETE DATA { <http://semantica.local/entity/python> a <http://semantica.local/entity/language> }",
+        "INSERT DATA { <http://sloth_graphmind.local/entity/x> a <http://sloth_graphmind.local/entity/hacked> }",
+        "DELETE DATA { <http://sloth_graphmind.local/entity/python> a <http://sloth_graphmind.local/entity/language> }",
         "DELETE WHERE { ?s ?p ?o }",
         "DROP ALL",
         "DROP GRAPH <http://example.org/g>",
@@ -185,7 +185,7 @@ def test_multi_statement_injection_is_rejected_by_parser(client):
     "query",
     [
         "DROP ALL",
-        "INSERT DATA { <http://semantica.local/entity/x> a <http://semantica.local/entity/y> }",
+        "INSERT DATA { <http://sloth_graphmind.local/entity/x> a <http://sloth_graphmind.local/entity/y> }",
         "# comment\nDROP ALL",
         "",
     ],
@@ -257,7 +257,7 @@ def test_row_cap_truncates_results(client):
     with patch.object(sparql_mod, "_SPARQL_MAX_ROWS", 1):
         resp = _post(
             client,
-            "SELECT ?s WHERE { ?s a <http://semantica.local/entity/language> }",
+            "SELECT ?s WHERE { ?s a <http://sloth_graphmind.local/entity/language> }",
         )
     assert resp.status_code == 200
     payload = resp.json()
@@ -268,7 +268,7 @@ def test_row_cap_truncates_results(client):
 
 
 def test_result_below_cap_is_not_marked_truncated(client):
-    resp = _post(client, "SELECT ?s WHERE { ?s a <http://semantica.local/entity/language> }")
+    resp = _post(client, "SELECT ?s WHERE { ?s a <http://sloth_graphmind.local/entity/language> }")
     payload = resp.json()
     assert payload["truncated"] is False
 
@@ -295,7 +295,7 @@ def test_query_timeout_returns_clean_error_not_a_crash(client):
         raise asyncio.TimeoutError()
 
     with patch.object(sparql_mod.asyncio, "wait_for", side_effect=_raise_timeout):
-        resp = _post(client, "SELECT ?s WHERE { ?s a <http://semantica.local/entity/language> }")
+        resp = _post(client, "SELECT ?s WHERE { ?s a <http://sloth_graphmind.local/entity/language> }")
     assert resp.status_code == 200
     payload = resp.json()
     assert payload["error"] is not None
@@ -309,7 +309,7 @@ def test_oversized_graph_returns_clean_error_not_a_crash(client):
     a bug where _build_rdflib_graph's ValueError was raised outside of
     execute_sparql's try/except, before the semaphore block."""
     with patch.object(sparql_mod, "_SPARQL_MAX_GRAPH_NODES", 1):
-        resp = _post(client, "SELECT ?s WHERE { ?s a <http://semantica.local/entity/language> }")
+        resp = _post(client, "SELECT ?s WHERE { ?s a <http://sloth_graphmind.local/entity/language> }")
     assert resp.status_code == 200
     payload = resp.json()
     assert payload["error"] is not None
@@ -365,7 +365,7 @@ def test_query_exactly_at_length_limit_is_accepted(client):
 def test_node_properties_are_projected_as_literals_excluding_reserved_keys(client):
     resp = _post(
         client,
-        "SELECT ?p ?v WHERE { <http://semantica.local/entity/python> ?p ?v }",
+        "SELECT ?p ?v WHERE { <http://sloth_graphmind.local/entity/python> ?p ?v }",
     )
     payload = resp.json()
     predicates = {row["p"] for row in payload["rows"]}
@@ -379,8 +379,8 @@ def test_node_properties_are_projected_as_literals_excluding_reserved_keys(clien
 def test_edges_are_projected_with_their_relationship_type(client):
     resp = _post(
         client,
-        "SELECT ?o WHERE { <http://semantica.local/entity/python> "
-        "<http://semantica.local/prop/used_in> ?o }",
+        "SELECT ?o WHERE { <http://sloth_graphmind.local/entity/python> "
+        "<http://sloth_graphmind.local/prop/used_in> ?o }",
     )
     payload = resp.json()
     assert payload["error"] is None
@@ -393,7 +393,7 @@ def test_concurrent_requests_all_complete_successfully(client):
     import concurrent.futures
 
     def _run():
-        return _post(client, "SELECT ?s WHERE { ?s a <http://semantica.local/entity/language> }")
+        return _post(client, "SELECT ?s WHERE { ?s a <http://sloth_graphmind.local/entity/language> }")
 
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=6)
     try:

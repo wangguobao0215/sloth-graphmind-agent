@@ -1,7 +1,7 @@
-# Semantica MCP Server
+# GraphMind MCP Server
 
-A fully modular [Model Context Protocol](https://modelcontextprotocol.io/) server for the Semantica knowledge graph.  
-Connects Claude Code, Cursor, Windsurf, Cline, Continue, VS Code (GitHub Copilot), and any other MCP-compatible AI tool directly to your Semantica graph.
+A fully modular [Model Context Protocol](https://modelcontextprotocol.io/) server for the GraphMind knowledge graph.  
+Connects Claude Code, Cursor, Windsurf, Cline, Continue, VS Code (GitHub Copilot), and any other MCP-compatible AI tool directly to your GraphMind graph.
 
 ---
 
@@ -80,10 +80,10 @@ python -m mcp [--debug]
 
 | URI | Description |
 |---|---|
-| `semantica://graph/summary` | Live node/edge counts and type breakdown |
-| `semantica://decisions/list` | Most recent 50 decisions |
-| `semantica://schema/info` | Schema version, node/edge types, tool names |
-| `semantica://ontology/schema` | Full ontology schema |
+| `sloth_graphmind://graph/summary` | Live node/edge counts and type breakdown |
+| `sloth_graphmind://decisions/list` | Most recent 50 decisions |
+| `sloth_graphmind://schema/info` | Schema version, node/edge types, tool names |
+| `sloth_graphmind://ontology/schema` | Full ontology schema |
 
 ---
 
@@ -94,10 +94,10 @@ python -m mcp [--debug]
 ```json
 {
   "mcpServers": {
-    "semantica": {
+    "sloth_graphmind": {
       "command": "python",
       "args": ["-m", "mcp"],
-      "cwd": "/path/to/semantica"
+      "cwd": "/path/to/sloth_graphmind"
     }
   }
 }
@@ -105,7 +105,7 @@ python -m mcp [--debug]
 
 Or use the plugin bundle:
 ```bash
-claude mcp add semantica python -m mcp --cwd /path/to/semantica
+claude mcp add sloth_graphmind python -m mcp --cwd /path/to/sloth_graphmind
 ```
 
 ---
@@ -115,10 +115,10 @@ claude mcp add semantica python -m mcp --cwd /path/to/semantica
 ```json
 {
   "mcpServers": {
-    "semantica": {
+    "sloth_graphmind": {
       "command": "python",
       "args": ["-m", "mcp"],
-      "cwd": "/path/to/semantica"
+      "cwd": "/path/to/sloth_graphmind"
     }
   }
 }
@@ -131,10 +131,10 @@ claude mcp add semantica python -m mcp --cwd /path/to/semantica
 ```json
 {
   "mcpServers": {
-    "semantica": {
+    "sloth_graphmind": {
       "command": "python",
       "args": ["-m", "mcp"],
-      "cwd": "/path/to/semantica"
+      "cwd": "/path/to/sloth_graphmind"
     }
   }
 }
@@ -149,10 +149,10 @@ In your VS Code `settings.json`:
 ```json
 {
   "cline.mcpServers": {
-    "semantica": {
+    "sloth_graphmind": {
       "command": "python",
       "args": ["-m", "mcp"],
-      "cwd": "/path/to/semantica"
+      "cwd": "/path/to/sloth_graphmind"
     }
   }
 }
@@ -166,10 +166,10 @@ In your VS Code `settings.json`:
 {
   "mcpServers": [
     {
-      "name": "semantica",
+      "name": "sloth_graphmind",
       "command": "python",
       "args": ["-m", "mcp"],
-      "cwd": "/path/to/semantica"
+      "cwd": "/path/to/sloth_graphmind"
     }
   ]
 }
@@ -182,7 +182,7 @@ In your VS Code `settings.json`:
 ```json
 {
   "servers": {
-    "semantica": {
+    "sloth_graphmind": {
       "type": "stdio",
       "command": "python",
       "args": ["-m", "mcp"],
@@ -201,10 +201,10 @@ Add to your Q Developer MCP config:
 ```json
 {
   "mcpServers": {
-    "semantica": {
+    "sloth_graphmind": {
       "command": "python",
       "args": ["-m", "mcp"],
-      "cwd": "/path/to/semantica"
+      "cwd": "/path/to/sloth_graphmind"
     }
   }
 }
@@ -224,9 +224,9 @@ Add to your Q Developer MCP config:
 
 ```
 mcp/
-├── __init__.py          # Package entry, re-exports SemanticaMCPServer + main
+├── __init__.py          # Package entry, re-exports GraphMindMCPServer + main
 ├── __main__.py          # python -m mcp entry point
-├── server.py            # SemanticaMCPServer class + stdio event loop
+├── server.py            # GraphMindMCPServer class + stdio event loop
 ├── session.py           # Lazy ContextGraph singleton (get_graph / reset_graph)
 ├── schemas.py           # JSON Schema definitions for all tool inputs
 ├── tools/
@@ -238,5 +238,5 @@ mcp/
 │   └── export.py        # Graph export (multi-format) + provenance
 └── resources/
     ├── __init__.py      # Re-exports RESOURCE_DEFINITIONS + handle_resource_read
-    └── registry.py      # URI → handler map for the 4 semantica:// resources
+    └── registry.py      # URI → handler map for the 4 sloth_graphmind:// resources
 ```

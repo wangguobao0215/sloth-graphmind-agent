@@ -6,13 +6,13 @@ from typing import Dict, List
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from semantica.semantic_extract.event_detector import EventDetector
-from semantica.semantic_extract.ner_extractor import NERExtractor
-from semantica.semantic_extract.relation_extractor import RelationExtractor
-from semantica.semantic_extract.semantic_analyzer import SemanticAnalyzer
-from semantica.semantic_extract.semantic_network_extractor import SemanticNetworkExtractor
-from semantica.semantic_extract.triplet_extractor import TripletExtractor
-from semantica.utils.progress_tracker import get_progress_tracker
+from sloth_graphmind.semantic_extract.event_detector import EventDetector
+from sloth_graphmind.semantic_extract.ner_extractor import NERExtractor
+from sloth_graphmind.semantic_extract.relation_extractor import RelationExtractor
+from sloth_graphmind.semantic_extract.semantic_analyzer import SemanticAnalyzer
+from sloth_graphmind.semantic_extract.semantic_network_extractor import SemanticNetworkExtractor
+from sloth_graphmind.semantic_extract.triplet_extractor import TripletExtractor
+from sloth_graphmind.utils.progress_tracker import get_progress_tracker
 
 
 def _make_documents(n: int) -> List[Dict[str, str]]:

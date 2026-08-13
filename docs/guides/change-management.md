@@ -21,7 +21,7 @@ Change Management acts as your safety net and audit trail. Use it to:
 
 ## Which Tool Do I Need?
 
-Semantica offers multiple tracking features. It is critical to choose the right one:
+GraphMind offers multiple tracking features. It is critical to choose the right one:
 - **Change Management** (this guide): Use for **whole-graph snapshots**, state diffs, and full rollbacks.
 - **Provenance**: Use for granular **source and lineage tracking**. It answers *"Which specific document did this node come from?"*
 - **Agent Memory**: Use for **conversational and context state**. It answers *"What decisions did the AI agent make during this session?"*
@@ -55,8 +55,8 @@ A standard change management cycle follows this progression:
 Let's look at a universally understood example: tracking an employee's department transfer.
 
 ```python
-from semantica.change_management import TemporalVersionManager
-from semantica.context import ContextGraph
+from sloth_graphmind.change_management import TemporalVersionManager
+from sloth_graphmind.context import ContextGraph
 
 # 1. Setup Graph and Version Manager
 graph = ContextGraph()
@@ -102,8 +102,8 @@ Now let's explore these capabilities in more depth using domain-specific scenari
 Take a snapshot before any consequential change: an ingestion sweep, a partner feed merge, or an automated enrichment run.
 
 ```python
-from semantica.change_management import TemporalVersionManager
-from semantica.context import ContextGraph
+from sloth_graphmind.change_management import TemporalVersionManager
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 graph.add_node("apt29",         "ThreatActor",   "APT29 / NOBELIUM")
@@ -279,9 +279,9 @@ for record in vm.get_node_history("apt29"):
 Pass the version manager at `AgentContext` construction. Agent checkpoints and manual snapshots share the same storage, giving you one unified history.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.change_management import TemporalVersionManager
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.change_management import TemporalVersionManager
 
 graph = ContextGraph()
 vm    = TemporalVersionManager(storage_path="agent_versions.db")
@@ -324,8 +324,8 @@ print("Relationships added:", len(diff["relationships_added"]))
     Daily NVD and ISAC feed ingestion with pre/post snapshots, a SOC change bulletin, and an integrity gate before publishing to the SIEM.
 
 ```python
-from semantica.change_management import TemporalVersionManager
-from semantica.context import ContextGraph
+from sloth_graphmind.change_management import TemporalVersionManager
+from sloth_graphmind.context import ContextGraph
 import datetime
 
 graph = ContextGraph()
@@ -368,8 +368,8 @@ print("Snapshot verified — publishing to SIEM feed.")
     Snapshot the incident graph at each major discovery during a live IR engagement so the post-mortem can replay exactly how the investigation evolved.
 
 ```python
-from semantica.change_management import TemporalVersionManager
-from semantica.context import ContextGraph
+from sloth_graphmind.change_management import TemporalVersionManager
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 vm    = TemporalVersionManager(storage_path="incident_ir042.db")
@@ -412,8 +412,8 @@ for edge in diff["edges_added"]:
     Version the trial knowledge graph across phases to produce a machine-verifiable diff between Phase II and Phase III submissions for regulatory review.
 
 ```python
-from semantica.change_management import TemporalVersionManager
-from semantica.context import ContextGraph
+from sloth_graphmind.change_management import TemporalVersionManager
+from sloth_graphmind.context import ContextGraph
 
 graph_ph2 = ContextGraph()
 graph_ph2.add_node("compound-xr401", "Compound", "XR-401")
@@ -454,8 +454,8 @@ print("Phase III snapshot verified — safe for regulatory submission.")
     Version the Basel III credit risk model graph on each regulatory update and produce a machine-verifiable diff for the model governance committee before production deployment.
 
 ```python
-from semantica.change_management import TemporalVersionManager
-from semantica.context import ContextGraph
+from sloth_graphmind.change_management import TemporalVersionManager
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 graph.add_node("metric-cet1",      "CapitalMetric", "CET1 Capital Ratio")

@@ -11,7 +11,7 @@ from typing import Dict, List, Any, Tuple
 import json
 import time
 
-from semantica.kg import (
+from sloth_graphmind.kg import (
     GraphBuilderWithProvenance,
     AlgorithmTrackerWithProvenance,
     NodeEmbedder,

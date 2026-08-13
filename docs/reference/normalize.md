@@ -4,7 +4,7 @@ description: "Text cleaning, entity canonicalization, date normalization, number
 icon: "broom"
 ---
 
-**`semantica.normalize`** standardizes raw data **before extraction and graph construction**:
+**`sloth_graphmind.normalize`** standardizes raw data **before extraction and graph construction**:
 
 - Text cleaning: Unicode NFC/NFKC, whitespace collapse, smart-quote and dash normalization
 - Entity canonicalization: alias resolution and disambiguation via configurable alias maps
@@ -41,7 +41,7 @@ Normalization collapses these variants before any extractor, deduplicator, or gr
 ## Getting Started
 
 ```python
-from semantica.normalize import (
+from sloth_graphmind.normalize import (
     TextNormalizer,
     DateNormalizer,
     NumberNormalizer,
@@ -82,7 +82,7 @@ utf8_text = handler.convert_to_utf8(raw_bytes)
     Broken bytes corrupt everything downstream. Always run this before anything else.
 
     ```python
-    from semantica.normalize import EncodingHandler
+    from sloth_graphmind.normalize import EncodingHandler
 
     handler = EncodingHandler()
     # detect returns (encoding_name, confidence_score)
@@ -97,7 +97,7 @@ utf8_text = handler.convert_to_utf8(raw_bytes)
   </Step>
   <Step title="TextNormalizer: unicode, whitespace, special chars">
     ```python
-    from semantica.normalize import TextNormalizer
+    from sloth_graphmind.normalize import TextNormalizer
 
     normalizer = TextNormalizer()
     # normalize_text takes per-call options, not constructor params
@@ -114,7 +114,7 @@ utf8_text = handler.convert_to_utf8(raw_bytes)
   </Step>
   <Step title="EntityNormalizer: canonicalize entity names">
     ```python
-    from semantica.normalize import EntityNormalizer
+    from sloth_graphmind.normalize import EntityNormalizer
 
     # Provide aliases in config so the resolver can map variants
     normalizer = EntityNormalizer(alias_map={
@@ -133,7 +133,7 @@ utf8_text = handler.convert_to_utf8(raw_bytes)
   </Step>
   <Step title="DateNormalizer and NumberNormalizer: parse structured values">
     ```python
-    from semantica.normalize import DateNormalizer, NumberNormalizer
+    from sloth_graphmind.normalize import DateNormalizer, NumberNormalizer
 
     date_norm = DateNormalizer()
     num_norm  = NumberNormalizer()
@@ -148,7 +148,7 @@ utf8_text = handler.convert_to_utf8(raw_bytes)
   </Step>
   <Step title="LanguageDetector: detect language on clean text">
     ```python
-    from semantica.normalize import LanguageDetector
+    from sloth_graphmind.normalize import LanguageDetector
 
     detector = LanguageDetector()
 
@@ -168,7 +168,7 @@ utf8_text = handler.convert_to_utf8(raw_bytes)
 The fastest path: one import, one call:
 
 ```python
-from semantica.normalize import (
+from sloth_graphmind.normalize import (
     normalize_text, normalize_entity, normalize_date,
     normalize_number, clean_data, detect_language, handle_encoding,
 )
@@ -204,7 +204,7 @@ utf8_text = handle_encoding(raw_bytes, operation="convert")
     options are passed per-call to `normalize_text()`:
 
     ```python
-    from semantica.normalize import TextNormalizer
+    from sloth_graphmind.normalize import TextNormalizer
 
     normalizer = TextNormalizer()
 
@@ -251,7 +251,7 @@ utf8_text = handle_encoding(raw_bytes, operation="convert")
     **Sub-normalizers for fine-grained control:**
 
     ```python
-    from semantica.normalize import (
+    from sloth_graphmind.normalize import (
         UnicodeNormalizer, WhitespaceNormalizer, SpecialCharacterProcessor
     )
 
@@ -272,7 +272,7 @@ utf8_text = handle_encoding(raw_bytes, operation="convert")
     (requires an explicit `alias_map`), and name format normalization.
 
     ```python
-    from semantica.normalize import EntityNormalizer
+    from sloth_graphmind.normalize import EntityNormalizer
 
     # With alias map: resolves exact matches (lowercase key lookup)
     normalizer = EntityNormalizer(alias_map={
@@ -303,7 +303,7 @@ utf8_text = handle_encoding(raw_bytes, operation="convert")
     **Sub-normalizers:**
 
     ```python
-    from semantica.normalize import AliasResolver, EntityDisambiguator, NameVariantHandler
+    from sloth_graphmind.normalize import AliasResolver, EntityDisambiguator, NameVariantHandler
 
     # alias_map keys must be lowercase
     resolver = AliasResolver(alias_map={
@@ -335,7 +335,7 @@ utf8_text = handle_encoding(raw_bytes, operation="convert")
     options are passed to `normalize_date()`, not the constructor:
 
     ```python
-    from semantica.normalize import DateNormalizer
+    from sloth_graphmind.normalize import DateNormalizer
 
     normalizer = DateNormalizer()
 
@@ -357,7 +357,7 @@ utf8_text = handle_encoding(raw_bytes, operation="convert")
     **Sub-normalizers:**
 
     ```python
-    from semantica.normalize import TimeZoneNormalizer, RelativeDateProcessor, TemporalExpressionParser
+    from sloth_graphmind.normalize import TimeZoneNormalizer, RelativeDateProcessor, TemporalExpressionParser
     from datetime import datetime
 
     # TimeZoneNormalizer takes a datetime object, not a string
@@ -382,7 +382,7 @@ utf8_text = handle_encoding(raw_bytes, operation="convert")
     Converts number strings with units, currencies, and abbreviations to `int` or `float`:
 
     ```python
-    from semantica.normalize import NumberNormalizer
+    from sloth_graphmind.normalize import NumberNormalizer
 
     normalizer = NumberNormalizer()
 
@@ -396,7 +396,7 @@ utf8_text = handle_encoding(raw_bytes, operation="convert")
     **Unit and currency conversion:**
 
     ```python
-    from semantica.normalize import UnitConverter, CurrencyNormalizer
+    from sloth_graphmind.normalize import UnitConverter, CurrencyNormalizer
 
     converter = UnitConverter()
     result    = converter.convert_units(100, from_unit="kg", to_unit="pound")
@@ -416,7 +416,7 @@ utf8_text = handle_encoding(raw_bytes, operation="convert")
     Identify the language of a text string. Requires `langdetect`: `pip install langdetect`.
 
     ```python
-    from semantica.normalize import LanguageDetector
+    from sloth_graphmind.normalize import LanguageDetector
 
     detector = LanguageDetector()
 
@@ -452,7 +452,7 @@ utf8_text = handle_encoding(raw_bytes, operation="convert")
     Detect and repair character encoding issues. Requires `chardet`: `pip install chardet`.
 
     ```python
-    from semantica.normalize import EncodingHandler
+    from sloth_graphmind.normalize import EncodingHandler
 
     handler = EncodingHandler()
 
@@ -489,7 +489,7 @@ utf8_text = handle_encoding(raw_bytes, operation="convert")
 Cleans structured record sets: useful before loading into a vector store or graph:
 
 ```python
-from semantica.normalize import DataCleaner, DataValidator, DuplicateDetector
+from sloth_graphmind.normalize import DataCleaner, DataValidator, DuplicateDetector
 
 cleaner = DataCleaner()
 
@@ -546,10 +546,10 @@ print(f"Warnings: {len(result.warnings)}")
 ## Pipeline Integration
 
 ```python
-from semantica.pipeline import PipelineBuilder, ExecutionEngine
-from semantica.ingest import FileIngestor
-from semantica.normalize import TextNormalizer
-from semantica.semantic_extract import NERExtractor
+from sloth_graphmind.pipeline import PipelineBuilder, ExecutionEngine
+from sloth_graphmind.ingest import FileIngestor
+from sloth_graphmind.normalize import TextNormalizer
+from sloth_graphmind.semantic_extract import NERExtractor
 
 ingestor   = FileIngestor()
 normalizer = TextNormalizer()
@@ -572,14 +572,14 @@ result   = ExecutionEngine().execute_pipeline(pipeline, data="data/documents/")
 Register a custom normalizer in the method registry:
 
 ```python
-from semantica.normalize.registry import method_registry
+from sloth_graphmind.normalize.registry import method_registry
 
 def my_normalizer(text, **kwargs):
     return text.replace("Inc.", "Incorporated")
 
 method_registry.register("text", "expand_suffixes", my_normalizer)
 
-from semantica.normalize import normalize_text
+from sloth_graphmind.normalize import normalize_text
 normalized = normalize_text("Apple Inc.", method="expand_suffixes")
 # → "Apple Incorporated"
 ```

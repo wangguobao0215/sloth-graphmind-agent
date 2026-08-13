@@ -13,9 +13,9 @@ import os
 import sqlite3
 import pytest
 from unittest.mock import patch
-from semantica.provenance.storage import SQLiteStorage
-from semantica.provenance.manager import ProvenanceManager
-from semantica.provenance.schemas import ProvenanceEntry
+from sloth_graphmind.provenance.storage import SQLiteStorage
+from sloth_graphmind.provenance.manager import ProvenanceManager
+from sloth_graphmind.provenance.schemas import ProvenanceEntry
 
 
 def test_sqlite_pragmas_configured(tmp_path):
@@ -123,8 +123,8 @@ def test_batch_rollback_does_not_count_unpersisted_entries(tmp_path):
 def test_custom_storage_trace_lineage_one_argument_backward_compatibility():
     """Test that custom ProvenanceStorage implementing trace_lineage(entity_id) without max_depth remains compatible."""
     from typing import List, Optional
-    from semantica.provenance.storage import ProvenanceStorage
-    from semantica.provenance.schemas import ProvenanceEntry
+    from sloth_graphmind.provenance.storage import ProvenanceStorage
+    from sloth_graphmind.provenance.schemas import ProvenanceEntry
 
     class LegacyCustomStorage(ProvenanceStorage):
         def __init__(self):

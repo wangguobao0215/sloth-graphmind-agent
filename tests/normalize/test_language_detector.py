@@ -1,6 +1,6 @@
 import unittest
 
-from semantica.normalize.language_detector import (
+from sloth_graphmind.normalize.language_detector import (
     LANGDETECT_AVAILABLE,
     LanguageDetector,
 )

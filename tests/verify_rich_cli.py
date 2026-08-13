@@ -24,7 +24,7 @@ builtins.print = _safe_print
 
 from click.testing import CliRunner
 from rich.console import Console
-import semantica.cli as cli_mod
+import sloth_graphmind.cli as cli_mod
 
 PASS = []
 FAIL = []

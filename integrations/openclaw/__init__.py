@@ -30,7 +30,7 @@ MCP quick start
 ---------------
 Run the Semantica MCP server once::
 
-    python -m semantica.mcp_server
+    python -m sloth_graphmind.mcp_server
 
 Then add the printed config snippet to your OpenClaw ``mcporter.json`` and
 restart the OpenClaw Gateway::
@@ -42,8 +42,8 @@ All 12 Semantica tools are then available as native OpenClaw agent tools.
 Compatibility
 -------------
 Requires ``semantica >= 0.3.0``.  The MCP path requires ``python >= 3.8`` and
-a running ``semantica.mcp_server`` instance.  The REST path requires a running
-``semantica.server`` instance (``python -m semantica.server``, port 8000 by
+a running ``sloth_graphmind.mcp_server`` instance.  The REST path requires a running
+``sloth_graphmind.server`` instance (``python -m sloth_graphmind.server``, port 8000 by
 default).
 """
 

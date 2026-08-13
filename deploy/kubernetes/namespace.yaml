@@ -1,6 +1,6 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: semantica
+  name: sloth_graphmind
   labels:
-    owner: semantica
+    owner: sloth_graphmind

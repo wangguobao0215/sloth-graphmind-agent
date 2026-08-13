@@ -11,9 +11,9 @@ except Exception:
 
 pytest.importorskip("groq")
 
-from semantica.semantic_extract.ner_extractor import NERExtractor
-from semantica.semantic_extract.relation_extractor import RelationExtractor
-from semantica.semantic_extract.triplet_extractor import TripletExtractor
+from sloth_graphmind.semantic_extract.ner_extractor import NERExtractor
+from sloth_graphmind.semantic_extract.relation_extractor import RelationExtractor
+from sloth_graphmind.semantic_extract.triplet_extractor import TripletExtractor
 
 
 def test_groq_llm_smoke_entities_relations_triplets():

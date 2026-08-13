@@ -17,8 +17,8 @@ import pytest
 import unittest
 from unittest.mock import MagicMock
 
-from semantica.graph_store.query_sanitize import sanitize_identifier
-from semantica.utils.exceptions import ProcessingError, ValidationError
+from sloth_graphmind.graph_store.query_sanitize import sanitize_identifier
+from sloth_graphmind.utils.exceptions import ProcessingError, ValidationError
 
 # AmazonNeptuneStore/Neo4jStore/FalkorDBStore.create_node() wrap their whole
 # body in `except Exception: raise ProcessingError(...)` (pre-existing,
@@ -66,7 +66,7 @@ class TestSanitizeIdentifier(unittest.TestCase):
 
 class TestAmazonNeptuneCypherInjection(unittest.TestCase):
     def _make_store(self):
-        from semantica.graph_store.amazon_neptune import AmazonNeptuneStore
+        from sloth_graphmind.graph_store.amazon_neptune import AmazonNeptuneStore
 
         store = _wire(AmazonNeptuneStore.__new__(AmazonNeptuneStore))
         store._connected = True
@@ -100,7 +100,7 @@ class TestAmazonNeptuneCypherInjection(unittest.TestCase):
 
 class TestNeo4jCypherInjection(unittest.TestCase):
     def _make_store(self):
-        from semantica.graph_store import neo4j_store as m
+        from sloth_graphmind.graph_store import neo4j_store as m
 
         store = _wire(m.Neo4jStore.__new__(m.Neo4jStore))
         captured = {}
@@ -138,7 +138,7 @@ class TestNeo4jCypherInjection(unittest.TestCase):
 
 class TestFalkorDBCypherInjection(unittest.TestCase):
     def _make_store(self):
-        from semantica.graph_store import falkordb_store as m
+        from sloth_graphmind.graph_store import falkordb_store as m
 
         store = _wire(m.FalkorDBStore.__new__(m.FalkorDBStore))
         captured = {}
@@ -187,7 +187,7 @@ class TestNeo4jDepthInjection(unittest.TestCase):
 
     def _make_store(self):
         """Build a Neo4jStore with a session that records every query string sent to it."""
-        from semantica.graph_store import neo4j_store as m
+        from sloth_graphmind.graph_store import neo4j_store as m
 
         store = _wire(m.Neo4jStore.__new__(m.Neo4jStore))
         captured = {}
@@ -318,8 +318,8 @@ class TestGraphStoreHopsForwarding(unittest.TestCase):
         Wire a GraphStore whose backend is a Neo4j store stub that records every
         query passed to session.run.  Returns (graph_store, captured_dict).
         """
-        from semantica.graph_store import neo4j_store as m
-        from semantica.graph_store.graph_store import (
+        from sloth_graphmind.graph_store import neo4j_store as m
+        from sloth_graphmind.graph_store.graph_store import (
             GraphAnalytics,
             GraphManager,
             GraphStore,

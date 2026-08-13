@@ -1,11 +1,11 @@
 ---
 name: query
-description: Query the Semantica knowledge graph using SPARQL, Cypher, keyword search, and structured graph query patterns.
+description: Query the GraphMind knowledge graph using SPARQL, Cypher, keyword search, and structured graph query patterns.
 ---
 
-# /semantica:query
+# /sloth_graphmind:query
 
-Run graph queries and search. Usage: `/semantica:query <mode> [args]`
+Run graph queries and search. Usage: `/sloth_graphmind:query <mode> [args]`
 
 `$ARGUMENTS` = query mode + query string or filter.
 
@@ -16,7 +16,7 @@ Run graph queries and search. Usage: `/semantica:query <mode> [args]`
 Execute a SPARQL query against the graph.
 
 ```python
-from semantica.query import QueryEngine
+from sloth_graphmind.query import QueryEngine
 
 engine = QueryEngine()
 results = engine.query_sparql(query)

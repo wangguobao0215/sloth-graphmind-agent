@@ -9,8 +9,8 @@ from unittest.mock import MagicMock, patch
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from semantica.vector_store import VectorStore
-from semantica.utils.exceptions import ProcessingError
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.utils.exceptions import ProcessingError
 
 
 class TestVectorStoreParallel(unittest.TestCase):

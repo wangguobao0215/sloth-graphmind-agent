@@ -7,12 +7,12 @@ import pytest
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from semantica.embeddings import EmbeddingGenerator, TextEmbedder
-from semantica.vector_store import (
+from sloth_graphmind.embeddings import EmbeddingGenerator, TextEmbedder
+from sloth_graphmind.vector_store import (
     VectorStore, FAISSStore, HybridSearch, MetadataFilter, 
     SearchRanker, NamespaceManager
 )
-from semantica.reasoning import Reasoner
+from sloth_graphmind.reasoning import Reasoner
 
 pytestmark = pytest.mark.integration
 

@@ -9,7 +9,7 @@ import pytest
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from semantica.visualization import (
+from sloth_graphmind.visualization import (
     KGVisualizer,
     OntologyVisualizer,
     EmbeddingVisualizer,
@@ -17,9 +17,9 @@ from semantica.visualization import (
     AnalyticsVisualizer,
     TemporalVisualizer
 )
-from semantica.kg import GraphBuilder, GraphAnalyzer, TemporalVersionManager
-from semantica.ontology import OntologyGenerator
-from semantica.embeddings import EmbeddingGenerator
+from sloth_graphmind.kg import GraphBuilder, GraphAnalyzer, TemporalVersionManager
+from sloth_graphmind.ontology import OntologyGenerator
+from sloth_graphmind.embeddings import EmbeddingGenerator
 
 pytestmark = pytest.mark.integration
 # Configure logging

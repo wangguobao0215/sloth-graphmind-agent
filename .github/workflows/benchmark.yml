@@ -1,4 +1,4 @@
-name: Semantica Performance Suite
+name: GraphMind Performance Suite
 
 on:
   workflow_dispatch:

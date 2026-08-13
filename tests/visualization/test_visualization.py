@@ -23,9 +23,9 @@ sys.modules['plotly.subplots'] = MagicMock()
 sys.modules['graphviz'] = MagicMock()
 sys.modules['seaborn'] = MagicMock()
 
-from semantica.visualization.kg_visualizer import KGVisualizer
-from semantica.visualization.ontology_visualizer import OntologyVisualizer
-from semantica.visualization.utils.color_schemes import ColorScheme
+from sloth_graphmind.visualization.kg_visualizer import KGVisualizer
+from sloth_graphmind.visualization.ontology_visualizer import OntologyVisualizer
+from sloth_graphmind.visualization.utils.color_schemes import ColorScheme
 
 class TestVisualization(unittest.TestCase):
 
@@ -33,11 +33,11 @@ class TestVisualization(unittest.TestCase):
         self.mock_logger = MagicMock()
         self.mock_tracker = MagicMock()
         
-        self.logger_patcher = patch('semantica.visualization.kg_visualizer.get_logger', return_value=self.mock_logger)
-        self.tracker_patcher = patch('semantica.visualization.kg_visualizer.get_progress_tracker', return_value=self.mock_tracker)
+        self.logger_patcher = patch('sloth_graphmind.visualization.kg_visualizer.get_logger', return_value=self.mock_logger)
+        self.tracker_patcher = patch('sloth_graphmind.visualization.kg_visualizer.get_progress_tracker', return_value=self.mock_tracker)
         
-        self.logger_patcher_ov = patch('semantica.visualization.ontology_visualizer.get_logger', return_value=self.mock_logger)
-        self.tracker_patcher_ov = patch('semantica.visualization.ontology_visualizer.get_progress_tracker', return_value=self.mock_tracker)
+        self.logger_patcher_ov = patch('sloth_graphmind.visualization.ontology_visualizer.get_logger', return_value=self.mock_logger)
+        self.tracker_patcher_ov = patch('sloth_graphmind.visualization.ontology_visualizer.get_progress_tracker', return_value=self.mock_tracker)
         
         self.logger_patcher.start()
         self.tracker_patcher.start()
@@ -61,9 +61,9 @@ class TestVisualization(unittest.TestCase):
         self.assertIsInstance(viz, OntologyVisualizer)
         self.assertEqual(viz.color_scheme, ColorScheme.DEFAULT)
 
-    @patch('semantica.visualization.kg_visualizer.ForceDirectedLayout')
-    @patch('semantica.visualization.kg_visualizer.HierarchicalLayout')
-    @patch('semantica.visualization.kg_visualizer.CircularLayout')
+    @patch('sloth_graphmind.visualization.kg_visualizer.ForceDirectedLayout')
+    @patch('sloth_graphmind.visualization.kg_visualizer.HierarchicalLayout')
+    @patch('sloth_graphmind.visualization.kg_visualizer.CircularLayout')
     def test_kg_visualizer_layouts_init(self, mock_circ, mock_hier, mock_force):
         viz = KGVisualizer()
         mock_force.assert_called()

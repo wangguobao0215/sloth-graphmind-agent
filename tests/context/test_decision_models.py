@@ -9,7 +9,7 @@ import pytest
 from datetime import datetime
 from typing import List, Dict, Any
 
-from semantica.context.decision_models import (
+from sloth_graphmind.context.decision_models import (
     Decision, DecisionContext, Policy, PolicyException, Precedent, ApprovalChain,
     validate_decision, validate_policy, serialize_decision, deserialize_decision,
     serialize_policy, deserialize_policy

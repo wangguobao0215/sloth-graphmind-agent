@@ -24,7 +24,7 @@ import pytest
 # rdf:/rdfs: namespaces) and neither the code nor this test caught it,
 # since both had the same bug. Importing the real function makes that class
 # of drift impossible.
-from semantica.explorer.routes.sparql import _is_read_only_query
+from sloth_graphmind.explorer.routes.sparql import _is_read_only_query
 
 
 class TestSparqlReadOnlyValidation:
@@ -169,33 +169,33 @@ class TestCypherInjection:
     """Regression tests for Cypher/SQL injection prevention."""
 
     def test_sanitize_label_valid(self):
-        from semantica.graph_store.age_store import _sanitize_label
+        from sloth_graphmind.graph_store.age_store import _sanitize_label
         assert _sanitize_label("Entity") == "Entity"
         assert _sanitize_label("my_label_123") == "my_label_123"
 
     def test_sanitize_label_injection(self):
-        from semantica.graph_store.age_store import _sanitize_label
+        from sloth_graphmind.graph_store.age_store import _sanitize_label
         with pytest.raises(Exception):  # ValidationError
             _sanitize_label("Entity') OR 1=1--")
 
     def test_sanitize_label_special_chars(self):
-        from semantica.graph_store.age_store import _sanitize_label
+        from sloth_graphmind.graph_store.age_store import _sanitize_label
         with pytest.raises(Exception):
             _sanitize_label("Entity;DROP TABLE")
 
     def test_value_to_cypher_literal_string_escaping(self):
-        from semantica.graph_store.age_store import _value_to_cypher_literal
+        from sloth_graphmind.graph_store.age_store import _value_to_cypher_literal
         result = _value_to_cypher_literal("O'Brien")
         assert "\\'" in result  # Single quote should be escaped
 
     def test_value_to_cypher_literal_backslash(self):
-        from semantica.graph_store.age_store import _value_to_cypher_literal
+        from sloth_graphmind.graph_store.age_store import _value_to_cypher_literal
         result = _value_to_cypher_literal("path\\to\\file")
         assert "\\\\" in result
 
     def test_dollar_dollar_breakout_blocked(self):
         """$$ in a Cypher query would break out of AGE's delimiter."""
-        from semantica.graph_store.age_store import ApacheAgeStore
+        from sloth_graphmind.graph_store.age_store import ApacheAgeStore
         store = ApacheAgeStore.__new__(ApacheAgeStore)
         store.graph_name = "test_graph"
         store._conn = None
@@ -204,7 +204,7 @@ class TestCypherInjection:
 
     def test_graph_name_sanitization(self):
         """Graph name with SQL injection should be rejected."""
-        from semantica.graph_store.age_store import ApacheAgeStore
+        from sloth_graphmind.graph_store.age_store import ApacheAgeStore
         with pytest.raises(Exception):  # ValidationError
             ApacheAgeStore(
                 connection_string="host=localhost",
@@ -212,7 +212,7 @@ class TestCypherInjection:
             )
 
     def test_graph_name_valid(self):
-        from semantica.graph_store.age_store import ApacheAgeStore
+        from sloth_graphmind.graph_store.age_store import ApacheAgeStore
         store = ApacheAgeStore(
             connection_string="host=localhost",
             graph_name="my_graph_123"
@@ -220,7 +220,7 @@ class TestCypherInjection:
         assert store.graph_name == "my_graph_123"
 
     def test_property_key_injection(self):
-        from semantica.graph_store.age_store import _props_to_cypher_literal
+        from sloth_graphmind.graph_store.age_store import _props_to_cypher_literal
         with pytest.raises(Exception):
             _props_to_cypher_literal({"key; DROP": "value"})
 
@@ -234,12 +234,12 @@ class TestXXEProtection:
 
     def test_defusedxml_check_exists(self):
         """The _HAS_DEFUSEDXML flag must exist."""
-        from semantica.explorer.utils.rdf_parser import _HAS_DEFUSEDXML
+        from sloth_graphmind.explorer.utils.rdf_parser import _HAS_DEFUSEDXML
         assert isinstance(_HAS_DEFUSEDXML, bool)
 
     def test_safe_parse_rdf_function_exists(self):
         """_safe_parse_rdf must be importable."""
-        from semantica.explorer.utils.rdf_parser import _safe_parse_rdf
+        from sloth_graphmind.explorer.utils.rdf_parser import _safe_parse_rdf
         assert callable(_safe_parse_rdf)
 
 

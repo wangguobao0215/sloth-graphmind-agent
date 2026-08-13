@@ -4,25 +4,25 @@ import numpy as np
 import sys
 
 # Import the module to be tested
-from semantica.embeddings.text_embedder import TextEmbedder
-from semantica.utils.exceptions import ProcessingError
+from sloth_graphmind.embeddings.text_embedder import TextEmbedder
+from sloth_graphmind.utils.exceptions import ProcessingError
 
 class TestTextEmbedder(unittest.TestCase):
     
     def setUp(self):
         # Create a mock for sentence_transformers.SentenceTransformer
-        self.mock_st_patcher = patch('semantica.embeddings.text_embedder.SentenceTransformer')
+        self.mock_st_patcher = patch('sloth_graphmind.embeddings.text_embedder.SentenceTransformer')
         self.mock_st_class = self.mock_st_patcher.start()
         
         # Create a mock for fastembed.TextEmbedding
-        self.mock_fe_patcher = patch('semantica.embeddings.text_embedder.TextEmbedding')
+        self.mock_fe_patcher = patch('sloth_graphmind.embeddings.text_embedder.TextEmbedding')
         self.mock_fe_class = self.mock_fe_patcher.start()
         
         # Patch availability flags
-        self.st_avail_patcher = patch('semantica.embeddings.text_embedder.SENTENCE_TRANSFORMERS_AVAILABLE', True)
+        self.st_avail_patcher = patch('sloth_graphmind.embeddings.text_embedder.SENTENCE_TRANSFORMERS_AVAILABLE', True)
         self.st_avail_patcher.start()
         
-        self.fe_avail_patcher = patch('semantica.embeddings.text_embedder.FASTEMBED_AVAILABLE', True)
+        self.fe_avail_patcher = patch('sloth_graphmind.embeddings.text_embedder.FASTEMBED_AVAILABLE', True)
         self.fe_avail_patcher.start()
 
     def tearDown(self):
@@ -133,8 +133,8 @@ class TestTextEmbedder(unittest.TestCase):
         self.st_avail_patcher.stop()
         self.fe_avail_patcher.stop()
         
-        with patch('semantica.embeddings.text_embedder.SENTENCE_TRANSFORMERS_AVAILABLE', False), \
-             patch('semantica.embeddings.text_embedder.FASTEMBED_AVAILABLE', False):
+        with patch('sloth_graphmind.embeddings.text_embedder.SENTENCE_TRANSFORMERS_AVAILABLE', False), \
+             patch('sloth_graphmind.embeddings.text_embedder.FASTEMBED_AVAILABLE', False):
             
             embedder = TextEmbedder()
             self.assertIsNone(embedder.model)

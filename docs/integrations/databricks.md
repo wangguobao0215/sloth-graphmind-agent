@@ -1,17 +1,17 @@
 ---
 title: "Databricks Integration"
-description: "Ingest Unity Catalog metadata and Delta Lake tables from Databricks into Semantica's KG pipeline."
+description: "Ingest Unity Catalog metadata and Delta Lake tables from Databricks into GraphMind's KG pipeline."
 icon: "cloud"
 ---
 
-> Extract Delta Lake tables and Unity Catalog metadata (schemas, lineage) from Databricks into Semantica with personal access token or OAuth M2M authentication.
+> Extract Delta Lake tables and Unity Catalog metadata (schemas, lineage) from Databricks into GraphMind with personal access token or OAuth M2M authentication.
 
 
 ## Installation
 
 ```bash
 # Install with Databricks support
-pip install "semantica[db-databricks]"
+pip install "sloth_graphmind[db-databricks]"
 
 # Or install the connectors separately
 pip install databricks-sdk databricks-sql-connector
@@ -21,7 +21,7 @@ pip install databricks-sdk databricks-sql-connector
 ## Basic Usage
 
 ```python
-from semantica.ingest import DatabricksIngestor
+from sloth_graphmind.ingest import DatabricksIngestor
 import os
 
 ingestor = DatabricksIngestor(
@@ -140,7 +140,7 @@ print(lineage["columns"]["email"])
 </Tip>
 
 
-## Export as Semantica Documents
+## Export as GraphMind Documents
 
 ```python
 documents = ingestor.export_as_documents(
@@ -178,7 +178,7 @@ data = ingestor.ingest_query(
 ## Troubleshooting
 
 ```python
-from semantica.ingest import DatabricksConnector
+from sloth_graphmind.ingest import DatabricksConnector
 
 connector = DatabricksConnector(
     host="https://adb-xxx.azuredatabricks.net",

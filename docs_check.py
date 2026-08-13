@@ -183,14 +183,14 @@ def _() -> list[str]:
 @check("All 27 modules present in index.md")
 def _() -> list[str]:
     modules = [
-        "semantica.ingest", "semantica.parse", "semantica.split", "semantica.normalize",
-        "semantica.semantic_extract", "semantica.kg", "semantica.ontology", "semantica.reasoning",
-        "semantica.embeddings", "semantica.vector_store", "semantica.graph_store",
-        "semantica.triplet_store", "semantica.context", "semantica.provenance",
-        "semantica.change_management", "semantica.deduplication", "semantica.conflicts",
-        "semantica.export", "semantica.visualization", "semantica.pipeline", "semantica.seed",
-        "semantica.llms", "semantica.mcp_server", "semantica.explorer", "semantica.evals",
-        "semantica.utils", "semantica.core",
+        "sloth_graphmind.ingest", "sloth_graphmind.parse", "sloth_graphmind.split", "sloth_graphmind.normalize",
+        "sloth_graphmind.semantic_extract", "sloth_graphmind.kg", "sloth_graphmind.ontology", "sloth_graphmind.reasoning",
+        "sloth_graphmind.embeddings", "sloth_graphmind.vector_store", "sloth_graphmind.graph_store",
+        "sloth_graphmind.triplet_store", "sloth_graphmind.context", "sloth_graphmind.provenance",
+        "sloth_graphmind.change_management", "sloth_graphmind.deduplication", "sloth_graphmind.conflicts",
+        "sloth_graphmind.export", "sloth_graphmind.visualization", "sloth_graphmind.pipeline", "sloth_graphmind.seed",
+        "sloth_graphmind.llms", "sloth_graphmind.mcp_server", "sloth_graphmind.explorer", "sloth_graphmind.evals",
+        "sloth_graphmind.utils", "sloth_graphmind.core",
     ]
     index = read(f"{DOCS}/index.md")
     return [m for m in modules if m not in index]

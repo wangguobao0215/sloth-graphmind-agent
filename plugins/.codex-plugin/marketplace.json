@@ -1,12 +1,12 @@
 {
-  "name": "semantica-local",
+  "name": "sloth_graphmind-local",
   "interface": {
-    "displayName": "Semantica Local Plugins"
+    "displayName": "GraphMind Local Plugins"
   },
   "plugins": [
     {
-      "name": "semantica-codex",
-      "description": "Semantica plugin for Codex: knowledge graph commands and analytics.",
+      "name": "sloth_graphmind-codex",
+      "description": "GraphMind plugin for Codex: knowledge graph commands and analytics.",
       "source": {
         "source": "local",
         "path": "./"

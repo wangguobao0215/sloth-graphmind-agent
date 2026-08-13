@@ -14,9 +14,9 @@ Issue: #257, #258
 """
 
 import pytest
-from semantica.triplet_store import JenaStore
-from semantica.semantic_extract.triplet_extractor import Triplet
-from semantica.utils.exceptions import ProcessingError
+from sloth_graphmind.triplet_store import JenaStore
+from sloth_graphmind.semantic_extract.triplet_extractor import Triplet
+from sloth_graphmind.utils.exceptions import ProcessingError
 
 
 class TestJenaStoreEmptyGraph:

@@ -77,7 +77,7 @@ This pipeline transforms fragmented multi-source data into clean, consolidated k
 
 ## API Patterns: Functional vs Class-Based
 
-Semantica provides both simple functional wrappers and comprehensive class APIs for different use cases:
+GraphMind provides both simple functional wrappers and comprehensive class APIs for different use cases:
 
 **Functional wrappers for simple workflows:**
 - `detect_duplicates()` — one-shot duplicate detection with minimal configuration
@@ -106,7 +106,7 @@ Start with `detect_duplicates()` for straightforward duplicate detection on smal
 **Scaling consideration:** For datasets of a few thousand nodes, this runs in seconds. The O(n²) pairwise comparison cost only becomes problematic above ten thousand entities—for larger sets, see the clustering section below.
 
 ```python
-from semantica.deduplication import detect_duplicates
+from sloth_graphmind.deduplication import detect_duplicates
 
 # Threat actors ingested from four different CTI feeds — same actors, different names
 threat_actors = [
@@ -163,7 +163,7 @@ The scores tell a clear story. "APT29" and "APT-29" score 0.89 — the hyphen is
 Each `DuplicateCandidate` carries the two entities, their similarity scores, and a detailed breakdown of which similarity algorithms contributed to the match. This provides full transparency for audit and threshold tuning:
 
 ```python
-from semantica.deduplication import calculate_similarity
+from sloth_graphmind.deduplication import calculate_similarity
 
 # Inspect a single pair in detail before committing to a merge
 e1 = threat_actors[0]   # APT29
@@ -197,7 +197,7 @@ The property component (0.94) is doing most of the work here. "Cozy Bear"'s reco
 For small datasets, you can merge candidate pairs directly. For larger graphs where the same entity might appear under six different names across twelve feeds, use duplicate grouping with Union-Find clustering. This ensures that if A matches B and B matches C, all three entities are grouped together even if A and C don't directly meet the similarity threshold:
 
 ```python
-from semantica.deduplication import DuplicateDetector, EntityMerger
+from sloth_graphmind.deduplication import DuplicateDetector, EntityMerger
 
 detector = DuplicateDetector(
     similarity_threshold=0.6,
@@ -312,7 +312,7 @@ For graphs above ten thousand nodes, pairwise comparison becomes computationally
 **Performance warning:** Always profile your similarity operations on representative data sizes. What works for 1,000 entities may become unacceptably slow at 10,000+ entities without appropriate scaling strategies.
 
 ```python
-from semantica.deduplication import build_clusters
+from sloth_graphmind.deduplication import build_clusters
 
 # Ten thousand CVE entities from NVD, Vulhub, and vendor feeds
 # (not shown — assume `all_vulns` is a list of 10k+ dicts)
@@ -342,7 +342,7 @@ For even larger sets, switch to `method="hierarchical"` which uses agglomerative
 Before exploring domain-specific cases, let's walk through a straightforward customer deduplication scenario. A company's CRM system has accumulated duplicate customer records from web signups, sales team entries, and support tickets:
 
 ```python
-from semantica.deduplication import detect_duplicates, merge_entities
+from sloth_graphmind.deduplication import detect_duplicates, merge_entities
 
 customers = [
     {"id": "cust-001", "name": "John Smith", "email": "john.smith@email.com", 
@@ -419,7 +419,7 @@ A threat intelligence platform ingests actor profiles from Mandiant, CrowdStrike
 The alias field is the key signal here. Property-based similarity will fire strongly when any record carries the canonical name in its `aliases` list. Setting a moderate threshold (0.6) catches alias-based matches that name similarity alone would miss.
 
 ```python
-from semantica.deduplication import DuplicateDetector, EntityMerger
+from sloth_graphmind.deduplication import DuplicateDetector, EntityMerger
 
 actors = [
     {"id": "ta-cs-001",  "name": "Cozy Bear",         "type": "ThreatActor",
@@ -457,7 +457,7 @@ for group in groups:
 A SOC vulnerability management database ingests CVEs from NVD, Vulhub, CISA KEV, and vendor advisories. The same CVE often arrives as "CVE-2024-3400" from NVD, "PAN-OS GlobalProtect RCE" from a Tenable plugin, and "Critical PAN-OS 0day" from a blog post aggregator. Name similarity alone won't match these — the CVE ID in the `cve_id` field is the definitive signal.
 
 ```python
-from semantica.deduplication import detect_duplicates, merge_entities
+from sloth_graphmind.deduplication import detect_duplicates, merge_entities
 
 vulns = [
     {"id": "v-nvd-001",  "name": "CVE-2024-3400",
@@ -505,7 +505,7 @@ for op in ops:
 A clinical trial knowledge graph ingests drug entities from the WHO INN list, PubChem, brand name databases, and trial registries. Warfarin appears as "warfarin" (INN), "Coumadin" (brand, Bristol-Myers Squibb), "warfarin sodium" (PubChem chemical form), and "81-81-2" (CAS number). The CAS number is the ground truth — if two records share a CAS number, they are the same compound regardless of what name they carry.
 
 ```python
-from semantica.deduplication import DuplicateDetector, EntityMerger, calculate_similarity
+from sloth_graphmind.deduplication import DuplicateDetector, EntityMerger, calculate_similarity
 
 compounds = [
     {"id": "c-inn-001", "name": "warfarin",         "type": "Drug",
@@ -550,7 +550,7 @@ A risk management system resolves corporate clients across CRM, KYC, and trading
 Three BlackRock records — "BlackRock Inc." (CRM), "BlackRock, Inc." (KYC, with comma), "Blackrock" (trading system, lowercase b) — must collapse to one canonical counterparty before credit exposure is aggregated. The property similarity method, which scores LEI matches near 1.0, handles this even when name similarity is moderate.
 
 ```python
-from semantica.deduplication import build_clusters, EntityMerger
+from sloth_graphmind.deduplication import build_clusters, EntityMerger
 
 clients = [
     {"id": "crm-001", "name": "BlackRock Inc.",           "type": "Client",

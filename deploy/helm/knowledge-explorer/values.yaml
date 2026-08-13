@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: semantica-knowledge-explorer
+  repository: sloth_graphmind-knowledge-explorer
   pullPolicy: Always
   # Replace this placeholder digest with the digest of the image you publish.
   digest: "sha256:0000000000000000000000000000000000000000000000000000000000000000"

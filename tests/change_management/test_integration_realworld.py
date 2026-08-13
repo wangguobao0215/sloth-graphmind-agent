@@ -23,7 +23,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta
 import pytest
 
-from semantica.change_management import (
+from sloth_graphmind.change_management import (
     TemporalVersionManager,
     OntologyVersionManager,
     ChangeLogEntry,
@@ -32,7 +32,7 @@ from semantica.change_management import (
     compute_checksum,
     verify_checksum
 )
-from semantica.utils.exceptions import ValidationError, ProcessingError
+from sloth_graphmind.utils.exceptions import ValidationError, ProcessingError
 
 
 class TestHealthcareCompliance:

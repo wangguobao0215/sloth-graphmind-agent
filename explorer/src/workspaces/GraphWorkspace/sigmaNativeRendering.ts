@@ -7,7 +7,7 @@ import type { NodeHoverDrawingFunction, NodeLabelDrawingFunction } from "sigma/r
 
 import { GRAPH_THEME, type GraphEntityShapeVariant, withAlpha } from "./graphTheme";
 
-type SemanticaNodeDrawData = {
+type GraphMindNodeDrawData = {
   x: number;
   y: number;
   size: number;
@@ -219,9 +219,9 @@ class EntityTokenNodeProgram extends NodeProgram<(typeof ENTITY_TOKEN_UNIFORMS)[
   static readonly ANGLE_2 = (2 * Math.PI) / 3;
   static readonly ANGLE_3 = (4 * Math.PI) / 3;
 
-  drawLabel = drawSemanticaNodeLabel;
+  drawLabel = drawGraphMindNodeLabel;
 
-  drawHover = drawSemanticaNodeHover;
+  drawHover = drawGraphMindNodeHover;
 
   getDefinition() {
     return {
@@ -253,7 +253,7 @@ class EntityTokenNodeProgram extends NodeProgram<(typeof ENTITY_TOKEN_UNIFORMS)[
     };
   }
 
-  processVisibleItem(nodeIndex: number, startIndex: number, data: NodeDisplayData & SemanticaNodeDrawData): void {
+  processVisibleItem(nodeIndex: number, startIndex: number, data: NodeDisplayData & GraphMindNodeDrawData): void {
     const array = this.array;
     const outlineColor = resolveAccentBorderColor(data.ringSize, data.ringColor, data.borderColor, GRAPH_THEME.nodes.selectedRing.color);
     const outlineSize = Math.max(data.ringSize || 0, data.borderSize || 0.7);
@@ -313,8 +313,8 @@ function drawRoundedRect(
   context.closePath();
 }
 
-export const drawSemanticaNodeLabel: NodeLabelDrawingFunction = (context, rawData) => {
-  const data = rawData as typeof rawData & SemanticaNodeDrawData;
+export const drawGraphMindNodeLabel: NodeLabelDrawingFunction = (context, rawData) => {
+  const data = rawData as typeof rawData & GraphMindNodeDrawData;
   if (!data.label) {
     return;
   }
@@ -355,8 +355,8 @@ export const drawSemanticaNodeLabel: NodeLabelDrawingFunction = (context, rawDat
   context.restore();
 };
 
-export const drawSemanticaNodeHover: NodeHoverDrawingFunction = (context, rawData) => {
-  const data = rawData as typeof rawData & SemanticaNodeDrawData;
+export const drawGraphMindNodeHover: NodeHoverDrawingFunction = (context, rawData) => {
+  const data = rawData as typeof rawData & GraphMindNodeDrawData;
   if (!data.label) {
     return;
   }

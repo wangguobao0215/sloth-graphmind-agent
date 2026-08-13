@@ -1,10 +1,10 @@
 import unittest
 from unittest.mock import MagicMock, patch
 import logging
-from semantica.ontology.ontology_generator import OntologyGenerator
-from semantica.ontology.class_inferrer import ClassInferrer
-from semantica.ontology.naming_conventions import NamingConventions
-from semantica.ontology.property_generator import PropertyGenerator
+from sloth_graphmind.ontology.ontology_generator import OntologyGenerator
+from sloth_graphmind.ontology.class_inferrer import ClassInferrer
+from sloth_graphmind.ontology.naming_conventions import NamingConventions
+from sloth_graphmind.ontology.property_generator import PropertyGenerator
 
 class TestOntologyClasses(unittest.TestCase):
 
@@ -14,25 +14,25 @@ class TestOntologyClasses(unittest.TestCase):
         self.mock_progress_tracker = MagicMock()
         
         # Patch get_logger and get_progress_tracker
-        self.logger_patcher = patch('semantica.ontology.ontology_generator.get_logger', return_value=self.mock_logger)
-        self.tracker_patcher = patch('semantica.ontology.ontology_generator.get_progress_tracker', return_value=self.mock_progress_tracker)
+        self.logger_patcher = patch('sloth_graphmind.ontology.ontology_generator.get_logger', return_value=self.mock_logger)
+        self.tracker_patcher = patch('sloth_graphmind.ontology.ontology_generator.get_progress_tracker', return_value=self.mock_progress_tracker)
         
         self.logger_patcher.start()
         self.tracker_patcher.start()
 
         # Patch for other modules as well
-        self.logger_patcher_ci = patch('semantica.ontology.class_inferrer.get_logger', return_value=self.mock_logger)
-        self.tracker_patcher_ci = patch('semantica.ontology.class_inferrer.get_progress_tracker', return_value=self.mock_progress_tracker)
+        self.logger_patcher_ci = patch('sloth_graphmind.ontology.class_inferrer.get_logger', return_value=self.mock_logger)
+        self.tracker_patcher_ci = patch('sloth_graphmind.ontology.class_inferrer.get_progress_tracker', return_value=self.mock_progress_tracker)
         self.logger_patcher_ci.start()
         self.tracker_patcher_ci.start()
 
-        self.logger_patcher_nc = patch('semantica.ontology.naming_conventions.get_logger', return_value=self.mock_logger)
-        self.tracker_patcher_nc = patch('semantica.ontology.naming_conventions.get_progress_tracker', return_value=self.mock_progress_tracker)
+        self.logger_patcher_nc = patch('sloth_graphmind.ontology.naming_conventions.get_logger', return_value=self.mock_logger)
+        self.tracker_patcher_nc = patch('sloth_graphmind.ontology.naming_conventions.get_progress_tracker', return_value=self.mock_progress_tracker)
         self.logger_patcher_nc.start()
         self.tracker_patcher_nc.start()
 
-        self.logger_patcher_pg = patch('semantica.ontology.property_generator.get_logger', return_value=self.mock_logger)
-        self.tracker_patcher_pg = patch('semantica.ontology.property_generator.get_progress_tracker', return_value=self.mock_progress_tracker)
+        self.logger_patcher_pg = patch('sloth_graphmind.ontology.property_generator.get_logger', return_value=self.mock_logger)
+        self.tracker_patcher_pg = patch('sloth_graphmind.ontology.property_generator.get_progress_tracker', return_value=self.mock_progress_tracker)
         self.logger_patcher_pg.start()
         self.tracker_patcher_pg.start()
 

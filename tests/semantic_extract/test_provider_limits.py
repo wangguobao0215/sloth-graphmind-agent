@@ -7,10 +7,10 @@ import os
 # Ensure we test the local code, not the installed package
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from semantica.semantic_extract.ner_extractor import Entity
-from semantica.semantic_extract.relation_extractor import Relation
-from semantica.semantic_extract.triplet_extractor import Triplet
-from semantica.semantic_extract.methods import extract_entities_llm
+from sloth_graphmind.semantic_extract.ner_extractor import Entity
+from sloth_graphmind.semantic_extract.relation_extractor import Relation
+from sloth_graphmind.semantic_extract.triplet_extractor import Triplet
+from sloth_graphmind.semantic_extract.methods import extract_entities_llm
 # We import providers later inside tests to allow patching
 
 class TestSemanticClasses:
@@ -39,7 +39,7 @@ class TestProviderLimits:
     """Test that providers pass through correct length parameters."""
 
     def test_openai_max_completion_tokens(self):
-        from semantica.semantic_extract.providers import OpenAIProvider
+        from sloth_graphmind.semantic_extract.providers import OpenAIProvider
         
         # Patch _init_client to avoid real client creation and import issues
         with patch.object(OpenAIProvider, '_init_client', return_value=None):
@@ -60,7 +60,7 @@ class TestProviderLimits:
             assert "max_tokens" not in call_kwargs
 
     def test_anthropic_max_tokens_defaults(self):
-        from semantica.semantic_extract.providers import AnthropicProvider
+        from sloth_graphmind.semantic_extract.providers import AnthropicProvider
         
         with patch.object(AnthropicProvider, '_init_client', return_value=None):
             provider = AnthropicProvider(api_key="fake")
@@ -83,7 +83,7 @@ class TestProviderLimits:
             assert call_kwargs["max_tokens"] == 9999
 
     def test_groq_max_completion_tokens(self):
-        from semantica.semantic_extract.providers import GroqProvider
+        from sloth_graphmind.semantic_extract.providers import GroqProvider
         
         with patch.object(GroqProvider, '_init_client', return_value=None):
             provider = GroqProvider(api_key="fake")
@@ -101,7 +101,7 @@ class TestProviderLimits:
             assert call_kwargs["max_completion_tokens"] == 5000
 
     def test_gemini_params(self):
-        from semantica.semantic_extract.providers import GeminiProvider
+        from sloth_graphmind.semantic_extract.providers import GeminiProvider
         
         with patch.object(GeminiProvider, '_init_client', return_value=None):
             provider = GeminiProvider(api_key="fake")
@@ -125,7 +125,7 @@ class TestTemperatureParameter:
 
     def test_openai_temperature_none_omitted(self):
         """Verify temperature is NOT in kwargs when None."""
-        from semantica.semantic_extract.providers import OpenAIProvider
+        from sloth_graphmind.semantic_extract.providers import OpenAIProvider
 
         with patch.object(OpenAIProvider, '_init_client', return_value=None):
             provider = OpenAIProvider(api_key="fake")
@@ -142,7 +142,7 @@ class TestTemperatureParameter:
 
     def test_openai_temperature_explicit_included(self):
         """Verify temperature IS in kwargs when explicitly set."""
-        from semantica.semantic_extract.providers import OpenAIProvider
+        from sloth_graphmind.semantic_extract.providers import OpenAIProvider
 
         with patch.object(OpenAIProvider, '_init_client', return_value=None):
             provider = OpenAIProvider(api_key="fake")
@@ -159,7 +159,7 @@ class TestTemperatureParameter:
 
     def test_groq_temperature_none_omitted(self):
         """Verify temperature is NOT in kwargs when None for Groq."""
-        from semantica.semantic_extract.providers import GroqProvider
+        from sloth_graphmind.semantic_extract.providers import GroqProvider
 
         with patch.object(GroqProvider, '_init_client', return_value=None):
             provider = GroqProvider(api_key="fake")
@@ -176,7 +176,7 @@ class TestTemperatureParameter:
 
     def test_groq_temperature_explicit_included(self):
         """Verify temperature IS in kwargs when explicitly set for Groq."""
-        from semantica.semantic_extract.providers import GroqProvider
+        from sloth_graphmind.semantic_extract.providers import GroqProvider
 
         with patch.object(GroqProvider, '_init_client', return_value=None):
             provider = GroqProvider(api_key="fake")
@@ -193,7 +193,7 @@ class TestTemperatureParameter:
 
     def test_gemini_temperature_none_omitted(self):
         """Verify generation_config is None or empty when temperature not set for Gemini."""
-        from semantica.semantic_extract.providers import GeminiProvider
+        from sloth_graphmind.semantic_extract.providers import GeminiProvider
 
         with patch.object(GeminiProvider, '_init_client', return_value=None):
             provider = GeminiProvider(api_key="fake")
@@ -212,7 +212,7 @@ class TestTemperatureParameter:
 
     def test_gemini_temperature_explicit_included(self):
         """Verify temperature IS in generation_config when explicitly set for Gemini."""
-        from semantica.semantic_extract.providers import GeminiProvider
+        from sloth_graphmind.semantic_extract.providers import GeminiProvider
 
         with patch.object(GeminiProvider, '_init_client', return_value=None):
             provider = GeminiProvider(api_key="fake")
@@ -230,7 +230,7 @@ class TestTemperatureParameter:
 
     def test_ollama_temperature_none_omitted(self):
         """Verify options is None or has no temperature when None for Ollama."""
-        from semantica.semantic_extract.providers import OllamaProvider
+        from sloth_graphmind.semantic_extract.providers import OllamaProvider
 
         with patch.object(OllamaProvider, '_init_client', return_value=None):
             provider = OllamaProvider()
@@ -248,7 +248,7 @@ class TestTemperatureParameter:
 
     def test_ollama_temperature_explicit_included(self):
         """Verify temperature IS in options when explicitly set for Ollama."""
-        from semantica.semantic_extract.providers import OllamaProvider
+        from sloth_graphmind.semantic_extract.providers import OllamaProvider
 
         with patch.object(OllamaProvider, '_init_client', return_value=None):
             provider = OllamaProvider()
@@ -265,7 +265,7 @@ class TestTemperatureParameter:
 
     def test_ollama_default_base_url_used_as_host(self):
         """Client must be instantiated with host=base_url (default localhost)."""
-        from semantica.semantic_extract.providers import OllamaProvider
+        from sloth_graphmind.semantic_extract.providers import OllamaProvider
 
         mock_ollama = MagicMock()
         mock_client_instance = MagicMock()
@@ -285,7 +285,7 @@ class TestTemperatureParameter:
 
     def test_ollama_custom_base_url_passed_as_host(self):
         """Client must be instantiated with host set to the custom base_url."""
-        from semantica.semantic_extract.providers import OllamaProvider
+        from sloth_graphmind.semantic_extract.providers import OllamaProvider
 
         mock_ollama = MagicMock()
         mock_client_instance = MagicMock()
@@ -304,7 +304,7 @@ class TestTemperatureParameter:
 
     def test_ollama_module_not_assigned_as_client(self):
         """Regression: self.client must not be the ollama module itself."""
-        from semantica.semantic_extract.providers import OllamaProvider
+        from sloth_graphmind.semantic_extract.providers import OllamaProvider
 
         mock_ollama = MagicMock()
         mock_client_instance = MagicMock()
@@ -324,7 +324,7 @@ class TestTemperatureParameter:
 
     def test_deepseek_temperature_none_omitted(self):
         """Verify temperature is NOT in kwargs when None for DeepSeek."""
-        from semantica.semantic_extract.providers import DeepSeekProvider
+        from sloth_graphmind.semantic_extract.providers import DeepSeekProvider
 
         with patch.object(DeepSeekProvider, '_init_client', return_value=None):
             provider = DeepSeekProvider(api_key="fake")
@@ -341,7 +341,7 @@ class TestTemperatureParameter:
 
     def test_deepseek_temperature_explicit_included(self):
         """Verify temperature IS in kwargs when explicitly set for DeepSeek."""
-        from semantica.semantic_extract.providers import DeepSeekProvider
+        from sloth_graphmind.semantic_extract.providers import DeepSeekProvider
 
         with patch.object(DeepSeekProvider, '_init_client', return_value=None):
             provider = DeepSeekProvider(api_key="fake")
@@ -360,8 +360,8 @@ class TestTemperatureParameter:
 class TestChunkingDefaults:
     """Test that chunking defaults have been increased."""
 
-    @patch("semantica.semantic_extract.methods.create_provider")
-    @patch("semantica.semantic_extract.methods._extract_entities_chunked")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods._extract_entities_chunked")
     def test_openai_chunking_limit(self, mock_chunked, mock_create_provider):
         # Setup
         mock_llm = MagicMock()
@@ -377,8 +377,8 @@ class TestChunkingDefaults:
         # Should NOT call chunked extraction because default is now 64000
         mock_chunked.assert_not_called()
 
-    @patch("semantica.semantic_extract.methods.create_provider")
-    @patch("semantica.semantic_extract.methods._extract_entities_chunked")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods._extract_entities_chunked")
     def test_groq_chunking_limit(self, mock_chunked, mock_create_provider):
         # Setup
         mock_llm = MagicMock()

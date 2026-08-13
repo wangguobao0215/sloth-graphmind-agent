@@ -15,7 +15,7 @@ from mcp.schemas import (
 )
 from mcp.session import get_graph
 
-log = logging.getLogger("semantica.mcp.tools.decisions")
+log = logging.getLogger("sloth_graphmind.mcp.tools.decisions")
 
 
 def handle_record_decision(args: dict) -> dict:
@@ -107,7 +107,7 @@ def handle_get_causal_chain(args: dict) -> dict:
     try:
         graph = get_graph()
         try:
-            from semantica.context.causal_analyzer import CausalChainAnalyzer
+            from sloth_graphmind.context.causal_analyzer import CausalChainAnalyzer
             analyzer = CausalChainAnalyzer(graph_store=graph)
             chain = analyzer.get_causal_chain(
                 decision_id, direction=direction, max_depth=max_depth
@@ -211,7 +211,7 @@ def handle_analyze_decision_impact(args: dict) -> dict:
 DECISION_TOOLS = [
     {
         "name": "record_decision",
-        "description": "Record a decision with full context, causal links, and metadata into the Semantica knowledge graph.",
+        "description": "Record a decision with full context, causal links, and metadata into the GraphMind knowledge graph.",
         "inputSchema": RECORD_DECISION,
         "_handler": handle_record_decision,
     },

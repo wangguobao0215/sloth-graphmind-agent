@@ -28,16 +28,16 @@ A clear and concise description of what actually happened.
 
 - **OS**: [e.g., Windows 10, Ubuntu 22.04, macOS 13.0]
 - **Python Version**: [e.g., 3.9.7]
-- **Semantica Version**: [e.g., 0.0.1]
+- **GraphMind Version**: [e.g., 0.0.1]
 - **Installation Method**: [e.g., pip, source, conda]
 
 ## Code Example
 
 ```python
 # Minimal code example that reproduces the issue
-from semantica import Semantica
+from sloth_graphmind import GraphMind
 
-core = Semantica()
+core = GraphMind()
 # ... your code here
 ```
 

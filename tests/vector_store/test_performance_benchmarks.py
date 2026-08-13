@@ -22,9 +22,9 @@ import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, List, Any
 
-from semantica.vector_store import VectorStore, DecisionEmbeddingPipeline, HybridSimilarityCalculator
-from semantica.context import DecisionContext, ContextRetriever
-from semantica.vector_store.decision_vector_methods import (
+from sloth_graphmind.vector_store import VectorStore, DecisionEmbeddingPipeline, HybridSimilarityCalculator
+from sloth_graphmind.context import DecisionContext, ContextRetriever
+from sloth_graphmind.vector_store.decision_vector_methods import (
     quick_decision, find_precedents, batch_decisions
 )
 
@@ -409,9 +409,9 @@ class TestPerformanceBenchmarks:
         print("\n=== Benchmark: KG Algorithm Performance ===")
         
         from unittest.mock import Mock
-        from semantica.kg.path_finder import PathFinder
-        from semantica.kg.community_detector import CommunityDetector
-        from semantica.kg.centrality_calculator import CentralityCalculator
+        from sloth_graphmind.kg.path_finder import PathFinder
+        from sloth_graphmind.kg.community_detector import CommunityDetector
+        from sloth_graphmind.kg.centrality_calculator import CentralityCalculator
         
         # Mock KG algorithms
         mock_kg = Mock()

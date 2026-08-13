@@ -2,7 +2,7 @@
 
 from types import SimpleNamespace
 
-from semantica.explorer.routes.provenance import (
+from sloth_graphmind.explorer.routes.provenance import (
     _add_chain_edges,
     _build_provenance,
     _render_markdown,

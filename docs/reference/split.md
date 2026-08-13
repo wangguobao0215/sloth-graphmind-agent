@@ -4,7 +4,7 @@ description: "Text chunking with recursive, semantic, entity-aware, relation-awa
 icon: "scissors"
 ---
 
-**`semantica.split`** breaks documents into chunks that **preserve semantic context**:
+**`sloth_graphmind.split`** breaks documents into chunks that **preserve semantic context**:
 
 - Six chunking strategies: recursive, semantic, entity-aware, relation-aware, sliding window, structural
 - `SemanticChunker` uses embedding-based topic-shift detection to split only when content changes
@@ -21,7 +21,7 @@ Most LLMs and embedding models have fixed context windows. Documents larger than
 - A relation triplet like "Steve Jobs founded Apple" split at "Steve Jobs" leaves a dangling subject
 - Embedding a chunk that mixes two unrelated topics produces a centroid vector that matches neither
 
-Semantica's chunking methods are designed to avoid these failure modes.
+GraphMind's chunking methods are designed to avoid these failure modes.
 
 ## Exported Classes
 
@@ -62,7 +62,7 @@ Semantica's chunking methods are designed to avoid these failure modes.
 <Steps>
   <Step title="Choose a splitting method">
     ```python
-    from semantica.split import TextSplitter
+    from sloth_graphmind.split import TextSplitter
 
     splitter = TextSplitter(
         method="recursive",   # see Splitting Methods table
@@ -143,7 +143,7 @@ Use this decision tree before picking a method:
 ## TextSplitter Constructor
 
 ```python
-from semantica.split import TextSplitter
+from sloth_graphmind.split import TextSplitter
 
 splitter = TextSplitter(
     method="semantic_transformer",   # chunking strategy: see Splitting Methods table
@@ -192,7 +192,7 @@ splitter = TextSplitter(
     Embeds each sentence using a sentence-transformers model, then splits whenever cosine similarity between consecutive sentences drops below `similarity_threshold`. Each chunk covers one coherent topic:
 
     ```python
-    from semantica.split import TextSplitter
+    from sloth_graphmind.split import TextSplitter
 
     splitter = TextSplitter(
         method="semantic_transformer",
@@ -218,7 +218,7 @@ splitter = TextSplitter(
     Runs NER internally, then adjusts chunk boundaries so no entity mention is split across two chunks:
 
     ```python
-    from semantica.split import TextSplitter
+    from sloth_graphmind.split import TextSplitter
     import os
 
     # ner_method is passed through to the internal NERExtractor.
@@ -246,7 +246,7 @@ splitter = TextSplitter(
     Keeps subject–predicate–object triplets within the same chunk: critical for KG pipelines:
 
     ```python
-    from semantica.split import TextSplitter
+    from sloth_graphmind.split import TextSplitter
 
     # relation_method is passed through to the internal RelationExtractor.
     # Use "llm" for highest accuracy, "ml" (default) for speed.
@@ -273,7 +273,7 @@ splitter = TextSplitter(
     Splits text based on structural analysis of headings and paragraph boundaries. Each heading or paragraph group becomes a chunk boundary:
 
     ```python
-    from semantica.split import TextSplitter
+    from sloth_graphmind.split import TextSplitter
 
     splitter = TextSplitter(method="structural")
     chunks   = splitter.split(text)
@@ -348,12 +348,12 @@ If `tiktoken` is not installed, the `token` method falls back to splitting by wh
 
 ## Pipeline Integration
 
-`TextSplitter` can be used standalone or composed manually with other Semantica modules. The example below shows a sequential pattern: parse a file, split the text, then extract entities from each chunk:
+`TextSplitter` can be used standalone or composed manually with other GraphMind modules. The example below shows a sequential pattern: parse a file, split the text, then extract entities from each chunk:
 
 ```python
-from semantica.parse import DocumentParser
-from semantica.split import TextSplitter
-from semantica.semantic_extract import NERExtractor
+from sloth_graphmind.parse import DocumentParser
+from sloth_graphmind.split import TextSplitter
+from sloth_graphmind.semantic_extract import NERExtractor
 
 # Parse
 parser = DocumentParser()

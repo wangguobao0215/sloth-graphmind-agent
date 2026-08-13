@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
 
-from semantica.normalize.date_normalizer import (
+from sloth_graphmind.normalize.date_normalizer import (
     DateNormalizer,
     RelativeDateProcessor,
     TimeZoneNormalizer,
@@ -30,7 +30,7 @@ class TestDateNormalizer(unittest.TestCase):
                 fixed = cls(2024, 1, 2, 0, 30)
                 return fixed if tz is None else fixed.replace(tzinfo=tz)
 
-        with patch("semantica.normalize.date_normalizer.datetime", FixedDateTime):
+        with patch("sloth_graphmind.normalize.date_normalizer.datetime", FixedDateTime):
             self.assertEqual(
                 self.normalizer.normalize_date("today", format="date"),
                 "2024-01-02",

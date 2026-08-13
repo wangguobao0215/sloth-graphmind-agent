@@ -6,7 +6,7 @@ import tempfile
 
 import pytest
 
-from semantica.context.context_graph import ContextGraph
+from sloth_graphmind.context.context_graph import ContextGraph
 
 
 # ---------------------------------------------------------------------------

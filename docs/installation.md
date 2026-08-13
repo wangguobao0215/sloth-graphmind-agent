@@ -1,11 +1,11 @@
 ---
 title: "Installation"
-description: "Get Semantica installed in under a minute."
+description: "Get GraphMind installed in under a minute."
 icon: "download"
 ---
 
 <Check>
-  **Available on PyPI**: `pip install semantica` and you're ready.
+  **Available on PyPI**: `pip install sloth_graphmind` and you're ready.
 </Check>
 
 <Note>
@@ -25,19 +25,19 @@ icon: "download"
 ## Basic Installation
 
 ```bash
-pip install semantica
+pip install sloth_graphmind
 ```
 
 With all optional dependencies:
 
 ```bash
-pip install semantica[all]
+pip install sloth_graphmind[all]
 ```
 
 ### Verify
 
 ```bash
-python -c "import semantica; print(semantica.__version__)"
+python -c "import sloth_graphmind; print(sloth_graphmind.__version__)"
 ```
 
 
@@ -49,14 +49,14 @@ python -c "import semantica; print(semantica.__version__)"
     python -m venv venv
     source venv/bin/activate   # Linux / Mac
     venv\Scripts\activate      # Windows
-    pip install semantica
+    pip install sloth_graphmind
     ```
   </Tab>
   <Tab title="conda">
     ```bash
-    conda create -n semantica python=3.11
-    conda activate semantica
-    pip install semantica
+    conda create -n sloth_graphmind python=3.11
+    conda activate sloth_graphmind
+    pip install sloth_graphmind
     ```
   </Tab>
 </Tabs>
@@ -69,29 +69,29 @@ Install only what you need:
 <Tabs>
   <Tab title="GPU">
     ```bash
-    pip install semantica[gpu]
+    pip install sloth_graphmind[gpu]
     ```
     Includes PyTorch with CUDA, FAISS GPU, and CuPy.
   </Tab>
   <Tab title="Visualization">
     ```bash
-    pip install semantica[viz]
+    pip install sloth_graphmind[viz]
     ```
     Includes PyVis, Graphviz, and UMAP.
   </Tab>
   <Tab title="LLM Providers">
     ```bash
-    pip install semantica[llm-all]       # all providers
-    pip install semantica[llm-openai]    # OpenAI
-    pip install semantica[llm-anthropic] # Anthropic
-    pip install semantica[llm-gemini]    # Google Gemini
-    pip install semantica[llm-groq]      # Groq
-    pip install semantica[llm-ollama]    # Ollama (local)
+    pip install sloth_graphmind[llm-all]       # all providers
+    pip install sloth_graphmind[llm-openai]    # OpenAI
+    pip install sloth_graphmind[llm-anthropic] # Anthropic
+    pip install sloth_graphmind[llm-gemini]    # Google Gemini
+    pip install sloth_graphmind[llm-groq]      # Groq
+    pip install sloth_graphmind[llm-ollama]    # Ollama (local)
     ```
   </Tab>
   <Tab title="Cloud">
     ```bash
-    pip install semantica[cloud]
+    pip install sloth_graphmind[cloud]
     ```
     Includes AWS S3, Azure Blob, and Google Cloud Storage.
   </Tab>
@@ -103,8 +103,8 @@ Install only what you need:
 For the latest development version or to contribute:
 
 ```bash
-git clone https://github.com/semantica-agi/semantica.git
-cd semantica
+git clone https://github.com/sloth_graphmind-agi/sloth_graphmind.git
+cd sloth_graphmind
 
 pip install -e .         # core only
 pip install -e ".[all]"  # all extras
@@ -114,7 +114,7 @@ pip install -e ".[dev]"  # dev tools (pytest, black, etc.)
 Install directly from the main branch if the PyPI release has issues:
 
 ```bash
-pip install git+https://github.com/semantica-agi/semantica.git@main
+pip install git+https://github.com/sloth_graphmind-agi/sloth_graphmind.git@main
 ```
 
 
@@ -122,13 +122,13 @@ pip install git+https://github.com/semantica-agi/semantica.git@main
 
 <AccordionGroup>
 
-<Accordion title="ModuleNotFoundError: No module named 'semantica'" icon="circle-xmark">
+<Accordion title="ModuleNotFoundError: No module named 'sloth_graphmind'" icon="circle-xmark">
 
 Make sure you're in the right virtual environment:
 
 ```bash
-pip list | grep semantica
-pip install --upgrade semantica
+pip list | grep sloth_graphmind
+pip install --upgrade sloth_graphmind
 ```
 
 </Accordion>
@@ -138,7 +138,7 @@ pip install --upgrade semantica
 ```bash
 pip install --upgrade pip
 pip install build wheel
-pip install semantica --no-deps  # install core first, then add extras
+pip install sloth_graphmind --no-deps  # install core first, then add extras
 ```
 
 </Accordion>
@@ -148,8 +148,8 @@ pip install semantica --no-deps  # install core first, then add extras
 Install CPU-only first, then layer in GPU support:
 
 ```bash
-pip install semantica
-pip install semantica[gpu]
+pip install sloth_graphmind
+pip install sloth_graphmind[gpu]
 ```
 
 </Accordion>
@@ -157,7 +157,7 @@ pip install semantica[gpu]
 <Accordion title="Permission denied" icon="lock">
 
 ```bash
-pip install --user semantica  # or use a virtual environment
+pip install --user sloth_graphmind  # or use a virtual environment
 ```
 
 </Accordion>
@@ -167,14 +167,14 @@ pip install --user semantica  # or use a virtual environment
 Fixed in **v0.5.0**. Upgrade to the latest release:
 
 ```bash
-pip install --upgrade semantica
+pip install --upgrade sloth_graphmind
 ```
 
 </Accordion>
 
 <Accordion title="Windows PyTorch DLL errors on startup" icon="windows">
 
-Install the [Microsoft Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe). This is a Windows system dependency, not a Semantica bug.
+Install the [Microsoft Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe). This is a Windows system dependency, not a GraphMind bug.
 
 </Accordion>
 
@@ -183,6 +183,6 @@ Install the [Microsoft Visual C++ Redistributable](https://aka.ms/vs/17/release/
 
 ## Next Steps
 
-- [Getting Started](getting-started) — Understand what Semantica does before you build.
+- [Getting Started](getting-started) — Understand what GraphMind does before you build.
 - [Build the Pipeline](quickstart) — Follow the end-to-end workflow with code.
 - [Browse Examples](cookbook) — See notebook examples organized by use case.

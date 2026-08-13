@@ -8,20 +8,20 @@ Addresses issue #866.
 import unittest
 from unittest.mock import patch
 
-from semantica.deduplication.cluster_builder import Cluster, ClusterBuilder
-from semantica.deduplication.duplicate_detector import (
+from sloth_graphmind.deduplication.cluster_builder import Cluster, ClusterBuilder
+from sloth_graphmind.deduplication.duplicate_detector import (
     DuplicateDetector,
     DuplicateGroup,
 )
-from semantica.deduplication.entity_merger import EntityMerger
-from semantica.deduplication.merge_strategy import (
+from sloth_graphmind.deduplication.entity_merger import EntityMerger
+from sloth_graphmind.deduplication.merge_strategy import (
     MergeStrategy,
     MergeStrategyManager,
     PropertyMergeRule,
 )
-from semantica.deduplication.methods import calculate_similarity
-from semantica.deduplication.similarity_calculator import SimilarityCalculator
-from semantica.utils.exceptions import ValidationError
+from sloth_graphmind.deduplication.methods import calculate_similarity
+from sloth_graphmind.deduplication.similarity_calculator import SimilarityCalculator
+from sloth_graphmind.utils.exceptions import ValidationError
 
 
 class TestClusterBuilderCoverage(unittest.TestCase):
@@ -600,8 +600,8 @@ class TestIncrementalDetectionCoverage(unittest.TestCase):
         self.assertNotIn(frozenset({"n1", "n2"}), pair_ids)
 
     def test_methods_incremental_detect_duplicates(self):
-        from semantica.deduplication.duplicate_detector import DuplicateCandidate
-        from semantica.deduplication.methods import detect_duplicates
+        from sloth_graphmind.deduplication.duplicate_detector import DuplicateCandidate
+        from sloth_graphmind.deduplication.methods import detect_duplicates
 
         results = detect_duplicates(
             self.new + self.existing,

@@ -10,7 +10,7 @@ import logging
 
 import pytest
 
-from semantica.export.distance_exporter import DistanceExporter
+from sloth_graphmind.export.distance_exporter import DistanceExporter
 
 
 class _Node:
@@ -55,7 +55,7 @@ def exporter():
 
 
 def test_hop_distance_logs_warning_on_exception(exporter, caplog):
-    with caplog.at_level(logging.WARNING, logger="semantica.export.distance_exporter"):
+    with caplog.at_level(logging.WARNING, logger="sloth_graphmind.export.distance_exporter"):
         result = exporter._hop_distance({}, "a", "b")
     value, error = result
     assert value is None
@@ -64,7 +64,7 @@ def test_hop_distance_logs_warning_on_exception(exporter, caplog):
 
 
 def test_weighted_distance_logs_warning_on_exception(exporter, caplog):
-    with caplog.at_level(logging.WARNING, logger="semantica.export.distance_exporter"):
+    with caplog.at_level(logging.WARNING, logger="sloth_graphmind.export.distance_exporter"):
         result = exporter._weighted_distance({}, "a", "b")
     value, error = result
     assert value is None
@@ -73,7 +73,7 @@ def test_weighted_distance_logs_warning_on_exception(exporter, caplog):
 
 
 def test_semantic_similarity_logs_warning_on_exception(exporter, caplog):
-    with caplog.at_level(logging.WARNING, logger="semantica.export.distance_exporter"):
+    with caplog.at_level(logging.WARNING, logger="sloth_graphmind.export.distance_exporter"):
         result = exporter._semantic_similarity({}, "a", "b")
     value, error = result
     assert value is None
@@ -82,7 +82,7 @@ def test_semantic_similarity_logs_warning_on_exception(exporter, caplog):
 
 
 def test_betweenness_logs_warning_on_exception(exporter, caplog):
-    with caplog.at_level(logging.WARNING, logger="semantica.export.distance_exporter"):
+    with caplog.at_level(logging.WARNING, logger="sloth_graphmind.export.distance_exporter"):
         result = exporter._betweenness({})
     value, error = result
     assert value == {}
@@ -93,7 +93,7 @@ def test_betweenness_logs_warning_on_exception(exporter, caplog):
 def test_compute_pairs_still_produces_none_sentinels_when_metrics_raise(exporter, caplog):
     """The exported row shape is unchanged: a raised exception still yields
     None/"distant", it is just no longer silent."""
-    with caplog.at_level(logging.WARNING, logger="semantica.export.distance_exporter"):
+    with caplog.at_level(logging.WARNING, logger="sloth_graphmind.export.distance_exporter"):
         rows = exporter.compute_pairs()
     assert len(rows) == 2
     for row in rows:
@@ -109,7 +109,7 @@ def test_hop_distance_no_warning_when_kg_unavailable(caplog):
     must not be confused with an exception; nothing to log there."""
     exp = DistanceExporter(_Graph())
     exp._path_finder = None
-    with caplog.at_level(logging.WARNING, logger="semantica.export.distance_exporter"):
+    with caplog.at_level(logging.WARNING, logger="sloth_graphmind.export.distance_exporter"):
         result = exp._hop_distance({}, "a", "b")
     value, error = result
     assert value is None

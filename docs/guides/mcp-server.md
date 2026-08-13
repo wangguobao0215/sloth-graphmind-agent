@@ -1,6 +1,6 @@
 ---
 title: "MCP Server"
-description: "Connect Semantica's knowledge graph, decision intelligence, and reasoning to Claude Desktop, Windsurf, VS Code, Cline, and any MCP-compatible AI client."
+description: "Connect GraphMind's knowledge graph, decision intelligence, and reasoning to Claude Desktop, Windsurf, VS Code, Cline, and any MCP-compatible AI client."
 icon: "plug"
 ---
 
@@ -8,28 +8,28 @@ icon: "plug"
 
 MCP stands for the Model Context Protocol. It is an open standard that allows external AI assistants (like Claude Desktop, Cursor, or Windsurf) to securely access local tools and data sources. 
 
-The Semantica MCP server exposes your knowledge graph as 12 callable tools. By connecting it, any compatible AI client can traverse the graph live, record decisions, run analytics, and export results during a conversation — without you having to write custom tool wrappers.
+The GraphMind MCP server exposes your knowledge graph as 12 callable tools. By connecting it, any compatible AI client can traverse the graph live, record decisions, run analytics, and export results during a conversation — without you having to write custom tool wrappers.
 
 <Info>
-  The Semantica MCP server exposes 12 tools and 3 read-only resources. All tools accept and return JSON. No configuration beyond an optional environment variable for graph persistence is required.
+  The GraphMind MCP server exposes 12 tools and 3 read-only resources. All tools accept and return JSON. No configuration beyond an optional environment variable for graph persistence is required.
 </Info>
 
 ## Architecture & Communication
 
-It is important to understand how MCP works under the hood. **The Semantica MCP server is not a REST API.** There are no network ports, no HTTP endpoints, and no API keys required.
+It is important to understand how MCP works under the hood. **The GraphMind MCP server is not a REST API.** There are no network ports, no HTTP endpoints, and no API keys required.
 
-Instead, the AI client launches `semantica-mcp` locally as a subprocess. All communication between the AI and Semantica happens securely through standard input and output (`stdio`). Because the server runs locally under your user account, it inherently has your local file permissions.
+Instead, the AI client launches `sloth_graphmind-mcp` locally as a subprocess. All communication between the AI and GraphMind happens securely through standard input and output (`stdio`). Because the server runs locally under your user account, it inherently has your local file permissions.
 
-## Why Use MCP With Semantica?
+## Why Use MCP With GraphMind?
 
-- **Zero-Code Integration**: Instantly connect Semantica's graph capabilities to your favorite AI IDE or desktop chat app without writing any glue code.
+- **Zero-Code Integration**: Instantly connect GraphMind's graph capabilities to your favorite AI IDE or desktop chat app without writing any glue code.
 - **Real-Time Graph Updates**: Chat with an AI to extract entities from documents and watch them populate your live knowledge graph instantly.
-- **Auditable AI**: Use the AI to make decisions and have it automatically record the reasoning and causal chain directly into the graph via Semantica's decision intelligence tools.
+- **Auditable AI**: Use the AI to make decisions and have it automatically record the reasoning and causal chain directly into the graph via GraphMind's decision intelligence tools.
 
 ## When To Use / When Not To Use
 
-- **When to Use**: You want to use a third-party AI interface (like Claude Desktop or Windsurf) to manipulate, query, and reason over a Semantica knowledge graph on your local machine.
-- **When NOT to Use**: You are building an autonomous Python script or backend service. If you are writing Python code to build an agent, use `semantica.context.AgentContext` natively instead of spinning up an MCP server. The MCP server does not support remote hosting over HTTP/SSE.
+- **When to Use**: You want to use a third-party AI interface (like Claude Desktop or Windsurf) to manipulate, query, and reason over a GraphMind knowledge graph on your local machine.
+- **When NOT to Use**: You are building an autonomous Python script or backend service. If you are writing Python code to build an agent, use `sloth_graphmind.context.AgentContext` natively instead of spinning up an MCP server. The MCP server does not support remote hosting over HTTP/SSE.
 
 ---
 
@@ -37,8 +37,8 @@ Instead, the AI client launches `semantica-mcp` locally as a subprocess. All com
 
 Connecting your AI client follows a standard progression:
 
-1. **Install**: Install Semantica in your Python environment.
-2. **Configure Client**: Add the `semantica-mcp` command and absolute graph paths to your AI client's JSON configuration.
+1. **Install**: Install GraphMind in your Python environment.
+2. **Configure Client**: Add the `sloth_graphmind-mcp` command and absolute graph paths to your AI client's JSON configuration.
 3. **Start Client**: Launch Claude Desktop or Windsurf, which automatically spawns the MCP server.
 4. **Tool Calls**: Prompt the AI in natural language. The AI autonomously chains the 12 available tools.
 5. **Graph Updates**: The AI directly modifies your local graph, adding entities, edges, and decisions.
@@ -47,24 +47,24 @@ Connecting your AI client follows a standard progression:
 
 ## Starting the Server
 
-Install Semantica, then configure your client to launch the MCP server. The server runs using the `stdio` transport.
+Install GraphMind, then configure your client to launch the MCP server. The server runs using the `stdio` transport.
 
 ```bash
-pip install semantica
+pip install sloth_graphmind
 ```
 
 ```bash
 # Via the CLI entry-point (recommended)
-semantica-mcp
+sloth_graphmind-mcp
 
 # Or via the Python module directly
-python -m semantica.mcp_server
+python -m sloth_graphmind.mcp_server
 ```
 
 By default, the server logs at `WARNING` level and produces no startup output. Set `SEMANTICA_LOG_LEVEL=INFO` (or `DEBUG`) to see startup messages on stderr. Without `SEMANTICA_KG_PATH` the server initialises an empty in-memory graph — sufficient for testing. For a persistent graph that survives restarts, set the path:
 
 ```bash
-SEMANTICA_KG_PATH=/data/threat_graph.json semantica-mcp
+SEMANTICA_KG_PATH=/data/threat_graph.json sloth_graphmind-mcp
 ```
 
 <Info>
@@ -78,8 +78,8 @@ Edit the Claude Desktop config file — on macOS at `~/Library/Application Suppo
 ```json
 {
   "mcpServers": {
-    "semantica": {
-      "command": "semantica-mcp",
+    "sloth_graphmind": {
+      "command": "sloth_graphmind-mcp",
       "env": {
         "SEMANTICA_KG_PATH": "/absolute/path/to/knowledge_graph.json",
         "SEMANTICA_LOG_LEVEL": "INFO"
@@ -89,9 +89,9 @@ Edit the Claude Desktop config file — on macOS at `~/Library/Application Suppo
 }
 ```
 
-Restart Claude Desktop after saving. The Semantica tools appear in the tool palette automatically — Claude can now call them during any conversation.
+Restart Claude Desktop after saving. The GraphMind tools appear in the tool palette automatically — Claude can now call them during any conversation.
 
-If `semantica-mcp` is not on your system PATH (for example, if it is installed in a virtualenv), use the full absolute binary path in `"command"`: `"/path/to/venv/bin/semantica-mcp"`.
+If `sloth_graphmind-mcp` is not on your system PATH (for example, if it is installed in a virtualenv), use the full absolute binary path in `"command"`: `"/path/to/venv/bin/sloth_graphmind-mcp"`.
 
 ## Connecting to Other Clients
 
@@ -99,8 +99,8 @@ If `semantica-mcp` is not on your system PATH (for example, if it is installed i
 
 ```json
 {
-  "semantica": {
-    "command": "semantica-mcp",
+  "sloth_graphmind": {
+    "command": "sloth_graphmind-mcp",
     "env": { "SEMANTICA_KG_PATH": "/absolute/path/to/knowledge_graph.json" }
   }
 }
@@ -111,9 +111,9 @@ If `semantica-mcp` is not on your system PATH (for example, if it is installed i
 ```json
 {
   "servers": {
-    "semantica": {
+    "sloth_graphmind": {
       "type": "stdio",
-      "command": "semantica-mcp",
+      "command": "sloth_graphmind-mcp",
       "env": {
         "SEMANTICA_KG_PATH": "${workspaceFolder}/knowledge_graph.json",
         "SEMANTICA_LOG_LEVEL": "DEBUG"
@@ -129,7 +129,7 @@ If `semantica-mcp` is not on your system PATH (for example, if it is installed i
 docker run --rm -i \
   -e SEMANTICA_KG_PATH=/data/kg.json \
   -v /local/absolute/path:/data \
-  ghcr.io/semantica-agi/semantica-mcp:latest
+  ghcr.io/sloth_graphmind-agi/sloth_graphmind-mcp:latest
 ```
 
 ## What the Agent Can Do: The 12 Tools
@@ -219,9 +219,9 @@ Resources expose graph state without a tool call — the client can read them at
 
 | URI | Description |
 | :-- | :---------- |
-| `semantica://graph/summary` | Node count, decision count, server status |
-| `semantica://decisions/list` | Up to 50 most recent recorded decisions |
-| `semantica://schema/info` | Server version, capabilities, available tool list |
+| `sloth_graphmind://graph/summary` | Node count, decision count, server status |
+| `sloth_graphmind://decisions/list` | Up to 50 most recent recorded decisions |
+| `sloth_graphmind://schema/info` | Server version, capabilities, available tool list |
 
 ## Domain Examples
 
@@ -322,7 +322,7 @@ The result is a fully auditable credit decision trail with precedent links, read
 
 - **Treating MCP as an HTTP server**: Do not try to `curl` the MCP server or look for a port number. It communicates via `stdin/stdout` and waits for JSON-RPC messages from the parent AI client.
 - **Using relative paths for `SEMANTICA_KG_PATH`**: Because the AI client spawns the server as a subprocess, the working directory can be unpredictable. Always use absolute paths (e.g., `C:\Users\Name\graph.json` or `/Users/name/graph.json`) to avoid losing your data.
-- **Virtual environment PATH issues**: If you installed Semantica inside a Python virtual environment, Claude Desktop will not automatically find `semantica-mcp` on the global system PATH. You must provide the absolute path to the binary in the `"command"` field.
+- **Virtual environment PATH issues**: If you installed GraphMind inside a Python virtual environment, Claude Desktop will not automatically find `sloth_graphmind-mcp` on the global system PATH. You must provide the absolute path to the binary in the `"command"` field.
 - **Expecting remote hosting support**: Stdio-based MCP servers must run on the same local machine as the AI client. Remote execution over a network is not supported.
 - **Confusing MCP integration with `AgentContext`**: If you are writing your own Python code to orchestrate an LLM, do not use the MCP server. Use the `AgentContext` class natively within your code.
 
@@ -330,7 +330,7 @@ The result is a fully auditable credit decision trail with precedent links, read
 
 ## Troubleshooting
 
-**Server does not appear in Claude Desktop** — fully quit and reopen Claude Desktop after editing the config (closing the window is not enough). Verify the binary is on PATH: `which semantica-mcp` on Unix, `where semantica-mcp` on Windows. If using a virtualenv, use the absolute binary path in `"command"`. Set `SEMANTICA_LOG_LEVEL=DEBUG` and check stderr for startup errors.
+**Server does not appear in Claude Desktop** — fully quit and reopen Claude Desktop after editing the config (closing the window is not enough). Verify the binary is on PATH: `which sloth_graphmind-mcp` on Unix, `where sloth_graphmind-mcp` on Windows. If using a virtualenv, use the absolute binary path in `"command"`. Set `SEMANTICA_LOG_LEVEL=DEBUG` and check stderr for startup errors.
 
 **Graph data not persisting between sessions** — set `SEMANTICA_KG_PATH` to an absolute file path. Without it, the graph is in-memory only and resets on every server restart.
 

@@ -5,7 +5,7 @@ import json
 
 import pytest
 
-from semantica.parse import DocumentParser, CSVParser, JSONParser, XMLParser, HTMLParser, StructuredDataParser
+from sloth_graphmind.parse import DocumentParser, CSVParser, JSONParser, XMLParser, HTMLParser, StructuredDataParser
 
 pytestmark = pytest.mark.integration
 

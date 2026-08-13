@@ -1,4 +1,4 @@
-# Semantica 0.5.0 Release Notes
+# GraphMind 0.5.0 Release Notes
 
 ## 🎉 Major Release: Distance Intelligence & Ontology Hub Complete
 
@@ -151,23 +151,23 @@
 
 ```bash
 # Standard installation
-pip install semantica==0.5.0
+pip install sloth_graphmind==0.5.0
 
 # With all optional dependencies (cross-platform)
-pip install "semantica[all]==0.5.0"
+pip install "sloth_graphmind[all]==0.5.0"
 
 # With GPU acceleration (Linux only)
-pip install "semantica[gpu]==0.5.0"
+pip install "sloth_graphmind[gpu]==0.5.0"
 
 # With Parquet support
-pip install "semantica[ingest-parquet]==0.5.0"
+pip install "sloth_graphmind[ingest-parquet]==0.5.0"
 ```
 
 ---
 
 ## 📈 **WHAT'S NEXT FOR 0.5.0**
 
-The 0.5.0 release establishes Semantica as a production-ready framework for:
+The 0.5.0 release establishes GraphMind as a production-ready framework for:
 
 - **Enterprise Knowledge Engineering** with comprehensive ontology management
 - **Advanced Analytics** through distance intelligence and semantic search  
@@ -183,4 +183,4 @@ The 0.5.0 release establishes Semantica as a production-ready framework for:
 
 ---
 
-**🎯 Semantica 0.5.0: Production-Ready Knowledge Engineering Platform**
+**🎯 GraphMind 0.5.0: Production-Ready Knowledge Engineering Platform**

@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from semantica.normalize.text_normalizer import (
+from sloth_graphmind.normalize.text_normalizer import (
     SpecialCharacterProcessor,
     TextNormalizer,
     UnicodeNormalizer,
@@ -17,11 +17,11 @@ class TestTextNormalizer(unittest.TestCase):
     def setUp(self):
         """Set up mocks"""
 
-        self.logger_patcher = patch("semantica.normalize.text_normalizer.get_logger")
+        self.logger_patcher = patch("sloth_graphmind.normalize.text_normalizer.get_logger")
         self.tracker_patcher = patch(
-            "semantica.normalize.text_normalizer.get_progress_tracker"
+            "sloth_graphmind.normalize.text_normalizer.get_progress_tracker"
         )
-        self.cleaner_patcher = patch("semantica.normalize.text_normalizer.TextCleaner")
+        self.cleaner_patcher = patch("sloth_graphmind.normalize.text_normalizer.TextCleaner")
 
         self.mock_logger = self.logger_patcher.start()
         self.mock_tracker = self.tracker_patcher.start()

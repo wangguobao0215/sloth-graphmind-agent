@@ -9,7 +9,7 @@ import pytest
 import numpy as np
 from unittest.mock import Mock, patch, MagicMock
 
-from semantica.context import ContextRetriever, RetrievedContext
+from sloth_graphmind.context import ContextRetriever, RetrievedContext
 
 
 class TestContextRetrieverHybrid:

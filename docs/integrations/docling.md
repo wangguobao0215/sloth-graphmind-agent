@@ -9,7 +9,7 @@ icon: "file-lines"
 
 ## Overview
 
-Docling is integrated into Semantica's `parse` module via the **`DoclingParser`**. Documents pass through Docling's **layout engine**, then feed directly into Semantica's extraction and KG pipeline.
+Docling is integrated into GraphMind's `parse` module via the **`DoclingParser`**. Documents pass through Docling's **layout engine**, then feed directly into GraphMind's extraction and KG pipeline.
 
 - **Multi-format** — PDF, DOCX, PPTX, HTML, and more.
 - **Table Extraction** — High-fidelity table parsing with header detection.
@@ -20,7 +20,7 @@ Docling is integrated into Semantica's `parse` module via the **`DoclingParser`*
 ## Installation
 
 ```bash
-pip install semantica
+pip install sloth_graphmind
 # Docling is included as an optional dependency
 # or install separately:
 pip install docling
@@ -30,7 +30,7 @@ pip install docling
 ## Basic Usage
 
 ```python
-from semantica.parse import DoclingParser
+from sloth_graphmind.parse import DoclingParser
 
 parser = DoclingParser(enable_ocr=True)
 result = parser.parse("financial_report.pdf")
@@ -43,7 +43,7 @@ print(f"Found {len(result['tables'])} tables")
 ## Full Example
 
 ```python
-from semantica.parse import DoclingParser
+from sloth_graphmind.parse import DoclingParser
 
 parser = DoclingParser(
     enable_ocr=True,

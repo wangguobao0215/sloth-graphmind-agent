@@ -6,8 +6,8 @@ import tempfile
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from semantica.kg.registry import MethodRegistry
-from semantica.kg.config import KGConfig
+from sloth_graphmind.kg.registry import MethodRegistry
+from sloth_graphmind.kg.config import KGConfig
 
 class TestMethodRegistry(unittest.TestCase):
     def setUp(self):

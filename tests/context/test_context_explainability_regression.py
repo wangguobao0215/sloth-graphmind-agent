@@ -15,10 +15,10 @@ from datetime import datetime, timedelta
 from unittest.mock import MagicMock, patch, PropertyMock
 from typing import Any, Dict, List
 
-from semantica.context.context_graph import ContextGraph
-from semantica.context.decision_models import Decision
-from semantica.context.entity_linker import EntityLinker
-from semantica.context.policy_engine import PolicyEngine
+from sloth_graphmind.context.context_graph import ContextGraph
+from sloth_graphmind.context.decision_models import Decision
+from sloth_graphmind.context.entity_linker import EntityLinker
+from sloth_graphmind.context.policy_engine import PolicyEngine
 
 
 # ---------------------------------------------------------------------------
@@ -448,7 +448,7 @@ class TestKGConsumerCompatibility:
 
     def test_node_embedder_build_adjacency_normalizes_enriched_dicts(self):
         """NodeEmbedder._build_adjacency strips enriched dicts to node IDs (no crash, no None)."""
-        from semantica.kg.node_embeddings import NodeEmbedder
+        from sloth_graphmind.kg.node_embeddings import NodeEmbedder
 
         g = self._graph_with_nodes([("A", "Person"), ("B", "Person"), ("C", "Person")])
         embedder = NodeEmbedder()
@@ -470,7 +470,7 @@ class TestKGConsumerCompatibility:
 
     def test_link_predictor_get_node_neighbors_normalizes_enriched_dicts(self):
         """LinkPredictor._get_node_neighbors strips enriched dicts to plain IDs."""
-        from semantica.kg.link_predictor import LinkPredictor
+        from sloth_graphmind.kg.link_predictor import LinkPredictor
 
         g = self._graph_with_nodes([("X", "Item"), ("Y", "Item"), ("Z", "Item")])
         predictor = LinkPredictor()
@@ -485,7 +485,7 @@ class TestKGConsumerCompatibility:
 
     def test_link_predictor_score_link_works_with_context_graph(self):
         """score_link() runs without error when given a ContextGraph store."""
-        from semantica.kg.link_predictor import LinkPredictor
+        from sloth_graphmind.kg.link_predictor import LinkPredictor
 
         g = self._graph_with_nodes([
             ("n1", "Entity"), ("n2", "Entity"), ("n3", "Entity")
@@ -498,7 +498,7 @@ class TestKGConsumerCompatibility:
 
     def test_centrality_calculator_get_filtered_neighbors_normalizes_dicts(self):
         """CentralityCalculator._get_filtered_neighbors strips enriched dicts to IDs."""
-        from semantica.kg.centrality_calculator import CentralityCalculator
+        from sloth_graphmind.kg.centrality_calculator import CentralityCalculator
 
         g = self._graph_with_nodes([("c1", "Node"), ("c2", "Node"), ("c3", "Node")])
         calc = CentralityCalculator()
@@ -512,7 +512,7 @@ class TestKGConsumerCompatibility:
 
     def test_centrality_calculator_degree_centrality_works_with_context_graph(self):
         """calculate_degree_centrality() works with ContextGraph as the graph store."""
-        from semantica.kg.centrality_calculator import CentralityCalculator
+        from sloth_graphmind.kg.centrality_calculator import CentralityCalculator
 
         g = self._graph_with_nodes([
             ("hub", "Node"), ("spoke1", "Node"), ("spoke2", "Node")
@@ -534,7 +534,7 @@ class TestKGConsumerCompatibility:
 
     def test_path_finder_get_neighbors_normalizes_enriched_dicts(self):
         """PathFinder._get_neighbors strips enriched dicts to (id, edge_data) tuples."""
-        from semantica.kg.path_finder import PathFinder
+        from sloth_graphmind.kg.path_finder import PathFinder
 
         g = self._graph_with_nodes([("p1", "Stop"), ("p2", "Stop"), ("p3", "Stop")])
         finder = PathFinder()
@@ -550,7 +550,7 @@ class TestKGConsumerCompatibility:
 
     def test_path_finder_dijkstra_works_with_context_graph(self):
         """dijkstra_shortest_path() runs without error on ContextGraph."""
-        from semantica.kg.path_finder import PathFinder
+        from sloth_graphmind.kg.path_finder import PathFinder
 
         g = self._graph_with_nodes([
             ("start", "Node"), ("mid", "Node"), ("end", "Node")

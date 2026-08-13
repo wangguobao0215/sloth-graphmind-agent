@@ -9,10 +9,10 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from semantica.context.context_graph import ContextGraph
-from semantica.context.decision_models import Decision, PolicyException
-from semantica.context.decision_query import DecisionQuery
-from semantica.context.decision_recorder import DecisionRecorder
+from sloth_graphmind.context.context_graph import ContextGraph
+from sloth_graphmind.context.decision_models import Decision, PolicyException
+from sloth_graphmind.context.decision_query import DecisionQuery
+from sloth_graphmind.context.decision_recorder import DecisionRecorder
 
 
 # ---------------------------------------------------------------------------

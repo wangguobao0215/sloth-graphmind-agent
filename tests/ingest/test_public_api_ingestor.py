@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 import requests
 
-from semantica.ingest import (
+from sloth_graphmind.ingest import (
     APIData,
     PublicAPIDetection,
     PublicAPIExamples,
@@ -12,7 +12,7 @@ from semantica.ingest import (
     ingest_public_api,
     list_available_methods,
 )
-from semantica.utils.exceptions import ProcessingError, ValidationError
+from sloth_graphmind.utils.exceptions import ProcessingError, ValidationError
 
 
 def _mock_response(

@@ -49,7 +49,7 @@ Distance bands flow through the entire system: retrieval results, path responses
     The simplest entry point: call `get_neighbors()` with `include_distance_metadata=True`:
 
     ```python
-    from semantica.context import ContextGraph
+    from sloth_graphmind.context import ContextGraph
 
     graph = ContextGraph(advanced_analytics=True)
 
@@ -81,7 +81,7 @@ Distance bands flow through the entire system: retrieval results, path responses
   </Step>
   <Step title="Compute a semantic distance matrix">
     ```python
-    from semantica.kg import SimilarityCalculator, NodeEmbedder
+    from sloth_graphmind.kg import SimilarityCalculator, NodeEmbedder
 
     # Generate structural embeddings first
     embedder   = NodeEmbedder(method="node2vec", embedding_dimension=128)
@@ -100,8 +100,8 @@ Distance bands flow through the entire system: retrieval results, path responses
     Set `proximity_weight` on `AgentContext` to blend graph proximity into every semantic retrieval call:
 
     ```python
-    from semantica.context import AgentContext, ContextGraph
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext, ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
 
     context = AgentContext(
         vector_store=VectorStore(backend="faiss", dimension=768),
@@ -164,7 +164,7 @@ for d in distances:
 `SimilarityCalculator` computes similarity between node embeddings using four metrics.
 
 ```python
-from semantica.kg import SimilarityCalculator
+from sloth_graphmind.kg import SimilarityCalculator
 
 calc = SimilarityCalculator(method="cosine", normalize=True)
 # method: "cosine" | "euclidean" | "manhattan" | "correlation"
@@ -194,7 +194,7 @@ calc = SimilarityCalculator(method="cosine", normalize=True)
 `pairwise_similarity()` returns the upper triangle of the N×N matrix — each key is a `(node_id_a, node_id_b)` tuple:
 
 ```python
-from semantica.kg import NodeEmbedder, SimilarityCalculator
+from sloth_graphmind.kg import NodeEmbedder, SimilarityCalculator
 
 embedder   = NodeEmbedder(method="node2vec", embedding_dimension=128)
 embeddings = embedder.compute_embeddings(kg, ["language", "framework"], ["enables", "uses"])
@@ -284,8 +284,8 @@ combined_score = (1 − proximity_weight) × semantic_score
 Where `proximity_score` is derived from hop count and edge weights from the query anchor node.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 context = AgentContext(
     vector_store=VectorStore(backend="faiss", dimension=768),
@@ -328,7 +328,7 @@ Each `GraphSession` tracks a **graph revision hash** derived from the current no
 3. If changed (nodes/edges added or modified): the cache is invalidated and embeddings are recomputed
 
 ```python
-from semantica.explorer import GraphSession
+from sloth_graphmind.explorer import GraphSession
 
 session = GraphSession(graph=kg)
 
@@ -517,7 +517,7 @@ The Knowledge Explorer embeds Distance Intelligence directly in the browser dash
     Find semantically cohesive topic clusters in a large knowledge graph without running community detection:
 
     ```python
-    from semantica.kg import NodeEmbedder, SimilarityCalculator
+    from sloth_graphmind.kg import NodeEmbedder, SimilarityCalculator
 
     embedder = NodeEmbedder(method="node2vec", embedding_dimension=128)
     embeddings = embedder.compute_embeddings(kg, node_types=["Concept", "Topic"])
@@ -535,8 +535,8 @@ The Knowledge Explorer embeds Distance Intelligence directly in the browser dash
     Flag nodes that are unexpectedly distant from their structural neighbors — potential data quality issues or genuine anomalies:
 
     ```python
-    from semantica.context import ContextGraph
-    from semantica.kg import NodeEmbedder, SimilarityCalculator
+    from sloth_graphmind.context import ContextGraph
+    from sloth_graphmind.kg import NodeEmbedder, SimilarityCalculator
 
     graph   = ContextGraph(advanced_analytics=True)
     # ... build graph ...
@@ -563,8 +563,8 @@ The Knowledge Explorer embeds Distance Intelligence directly in the browser dash
     Verify that similar decisions (low semantic distance) reached similar outcomes — flag inconsistencies for review:
 
     ```python
-    from semantica.context import AgentContext, ContextGraph
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext, ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
 
     context = AgentContext(
         vector_store=VectorStore(backend="faiss", dimension=768),
@@ -612,4 +612,4 @@ The Knowledge Explorer embeds Distance Intelligence directly in the browser dash
 - [Visualization](visualization) — Programmatic distance heatmaps and ego-mode graph renders.
 - [Explorer](explorer) — Knowledge Explorer with built-in Distance Intelligence dashboard.
 
-- [Distance Intelligence](https://github.com/semantica-agi/semantica/blob/main/cookbook/advanced/12_Distance_Intelligence.ipynb) — Semantic neighborhoods and distance matrices · Advanced
+- [Distance Intelligence](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/advanced/12_Distance_Intelligence.ipynb) — Semantic neighborhoods and distance matrices · Advanced

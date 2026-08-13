@@ -9,14 +9,14 @@ if __name__ == "__main__":
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 try:
-    from semantica.vector_store.pinecone_store import (
+    from sloth_graphmind.vector_store.pinecone_store import (
         PineconeStore,
         PineconeClient,
         PineconeIndex,
         PineconeSearch,
         PINECONE_AVAILABLE
     )
-    from semantica.utils.exceptions import ProcessingError
+    from sloth_graphmind.utils.exceptions import ProcessingError
 except ImportError:
     # If we can't import, we can't run these tests
     # But we should not crash silently.
@@ -30,8 +30,8 @@ class TestPineconeStore(unittest.TestCase):
         self.mock_logger = MagicMock()
         self.mock_tracker = MagicMock()
 
-        self.logger_patcher = patch('semantica.vector_store.pinecone_store.get_logger', return_value=self.mock_logger)
-        self.tracker_patcher = patch('semantica.vector_store.pinecone_store.get_progress_tracker', return_value=self.mock_tracker)
+        self.logger_patcher = patch('sloth_graphmind.vector_store.pinecone_store.get_logger', return_value=self.mock_logger)
+        self.tracker_patcher = patch('sloth_graphmind.vector_store.pinecone_store.get_progress_tracker', return_value=self.mock_tracker)
         self.mock_logger_instance = self.logger_patcher.start()
         self.mock_tracker_instance = self.tracker_patcher.start()
 
@@ -39,8 +39,8 @@ class TestPineconeStore(unittest.TestCase):
         self.logger_patcher.stop()
         self.tracker_patcher.stop()
 
-    @patch('semantica.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
-    @patch('semantica.vector_store.pinecone_store.PineconeClientLib')
+    @patch('sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pinecone_store.PineconeClientLib')
     def test_connect(self, mock_pinecone_client):
         """Test connecting to Pinecone."""
         mock_client_instance = MagicMock()
@@ -52,15 +52,15 @@ class TestPineconeStore(unittest.TestCase):
         self.assertIsNotNone(store.client)
         mock_pinecone_client.assert_called_once_with(api_key="test-key")
 
-    @patch('semantica.vector_store.pinecone_store.PINECONE_AVAILABLE', False)
+    @patch('sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE', False)
     def test_connect_unavailable(self):
         """Test connecting when Pinecone is not available."""
         store = PineconeStore(api_key="test-key")
         with self.assertRaises(ProcessingError):
             store.connect()
 
-    @patch('semantica.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
-    @patch('semantica.vector_store.pinecone_store.PineconeClientLib')
+    @patch('sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pinecone_store.PineconeClientLib')
     def test_create_index(self, mock_pinecone_client):
         """Test creating an index."""
         mock_client_instance = MagicMock()
@@ -82,8 +82,8 @@ class TestPineconeStore(unittest.TestCase):
         self.assertIsInstance(store.search_engine, PineconeSearch)
         store.client.create_index.assert_called_once()
 
-    @patch('semantica.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
-    @patch('semantica.vector_store.pinecone_store.PineconeClientLib')
+    @patch('sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pinecone_store.PineconeClientLib')
     def test_upsert_vectors(self, mock_pinecone_client):
         """Test upserting vectors to Pinecone index."""
         mock_client_instance = MagicMock()
@@ -106,8 +106,8 @@ class TestPineconeStore(unittest.TestCase):
         self.assertEqual(result["upserted_count"], 2)
         store.index.upsert_vectors.assert_called_once()
 
-    @patch('semantica.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
-    @patch('semantica.vector_store.pinecone_store.PineconeClientLib')
+    @patch('sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pinecone_store.PineconeClientLib')
     def test_search_vectors(self, mock_pinecone_client):
         """Test searching vectors in Pinecone index."""
         mock_client_instance = MagicMock()
@@ -130,8 +130,8 @@ class TestPineconeStore(unittest.TestCase):
         self.assertEqual(results[0]["id"], "id1")
         store.search_engine.similarity_search.assert_called_once()
 
-    @patch('semantica.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
-    @patch('semantica.vector_store.pinecone_store.PineconeClientLib')
+    @patch('sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pinecone_store.PineconeClientLib')
     def test_delete_vectors(self, mock_pinecone_client):
         """Test deleting vectors from Pinecone index."""
         mock_client_instance = MagicMock()
@@ -151,8 +151,8 @@ class TestPineconeStore(unittest.TestCase):
         # Fix: assert called without the empty dict
         store.index.delete_vectors.assert_called_once_with(["id1", "id2"], "")
 
-    @patch('semantica.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
-    @patch('semantica.vector_store.pinecone_store.PineconeClientLib')
+    @patch('sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pinecone_store.PineconeClientLib')
     def test_fetch_vectors(self, mock_pinecone_client):
         """Test fetching vectors from Pinecone index."""
         mock_client_instance = MagicMock()
@@ -180,8 +180,8 @@ class TestPineconeStore(unittest.TestCase):
 class TestPineconeClient(unittest.TestCase):
     """Test PineconeClient wrapper."""
 
-    @patch('semantica.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
-    @patch('semantica.vector_store.pinecone_store.PineconeClientLib')
+    @patch('sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pinecone_store.PineconeClientLib')
     def test_create_index(self, mock_pinecone_client):
         """Test creating an index via PineconeClient."""
         mock_client_instance = MagicMock()
@@ -192,8 +192,8 @@ class TestPineconeClient(unittest.TestCase):
 
         mock_client_instance.create_index.assert_called_once()
 
-    @patch('semantica.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
-    @patch('semantica.vector_store.pinecone_store.PineconeClientLib')
+    @patch('sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pinecone_store.PineconeClientLib')
     def test_list_indexes(self, mock_pinecone_client):
         """Test listing indexes via PineconeClient."""
         mock_client_instance = MagicMock()
@@ -211,7 +211,7 @@ class TestPineconeClient(unittest.TestCase):
 class TestPineconeIndex(unittest.TestCase):
     """Test PineconeIndex wrapper."""
 
-    @patch('semantica.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
     def test_upsert_vectors(self):
         """Test upserting vectors via PineconeIndex."""
         mock_index = MagicMock()
@@ -229,7 +229,7 @@ class TestPineconeIndex(unittest.TestCase):
         self.assertEqual(result["upserted_count"], 2)
         mock_index.upsert.assert_called_once()
 
-    @patch('semantica.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
     def test_search_vectors(self):
         """Test searching vectors via PineconeIndex."""
         mock_index = MagicMock()

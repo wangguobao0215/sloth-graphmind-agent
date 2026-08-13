@@ -4,7 +4,7 @@ description: "Agent context graphs, decision tracking, causal chains, precedent 
 icon: "brain"
 ---
 
-`semantica.context` is the memory and decision layer for AI agents:
+`sloth_graphmind.context` is the memory and decision layer for AI agents:
 
 - Stores facts with provenance and embedding-backed retrieval
 - Records decisions as first-class graph objects with full causal chains
@@ -60,8 +60,8 @@ icon: "brain"
 <Steps>
   <Step title="Initialize the agent context">
     ```python
-    from semantica.context import AgentContext, ContextGraph
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext, ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
 
     context = AgentContext(
         vector_store=VectorStore(backend="faiss", dimension=768),
@@ -124,8 +124,8 @@ icon: "brain"
     Fastest setup: no knowledge graph. Best for agents that need semantic search over facts without graph traversal overhead.
 
     ```python
-    from semantica.context import AgentContext
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext
+    from sloth_graphmind.vector_store import VectorStore
 
     # Zero-graph setup: vector memory only
     context = AgentContext(
@@ -148,8 +148,8 @@ icon: "brain"
     Production setup: graph + decisions + analytics. Use when you need explainability and contradiction-free decision history.
 
     ```python
-    from semantica.context import AgentContext, ContextGraph
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext, ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
 
     context = AgentContext(
         vector_store=VectorStore(backend="faiss", dimension=768),
@@ -180,8 +180,8 @@ icon: "brain"
     Load a pre-built knowledge graph and answer complex questions with multi-hop graph traversal.
 
     ```python
-    from semantica.context import AgentContext, ContextGraph
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext, ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
 
     context = AgentContext(
         vector_store=VectorStore(backend="faiss", dimension=768),
@@ -211,8 +211,8 @@ icon: "brain"
     Add versioned compliance policies and gate every decision against them before recording.
 
     ```python
-    from semantica.context import AgentContext, ContextGraph, PolicyEngine
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext, ContextGraph, PolicyEngine
+    from sloth_graphmind.vector_store import VectorStore
 
     context = AgentContext(
         vector_store=VectorStore(backend="faiss", dimension=768),
@@ -322,7 +322,7 @@ results = context.retrieve(
 
 ```python
 import os
-from semantica.llms import Groq
+from sloth_graphmind.llms import Groq
 
 llm    = Groq(model="llama-3.3-70b-versatile", api_key=os.getenv("GROQ_API_KEY"))
 result = context.query_with_reasoning(
@@ -383,7 +383,7 @@ context.flush_checkpoint("after_inference")
 **`ContextGraph`** is the knowledge graph backing `AgentContext`. Can also be used **standalone** for relationship modelling without the full context layer.
 
 ```python
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph(advanced_analytics=True)
 
@@ -431,7 +431,7 @@ print("Nodes: {}, Edges: {}".format(stats["node_count"], stats["edge_count"]))
 | `find_active_nodes(node_type, at_time)` | `List[Dict]` | Nodes that are valid at a given timestamp |
 | `find_edges(edge_type, skip, limit)` | `List[Dict]` | Filter edges by type with pagination |
 | `record_decision(category, scenario, reasoning, outcome, confidence, entities, decision_maker)` | `str` | Add decision node with causal edges |
-| `find_precedents_by_scenario(scenario, category, limit, use_semantic_search, as_of)` | `List[Dict]` | Semantically similar past scenarios |
+| `find_precedents_by_scenario(scenario, category, limit, use_semantic_search, as_of)` | `List[Dict]` | GraphMindlly similar past scenarios |
 | `query(query, skip, limit)` | `List[Dict]` | Full-text search over node content |
 | `stats()` | `Dict` | Node/edge counts, type breakdowns, graph density |
 | `density()` | `float` | Graph density score |
@@ -554,8 +554,8 @@ print("Reachable: {}, hops: {}".format(path["reachable"], path["hop_count"]))
 For fine-grained control over memory storage and retrieval:
 
 ```python
-from semantica.context import AgentMemory
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentMemory
+from sloth_graphmind.vector_store import VectorStore
 
 memory = AgentMemory(
     vector_store=VectorStore(backend="faiss", dimension=768),
@@ -637,9 +637,9 @@ commits; adapter synchronization remains best-effort and logs failures.
 `PolicyEngine` manages versioned policies stored in the knowledge graph. Policies are stored as nodes and can be linked to decisions:
 
 ```python
-from semantica.context import PolicyEngine
-from semantica.context import ContextGraph
-from semantica.context.decision_models import Policy, Decision
+from sloth_graphmind.context import PolicyEngine
+from sloth_graphmind.context import ContextGraph
+from sloth_graphmind.context.decision_models import Policy, Decision
 from datetime import datetime
 
 graph  = ContextGraph()
@@ -684,13 +684,13 @@ for p in policies:
 Maps entity text to URIs and creates typed links between entity IDs:
 
 ```python
-from semantica.context import EntityLinker
+from sloth_graphmind.context import EntityLinker
 
 linker = EntityLinker(similarity_threshold=0.8)
 
 # Assign a URI to an entity
 uri = linker.assign_uri("apple_inc", "Apple Inc.", "ORGANIZATION")
-print(uri)  # "https://semantica.dev/entity/apple_inc.#organization"
+print(uri)  # "https://sloth_graphmind.dev/entity/apple_inc.#organization"
 
 # Link entities from extracted text
 entities = [
@@ -724,7 +724,7 @@ print("Links:   ", web["statistics"]["total_links"])
 | Field | Type | Description |
 | :----- | :---- | :----------- |
 | `entity_id` | `str` | Entity identifier |
-| `uri` | `str` | Generated URI (e.g. `"https://semantica.dev/entity/apple_inc."`) |
+| `uri` | `str` | Generated URI (e.g. `"https://sloth_graphmind.dev/entity/apple_inc."`) |
 | `text` | `str` | Surface form text |
 | `type` | `str` | Entity type |
 | `linked_entities` | `List[EntityLink]` | Related entity links with `source_entity_id`, `target_entity_id`, `link_type`, `confidence` |
@@ -737,7 +737,7 @@ print("Links:   ", web["statistics"]["total_links"])
 Hybrid retrieval combining vector similarity, graph traversal, and memory:
 
 ```python
-from semantica.context import ContextRetriever
+from sloth_graphmind.context import ContextRetriever
 
 retriever = ContextRetriever(
     memory_store=memory,
@@ -877,8 +877,8 @@ class EntityLink:
 <Tabs>
   <Tab title="Healthcare: Treatment Decisions">
     ```python
-    from semantica.context import AgentContext, ContextGraph
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext, ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
 
     health_agent = AgentContext(
         vector_store=VectorStore(backend="faiss", dimension=768),
@@ -907,9 +907,9 @@ class EntityLink:
   </Tab>
   <Tab title="Finance: Loan Decisions">
     ```python
-    from semantica.context import AgentContext, ContextGraph, PolicyEngine
-    from semantica.context.decision_models import Policy, Decision
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext, ContextGraph, PolicyEngine
+    from sloth_graphmind.context.decision_models import Policy, Decision
+    from sloth_graphmind.vector_store import VectorStore
     from datetime import datetime
 
     graph  = ContextGraph()
@@ -959,8 +959,8 @@ class EntityLink:
   </Tab>
   <Tab title="Persist & Restore">
     ```python
-    from semantica.context import AgentContext, ContextGraph
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext, ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
 
     context = AgentContext(
         vector_store=VectorStore(backend="faiss", dimension=768),
@@ -995,5 +995,5 @@ class EntityLink:
 - [Reasoning](reasoning) — Logical inference layered on top of context.
 - [Provenance](provenance) — W3C PROV-O lineage for every stored fact.
 
-- [Context Module](https://github.com/semantica-agi/semantica/blob/main/cookbook/introduction/19_Context_Module.ipynb) — Memory and decision tracking · Intermediate
-- [Advanced Context Engineering](https://github.com/semantica-agi/semantica/blob/main/cookbook/advanced/11_Advanced_Context_Engineering.ipynb) — Production FAISS + Neo4j setup · Advanced
+- [Context Module](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/introduction/19_Context_Module.ipynb) — Memory and decision tracking · Intermediate
+- [Advanced Context Engineering](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/advanced/11_Advanced_Context_Engineering.ipynb) — Production FAISS + Neo4j setup · Advanced

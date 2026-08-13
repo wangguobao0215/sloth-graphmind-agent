@@ -1,9 +1,9 @@
 
 import pytest
-from semantica.utils.types import Entity
-from semantica.kg.graph_builder import GraphBuilder
-from semantica.kg.entity_resolver import EntityResolver
-from semantica.kg.graph_analyzer import GraphAnalyzer
+from sloth_graphmind.utils.types import Entity
+from sloth_graphmind.kg.graph_builder import GraphBuilder
+from sloth_graphmind.kg.entity_resolver import EntityResolver
+from sloth_graphmind.kg.graph_analyzer import GraphAnalyzer
 
 def test_full_entity_pipeline():
     """

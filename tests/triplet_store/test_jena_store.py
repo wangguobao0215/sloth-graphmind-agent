@@ -1,10 +1,10 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from rdflib import Graph, URIRef, Literal, Namespace
-from semantica.triplet_store.jena_store import JenaStore
-from semantica.semantic_extract.triplet_extractor import Triplet
-from semantica.utils.exceptions import ValidationError
-from semantica.triplet_store.construct_templates import execute_construct_template, ConstructTemplate
+from sloth_graphmind.triplet_store.jena_store import JenaStore
+from sloth_graphmind.semantic_extract.triplet_extractor import Triplet
+from sloth_graphmind.utils.exceptions import ValidationError
+from sloth_graphmind.triplet_store.construct_templates import execute_construct_template, ConstructTemplate
 
 class TestJenaStoreExecuteSparqlConstructPath(unittest.TestCase):
     def setUp(self):
@@ -144,14 +144,14 @@ class TestJenaStoreRemoteEndpointUsesUpdateStore(unittest.TestCase):
         from rdflib.plugins.stores.sparqlstore import SPARQLUpdateStore
 
         with patch(
-            "semantica.triplet_store.jena_store.SPARQLUpdateStore",
+            "sloth_graphmind.triplet_store.jena_store.SPARQLUpdateStore",
         ) as MockUpdateStore:
             # SPARQLUpdateStore.__init__ would normally try to contact the
             # server; the mock prevents any network I/O during init.
             mock_store_instance = MagicMock(spec=SPARQLUpdateStore)
             MockUpdateStore.return_value = mock_store_instance
 
-            with patch("semantica.triplet_store.jena_store.Graph") as MockGraph:
+            with patch("sloth_graphmind.triplet_store.jena_store.Graph") as MockGraph:
                 mock_graph_instance = MagicMock(spec=Graph)
                 MockGraph.return_value = mock_graph_instance
 
@@ -169,12 +169,12 @@ class TestJenaStoreRemoteEndpointUsesUpdateStore(unittest.TestCase):
         from rdflib.plugins.stores.sparqlstore import SPARQLUpdateStore
 
         with patch(
-            "semantica.triplet_store.jena_store.SPARQLUpdateStore"
+            "sloth_graphmind.triplet_store.jena_store.SPARQLUpdateStore"
         ) as MockUpdateStore, patch(
-            "semantica.triplet_store.jena_store.SPARQLStore"
+            "sloth_graphmind.triplet_store.jena_store.SPARQLStore"
         ) as MockReadOnlyStore:
             MockUpdateStore.return_value = MagicMock()
-            with patch("semantica.triplet_store.jena_store.Graph"):
+            with patch("sloth_graphmind.triplet_store.jena_store.Graph"):
                 JenaStore(endpoint=self._BASE)
 
             MockUpdateStore.assert_called_once()
@@ -190,8 +190,8 @@ class TestJenaStoreRemoteEndpointUsesUpdateStore(unittest.TestCase):
         base URL.  The store must pass both to SPARQLUpdateStore.
         """
         with patch(
-            "semantica.triplet_store.jena_store.SPARQLUpdateStore"
-        ) as MockUpdateStore, patch("semantica.triplet_store.jena_store.Graph"):
+            "sloth_graphmind.triplet_store.jena_store.SPARQLUpdateStore"
+        ) as MockUpdateStore, patch("sloth_graphmind.triplet_store.jena_store.Graph"):
             MockUpdateStore.return_value = MagicMock()
 
             JenaStore(endpoint=self._BASE)
@@ -219,8 +219,8 @@ class TestJenaStoreRemoteEndpointUsesUpdateStore(unittest.TestCase):
     def test_remote_endpoint_trailing_slash_is_normalised(self):
         """A trailing slash on the supplied endpoint must not produce double-slashes."""
         with patch(
-            "semantica.triplet_store.jena_store.SPARQLUpdateStore"
-        ) as MockUpdateStore, patch("semantica.triplet_store.jena_store.Graph"):
+            "sloth_graphmind.triplet_store.jena_store.SPARQLUpdateStore"
+        ) as MockUpdateStore, patch("sloth_graphmind.triplet_store.jena_store.Graph"):
             MockUpdateStore.return_value = MagicMock()
 
             JenaStore(endpoint="http://localhost:3030/ds/")
@@ -261,9 +261,9 @@ class TestJenaStoreRemoteEndpointUsesUpdateStore(unittest.TestCase):
         )
 
         with patch(
-            "semantica.triplet_store.jena_store.SPARQLUpdateStore"
+            "sloth_graphmind.triplet_store.jena_store.SPARQLUpdateStore"
         ) as MockUpdateStore, patch(
-            "semantica.triplet_store.jena_store.Dataset"
+            "sloth_graphmind.triplet_store.jena_store.Dataset"
         ) as MockDataset:
             mock_store_instance = MagicMock()
             MockUpdateStore.return_value = mock_store_instance
@@ -533,7 +533,7 @@ class TestJenaStoreEndpointDerivation(unittest.TestCase):
             raise RuntimeError("stop_after_capture")
 
         with patch(
-            "semantica.triplet_store.jena_store.SPARQLUpdateStore",
+            "sloth_graphmind.triplet_store.jena_store.SPARQLUpdateStore",
         ) as MockUS:
             MockUS.side_effect = RuntimeError("stop_after_capture")
             MockUS.__init__ = fake_update_store
@@ -552,8 +552,8 @@ class TestJenaStoreEndpointDerivation(unittest.TestCase):
         appended correctly.
         """
         with patch(
-            "semantica.triplet_store.jena_store.SPARQLUpdateStore"
-        ) as MockUS, patch("semantica.triplet_store.jena_store.Dataset"):
+            "sloth_graphmind.triplet_store.jena_store.SPARQLUpdateStore"
+        ) as MockUS, patch("sloth_graphmind.triplet_store.jena_store.Dataset"):
             MockUS.return_value = MagicMock()
             MockUS.return_value.graph_aware = True
             JenaStore(endpoint="http://localhost:3030/ds")
@@ -564,8 +564,8 @@ class TestJenaStoreEndpointDerivation(unittest.TestCase):
     def test_bare_base_url_with_trailing_slash_normalised(self):
         """Trailing slash on the base URL must not produce a double slash."""
         with patch(
-            "semantica.triplet_store.jena_store.SPARQLUpdateStore"
-        ) as MockUS, patch("semantica.triplet_store.jena_store.Dataset"):
+            "sloth_graphmind.triplet_store.jena_store.SPARQLUpdateStore"
+        ) as MockUS, patch("sloth_graphmind.triplet_store.jena_store.Dataset"):
             MockUS.return_value = MagicMock()
             MockUS.return_value.graph_aware = True
             JenaStore(endpoint="http://localhost:3030/ds/")
@@ -580,8 +580,8 @@ class TestJenaStoreEndpointDerivation(unittest.TestCase):
         'http://localhost:3030/ds/query', not '.../ds/query/query'.
         """
         with patch(
-            "semantica.triplet_store.jena_store.SPARQLUpdateStore"
-        ) as MockUS, patch("semantica.triplet_store.jena_store.Dataset"):
+            "sloth_graphmind.triplet_store.jena_store.SPARQLUpdateStore"
+        ) as MockUS, patch("sloth_graphmind.triplet_store.jena_store.Dataset"):
             MockUS.return_value = MagicMock()
             MockUS.return_value.graph_aware = True
             JenaStore(endpoint="http://localhost:3030/ds/query")
@@ -598,8 +598,8 @@ class TestJenaStoreEndpointDerivation(unittest.TestCase):
         Passing that as the endpoint must not produce '.../ds/sparql/query'.
         """
         with patch(
-            "semantica.triplet_store.jena_store.SPARQLUpdateStore"
-        ) as MockUS, patch("semantica.triplet_store.jena_store.Dataset"):
+            "sloth_graphmind.triplet_store.jena_store.SPARQLUpdateStore"
+        ) as MockUS, patch("sloth_graphmind.triplet_store.jena_store.Dataset"):
             MockUS.return_value = MagicMock()
             MockUS.return_value.graph_aware = True
             JenaStore(endpoint="http://localhost:3030/ds/sparql")
@@ -614,8 +614,8 @@ class TestJenaStoreEndpointDerivation(unittest.TestCase):
         Endpoint pre-set to '.../ds/update' must not produce '.../ds/update/update'.
         """
         with patch(
-            "semantica.triplet_store.jena_store.SPARQLUpdateStore"
-        ) as MockUS, patch("semantica.triplet_store.jena_store.Dataset"):
+            "sloth_graphmind.triplet_store.jena_store.SPARQLUpdateStore"
+        ) as MockUS, patch("sloth_graphmind.triplet_store.jena_store.Dataset"):
             MockUS.return_value = MagicMock()
             MockUS.return_value.graph_aware = True
             JenaStore(endpoint="http://localhost:3030/ds/update")
@@ -702,7 +702,7 @@ class TestJenaStoreZeroAddedErrorMessage(unittest.TestCase):
         the raised ProcessingError must mention validation / formatting, NOT
         connectivity or endpoint configuration.
         """
-        from semantica.utils.exceptions import ProcessingError
+        from sloth_graphmind.utils.exceptions import ProcessingError
 
         store = JenaStore()
 
@@ -733,7 +733,7 @@ class TestJenaStoreZeroAddedErrorMessage(unittest.TestCase):
         the message must mention connectivity/endpoint — not validation.
         This simulates a store that raises a non-ValueError on .add().
         """
-        from semantica.utils.exceptions import ProcessingError
+        from sloth_graphmind.utils.exceptions import ProcessingError
         from rdflib import Dataset
 
         store = JenaStore()

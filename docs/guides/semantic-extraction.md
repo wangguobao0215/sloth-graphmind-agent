@@ -1,6 +1,6 @@
 ---
 title: "Semantic Extraction"
-description: "How Semantica extracts entities, relationships, events, and RDF triplets from unstructured text using pattern, ML, and LLM methods — with fallback chains, batch processing, and real-world pipelines for defense intelligence, cybersecurity, life science, and financial compliance."
+description: "How GraphMind extracts entities, relationships, events, and RDF triplets from unstructured text using pattern, ML, and LLM methods — with fallback chains, batch processing, and real-world pipelines for defense intelligence, cybersecurity, life science, and financial compliance."
 icon: "magnifying-glass"
 ---
 
@@ -68,7 +68,7 @@ The semantic extraction workflow follows a structured sequence that transforms r
 
 This pipeline transforms documents like "APT29 deployed HAMMERTOSS malware targeting NATO networks" into structured triplets like `(APT29, deployed, HAMMERTOSS)` and `(HAMMERTOSS, targets, NATO_networks)` that enable sophisticated downstream analysis.
 
-`semantica.semantic_extract` turns unstructured text into structured graph-ready output: it identifies named entities, extracts relationships between them, detects time-anchored events, resolves coreferences, and serialises everything as RDF triplets. Use it to populate a `ContextGraph` from raw documents — intelligence reports, clinical notes, regulatory filings, or any free-text corpus.
+`sloth_graphmind.semantic_extract` turns unstructured text into structured graph-ready output: it identifies named entities, extracts relationships between them, detects time-anchored events, resolves coreferences, and serialises everything as RDF triplets. Use it to populate a `ContextGraph` from raw documents — intelligence reports, clinical notes, regulatory filings, or any free-text corpus.
 
 <Info>
   Extracted entities and relationships feed into `ContextGraph` via `AgentContext.store()`. For how they are attributed back to source documents, see the [Provenance Guide](provenance). For how the populated graph is queried and traversed, see [Context Graphs](context-graphs).
@@ -81,7 +81,7 @@ This pipeline transforms documents like "APT29 deployed HAMMERTOSS malware targe
 `NamedEntityRecognizer` extracts meaningful nouns from a document and lets you choose the underlying method depending on your latency budget and domain requirements:
 
 ```python
-from semantica.semantic_extract import NamedEntityRecognizer
+from sloth_graphmind.semantic_extract import NamedEntityRecognizer
 
 # A finished intelligence report excerpt
 report = """
@@ -148,7 +148,7 @@ print("High-confidence entities: {}".format(len(high_conf)))
 `RelationExtractor` produces the web of connections between entities — who deployed what, who supplied whom, which CVE targets which product:
 
 ```python
-from semantica.semantic_extract import RelationExtractor
+from sloth_graphmind.semantic_extract import RelationExtractor
 
 # dependency parsing picks up syntactic relations ("DELTA-3 provided GAMMA-7 with...")
 # pattern matching catches explicit verb phrases as a fallback
@@ -184,7 +184,7 @@ The `context` field on each `Relation` stores the surrounding sentence. This let
 `EventDetector` surfaces structured time-anchored events — discrete occurrences with participants, time windows, and locations:
 
 ```python
-from semantica.semantic_extract import EventDetector
+from sloth_graphmind.semantic_extract import EventDetector
 
 # method="llm" is the default and gives the best recall for implicit events.
 # method="pattern" is appropriate for offline, high-throughput pipelines.
@@ -230,7 +230,7 @@ for doc_idx, doc_events in enumerate(batch_events):
 `CoreferenceResolver` collapses references like "GAMMA-7", "the group", "they", and "the threat actor" into canonical chains so downstream extraction doesn't treat them as separate entities:
 
 ```python
-from semantica.semantic_extract import CoreferenceResolver
+from sloth_graphmind.semantic_extract import CoreferenceResolver
 
 resolver = CoreferenceResolver(method="llm", provider="anthropic")
 
@@ -257,7 +257,7 @@ With coreference resolved, you can now replace pronouns and aliases with canonic
 `TripletExtractor` converts everything into subject-predicate-object triplets and serialises them as RDF, ready for graph ingestion and SPARQL queries:
 
 ```python
-from semantica.semantic_extract import TripletExtractor
+from sloth_graphmind.semantic_extract import TripletExtractor
 
 tri = TripletExtractor(
     method="llm",
@@ -294,13 +294,13 @@ A validated triplet like `(GAMMA-7, deployed, HAMMERTOSS)` with `include_tempora
 Chain all five steps into a single function you can call on every incoming document:
 
 ```python
-from semantica.semantic_extract import (
+from sloth_graphmind.semantic_extract import (
     NamedEntityRecognizer, RelationExtractor,
     EventDetector, CoreferenceResolver, TripletExtractor,
 )
-from semantica.provenance import ProvenanceManager
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.provenance import ProvenanceManager
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 
 def ingest_intel_report(
@@ -413,7 +413,7 @@ for text, doc_id in reports:
     Finished intelligence reports contain threat actors, malware, CVEs, infrastructure clusters, and operation timelines. LLM-backed NER handles custom entity labels (THREAT_ACTOR, OPERATION) that spaCy's off-the-shelf models miss, while RDF serialisation produces Turtle output compatible with STIX 2.1 object types.
 
 ```python
-from semantica.semantic_extract import (
+from sloth_graphmind.semantic_extract import (
     NamedEntityRecognizer, RelationExtractor, TripletExtractor,
 )
 
@@ -462,7 +462,7 @@ turtle   = tri.serialize_triplets(valid, format="turtle")
     Vulnerability advisories and SIEM alerts contain CVEs, IP addresses, domain indicators, malware families, and affected software versions. Offline NER with the `["ml", "pattern"]` chain gives sub-200ms latency, critical for real-time triage pipelines where LLM latency is unacceptable.
 
 ```python
-from semantica.semantic_extract import (
+from sloth_graphmind.semantic_extract import (
     NamedEntityRecognizer, RelationExtractor, TripletExtractor,
 )
 
@@ -511,11 +511,11 @@ print("Valid triplets: {}".format(len(valid)))
     Clinical trial reports contain drugs, diseases, efficacy outcomes, adverse events, and trial identifiers. The `d4data/biomedical-ner-all` HuggingFace model is trained on PubMed and returns biomedical-specific labels (DRUG, DISEASE, GENE, OUTCOME) that general-purpose models miss. RDF serialisation in Turtle can be submitted in EMA XEVMPD and FDA SPL compatible formats.
 
 ```python
-from semantica.semantic_extract import (
+from sloth_graphmind.semantic_extract import (
     NamedEntityRecognizer, RelationExtractor, TripletExtractor,
 )
-from semantica.provenance import ProvenanceManager
-from semantica.provenance.schemas import SourceReference
+from sloth_graphmind.provenance import ProvenanceManager
+from sloth_graphmind.provenance.schemas import SourceReference
 
 paper = """
 Phase III trial NCT04368728: BNT162b2 (Pfizer-BioNTech) evaluated in 43,448
@@ -579,7 +579,7 @@ prov.track_property_source(
     Loan agreements, regulatory filings, and credit memos contain legal entities, financial instruments, counterparty relationships, and risk classifications. Pattern-based NER is fast enough for real-time loan origination workflows, while LLM extraction handles the dense legalese in regulatory documents where dependency parsing often fails.
 
 ```python
-from semantica.semantic_extract import (
+from sloth_graphmind.semantic_extract import (
     NamedEntityRecognizer, RelationExtractor, TripletExtractor,
 )
 
@@ -656,7 +656,7 @@ The six extraction methods trade off speed, accuracy, and infrastructure:
 - `"pattern"` and `"regex"` — no dependencies, under 5 ms, ideal as the last fallback in any method chain. Reliable for narrow, predictable domains like CVE identifiers or IP addresses.
 - `"rules"` — linguistic rule-based detection, also offline, under 10 ms.
 - `"ml"` / `"spacy"` — general English NER at 50–200 ms with no API calls. Install with `pip install spacy && python -m spacy download en_core_web_sm`. The best default for production pipelines where LLM cost is a concern.
-- `"huggingface"` — domain-specific fine-tuned models at 200 ms–2 s. Use `d4data/biomedical-ner-all` for pharma, `dslim/bert-base-NER` for general high-accuracy NER. Install with `pip install "semantica[huggingface]"`.
+- `"huggingface"` — domain-specific fine-tuned models at 200 ms–2 s. Use `d4data/biomedical-ner-all` for pharma, `dslim/bert-base-NER` for general high-accuracy NER. Install with `pip install "sloth_graphmind[huggingface]"`.
 - `"llm"` — highest recall for implicit entities and custom label schemas, 1–10 s per document. Always pair with a fallback: `methods=["llm", "ml", "pattern"]`.
 
 The fallback behaviour is automatic: if the primary method returns an empty list, the framework walks down the chain until it finds results or exhausts the list. Pattern matching is always the implicit last resort.

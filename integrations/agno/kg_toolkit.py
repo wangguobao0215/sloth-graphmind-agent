@@ -31,7 +31,7 @@ from __future__ import annotations
 import json
 from typing import Any, Dict, List, Optional
 
-from semantica.utils.logging import get_logger
+from sloth_graphmind.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
@@ -65,13 +65,13 @@ class AgnoKGToolkit(_ToolkitBase):  # type: ignore[misc]
         Storage backend for the internal ``ContextGraph``.  One of
         ``"inmemory"`` (default), ``"neo4j"``, ``"falkordb"``.
     ner_extractor:
-        A ``semantica.semantic_extract.NERExtractor`` instance; auto-created
+        A ``sloth_graphmind.semantic_extract.NERExtractor`` instance; auto-created
         when ``None``.
     relation_extractor:
-        A ``semantica.semantic_extract.RelationExtractor`` instance; auto-
+        A ``sloth_graphmind.semantic_extract.RelationExtractor`` instance; auto-
         created when ``None``.
     reasoner:
-        A ``semantica.reasoning.Reasoner`` instance; auto-created when
+        A ``sloth_graphmind.reasoning.Reasoner`` instance; auto-created when
         ``None``.
     context:
         An existing ``AgentContext`` or ``ContextGraph`` to attach to.  A
@@ -95,9 +95,9 @@ class AgnoKGToolkit(_ToolkitBase):  # type: ignore[misc]
             self._tools: list = []
 
         # Lazy imports
-        from semantica.context import ContextGraph
-        from semantica.reasoning import Reasoner
-        from semantica.semantic_extract import NERExtractor, RelationExtractor
+        from sloth_graphmind.context import ContextGraph
+        from sloth_graphmind.reasoning import Reasoner
+        from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
 
         if context is not None:
             self._graph = getattr(context, "knowledge_graph", context)
@@ -437,7 +437,7 @@ class AgnoKGToolkit(_ToolkitBase):  # type: ignore[misc]
             Serialised subgraph in the requested format (JSON string wrapper).
         """
         try:
-            from semantica.export import RDFExporter  # lazy import
+            from sloth_graphmind.export import RDFExporter  # lazy import
 
             exporter = RDFExporter()
             rdf_format = {"ttl": "turtle", "json-ld": "json-ld", "xml": "xml", "nt": "nt"}.get(

@@ -143,7 +143,7 @@ class TestVuln2LinkPredictionDos:
 
     def test_cap_constant_defined(self):
         """_LINK_PREDICTION_MAX_NODES must be defined and <= 50_000."""
-        from semantica.explorer.routes.enrich import _LINK_PREDICTION_MAX_NODES
+        from sloth_graphmind.explorer.routes.enrich import _LINK_PREDICTION_MAX_NODES
         assert isinstance(_LINK_PREDICTION_MAX_NODES, int)
         assert _LINK_PREDICTION_MAX_NODES <= 50_000, (
             f"Cap {_LINK_PREDICTION_MAX_NODES} is too high — should be <= 50,000"
@@ -152,7 +152,7 @@ class TestVuln2LinkPredictionDos:
     def test_semaphore_defined(self):
         """_link_prediction_semaphore must exist."""
         import asyncio
-        from semantica.explorer.routes.enrich import _link_prediction_semaphore
+        from sloth_graphmind.explorer.routes.enrich import _link_prediction_semaphore
         assert isinstance(_link_prediction_semaphore, asyncio.Semaphore)
 
     def test_memory_scaling_linear(self):
@@ -274,9 +274,9 @@ def _real_client(monkeypatch):
     monkeypatch.setenv("SEMANTICA_ALLOW_ANONYMOUS", "true")
     monkeypatch.delenv("SEMANTICA_API_KEY", raising=False)
     from starlette.testclient import TestClient
-    from semantica.context.context_graph import ContextGraph
-    from semantica.explorer.app import create_app
-    from semantica.explorer.session import GraphSession
+    from sloth_graphmind.context.context_graph import ContextGraph
+    from sloth_graphmind.explorer.app import create_app
+    from sloth_graphmind.explorer.session import GraphSession
 
     session = GraphSession(ContextGraph(advanced_analytics=False))
     app = create_app(session=session)
@@ -352,8 +352,8 @@ class TestVuln3PropertiesBypassFix:
 
 class TestVuln2CapEnforcedBeforeExpensiveWork:
     def test_get_raw_counts_matches_graph(self):
-        from semantica.context.context_graph import ContextGraph
-        from semantica.explorer.session import GraphSession
+        from sloth_graphmind.context.context_graph import ContextGraph
+        from sloth_graphmind.explorer.session import GraphSession
 
         graph = ContextGraph(advanced_analytics=False)
         graph.add_node("a", node_type="entity", content="A")
@@ -383,10 +383,10 @@ class TestVuln2CapEnforcedBeforeExpensiveWork:
         monkeypatch.setenv("SEMANTICA_ALLOW_ANONYMOUS", "true")
         monkeypatch.delenv("SEMANTICA_API_KEY", raising=False)
         from starlette.testclient import TestClient
-        from semantica.context.context_graph import ContextGraph
-        from semantica.explorer.app import create_app
-        from semantica.explorer.session import GraphSession
-        import semantica.explorer.routes.enrich as enrich_module
+        from sloth_graphmind.context.context_graph import ContextGraph
+        from sloth_graphmind.explorer.app import create_app
+        from sloth_graphmind.explorer.session import GraphSession
+        import sloth_graphmind.explorer.routes.enrich as enrich_module
 
         graph = ContextGraph(advanced_analytics=False)
         for i in range(5):

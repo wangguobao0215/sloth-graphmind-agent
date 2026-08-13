@@ -1,18 +1,18 @@
 import sys
 import unittest
 from typing import Dict, Any, List
-from semantica.deduplication.similarity_calculator import SimilarityCalculator
-from semantica.deduplication.duplicate_detector import (
+from sloth_graphmind.deduplication.similarity_calculator import SimilarityCalculator
+from sloth_graphmind.deduplication.duplicate_detector import (
     DuplicateCandidate,
     DuplicateDetector,
 )
-from semantica.deduplication.entity_merger import EntityMerger
-from semantica.deduplication.merge_strategy import MergeStrategy
-from semantica.deduplication.cluster_builder import ClusterBuilder
-from semantica.deduplication.registry import MethodRegistry
-from semantica.deduplication.config import DeduplicationConfig
-from semantica.deduplication.methods import get_deduplication_method
-from semantica.utils.progress_tracker import ConsoleProgressDisplay
+from sloth_graphmind.deduplication.entity_merger import EntityMerger
+from sloth_graphmind.deduplication.merge_strategy import MergeStrategy
+from sloth_graphmind.deduplication.cluster_builder import ClusterBuilder
+from sloth_graphmind.deduplication.registry import MethodRegistry
+from sloth_graphmind.deduplication.config import DeduplicationConfig
+from sloth_graphmind.deduplication.methods import get_deduplication_method
+from sloth_graphmind.utils.progress_tracker import ConsoleProgressDisplay
 
 class TestDeduplication(unittest.TestCase):
     
@@ -127,7 +127,7 @@ class TestDeduplication(unittest.TestCase):
         self.assertEqual(op_complete.merged_entity["id"], "e1")
         
         # Test property rule with string strategy
-        from semantica.deduplication.merge_strategy import MergeStrategyManager
+        from sloth_graphmind.deduplication.merge_strategy import MergeStrategyManager
         manager = MergeStrategyManager()
         manager.add_property_rule("name", "keep_last")
         
@@ -235,7 +235,7 @@ class TestProgressTrackerEncoding(unittest.TestCase):
 
     def test_update_pipeline_header_does_not_crash_on_cp1252(self):
         """update() pipeline header write must not crash on a cp1252 console (issue #531)."""
-        from semantica.utils.progress_tracker import ProgressItem
+        from sloth_graphmind.utils.progress_tracker import ProgressItem
         display = ConsoleProgressDisplay()
         display.use_emoji = True  # force emoji path to exercise the fixed branch
         orig = sys.stdout

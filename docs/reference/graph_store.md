@@ -4,7 +4,7 @@ description: "Unified interface for Neo4j, FalkorDB, Apache AGE, and Amazon Nept
 icon: "server"
 ---
 
-**`semantica.graph_store`** provides a **single unified API** for persisting and querying knowledge graphs in production graph databases:
+**`sloth_graphmind.graph_store`** provides a **single unified API** for persisting and querying knowledge graphs in production graph databases:
 
 - Swap backends with a one-line change: Neo4j, FalkorDB, Apache AGE, Amazon Neptune
 - Parameterized Cypher execution with optional result caching via `QueryEngine`
@@ -53,7 +53,7 @@ icon: "server"
 `GraphStore` wraps the backend of your choice behind a single API. Call `connect()` (or use it as a context manager) before running any queries:
 
 ```python
-from semantica.graph_store import GraphStore
+from sloth_graphmind.graph_store import GraphStore
 
 store = GraphStore(
     backend="neo4j",
@@ -103,7 +103,7 @@ with GraphStore(backend="neo4j", uri="bolt://localhost:7687", user="neo4j", pass
 <Steps>
   <Step title="Connect to a graph database">
     ```python
-    from semantica.graph_store import GraphStore
+    from sloth_graphmind.graph_store import GraphStore
 
     store = GraphStore(
         backend="neo4j",
@@ -170,7 +170,7 @@ with GraphStore(backend="neo4j", uri="bolt://localhost:7687", user="neo4j", pass
     ```
 
     ```python
-    from semantica.graph_store import GraphStore
+    from sloth_graphmind.graph_store import GraphStore
 
     store = GraphStore(
         backend="neo4j",
@@ -194,7 +194,7 @@ with GraphStore(backend="neo4j", uri="bolt://localhost:7687", user="neo4j", pass
         backend="falkordb",
         host="localhost",
         port=6379,
-        graph_name="semantica",
+        graph_name="sloth_graphmind",
     )
     store.connect()
     ```
@@ -210,7 +210,7 @@ with GraphStore(backend="neo4j", uri="bolt://localhost:7687", user="neo4j", pass
     store = GraphStore(
         backend="age",   # or "apache_age"
         connection_string="host=localhost dbname=agedb user=postgres password=secret",
-        graph_name="semantica",
+        graph_name="sloth_graphmind",
     )
     store.connect()
     ```
@@ -318,7 +318,7 @@ if path:
 `QueryEngine` handles query execution and optional caching. Access it via `store.query_engine`:
 
 ```python
-from semantica.graph_store import GraphStore
+from sloth_graphmind.graph_store import GraphStore
 
 store  = GraphStore(backend="neo4j", uri="bolt://localhost:7687", user="neo4j", password="password")
 store.connect()
@@ -370,7 +370,7 @@ engine.enable_cache()
 Access analytics via `store._manager.analytics` or construct directly with the backend store instance:
 
 ```python
-from semantica.graph_store import GraphStore, GraphAnalytics
+from sloth_graphmind.graph_store import GraphStore, GraphAnalytics
 
 store = GraphStore(backend="neo4j", uri="bolt://localhost:7687", user="neo4j", password="password")
 store.connect()
@@ -445,7 +445,7 @@ stats = store.get_stats()
 <Tabs>
   <Tab title="Build from KG data">
     ```python
-    from semantica.graph_store import GraphStore
+    from sloth_graphmind.graph_store import GraphStore
 
     store = GraphStore(backend="neo4j", uri="bolt://localhost:7687", user="neo4j", password="password")
     store.connect()

@@ -7,9 +7,9 @@ import uuid
 import networkx as nx
 import pytest
 
-from semantica.context.context_graph import ContextGraph
-from semantica.explorer.app import create_app
-from semantica.explorer.session import GraphSession
+from sloth_graphmind.context.context_graph import ContextGraph
+from sloth_graphmind.explorer.app import create_app
+from sloth_graphmind.explorer.session import GraphSession
 
 try:
     from starlette.testclient import TestClient
@@ -98,7 +98,7 @@ def client():
 
 class TestHealthInfo:
     def test_root_without_frontend_bundle_shows_diagnostic(self, tmp_path, monkeypatch, client):
-        from semantica.explorer import app as app_module
+        from sloth_graphmind.explorer import app as app_module
 
         package_dir = tmp_path / "semantica"
         (package_dir / "explorer").mkdir(parents=True)
@@ -121,8 +121,8 @@ class TestHealthInfo:
 
     def test_root_serves_built_spa_when_bundle_exists(self, tmp_path, monkeypatch):
         from starlette.testclient import TestClient
-        from semantica.explorer import app as app_module
-        from semantica.explorer.app import create_app
+        from sloth_graphmind.explorer import app as app_module
+        from sloth_graphmind.explorer.app import create_app
 
         package_dir = tmp_path / "semantica"
         static_dir = package_dir / "static"
@@ -531,7 +531,7 @@ class TestAnalytics:
 
 class TestOntologyCreateFailures:
     def test_create_from_sample_data_failure_returns_500(self, client, monkeypatch):
-        from semantica.ontology import OntologyEngine
+        from sloth_graphmind.ontology import OntologyEngine
 
         def _boom(self, *_args, **_kwargs):
             raise RuntimeError("boom")
@@ -549,7 +549,7 @@ class TestOntologyCreateFailures:
         assert response.status_code == 500
 
     def test_create_from_text_failure_returns_500(self, client, monkeypatch):
-        from semantica.ontology import OntologyEngine
+        from sloth_graphmind.ontology import OntologyEngine
 
         def _boom(self, *_args, **_kwargs):
             raise RuntimeError("boom")
@@ -1033,7 +1033,7 @@ class TestBidirectionalPathRoute:
 # _classify_distance unit tests — issue #472
 # ---------------------------------------------------------------------------
 
-from semantica.utils.helpers import classify_path_distance
+from sloth_graphmind.utils.helpers import classify_path_distance
 
 
 class _FakeSimilarity:

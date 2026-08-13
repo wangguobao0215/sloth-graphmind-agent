@@ -4,13 +4,13 @@ description: "Automated ontology generation, SHACL validation, OWL/RDF export, n
 icon: "sitemap"
 ---
 
-`semantica.ontology` provides the full lifecycle for knowledge graph schemas:
+`sloth_graphmind.ontology` provides the full lifecycle for knowledge graph schemas:
 
 - Auto-generate ontologies from KG data via a 5-stage pipeline (Semantic Network → YAML → Types → Hierarchy → TTL)
 - LLM-powered ontology generation for complex domains via `LLMOntologyGenerator`
 - SHACL validation: generate shapes, validate graphs, and get violation reports
 - OWL/RDF export in Turtle, RDF/XML, and JSON-LD formats
-- Ontology Hub visual editor available in `semantica.explorer` (v0.5.0)
+- Ontology Hub visual editor available in `sloth_graphmind.explorer` (v0.5.0)
 
 
 ## Exported Classes
@@ -35,7 +35,7 @@ icon: "sitemap"
 **`OntologyEngine`** is your main entry point for the complete ontology workflow:
 
 ```python
-from semantica.ontology import OntologyEngine
+from sloth_graphmind.ontology import OntologyEngine
 
 # Initialize with base URI for your domain
 engine = OntologyEngine(base_uri="https://example.org/ontology/")
@@ -58,7 +58,7 @@ engine.export_owl(ontology, "ontology.ttl", format="turtle")
 **`OntologyEngine`** orchestrates the full ontology lifecycle: **generation, validation, export, and evaluation**:
 
 ```python
-from semantica.ontology import OntologyEngine
+from sloth_graphmind.ontology import OntologyEngine
 
 engine = OntologyEngine(base_uri="https://example.org/ontology/")
 
@@ -89,7 +89,7 @@ engine.export_owl(ontology, "ontology.ttl", format="turtle")
 **`OntologyGenerator`** auto-generates a formal ontology from your knowledge graph entities and relationships:
 
 ```python
-from semantica.ontology import OntologyGenerator
+from sloth_graphmind.ontology import OntologyGenerator
 
 generator = OntologyGenerator(base_uri="https://example.org/ontology/")
 ontology  = generator.generate_ontology({
@@ -121,7 +121,7 @@ ontology  = generator.generate_ontology({
 Generate SHACL shapes from an ontology and validate any graph against them:
 
 ```python
-from semantica.ontology import SHACLGenerator, OntologyValidator, SHACLValidationReport, SHACLViolation
+from sloth_graphmind.ontology import SHACLGenerator, OntologyValidator, SHACLValidationReport, SHACLViolation
 
 # Generate shapes from ontology
 generator  = SHACLGenerator()
@@ -156,7 +156,7 @@ if not report.conforms:
 For complex or novel domains where schema patterns are hard to infer statistically:
 
 ```python
-from semantica.ontology import LLMOntologyGenerator
+from sloth_graphmind.ontology import LLMOntologyGenerator
 
 # Initialize with your preferred LLM provider
 generator = LLMOntologyGenerator(provider="openai")  # or "anthropic", "groq", etc.
@@ -168,7 +168,7 @@ ontology  = generator.generate_ontology_from_text(
 ## OWL / RDF Export
 
 ```python
-from semantica.ontology import OWLGenerator
+from sloth_graphmind.ontology import OWLGenerator
 
 generator = OWLGenerator()
 generator.export_owl(ontology, path="ontology.ttl",  format="turtle")
@@ -179,7 +179,7 @@ generator.export_owl(ontology, path="ontology.json", format="json-ld")
 ## Namespace Management
 
 ```python
-from semantica.ontology import NamespaceManager
+from sloth_graphmind.ontology import NamespaceManager
 
 ns = NamespaceManager(base_uri="https://example.org/")
 ns.register("ex",     "https://example.org/")
@@ -196,7 +196,7 @@ property_iri = ns.generate_property_iri("worksFor")
 Measure coverage, completeness, and granularity of a generated ontology:
 
 ```python
-from semantica.ontology import OntologyEvaluator
+from sloth_graphmind.ontology import OntologyEvaluator
 
 evaluator = OntologyEvaluator()
 result    = evaluator.evaluate_ontology(ontology, kg)
@@ -217,7 +217,7 @@ for gap in result.gaps:
     **Generate and validate an ontology in 3 steps:**
 
     ```python
-    from semantica.ontology import OntologyEngine
+    from sloth_graphmind.ontology import OntologyEngine
 
     # 1. Initialize engine
     engine = OntologyEngine(base_uri="https://yourcompany.com/ontology/")
@@ -237,7 +237,7 @@ for gap in result.gaps:
     **Generate ontologies from text descriptions:**
 
     ```python
-    from semantica.ontology import LLMOntologyGenerator
+    from sloth_graphmind.ontology import LLMOntologyGenerator
 
     generator = LLMOntologyGenerator(provider="openai")
     ontology = generator.generate_ontology_from_text("""
@@ -254,7 +254,7 @@ for gap in result.gaps:
     **Export ontologies in multiple formats:**
 
     ```python
-    from semantica.ontology import OntologyEngine
+    from sloth_graphmind.ontology import OntologyEngine
 
     engine = OntologyEngine()
 
@@ -275,7 +275,7 @@ for gap in result.gaps:
 Load and parse an ontology file for downstream use:
 
 ```python
-from semantica.ontology import ingest_ontology
+from sloth_graphmind.ontology import ingest_ontology
 
 ontology_data = ingest_ontology("schema.ttl")     # Turtle
 ontology_data = ingest_ontology("schema.owl")     # OWL/XML
@@ -283,7 +283,7 @@ ontology_data = ingest_ontology("schema.jsonld")  # JSON-LD
 ```
 
 <Note>
-  Ontology versioning (`VersionManager`, `OntologyVersion`) has moved to `semantica.change_management`. Import from there: `from semantica.change_management import VersionManager`.
+  Ontology versioning (`VersionManager`, `OntologyVersion`) has moved to `sloth_graphmind.change_management`. Import from there: `from sloth_graphmind.change_management import VersionManager`.
 </Note>
 
 - [Reasoning](reasoning) — Apply inference rules over ontology axioms.

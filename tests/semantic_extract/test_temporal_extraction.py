@@ -29,14 +29,14 @@ sys.modules.setdefault("torch", MagicMock())
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from semantica.semantic_extract.methods import extract_relations_llm
-from semantica.semantic_extract.ner_extractor import Entity
-from semantica.semantic_extract.schemas import (
+from sloth_graphmind.semantic_extract.methods import extract_relations_llm
+from sloth_graphmind.semantic_extract.ner_extractor import Entity
+from sloth_graphmind.semantic_extract.schemas import (
     RelationsResponse,
     RelationsWithTemporalResponse,
 )
-from semantica.kg.temporal_normalizer import TemporalNormalizer
-from semantica.utils.exceptions import TemporalAmbiguityWarning
+from sloth_graphmind.kg.temporal_normalizer import TemporalNormalizer
+from sloth_graphmind.utils.exceptions import TemporalAmbiguityWarning
 
 
 # ── Helpers ─────────────────────────────────────────────────────────────────
@@ -59,10 +59,10 @@ def _ref_date():
 class TestTemporalExtractionFlag(unittest.TestCase):
 
     def setUp(self):
-        from semantica.semantic_extract.methods import _result_cache
+        from sloth_graphmind.semantic_extract.methods import _result_cache
         _result_cache.clear()
 
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_extract_temporal_bounds_true_adds_four_fields(self, mock_create):
         """With extract_temporal_bounds=True all four temporal keys appear in metadata."""
         mock_prov = MagicMock()
@@ -101,7 +101,7 @@ class TestTemporalExtractionFlag(unittest.TestCase):
         self.assertAlmostEqual(meta["temporal_confidence"], 0.90, places=2)
         self.assertEqual(meta["temporal_source_text"], "May 2014")
 
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_extract_temporal_bounds_false_output_identical(self, mock_create):
         """With extract_temporal_bounds=False (default) no temporal keys appear."""
         mock_prov = MagicMock()
@@ -131,7 +131,7 @@ class TestTemporalExtractionFlag(unittest.TestCase):
         self.assertNotIn("temporal_confidence", meta)
         self.assertNotIn("temporal_source_text", meta)
 
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_no_temporal_signal_returns_zero_confidence_and_null_dates(self, mock_create):
         """When LLM returns no temporal signal, confidence=0.0 and dates are null."""
         mock_prov = MagicMock()
@@ -165,7 +165,7 @@ class TestTemporalExtractionFlag(unittest.TestCase):
         self.assertEqual(meta["temporal_confidence"], 0.0)
         self.assertIsNone(meta["temporal_source_text"])
 
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_low_temporal_confidence_logs_warning(self, mock_create):
         """temporal_confidence < 0.5 with non-null date logs a WARNING."""
         mock_prov = MagicMock()
@@ -195,7 +195,7 @@ class TestTemporalExtractionFlag(unittest.TestCase):
             )
         self.assertTrue(any("Low temporal confidence" in line for line in cm.output))
 
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_correct_schema_used_when_temporal_true(self, mock_create):
         """generate_typed is called with RelationsWithTemporalResponse when flag=True."""
         mock_prov = MagicMock()
@@ -213,7 +213,7 @@ class TestTemporalExtractionFlag(unittest.TestCase):
         call_kwargs = mock_prov.generate_typed.call_args[1]
         self.assertIs(call_kwargs["schema"], RelationsWithTemporalResponse)
 
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_correct_schema_used_when_temporal_false(self, mock_create):
         """generate_typed is called with RelationsResponse when flag=False."""
         mock_prov = MagicMock()
@@ -568,13 +568,13 @@ class TestTemporalNormalizerCustomPhraseMap(unittest.TestCase):
 class TestFullPipelineTemporalToBiTemporal(unittest.TestCase):
 
     def setUp(self):
-        from semantica.semantic_extract.methods import _result_cache
+        from sloth_graphmind.semantic_extract.methods import _result_cache
         _result_cache.clear()
 
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_full_pipeline_explicit_date(self, mock_create):
         """extract_relations(temporal=True) → normalize → BiTemporalFact."""
-        from semantica.kg.temporal_model import BiTemporalFact
+        from sloth_graphmind.kg.temporal_model import BiTemporalFact
 
         mock_prov = MagicMock()
         mock_prov.is_available.return_value = True
@@ -628,7 +628,7 @@ class TestFullPipelineTemporalToBiTemporal(unittest.TestCase):
         self.assertEqual(fact.valid_from.year, 2014)
         self.assertEqual(fact.valid_from.month, 5)
 
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_full_pipeline_quarter_expression(self, mock_create):
         """Pipeline with Q-expression normalizes to correct quarter bounds."""
         mock_prov = MagicMock()

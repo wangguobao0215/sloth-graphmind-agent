@@ -3,8 +3,8 @@
 import pytest
 from unittest.mock import MagicMock, patch
 
-from semantica.semantic_extract.methods import _parse_relation_result
-from semantica.semantic_extract.ner_extractor import Entity
+from sloth_graphmind.semantic_extract.methods import _parse_relation_result
+from sloth_graphmind.semantic_extract.ner_extractor import Entity
 
 
 APPLE_ENTITY = Entity(text="Apple Inc.", label="ORG", start_char=0, end_char=10)

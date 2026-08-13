@@ -2,10 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: knowledge-explorer
-  namespace: semantica
+  namespace: sloth_graphmind
   labels:
     app.kubernetes.io/name: knowledge-explorer
-    app.kubernetes.io/part-of: semantica
+    app.kubernetes.io/part-of: sloth_graphmind
 spec:
   replicas: 2
   strategy:
@@ -23,7 +23,7 @@ spec:
         seccomp.security.alpha.kubernetes.io/pod: runtime/default
       labels:
         app.kubernetes.io/name: knowledge-explorer
-        app.kubernetes.io/part-of: semantica
+        app.kubernetes.io/part-of: sloth_graphmind
     spec:
       automountServiceAccountToken: false
       securityContext:
@@ -32,7 +32,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: explorer
-          image: semantica-knowledge-explorer@sha256:0000000000000000000000000000000000000000000000000000000000000000
+          image: sloth_graphmind-knowledge-explorer@sha256:0000000000000000000000000000000000000000000000000000000000000000
           imagePullPolicy: Always
           ports:
             - name: http

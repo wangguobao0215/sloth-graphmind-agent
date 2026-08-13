@@ -1,6 +1,6 @@
 ---
 title: "Core Concepts"
-description: "The fundamental ideas behind Semantica: knowledge graphs, reasoning, provenance, and temporal intelligence explained."
+description: "The fundamental ideas behind GraphMind: knowledge graphs, reasoning, provenance, and temporal intelligence explained."
 icon: "book-open"
 ---
 
@@ -8,9 +8,9 @@ icon: "book-open"
   New here? Start with [Getting Started](getting-started) for hands-on examples, then return here for deeper understanding.
 </Info>
 
-Semantica transforms unstructured data: documents, web pages, reports, databases: into **knowledge graphs**: structured representations that AI systems can query, reason about, and trace back to sources.
+GraphMind transforms unstructured data: documents, web pages, reports, databases: into **knowledge graphs**: structured representations that AI systems can query, reason about, and trace back to sources.
 
-At its core, Semantica adds a **context and accountability layer** on top of your existing AI stack. It doesn't replace LangChain, LlamaIndex, or your LLM provider: it makes their outputs **grounded**, **traceable**, and **auditable**.
+At its core, GraphMind adds a **context and accountability layer** on top of your existing AI stack. It doesn't replace LangChain, LlamaIndex, or your LLM provider: it makes their outputs **grounded**, **traceable**, and **auditable**.
 
 - **Context Layer** — Knowledge graphs, GraphRAG retrieval, semantic embeddings, and temporal intelligence ground every LLM response in structured, queryable facts.
 - **Accountability Layer** — Provenance tracking, decision intelligence, conflict detection, and W3C PROV-O compliance make every claim in your AI stack auditable and explainable.
@@ -21,7 +21,7 @@ At its core, Semantica adds a **context and accountability layer** on top of you
 
 <img src="/assets/img/diagrams/kg-structure.svg" alt="Knowledge graph node and edge structure showing entities (Person, Organization, Location, Date) and their typed relations" style={{ width: '100%', borderRadius: '12px', margin: '0 0 20px' }} />
 
-The foundation of everything in Semantica. A knowledge graph stores information as three building blocks:
+The foundation of everything in GraphMind. A knowledge graph stores information as three building blocks:
 
 - **Nodes (entities)**: people, companies, locations, events, concepts
 - **Edges (relationships)**: `works_for`, `located_in`, `founded_by`
@@ -89,7 +89,7 @@ Both store information for AI retrieval: but they're built for different jobs.
     **Use when:** you need structured reasoning, provenance, compliance, or explainability.
 
     ```python
-    from semantica.kg import GraphBuilder, PathFinder
+    from sloth_graphmind.kg import GraphBuilder, PathFinder
 
     graph   = GraphBuilder(merge_entities=True).build(entities=entities, relationships=rels)
     finder  = PathFinder()
@@ -110,7 +110,7 @@ Both store information for AI retrieval: but they're built for different jobs.
     **Use when:** you need fast semantic search over large text corpora.
 
     ```python
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.vector_store import VectorStore
 
     store   = VectorStore(backend="faiss", dimension=768)
     store.add_documents(["Apple was founded in 1976.", "Google was founded in 1998."])
@@ -119,7 +119,7 @@ Both store information for AI retrieval: but they're built for different jobs.
   </Tab>
 
   <Tab title="GraphRAG (Both)">
-    Semantica combines both: vector search seeds the graph traversal, and the graph provides structure and provenance the vector store cannot.
+    GraphMind combines both: vector search seeds the graph traversal, and the graph provides structure and provenance the vector store cannot.
 
     | Step | What happens |
     | :---- | :----------- |
@@ -131,8 +131,8 @@ Both store information for AI retrieval: but they're built for different jobs.
     **Result:** every claim in the response links back to a specific graph node: no hallucination from training data, full audit trail.
 
     ```python
-    from semantica.context import AgentContext, ContextGraph
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext, ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
 
     context = AgentContext(
         vector_store=VectorStore(backend="faiss", dimension=768),
@@ -148,7 +148,7 @@ Both store information for AI retrieval: but they're built for different jobs.
 
 Embeddings convert text into numerical vectors so AI systems can measure semantic similarity: finding related concepts even when the exact words differ.
 
-Semantica uses embeddings for:
+GraphMind uses embeddings for:
 
 - **Semantic search**: retrieve by meaning, not just keywords
 - **Entity resolution**: match the same entity across different sources
@@ -170,7 +170,7 @@ GraphRAG (Graph-Augmented Retrieval Augmented Generation) enhances LLM responses
     The query is embedded and used to seed both vector search and graph traversal simultaneously.
   </Step>
   <Step title="Hybrid context retrieval">
-    Semantica retrieves relevant graph context: entities, typed relationships, and multi-hop reasoning paths: alongside vector-similar text chunks.
+    GraphMind retrieves relevant graph context: entities, typed relationships, and multi-hop reasoning paths: alongside vector-similar text chunks.
   </Step>
   <Step title="Context building">
     Retrieved facts and reasoning paths are assembled into a structured prompt context, each fact tagged with its source node and confidence.
@@ -200,12 +200,12 @@ ontology = {
 }
 ```
 
-Semantica can auto-generate ontologies from your knowledge graph or import existing OWL/RDF/Turtle ontologies. The **Ontology Hub** (v0.5.0) adds a visual editor, SHACL Studio, alignment authoring, and a live health dashboard. See the [Ontology reference](reference/ontology) for the full 6-stage generation pipeline.
+GraphMind can auto-generate ontologies from your knowledge graph or import existing OWL/RDF/Turtle ontologies. The **Ontology Hub** (v0.5.0) adds a visual editor, SHACL Studio, alignment authoring, and a live health dashboard. See the [Ontology reference](reference/ontology) for the full 6-stage generation pipeline.
 
 
 ## Reasoning & Inference
 
-Semantica includes multiple reasoning engines to derive new knowledge from existing facts.
+GraphMind includes multiple reasoning engines to derive new knowledge from existing facts.
 
 ```text
 Known:    Steve Jobs founded Apple Inc.
@@ -218,7 +218,7 @@ Inferred: Steve Jobs has a connection to Cupertino
     Applies IF/THEN rules repeatedly until no new facts can be derived. Best for alert systems, compliance checks, and trigger-based workflows.
 
     ```python
-    from semantica.reasoning import Reasoner, Rule, Fact, RuleType
+    from sloth_graphmind.reasoning import Reasoner, Rule, Fact, RuleType
 
     engine = Reasoner()
     engine.add_fact(Fact(subject="Alice", predicate="is_a", obj="Manager"))
@@ -234,7 +234,7 @@ Inferred: Steve Jobs has a connection to Cupertino
     Efficient pattern matching for large rule sets: the Rete algorithm avoids re-evaluating rules whose preconditions haven't changed. Best for thousands of rules over millions of facts.
 
     ```python
-    from semantica.reasoning import ReteEngine
+    from sloth_graphmind.reasoning import ReteEngine
 
     engine = ReteEngine()
     engine.load_rules("rules/domain_rules.json")
@@ -247,7 +247,7 @@ Inferred: Steve Jobs has a connection to Cupertino
     **Abductive**: infers the most likely explanation for observed evidence. Best for diagnostic and investigative use cases.
 
     ```python
-    from semantica.reasoning import GraphReasoner
+    from sloth_graphmind.reasoning import GraphReasoner
 
     graph_reasoner = GraphReasoner(kg)
     graph_reasoner.add_rule({"if": [{"subject": "?a", "predicate": "parent_of", "object": "?b"}], "then": {"subject": "?a", "predicate": "ancestor_of", "object": "?b"}})
@@ -258,7 +258,7 @@ Inferred: Steve Jobs has a connection to Cupertino
     Recursive Horn clause rules with fixpoint semantics: handles transitive closure and recursive relationships that forward chaining cannot express.
 
     ```python
-    from semantica.reasoning import DatalogReasoner, DatalogFact, DatalogRule
+    from sloth_graphmind.reasoning import DatalogReasoner, DatalogFact, DatalogRule
 
     reasoner = DatalogReasoner()
     reasoner.add_fact(DatalogFact("parent", ("alice", "bob")))
@@ -289,7 +289,7 @@ All engines produce **explainable inference paths**: not black-box conclusions. 
 Knowledge changes over time. Temporal graphs attach `valid_from` / `valid_until` windows to nodes and edges, enabling point-in-time queries and historical analysis.
 
 ```python
-from semantica.kg import TemporalGraphQuery
+from sloth_graphmind.kg import TemporalGraphQuery
 from datetime import datetime
 
 query_engine = TemporalGraphQuery(enable_temporal_reasoning=True)
@@ -308,7 +308,7 @@ snapshot = query_engine.query_at_time(kg, query="", at_time=datetime(2021, 6, 15
 Explore the semantic neighborhood of any entity in your graph: useful for understanding what's conceptually close, detecting clusters, and visualizing knowledge topology.
 
 ```python
-from semantica.kg import SimilarityCalculator
+from sloth_graphmind.kg import SimilarityCalculator
 
 calc   = SimilarityCalculator()
 scores = calc.calculate_similarity(entity_a, entity_b)
@@ -321,7 +321,7 @@ The [Visualization module](reference/visualization) renders distance matrices as
 
 ## Deduplication & Entity Resolution
 
-Real-world data contains the same entity under many names: "Apple", "Apple Inc.", "Apple Computer Inc." Semantica's deduplication pipeline detects these, merges attributes, resolves conflicts, and preserves the original source provenance.
+Real-world data contains the same entity under many names: "Apple", "Apple Inc.", "Apple Computer Inc." GraphMind's deduplication pipeline detects these, merges attributes, resolves conflicts, and preserves the original source provenance.
 
 <Tabs>
   <Tab title="Strategies">
@@ -336,7 +336,7 @@ Real-world data contains the same entity under many names: "Apple", "Apple Inc."
   </Tab>
   <Tab title="Configuration">
     ```python
-    from semantica.deduplication import DuplicateDetector, EntityMerger
+    from sloth_graphmind.deduplication import DuplicateDetector, EntityMerger
 
     detector = DuplicateDetector(similarity_threshold=0.85)
     duplicates = detector.detect_duplicates(entities)
@@ -350,7 +350,7 @@ Real-world data contains the same entity under many names: "Apple", "Apple Inc."
 
 ## Provenance & Auditability
 
-Every fact in Semantica links back to:
+Every fact in GraphMind links back to:
 
 - The **source document** it came from
 - The **extraction method** used (pattern / ML / LLM)
@@ -362,7 +362,7 @@ Every fact in Semantica links back to:
 </Note>
 
 ```python
-from semantica.provenance import ProvenanceManager
+from sloth_graphmind.provenance import ProvenanceManager
 
 prov    = ProvenanceManager()
 lineage = prov.get_entity_lineage("apple_inc")
@@ -376,7 +376,7 @@ print(f"Checksum:  {lineage.checksum}")
 
 ## Decision Intelligence
 
-Every agent decision is a first-class object in Semantica: recorded, causally linked, and searchable by precedent. This is the **accountability layer** for AI pipelines: decisions are no longer ephemeral log messages, they are queryable knowledge graph nodes.
+Every agent decision is a first-class object in GraphMind: recorded, causally linked, and searchable by precedent. This is the **accountability layer** for AI pipelines: decisions are no longer ephemeral log messages, they are queryable knowledge graph nodes.
 
 ```python
 decision_id = context.record_decision(
@@ -401,7 +401,7 @@ influence  = context.analyze_decision_influence(decision_id)
 
 ## Conflict Detection
 
-When multiple sources disagree on the same fact, Semantica flags and resolves the conflict rather than silently picking one value.
+When multiple sources disagree on the same fact, GraphMind flags and resolves the conflict rather than silently picking one value.
 
 **Resolution strategies:**
 
@@ -415,15 +415,15 @@ See the [Conflicts reference](reference/conflicts) for `ConflictResolver`, `Sour
 
 ## Custom Plugin Development
 
-Semantica is designed for extension. Any component: ingestor, extractor, graph builder, reasoning engine: can be replaced or augmented with a custom implementation registered at runtime.
+GraphMind is designed for extension. Any component: ingestor, extractor, graph builder, reasoning engine: can be replaced or augmented with a custom implementation registered at runtime.
 
 <AccordionGroup>
   <Accordion title="PluginRegistry: replace any component by name">
 
-    `PluginRegistry` provides dynamic plugin discovery, registration, and loading across all modules. Register your own class under a string key; Semantica will use it wherever that key is referenced in config or pipeline steps.
+    `PluginRegistry` provides dynamic plugin discovery, registration, and loading across all modules. Register your own class under a string key; GraphMind will use it wherever that key is referenced in config or pipeline steps.
 
     ```python
-    from semantica.core import PluginRegistry
+    from sloth_graphmind.core import PluginRegistry
 
     registry = PluginRegistry()
 
@@ -458,7 +458,7 @@ Semantica is designed for extension. Any component: ingestor, extractor, graph b
     `MethodRegistry` lets you register custom methods on knowledge graph objects by name: useful for adding domain-specific graph operations without subclassing.
 
     ```python
-    from semantica.kg import MethodRegistry
+    from sloth_graphmind.kg import MethodRegistry
 
     registry = MethodRegistry()
 

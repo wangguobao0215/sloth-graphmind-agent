@@ -1,15 +1,15 @@
 {
-  "name": "semantica-vscode",
+  "name": "sloth_graphmind-vscode",
   "plugins": [
     {
-      "name": "semantica",
-      "description": "Semantica plugin for VS Code: knowledge graph skills, reasoning, extraction, and visualization.",
+      "name": "sloth_graphmind",
+      "description": "GraphMind plugin for VS Code: knowledge graph skills, reasoning, extraction, and visualization.",
       "source": "./",
       "category": "Productivity",
       "tags": [
         "knowledge-graph",
         "reasoning",
-        "semantica",
+        "sloth_graphmind",
         "vscode"
       ]
     }

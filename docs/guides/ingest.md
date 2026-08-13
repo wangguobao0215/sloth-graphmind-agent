@@ -3,15 +3,15 @@ title: "Ingest Anything"
 description: "Load data from files, websites, Git repos, databases, Kafka streams, RSS feeds, and more — unified ingestion API."
 ---
 
-Semantica's ingest module provides a single consistent function call for each source type. File, web, and feed sources return objects with a `.text` property. API and database sources return structured objects (`APIData.data`, `List[Dict]`) that you transform into text before storage. Git repository sources return a dict with `code_files` and `commits` keys; stream sources return `StreamMessage` objects with a `.content` field. All of them compose cleanly into one graph ingestion script — see the per-source sections for the exact access pattern.
+GraphMind's ingest module provides a single consistent function call for each source type. File, web, and feed sources return objects with a `.text` property. API and database sources return structured objects (`APIData.data`, `List[Dict]`) that you transform into text before storage. Git repository sources return a dict with `code_files` and `commits` keys; stream sources return `StreamMessage` objects with a `.content` field. All of them compose cleanly into one graph ingestion script — see the per-source sections for the exact access pattern.
 
 <Info>
-  All ingest functions live in `semantica.ingest`. Optional dependencies are loaded lazily — you only need `pip install beautifulsoup4` for web/feed ingestion, `pip install gitpython` for repository ingestion, and `pip install pyarrow` for Parquet. Missing a dependency raises a clear `ImportError` message naming the exact package.
+  All ingest functions live in `sloth_graphmind.ingest`. Optional dependencies are loaded lazily — you only need `pip install beautifulsoup4` for web/feed ingestion, `pip install gitpython` for repository ingestion, and `pip install pyarrow` for Parquet. Missing a dependency raises a clear `ImportError` message naming the exact package.
 </Info>
 
 ## Why Ingestion Matters
 
-Before Semantica can analyze, search, reason over, or connect your data, it needs to reach the data. Ingestion is that first step — pulling content from wherever it lives and converting it into a form that `AgentContext` can store and index.
+Before GraphMind can analyze, search, reason over, or connect your data, it needs to reach the data. Ingestion is that first step — pulling content from wherever it lives and converting it into a form that `AgentContext` can store and index.
 
 Once ingested, your content flows into two places: a vector index for semantic search and an optional `ContextGraph` for entity relationships. From there, every downstream module — semantic extraction, reasoning, GraphRAG, decision intelligence — operates on the same unified data, regardless of whether it originally came from a PDF, a database row, an API response, or a live stream.
 
@@ -25,8 +25,8 @@ Most ingestion pipelines follow the same four steps regardless of source type:
 4. **Store in AgentContext** — pass a string, a list of strings, or a list of dicts to `context.store()`. Optionally enable entity and relationship extraction to populate a `ContextGraph` at the same time.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 # AgentContext is the entry point for storage.
 # ContextGraph is optional — attach it to build a searchable entity graph.
@@ -44,7 +44,7 @@ context.store([{"content": "Doc text.", "metadata": {"source": "wiki"}}])
 
 ## When To Use Ingestion
 
-Use the ingest module when your data lives outside Semantica and you need to bring it in:
+Use the ingest module when your data lives outside GraphMind and you need to bring it in:
 
 - **Files and documents** — PDFs, Word docs, CSVs, JSON, XML, and whole directories on disk or in cloud storage.
 - **Web content** — public documentation sites, regulatory publication pages, news feeds, or any URL you can crawl.
@@ -61,7 +61,7 @@ If your data is already a Python string or dict in memory, skip ingestion and ca
 Pass a file path or directory to `ingest_file()` to extract plain text from PDFs and other document formats. This works equally well for vendor threat reports, internal policy documents, product manuals, or any text-bearing file on disk:
 
 ```python
-from semantica.ingest import ingest_file
+from sloth_graphmind.ingest import ingest_file
 
 # Single file
 report = ingest_file("apt29_q4_2024.pdf", method="file")
@@ -86,9 +86,9 @@ for r in reports:
 The same approach works for internal knowledge bases. If your team stores runbooks, product documentation, or customer-facing guides as PDFs or Word documents:
 
 ```python
-from semantica.ingest import ingest_file
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.ingest import ingest_file
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 graph   = ContextGraph(advanced_analytics=True)
 context = AgentContext(
@@ -120,7 +120,7 @@ s3_reports = ingest_file(
 `RESTIngestor` handles authentication, retry logic, and pagination. Unlike file sources, REST APIs return structured JSON — `APIData.data` is a `List[Dict]`, not a text string. You need to build a text representation from each record before passing it to `AgentContext.store()`.
 
 ```python
-from semantica.ingest import RESTIngestor
+from sloth_graphmind.ingest import RESTIngestor
 
 ingestor = RESTIngestor()
 
@@ -176,7 +176,7 @@ print(f"Total events fetched: {total_events}")
 For ad hoc SQL queries, use `DBIngestor.execute_query()`:
 
 ```python
-from semantica.ingest import DBIngestor
+from sloth_graphmind.ingest import DBIngestor
 
 db = DBIngestor()
 
@@ -230,7 +230,7 @@ for col in schema[:10]:
 `ingest_feed()` pulls RSS and Atom feeds and returns a `FeedData` object with a list of `FeedItem` objects. Each item exposes `.title`, `.description`, and `.published` as strings — they are ready to concatenate into text without further transformation:
 
 ```python
-from semantica.ingest import ingest_feed
+from sloth_graphmind.ingest import ingest_feed
 
 # RSS feed — returns FeedData; iterate .items for FeedItem objects
 feed = ingest_feed(
@@ -273,7 +273,7 @@ for f in feeds:
 Use `ingest_file()` on a directory to extract text from every STIX JSON file deposited by an overnight daemon:
 
 ```python
-from semantica.ingest import ingest_file
+from sloth_graphmind.ingest import ingest_file
 
 # Ingest all STIX JSON files from the directory
 stix_files = ingest_file("./stix_bundles/", method="directory", recursive=True)
@@ -292,7 +292,7 @@ for f in stix_files:
 For large XML-based STIX 1.x bundles, use `ingest_xml()` to get structured parse results instead of raw text:
 
 ```python
-from semantica.ingest import ingest_xml
+from sloth_graphmind.ingest import ingest_xml
 
 stix_xml_files = ingest_xml("./stix_xml_bundles/", method="directory")
 for bundle in stix_xml_files:
@@ -304,7 +304,7 @@ for bundle in stix_xml_files:
 `DatabricksIngestor` and `SnowflakeIngestor` return wrapper objects (`DatabricksData` / `SnowflakeData`) whose `.data` field is `List[Dict]` — the same list-of-dicts row shape that `DBIngestor.execute_query()` returns directly, without a wrapper. The same "transform to text, then store" pattern from Source 3 applies: pull only the tables and columns you need with a targeted query, then build a sentence per record before handing it to `AgentContext.store()`.
 
 ```python
-from semantica.ingest import DatabricksIngestor
+from sloth_graphmind.ingest import DatabricksIngestor
 
 # Unity Catalog + Delta Lake — PAT or OAuth M2M auth
 databricks = DatabricksIngestor(
@@ -335,7 +335,7 @@ lineage_texts = [
 ```
 
 ```python
-from semantica.ingest import SnowflakeIngestor
+from sloth_graphmind.ingest import SnowflakeIngestor
 
 snowflake = SnowflakeIngestor(
     account="myaccount",
@@ -361,8 +361,8 @@ order_texts = [
 Feed the resulting text lists into `AgentContext.store()` exactly like any other structured source:
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 graph   = ContextGraph(advanced_analytics=True)
 context = AgentContext(
@@ -384,14 +384,14 @@ For authentication details (PAT vs. OAuth M2M for Databricks; password vs. key-p
 
 ## Combining All Five Sources
 
-Once you have text from each source, `AgentContext.store()` accepts a flat list of strings. Semantica embeds and indexes them together — the context graph has no concept of which string came from which source unless you add metadata explicitly.
+Once you have text from each source, `AgentContext.store()` accepts a flat list of strings. GraphMind embeds and indexes them together — the context graph has no concept of which string came from which source unless you add metadata explicitly.
 
 With each source returning text, pass everything into `AgentContext.store()` in one batch:
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.ingest import ingest_file, ingest_feed, RESTIngestor, DBIngestor
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.ingest import ingest_file, ingest_feed, RESTIngestor, DBIngestor
 
 # --- Infrastructure ---
 graph   = ContextGraph(advanced_analytics=True)
@@ -467,7 +467,7 @@ print(f"Total documents ingested: {len(all_texts)}")
 Wrap each source in a try/except so the pipeline continues and reports failures at the end rather than crashing on the first bad source. This is especially important in scheduled jobs where partial data is better than no data:
 
 ```python
-from semantica.ingest import ingest_file, ingest_feed, RESTIngestor, DBIngestor
+from sloth_graphmind.ingest import ingest_file, ingest_feed, RESTIngestor, DBIngestor
 
 all_texts = []
 errors    = []
@@ -542,9 +542,9 @@ Wrap the combined ingestion in a function and call it from your scheduler of cho
 
 ```python
 from datetime import datetime, timedelta
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.ingest import ingest_file, ingest_feed, RESTIngestor, DBIngestor
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.ingest import ingest_file, ingest_feed, RESTIngestor, DBIngestor
 
 def run_daily_ingest(since: datetime = None):
     """Run the full five-source ingest pipeline. Returns graph stats dict."""
@@ -637,9 +637,9 @@ These two patterns come up frequently outside of security and research contexts.
 **Internal product documentation.** If your team maintains product docs, runbooks, or onboarding guides as Markdown or PDF files in a shared drive, ingest them once and let agents answer questions against the full corpus rather than keyword search.
 
 ```python
-from semantica.ingest import ingest_file
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.ingest import ingest_file
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 graph   = ContextGraph(advanced_analytics=True)
 context = AgentContext(
@@ -658,9 +658,9 @@ print(f"Indexed {len(docs)} documentation pages")
 **Customer support tickets from a database.** Support tickets stored in a SQL database capture real-world product issues in natural language. Ingesting them lets you surface patterns, find similar past issues, and build retrieval-augmented support tools.
 
 ```python
-from semantica.ingest import DBIngestor
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.ingest import DBIngestor
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 graph   = ContextGraph(advanced_analytics=True)
 context = AgentContext(
@@ -704,9 +704,9 @@ The following examples show complete multi-source pipelines for common deploymen
     A joint intelligence cell fuses three live sources every six hours: NVD CVE RSS, classified PDF drops from a partner agency, and an internal MISP instance.
 
 ```python
-from semantica.ingest import ingest_file, ingest_feed, RESTIngestor
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.ingest import ingest_file, ingest_feed, RESTIngestor
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 graph   = ContextGraph(advanced_analytics=True, community_detection=True)
 context = AgentContext(
@@ -754,9 +754,9 @@ print(f"Fused graph: {graph.stats()['node_count']} nodes")
     During an active incident the SOC enriches the timeline on a 15-minute cycle from three sources: SIEM alert CSV exports, an EDR REST API, and the internal CVE database.
 
 ```python
-from semantica.ingest import ingest_file, RESTIngestor, DBIngestor
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.ingest import ingest_file, RESTIngestor, DBIngestor
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 graph   = ContextGraph(advanced_analytics=True)
 context = AgentContext(
@@ -805,9 +805,9 @@ print(f"Incident graph: {graph.stats()['node_count']} nodes enriched")
     A pharmacovigilance platform ingests three data sources after each trial phase closes: FDA submission PDFs, a PostgreSQL clinical trials database, and PubMed literature via web scraping.
 
 ```python
-from semantica.ingest import ingest_file, ingest_web, DBIngestor
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.ingest import ingest_file, ingest_web, DBIngestor
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 graph   = ContextGraph(advanced_analytics=True)
 context = AgentContext(
@@ -859,9 +859,9 @@ print(f"Pharmacovigilance graph: {graph.stats()['node_count']} nodes")
     A compliance team pulls from three sources each quarter: BIS and Basel publications (web sitemap crawl), internal policy PDFs, and a regulatory rules database.
 
 ```python
-from semantica.ingest import ingest_file, ingest_web, DBIngestor
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.ingest import ingest_file, ingest_web, DBIngestor
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 graph   = ContextGraph(advanced_analytics=True)
 context = AgentContext(

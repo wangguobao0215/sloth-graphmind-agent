@@ -1,16 +1,16 @@
 {
-  "name": "semantica-openclaw",
-  "displayName": "Semantica OpenClaw Plugin",
-  "description": "Semantica plugin for OpenClaw: knowledge graph skills, decision intelligence, reasoning, extraction, and visualization via MCP and native REST tool.",
+  "name": "sloth_graphmind-openclaw",
+  "displayName": "GraphMind OpenClaw Plugin",
+  "description": "GraphMind plugin for OpenClaw: knowledge graph skills, decision intelligence, reasoning, extraction, and visualization via MCP and native REST tool.",
   "version": "0.1.0",
   "author": {
-    "name": "Semantica Contributors"
+    "name": "GraphMind Contributors"
   },
-  "homepage": "https://github.com/Hawksight-AI/semantica",
-  "repository": "https://github.com/Hawksight-AI/semantica",
+  "homepage": "https://github.com/Hawksight-AI/sloth_graphmind",
+  "repository": "https://github.com/Hawksight-AI/sloth_graphmind",
   "license": "MIT",
   "keywords": [
-    "semantica",
+    "sloth_graphmind",
     "knowledge graph",
     "openclaw",
     "context graphs",
@@ -29,15 +29,15 @@
   "agents": "../agents",
   "hooks": "../hooks/hooks.json",
   "mcp": {
-    "server": "python -m semantica.mcp_server",
+    "server": "python -m sloth_graphmind.mcp_server",
     "transport": "stdio"
   },
   "openclaw": {
     "mcporter": {
       "mcpServers": {
-        "semantica": {
+        "sloth_graphmind": {
           "command": "python",
-          "args": ["-m", "semantica.mcp_server"],
+          "args": ["-m", "sloth_graphmind.mcp_server"],
           "transport": "stdio"
         }
       }

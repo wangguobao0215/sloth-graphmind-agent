@@ -19,20 +19,20 @@ icon: "rocket"
 ## Setup in 3 Steps
 
 <Steps>
-  <Step title="Install Semantica">
+  <Step title="Install GraphMind">
     <CodeGroup>
 
     ```bash pip (recommended)
-    pip install semantica
+    pip install sloth_graphmind
     ```
 
     ```bash With all extras
-    pip install semantica[all]
+    pip install sloth_graphmind[all]
     ```
 
     ```bash From source
-    git clone https://github.com/semantica-agi/semantica.git
-    cd semantica
+    git clone https://github.com/sloth_graphmind-agi/sloth_graphmind.git
+    cd sloth_graphmind
     pip install -e ".[dev]"
     ```
 
@@ -41,8 +41,8 @@ icon: "rocket"
     <Check>
       Verify installation:
       ```python
-      import semantica
-      print(semantica.__version__)  # 0.6.5
+      import sloth_graphmind
+      print(sloth_graphmind.__version__)  # 0.6.5
       ```
     </Check>
   </Step>
@@ -55,7 +55,7 @@ icon: "rocket"
     | **Knowledge Graph** | Turn documents into structured, queryable graphs | [Quickstart → Step 1](quickstart) |
     | **Agent Context** | Give your AI agent persistent memory and decision tracking | [Context reference](reference/context) |
     | **GraphRAG** | Ground LLM answers in structured knowledge | [Concepts → GraphRAG](concepts#graphrag) |
-    | **MCP Integration** | Use Semantica from Claude Desktop or VS Code | [MCP Server](reference/mcp_server) |
+    | **MCP Integration** | Use GraphMind from Claude Desktop or VS Code | [MCP Server](reference/mcp_server) |
 
   </Step>
 
@@ -76,10 +76,10 @@ icon: "rocket"
     Build a structured knowledge graph from any document or data source.
 
     ```python
-    from semantica.ingest import FileIngestor
-    from semantica.parse import DocumentParser
-    from semantica.semantic_extract import NERExtractor, RelationExtractor
-    from semantica.kg import GraphBuilder
+    from sloth_graphmind.ingest import FileIngestor
+    from sloth_graphmind.parse import DocumentParser
+    from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
+    from sloth_graphmind.kg import GraphBuilder
 
     # 1. Ingest
     sources = FileIngestor().ingest("data/report.pdf")
@@ -106,8 +106,8 @@ icon: "rocket"
     Give your agent persistent memory, decision tracking, and precedent search.
 
     ```python
-    from semantica.context import AgentContext, ContextGraph
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext, ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
 
     context = AgentContext(
         vector_store=VectorStore(backend="faiss", dimension=768),
@@ -138,8 +138,8 @@ icon: "rocket"
     Ground every LLM response in your knowledge graph: no floating assertions.
 
     ```python
-    from semantica.context import AgentContext, ContextGraph
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext, ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
 
     context = AgentContext(
         vector_store=VectorStore(backend="faiss", dimension=768),
@@ -165,10 +165,10 @@ icon: "rocket"
   </Tab>
 
   <Tab title="MCP Integration">
-    Use Semantica from Claude Desktop, VS Code, Cursor, or any MCP client: no Python code required after setup.
+    Use GraphMind from Claude Desktop, VS Code, Cursor, or any MCP client: no Python code required after setup.
 
     ```bash
-    pip install semantica
+    pip install sloth_graphmind
     ```
 
     Add to your MCP client config:
@@ -176,8 +176,8 @@ icon: "rocket"
     ```json
     {
       "mcpServers": {
-        "semantica": {
-          "command": "semantica-mcp"
+        "sloth_graphmind": {
+          "command": "sloth_graphmind-mcp"
         }
       }
     }
@@ -192,7 +192,7 @@ icon: "rocket"
 
 ## Core Architecture
 
-Semantica uses a modular, layered architecture: import only what you need.
+GraphMind uses a modular, layered architecture: import only what you need.
 
 - **[Input Layer](reference/ingest)** — Load and prepare data from any source. Modules: `ingest`, `parse`, `split`, `normalize`
 - **[Semantic Layer](reference/semantic_extract)** — Extract meaning from raw text. Modules: `semantic_extract`, `kg`, `ontology`, `reasoning`
@@ -218,5 +218,5 @@ See the [Choose the Right Module](choose-your-module) guide — it maps 35+ deve
 ## Help
 
 - [Discord](https://discord.gg/sV34vps5hH) — Ask questions, share projects, get community support.
-- [GitHub Issues](https://github.com/semantica-agi/semantica/issues) — Report bugs or request features.
+- [GitHub Issues](https://github.com/sloth_graphmind-agi/sloth_graphmind/issues) — Report bugs or request features.
 - [FAQ](faq) — Common questions answered.

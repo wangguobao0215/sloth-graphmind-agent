@@ -10,8 +10,8 @@ import pytest
 import numpy as np
 from unittest.mock import Mock, patch, MagicMock
 
-from semantica.vector_store.decision_embedding_pipeline import DecisionEmbeddingPipeline
-from semantica.vector_store import VectorStore
+from sloth_graphmind.vector_store.decision_embedding_pipeline import DecisionEmbeddingPipeline
+from sloth_graphmind.vector_store import VectorStore
 
 
 class TestDecisionEmbeddingPipeline:
@@ -400,7 +400,7 @@ class TestDecisionEmbeddingPipelineEdgeCases:
         pytest.importorskip("faiss")
         
         try:
-            from semantica.vector_store import VectorStore
+            from sloth_graphmind.vector_store import VectorStore
         except ImportError:
             pytest.skip("VectorStore not available")
             
@@ -427,7 +427,7 @@ class TestDecisionEmbeddingPipelineEdgeCases:
     def test_find_similar_decisions_real_inmemory_backend(self):
         """Regression test for inmemory backend preserving behavior after issue #839 fix"""
         try:
-            from semantica.vector_store import VectorStore
+            from sloth_graphmind.vector_store import VectorStore
         except ImportError:
             pytest.skip("VectorStore not available")
             
@@ -946,7 +946,7 @@ class TestVectorRetrievalFailureBehavior:
         import logging
         vs = self._make_stub_store()
 
-        with caplog.at_level(logging.WARNING, logger="semantica.vector_store"):
+        with caplog.at_level(logging.WARNING, logger="sloth_graphmind.vector_store"):
             ctx = vs.build_decision_context(decision_id="decision_1", depth=1)
 
         assert ctx["decision_id"] == "decision_1"
@@ -968,7 +968,7 @@ class TestVectorRetrievalFailureBehavior:
         import logging
         vs = self._make_stub_store()
 
-        with caplog.at_level(logging.WARNING, logger="semantica.vector_store"):
+        with caplog.at_level(logging.WARNING, logger="sloth_graphmind.vector_store"):
             explanation = vs.explain_decision(
                 decision_id="decision_1",
                 include_paths=True,

@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import MagicMock, patch
-from semantica.triplet_store.triplet_store import TripletStore
-from semantica.triplet_store.query_engine import QueryEngine
-from semantica.semantic_extract.triplet_extractor import Triplet
+from sloth_graphmind.triplet_store.triplet_store import TripletStore
+from sloth_graphmind.triplet_store.query_engine import QueryEngine
+from sloth_graphmind.semantic_extract.triplet_extractor import Triplet
 
 class TestTripletStore(unittest.TestCase):
 
@@ -10,8 +10,8 @@ class TestTripletStore(unittest.TestCase):
         self.mock_logger = MagicMock()
         self.mock_tracker = MagicMock()
         
-        self.logger_patcher = patch('semantica.triplet_store.triplet_store.get_logger', return_value=self.mock_logger)
-        self.tracker_patcher = patch('semantica.triplet_store.triplet_store.get_progress_tracker', return_value=self.mock_tracker)
+        self.logger_patcher = patch('sloth_graphmind.triplet_store.triplet_store.get_logger', return_value=self.mock_logger)
+        self.tracker_patcher = patch('sloth_graphmind.triplet_store.triplet_store.get_progress_tracker', return_value=self.mock_tracker)
         
         self.logger_patcher.start()
         self.tracker_patcher.start()
@@ -20,14 +20,14 @@ class TestTripletStore(unittest.TestCase):
         self.logger_patcher.stop()
         self.tracker_patcher.stop()
 
-    @patch('semantica.triplet_store.blazegraph_store.BlazegraphStore')
+    @patch('sloth_graphmind.triplet_store.blazegraph_store.BlazegraphStore')
     def test_triplet_store_init(self, mock_blazegraph_store):
         store = TripletStore(backend="blazegraph", endpoint="http://localhost:9999")
         self.assertEqual(store.backend_type, "blazegraph")
         self.assertEqual(store.endpoint, "http://localhost:9999")
         mock_blazegraph_store.assert_called_once()
 
-    @patch('semantica.triplet_store.blazegraph_store.BlazegraphStore')
+    @patch('sloth_graphmind.triplet_store.blazegraph_store.BlazegraphStore')
     def test_add_triplet(self, mock_blazegraph_store):
         # Setup mock backend
         mock_backend_instance = MagicMock()
@@ -42,7 +42,7 @@ class TestTripletStore(unittest.TestCase):
         self.assertEqual(result, {"status": "success"})
         mock_backend_instance.add_triplet.assert_called_once_with(triplet)
 
-    @patch('semantica.triplet_store.blazegraph_store.BlazegraphStore')
+    @patch('sloth_graphmind.triplet_store.blazegraph_store.BlazegraphStore')
     def test_add_triplets(self, mock_blazegraph_store):
         # Setup mock backend and bulk loader
         mock_backend_instance = MagicMock()
@@ -72,7 +72,7 @@ class TestTripletStore(unittest.TestCase):
         self.assertEqual(result["total"], 2)
         mock_loader.load_triplets.assert_called_once()
 
-    @patch('semantica.triplet_store.blazegraph_store.BlazegraphStore')
+    @patch('sloth_graphmind.triplet_store.blazegraph_store.BlazegraphStore')
     def test_get_triplets(self, mock_blazegraph_store):
         mock_backend_instance = MagicMock()
         mock_blazegraph_store.return_value = mock_backend_instance
@@ -85,7 +85,7 @@ class TestTripletStore(unittest.TestCase):
         self.assertEqual(result, expected_triplets)
         mock_backend_instance.get_triplets.assert_called_once_with(subject="s", predicate=None, object=None)
 
-    @patch('semantica.triplet_store.blazegraph_store.BlazegraphStore')
+    @patch('sloth_graphmind.triplet_store.blazegraph_store.BlazegraphStore')
     def test_delete_triplet(self, mock_blazegraph_store):
         mock_backend_instance = MagicMock()
         mock_blazegraph_store.return_value = mock_backend_instance
@@ -163,7 +163,7 @@ class TestTripletStore(unittest.TestCase):
         self.assertIn("VALUES ?subject", sparql_query)
         mock_backend.execute_sparql.assert_called_once()
 
-    @patch('semantica.triplet_store.blazegraph_store.BlazegraphStore')
+    @patch('sloth_graphmind.triplet_store.blazegraph_store.BlazegraphStore')
     def test_execute_query_forwards_graph_options(self, mock_blazegraph_store):
         mock_backend_instance = MagicMock()
         mock_blazegraph_store.return_value = mock_backend_instance
@@ -184,7 +184,7 @@ class TestTripletStore(unittest.TestCase):
             supports_named_graphs=True,
         )
 
-    @patch('semantica.triplet_store.blazegraph_store.BlazegraphStore')
+    @patch('sloth_graphmind.triplet_store.blazegraph_store.BlazegraphStore')
     def test_execute_query_respects_enable_named_graphs_flag(self, mock_blazegraph_store):
         mock_backend_instance = MagicMock()
         mock_blazegraph_store.return_value = mock_backend_instance
@@ -315,10 +315,10 @@ class TestSKOSTripletStore(unittest.TestCase):
         self.mock_tracker = MagicMock()
 
         self.logger_patcher = patch(
-            'semantica.triplet_store.triplet_store.get_logger', return_value=self.mock_logger
+            'sloth_graphmind.triplet_store.triplet_store.get_logger', return_value=self.mock_logger
         )
         self.tracker_patcher = patch(
-            'semantica.triplet_store.triplet_store.get_progress_tracker', return_value=self.mock_tracker
+            'sloth_graphmind.triplet_store.triplet_store.get_progress_tracker', return_value=self.mock_tracker
         )
         self.logger_patcher.start()
         self.tracker_patcher.start()
@@ -346,7 +346,7 @@ class TestSKOSTripletStore(unittest.TestCase):
 
     # --- add_skos_concept ---
 
-    @patch('semantica.triplet_store.blazegraph_store.BlazegraphStore')
+    @patch('sloth_graphmind.triplet_store.blazegraph_store.BlazegraphStore')
     def test_add_skos_concept_core_triples(self, mock_bg):
         """add_skos_concept must produce ConceptScheme + Concept + inScheme + prefLabel triples."""
         store, _, mock_loader = self._make_store(mock_bg)
@@ -369,7 +369,7 @@ class TestSKOSTripletStore(unittest.TestCase):
         self.assertIn(("http://example.org/concept/red", f"{SKOS}inScheme"), subjects_predicates)
         self.assertIn(("http://example.org/concept/red", f"{SKOS}prefLabel"), subjects_predicates)
 
-    @patch('semantica.triplet_store.blazegraph_store.BlazegraphStore')
+    @patch('sloth_graphmind.triplet_store.blazegraph_store.BlazegraphStore')
     def test_add_skos_concept_optional_fields(self, mock_bg):
         """Optional fields produce extra triples."""
         store, _, mock_loader = self._make_store(mock_bg)
@@ -394,7 +394,7 @@ class TestSKOSTripletStore(unittest.TestCase):
         self.assertIn(f"{SKOS}definition", predicates)
         self.assertIn(f"{SKOS}notation", predicates)
 
-    @patch('semantica.triplet_store.blazegraph_store.BlazegraphStore')
+    @patch('sloth_graphmind.triplet_store.blazegraph_store.BlazegraphStore')
     def test_add_skos_concept_scheme_triple_always_included(self, mock_bg):
         """ConceptScheme rdf:type triple is always included even without optional args."""
         store, _, mock_loader = self._make_store(mock_bg)
@@ -416,12 +416,12 @@ class TestSKOSTripletStore(unittest.TestCase):
 
     # --- get_skos_concepts ---
 
-    @patch('semantica.triplet_store.blazegraph_store.BlazegraphStore')
+    @patch('sloth_graphmind.triplet_store.blazegraph_store.BlazegraphStore')
     def test_get_skos_concepts_all(self, mock_bg):
         """get_skos_concepts returns all concepts when no scheme_uri given."""
         store, mock_backend, _ = self._make_store(mock_bg)
 
-        from semantica.triplet_store.query_engine import QueryResult
+        from sloth_graphmind.triplet_store.query_engine import QueryResult
         mock_result = QueryResult(
             bindings=[
                 {"concept": {"value": "http://example.org/concept/red"},
@@ -459,12 +459,12 @@ class TestSKOSTripletStore(unittest.TestCase):
         blue = next(c for c in concepts if "blue" in c["uri"])
         self.assertEqual(blue["alt_labels"], [])
 
-    @patch('semantica.triplet_store.blazegraph_store.BlazegraphStore')
+    @patch('sloth_graphmind.triplet_store.blazegraph_store.BlazegraphStore')
     def test_get_skos_concepts_scheme_filter_in_query(self, mock_bg):
         """When scheme_uri is given the scheme URI appears in the issued SPARQL."""
         store, _, _ = self._make_store(mock_bg)
 
-        from semantica.triplet_store.query_engine import QueryResult
+        from sloth_graphmind.triplet_store.query_engine import QueryResult
         empty_result = QueryResult(bindings=[], variables=[])
         store.query_engine.execute_query = MagicMock(return_value=empty_result)
 
@@ -473,18 +473,18 @@ class TestSKOSTripletStore(unittest.TestCase):
         issued_sparql = store.query_engine.execute_query.call_args[0][0]
         self.assertIn("http://example.org/vocab/colours", issued_sparql)
 
-    @patch('semantica.triplet_store.blazegraph_store.BlazegraphStore')
+    @patch('sloth_graphmind.triplet_store.blazegraph_store.BlazegraphStore')
     def test_get_skos_concepts_empty_store(self, mock_bg):
         """Returns empty list when no concepts exist."""
         store, _, _ = self._make_store(mock_bg)
-        from semantica.triplet_store.query_engine import QueryResult
+        from sloth_graphmind.triplet_store.query_engine import QueryResult
         store.query_engine.execute_query = MagicMock(
             return_value=QueryResult(bindings=[], variables=[])
         )
         self.assertEqual(store.get_skos_concepts(), [])
 
 
-@patch("semantica.triplet_store.blazegraph_store.BlazegraphStore")
+@patch("sloth_graphmind.triplet_store.blazegraph_store.BlazegraphStore")
 class TestTripletStoreOntologyNamespace(unittest.TestCase):
     """Regression tests for Issue #447 — store() must use ontology namespace base_uri."""
 
@@ -503,8 +503,8 @@ class TestTripletStoreOntologyNamespace(unittest.TestCase):
             return {"success": True}
 
         with (
-            patch("semantica.triplet_store.triplet_store.get_logger", return_value=MagicMock()),
-            patch("semantica.triplet_store.triplet_store.get_progress_tracker", return_value=MagicMock()),
+            patch("sloth_graphmind.triplet_store.triplet_store.get_logger", return_value=MagicMock()),
+            patch("sloth_graphmind.triplet_store.triplet_store.get_progress_tracker", return_value=MagicMock()),
         ):
             store = TripletStore(backend="blazegraph")
         store.add_triplets = _capture

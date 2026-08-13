@@ -1,17 +1,17 @@
 {
-  "name": "semantica-local",
+  "name": "sloth_graphmind-local",
   "owner": {
-    "name": "Semantica Contributors"
+    "name": "GraphMind Contributors"
   },
   "metadata": {
-    "description": "Semantica plugin marketplace for Cursor.",
+    "description": "GraphMind plugin marketplace for Cursor.",
     "version": "0.1.0",
     "pluginRoot": "."
   },
   "plugins": [
     {
-      "name": "semantica-cursor",
-      "description": "Semantica plugin for Cursor: knowledge graph skills and analytics.",
+      "name": "sloth_graphmind-cursor",
+      "description": "GraphMind plugin for Cursor: knowledge graph skills and analytics.",
       "source": "."
     }
   ]

@@ -6,14 +6,14 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: >
   Amazon Neptune cluster with public endpoint, IAM authentication, and least-privilege
-  IAM user for Semantica cookbook. Uses db.t3.medium (most cost-effective Neptune instance type).
+  IAM user for GraphMind cookbook. Uses db.t3.medium (most cost-effective Neptune instance type).
   Network access to the Bolt/OpenCypher port is restricted to an operator-supplied CIDR
   (see ClientCidr) - do not widen this to 0.0.0.0/0 outside of a short-lived local experiment.
 
 Parameters:
   EnvironmentName:
     Type: String
-    Default: semantica-neptune
+    Default: sloth_graphmind-neptune
     Description: Environment name prefix for resource naming
 
   ClientCidr:

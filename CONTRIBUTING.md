@@ -1,21 +1,21 @@
-# Contributing to Semantica
+# Contributing to GraphMind
 
 Thank you for your interest in contributing! Every contribution, no matter how small, is valuable. 🎉
 
-⭐ **Give us a Star** • 🍴 **[Fork Semantica](https://github.com/Hawksight-AI/semantica/fork)** • 💬 **Join our [Discord](https://discord.gg/sV34vps5hH)**
+⭐ **Give us a Star** • 🍴 **[Fork GraphMind](https://github.com/Hawksight-AI/sloth_graphmind/fork)** • 💬 **Join our [Discord](https://discord.gg/sV34vps5hH)**
 
-> **New to contributing?** Start with a [`good first issue`](https://github.com/Hawksight-AI/semantica/labels/good%20first%20issue) or join our [Discord](https://discord.gg/sV34vps5hH) community.
+> **New to contributing?** Start with a [`good first issue`](https://github.com/Hawksight-AI/sloth_graphmind/labels/good%20first%20issue) or join our [Discord](https://discord.gg/sV34vps5hH) community.
 
 ---
 
 ## 🚀 Quick Start
 
-1. Find a [`good first issue`](https://github.com/Hawksight-AI/semantica/labels/good%20first%20issue)
-2. [Fork Semantica](https://github.com/Hawksight-AI/semantica/fork) & clone the repository
+1. Find a [`good first issue`](https://github.com/Hawksight-AI/sloth_graphmind/labels/good%20first%20issue)
+2. [Fork GraphMind](https://github.com/Hawksight-AI/sloth_graphmind/fork) & clone the repository
 3. Make your changes
 4. Submit a pull request!
 
-**Need help?** Join [Discord](https://discord.gg/sV34vps5hH) or [GitHub Discussions](https://github.com/Hawksight-AI/semantica/discussions)
+**Need help?** Join [Discord](https://discord.gg/sV34vps5hH) or [GitHub Discussions](https://github.com/Hawksight-AI/sloth_graphmind/discussions)
 
 ---
 
@@ -39,7 +39,7 @@ If you want to work on an open GitHub issue, please follow these steps to keep t
 
 > **Why this matters:** Commenting before opening a PR helps maintainers track who is working on what, assign issues correctly, and prevent two contributors from solving the same problem independently. It also gives you a chance to align on the expected approach before writing code.
 
-Not sure where to start? Try a [`good first issue`](https://github.com/Hawksight-AI/semantica/labels/good%20first%20issue) or ask in [Discord](https://discord.gg/sV34vps5hH).
+Not sure where to start? Try a [`good first issue`](https://github.com/Hawksight-AI/sloth_graphmind/labels/good%20first%20issue) or ask in [Discord](https://discord.gg/sV34vps5hH).
 
 ---
 
@@ -53,7 +53,7 @@ Not sure where to start? Try a [`good first issue`](https://github.com/Hawksight
 - Improve code quality (add type hints, docstrings, improve error messages)
 - Optimize performance
 
-**Where:** `semantica/` directory
+**Where:** `sloth_graphmind/` directory
 
 **Good first issues:** Add docstrings, type hints, or improve error messages
 
@@ -102,7 +102,7 @@ Not sure where to start? Try a [`good first issue`](https://github.com/Hawksight
 
 **What:** Report bugs you find
 
-**How:** Use the [bug report template](https://github.com/Hawksight-AI/semantica/issues/new?template=bug_report.md)
+**How:** Use the [bug report template](https://github.com/Hawksight-AI/sloth_graphmind/issues/new?template=bug_report.md)
 
 **Include:** Description, steps to reproduce, expected vs actual behavior, environment details
 
@@ -112,7 +112,7 @@ Not sure where to start? Try a [`good first issue`](https://github.com/Hawksight
 
 **What:** Suggest new features or improvements
 
-**How:** Use the [feature request template](https://github.com/Hawksight-AI/semantica/issues/new?template=feature_request.md)
+**How:** Use the [feature request template](https://github.com/Hawksight-AI/sloth_graphmind/issues/new?template=feature_request.md)
 
 **Include:** Problem statement, proposed solution, use cases
 
@@ -132,7 +132,7 @@ Not sure where to start? Try a [`good first issue`](https://github.com/Hawksight
 
 **What:** Help others in the community
 
-**Where:** [Discord](https://discord.gg/sV34vps5hH), [GitHub Discussions](https://github.com/Hawksight-AI/semantica/discussions)
+**Where:** [Discord](https://discord.gg/sV34vps5hH), [GitHub Discussions](https://github.com/Hawksight-AI/sloth_graphmind/discussions)
 
 **Examples:** Answer questions, review PRs, share your projects
 
@@ -159,12 +159,12 @@ Not sure where to start? Try a [`good first issue`](https://github.com/Hawksight
 
 ### 1. Fork & Clone
 
-First, [fork Semantica](https://github.com/Hawksight-AI/semantica/fork) on GitHub, then:
+First, [fork GraphMind](https://github.com/Hawksight-AI/sloth_graphmind/fork) on GitHub, then:
 
 ```bash
-git clone https://github.com/your-username/semantica.git
-cd semantica
-git remote add upstream https://github.com/Hawksight-AI/semantica.git
+git clone https://github.com/your-username/sloth_graphmind.git
+cd sloth_graphmind
+git remote add upstream https://github.com/Hawksight-AI/sloth_graphmind.git
 ```
 
 ### 2. Set Up Environment
@@ -199,9 +199,9 @@ git checkout -b fix/bug-description
 
 ```bash
 pytest                          # Run tests
-black semantica/ tests/        # Format code
-isort semantica/ tests/         # Sort imports
-flake8 semantica/ tests/        # Lint
+black sloth_graphmind/ tests/        # Format code
+isort sloth_graphmind/ tests/         # Sort imports
+flake8 sloth_graphmind/ tests/        # Lint
 ```
 
 Or use pre-commit hooks: `pre-commit run --all-files`
@@ -223,12 +223,12 @@ We use automated tools:
 
 | Tool     | Purpose                    | Command                    |
 |----------|----------------------------|----------------------------|
-| **Black** | Code formatting            | `black semantica/ tests/` |
-| **isort** | Import sorting             | `isort semantica/ tests/` |
-| **flake8** | Style enforcement          | `flake8 semantica/ tests/` |
-| **mypy** | Type checking              | `mypy semantica/`          |
+| **Black** | Code formatting            | `black sloth_graphmind/ tests/` |
+| **isort** | Import sorting             | `isort sloth_graphmind/ tests/` |
+| **flake8** | Style enforcement          | `flake8 sloth_graphmind/ tests/` |
+| **mypy** | Type checking              | `mypy sloth_graphmind/`          |
 
-**Run all:** `black semantica/ tests/ && isort semantica/ tests/ && flake8 semantica/ tests/ && mypy semantica/`
+**Run all:** `black sloth_graphmind/ tests/ && isort sloth_graphmind/ tests/ && flake8 sloth_graphmind/ tests/ && mypy sloth_graphmind/`
 
 ---
 
@@ -236,7 +236,7 @@ We use automated tools:
 
 ```bash
 pytest                          # Run all tests
-pytest --cov=semantica         # With coverage
+pytest --cov=sloth_graphmind         # With coverage
 pytest tests/test_file.py      # Specific file
 ```
 
@@ -293,7 +293,7 @@ def extract_entities(text: str, model: str = "transformer") -> List[Entity]:
         ValueError: If text is empty or model is invalid
     
     Example:
-        >>> from semantica.semantic_extract import NERExtractor
+        >>> from sloth_graphmind.semantic_extract import NERExtractor
         >>> ner = NERExtractor(method="ml", model="en_core_web_sm")
         >>> entities = ner.extract("Apple Inc. was founded in 1976.")
         >>> len(entities)
@@ -330,7 +330,7 @@ Brief introduction paragraph.
 **Code example:**
 
 ```python
-from semantica import SomeClass
+from sloth_graphmind import SomeClass
 
 instance = SomeClass()
 result = instance.method()
@@ -351,8 +351,8 @@ result = instance.method()
 ## 🆘 Getting Help
 
 - 💬 [Discord](https://discord.gg/sV34vps5hH) - Real-time chat
-- 💭 [GitHub Discussions](https://github.com/Hawksight-AI/semantica/discussions) - Q&A
-- 🐛 [GitHub Issues](https://github.com/Hawksight-AI/semantica/issues) - Bug reports
+- 💭 [GitHub Discussions](https://github.com/Hawksight-AI/sloth_graphmind/discussions) - Q&A
+- 🐛 [GitHub Issues](https://github.com/Hawksight-AI/sloth_graphmind/issues) - Bug reports
 
 **Before asking:** Check existing documentation, search issues/discussions, review cookbook examples
 
@@ -387,4 +387,4 @@ This project follows a [Code of Conduct](CODE_OF_CONDUCT.md). Be respectful and 
 
 Every contribution matters - whether it's a single line of code, a typo fix, a helpful answer, or a bug report. We appreciate you! 🙏
 
-⭐ **Give us a Star** • 🍴 **[Fork Semantica](https://github.com/Hawksight-AI/semantica/fork)** • 💬 **Join our [Discord](https://discord.gg/sV34vps5hH)**
+⭐ **Give us a Star** • 🍴 **[Fork GraphMind](https://github.com/Hawksight-AI/sloth_graphmind/fork)** • 💬 **Join our [Discord](https://discord.gg/sV34vps5hH)**

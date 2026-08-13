@@ -5,10 +5,10 @@ from pathlib import Path
 
 import pytest
 
-from semantica.export import Neo4jCSVExporter
-from semantica.export.methods import export_knowledge_graph, export_neo4j_csv
-from semantica.kg.knowledge_graph import KnowledgeGraph
-from semantica.utils.exceptions import ValidationError
+from sloth_graphmind.export import Neo4jCSVExporter
+from sloth_graphmind.export.methods import export_knowledge_graph, export_neo4j_csv
+from sloth_graphmind.kg.knowledge_graph import KnowledgeGraph
+from sloth_graphmind.utils.exceptions import ValidationError
 
 
 def _read_csv(path: Path):

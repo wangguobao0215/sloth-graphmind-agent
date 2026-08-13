@@ -5,8 +5,8 @@ Tests for domain-agnostic bridge axiom functionality across all high-stakes doma
 """
 
 import pytest
-from semantica.provenance import ProvenanceManager
-from semantica.provenance.bridge_axiom import (
+from sloth_graphmind.provenance import ProvenanceManager
+from sloth_graphmind.provenance.bridge_axiom import (
     BridgeAxiom,
     TranslationChain,
     create_translation_chain,

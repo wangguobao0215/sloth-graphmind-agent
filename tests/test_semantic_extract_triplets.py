@@ -7,11 +7,11 @@ from unittest.mock import MagicMock, patch
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from semantica.semantic_extract.triplet_extractor import (
+from sloth_graphmind.semantic_extract.triplet_extractor import (
     TripletExtractor, Triplet, TripletValidator, RDFSerializer, TripletQualityChecker
 )
-from semantica.semantic_extract.ner_extractor import Entity
-from semantica.semantic_extract.relation_extractor import Relation
+from sloth_graphmind.semantic_extract.ner_extractor import Entity
+from sloth_graphmind.semantic_extract.relation_extractor import Relation
 
 class TestSemanticExtractTriplets(unittest.TestCase):
 

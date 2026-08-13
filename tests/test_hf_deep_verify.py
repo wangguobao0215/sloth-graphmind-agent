@@ -6,10 +6,10 @@ import os
 # Ensure project root is in path
 sys.path.append(os.getcwd())
 
-from semantica.semantic_extract.ner_extractor import NERExtractor, Entity
-from semantica.semantic_extract.relation_extractor import RelationExtractor
-from semantica.semantic_extract.triplet_extractor import TripletExtractor
-from semantica.utils.exceptions import ProcessingError
+from sloth_graphmind.semantic_extract.ner_extractor import NERExtractor, Entity
+from sloth_graphmind.semantic_extract.relation_extractor import RelationExtractor
+from sloth_graphmind.semantic_extract.triplet_extractor import TripletExtractor
+from sloth_graphmind.utils.exceptions import ProcessingError
 
 class TestHuggingFaceDeepIntegration(unittest.TestCase):
     """
@@ -17,7 +17,7 @@ class TestHuggingFaceDeepIntegration(unittest.TestCase):
     in NER, Relation, and Triplet extraction modules.
     """
 
-    @patch('semantica.semantic_extract.methods.HuggingFaceModelLoader')
+    @patch('sloth_graphmind.semantic_extract.methods.HuggingFaceModelLoader')
     def test_ner_extraction_flow(self, MockLoaderClass):
         """Test NER extraction with detailed IOB parsing and aggregation."""
         mock_loader = MockLoaderClass.return_value
@@ -56,7 +56,7 @@ class TestHuggingFaceDeepIntegration(unittest.TestCase):
         self.assertIsNotNone(loc)
         self.assertEqual(loc.text, "New York")
 
-    @patch('semantica.semantic_extract.methods.HuggingFaceModelLoader')
+    @patch('sloth_graphmind.semantic_extract.methods.HuggingFaceModelLoader')
     def test_ner_aggregation_strategy_simple(self, MockLoaderClass):
         """Test NER extraction when the pipeline handles aggregation (strategy='simple')."""
         mock_loader = MockLoaderClass.return_value
@@ -78,7 +78,7 @@ class TestHuggingFaceDeepIntegration(unittest.TestCase):
         self.assertEqual(entities[0].text, "John Doe")
         self.assertEqual(entities[0].label, "PER")
         
-    @patch('semantica.semantic_extract.methods.HuggingFaceModelLoader')
+    @patch('sloth_graphmind.semantic_extract.methods.HuggingFaceModelLoader')
     def test_relation_extraction_flow(self, MockLoaderClass):
         """Test Relation extraction with Hugging Face model."""
         mock_loader = MockLoaderClass.return_value
@@ -106,7 +106,7 @@ class TestHuggingFaceDeepIntegration(unittest.TestCase):
         self.assertEqual(relations[0].subject.text, "Apple")
         self.assertEqual(relations[0].object.text, "Steve Jobs")
 
-    @patch('semantica.semantic_extract.methods.HuggingFaceModelLoader')
+    @patch('sloth_graphmind.semantic_extract.methods.HuggingFaceModelLoader')
     def test_triplet_extraction_rebel(self, MockLoaderClass):
         """Test Triplet extraction using REBEL parsing logic."""
         mock_loader = MockLoaderClass.return_value
@@ -147,7 +147,7 @@ class TestHuggingFaceDeepIntegration(unittest.TestCase):
         self.assertEqual(triplets[0].object, "Steve Jobs")
         self.assertEqual(triplets[0].predicate, "founded by")
 
-    @patch('semantica.semantic_extract.methods.HuggingFaceModelLoader')
+    @patch('sloth_graphmind.semantic_extract.methods.HuggingFaceModelLoader')
     def test_byom_override(self, MockLoaderClass):
         """Verify Bring Your Own Model (runtime override) works for all extractors."""
         mock_loader = MockLoaderClass.return_value

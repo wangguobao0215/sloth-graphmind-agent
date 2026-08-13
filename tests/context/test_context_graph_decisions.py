@@ -10,8 +10,8 @@ from datetime import datetime, timedelta
 from unittest.mock import Mock, patch
 from typing import List, Dict, Any
 
-from semantica.context.context_graph import ContextGraph, ContextNode, ContextEdge
-from semantica.context.decision_models import Decision, Policy
+from sloth_graphmind.context.context_graph import ContextGraph, ContextNode, ContextEdge
+from sloth_graphmind.context.decision_models import Decision, Policy
 
 
 class TestContextGraphDecisions:

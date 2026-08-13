@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 import requests
 
-from semantica.ingest.feed_ingestor import (
+from sloth_graphmind.ingest.feed_ingestor import (
     FeedData,
     FeedIngestor,
     FeedItem,

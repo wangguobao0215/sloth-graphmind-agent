@@ -1,11 +1,11 @@
 ---
 name: extract
-description: Run the full Semantica semantic extraction pipeline on a file or selected text — NER, relations, events, coreference resolution, triplets, and validation. Clears result cache before each run. Returns Markdown tables with entity/relation/event/triplet results and inline validator warnings.
+description: Run the full GraphMind semantic extraction pipeline on a file or selected text — NER, relations, events, coreference resolution, triplets, and validation. Clears result cache before each run. Returns Markdown tables with entity/relation/event/triplet results and inline validator warnings.
 ---
 
-# /semantica:extract
+# /sloth_graphmind:extract
 
-Run the full extraction pipeline. Usage: `/semantica:extract [file_path | "inline text"]`
+Run the full extraction pipeline. Usage: `/sloth_graphmind:extract [file_path | "inline text"]`
 
 `$ARGUMENTS` = file path, inline text in quotes, or blank (uses active editor file).
 
@@ -21,14 +21,14 @@ Run the full extraction pipeline. Usage: `/semantica:extract [file_path | "inlin
 **2. Clear the result cache** to prevent cross-invocation pollution:
 
 ```python
-from semantica.semantic_extract.cache import _result_cache
+from sloth_graphmind.semantic_extract.cache import _result_cache
 _result_cache.clear()
 ```
 
 **3. Run the full pipeline:**
 
 ```python
-from semantica.semantic_extract import (
+from sloth_graphmind.semantic_extract import (
     NamedEntityRecognizer,
     RelationExtractor,
     EventDetector,

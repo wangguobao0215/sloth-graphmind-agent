@@ -39,7 +39,7 @@ If you have ideas on how this could be implemented, please share:
 
 ```python
 # Example API or code structure
-from semantica import NewFeature
+from sloth_graphmind import NewFeature
 
 feature = NewFeature()
 # ...

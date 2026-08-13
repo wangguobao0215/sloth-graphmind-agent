@@ -12,9 +12,9 @@ browsers can't set custom headers on a WebSocket handshake.
 
 import pytest
 
-from semantica.context.context_graph import ContextGraph
-from semantica.explorer.app import create_app
-from semantica.explorer.session import GraphSession
+from sloth_graphmind.context.context_graph import ContextGraph
+from sloth_graphmind.explorer.app import create_app
+from sloth_graphmind.explorer.session import GraphSession
 
 try:
     from starlette.testclient import TestClient

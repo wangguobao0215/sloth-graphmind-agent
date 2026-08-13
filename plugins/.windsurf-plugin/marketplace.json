@@ -1,15 +1,15 @@
 {
-  "name": "semantica-windsurf",
+  "name": "sloth_graphmind-windsurf",
   "plugins": [
     {
-      "name": "semantica",
-      "description": "Semantica plugin for Windsurf: knowledge graph skills, reasoning, extraction, and visualization.",
+      "name": "sloth_graphmind",
+      "description": "GraphMind plugin for Windsurf: knowledge graph skills, reasoning, extraction, and visualization.",
       "source": "./",
       "category": "Productivity",
       "tags": [
         "knowledge-graph",
         "reasoning",
-        "semantica",
+        "sloth_graphmind",
         "windsurf"
       ]
     }

@@ -5,7 +5,7 @@ package version rather than a hardcoded stale literal:
   1. MCP ``initialize`` → ``serverInfo.version``
   2. ``semantica://schema/info`` → ``version``
 
-The authoritative source of truth is ``semantica.__version__``, which is
+The authoritative source of truth is ``sloth_graphmind.__version__``, which is
 maintained in sync with ``pyproject.toml``'s static ``version`` field by
 the release process.  We assert equality against that value rather than
 duplicating the version-resolution logic here, so the tests remain valid
@@ -17,10 +17,10 @@ the original stale literal that triggered issue #863.
 
 import unittest
 
-import semantica
-from semantica import mcp_server
+import sloth_graphmind
+from sloth_graphmind import mcp_server
 
-_EXPECTED = semantica.__version__
+_EXPECTED = sloth_graphmind.__version__
 
 
 class TestMCPServerVersion(unittest.TestCase):

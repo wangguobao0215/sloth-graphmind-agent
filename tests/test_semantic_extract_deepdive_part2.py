@@ -8,15 +8,15 @@ import pytest
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from semantica.semantic_extract.named_entity_recognizer import (
+from sloth_graphmind.semantic_extract.named_entity_recognizer import (
     NamedEntityRecognizer, EntityClassifier, EntityConfidenceScorer, CustomEntityDetector
 )
-from semantica.semantic_extract.ner_extractor import NERExtractor, Entity
-from semantica.semantic_extract.relation_extractor import RelationExtractor, Relation
-from semantica.semantic_extract.triplet_extractor import TripletExtractor, Triplet
-from semantica.semantic_extract.event_detector import EventDetector, Event
-from semantica.semantic_extract.semantic_analyzer import SemanticAnalyzer, SemanticRole
-from semantica.semantic_extract.methods import (
+from sloth_graphmind.semantic_extract.ner_extractor import NERExtractor, Entity
+from sloth_graphmind.semantic_extract.relation_extractor import RelationExtractor, Relation
+from sloth_graphmind.semantic_extract.triplet_extractor import TripletExtractor, Triplet
+from sloth_graphmind.semantic_extract.event_detector import EventDetector, Event
+from sloth_graphmind.semantic_extract.semantic_analyzer import SemanticAnalyzer, SemanticRole
+from sloth_graphmind.semantic_extract.methods import (
     extract_entities_regex, extract_entities_rules,
     extract_relations_regex, extract_relations_dependency,
     extract_triplets_rules
@@ -143,8 +143,8 @@ class TestSemanticExtractDeepDivePart2(unittest.TestCase):
         self.assertTrue(len(relations) > 0)
         self.assertEqual(relations[0].predicate, "located_in")
 
-    @patch("semantica.semantic_extract.methods.SPACY_AVAILABLE", False)
-    @patch("semantica.semantic_extract.methods.extract_relations_pattern")
+    @patch("sloth_graphmind.semantic_extract.methods.SPACY_AVAILABLE", False)
+    @patch("sloth_graphmind.semantic_extract.methods.extract_relations_pattern")
     def test_extract_relations_dependency_fallback(self, mock_pattern):
         """Test dependency extraction fallback when spaCy is missing"""
         mock_pattern.return_value = []
@@ -207,7 +207,7 @@ class TestSemanticExtractDeepDivePart2(unittest.TestCase):
 
     def test_coreference_resolver_pronouns(self):
         """Test CoreferenceResolver pronoun resolution"""
-        from semantica.semantic_extract.coreference_resolver import CoreferenceResolver, Mention
+        from sloth_graphmind.semantic_extract.coreference_resolver import CoreferenceResolver, Mention
         
         resolver = CoreferenceResolver()
         

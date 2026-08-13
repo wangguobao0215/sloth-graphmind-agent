@@ -3,7 +3,7 @@ import shutil
 import tempfile
 import pytest
 from pathlib import Path
-from semantica.ingest import OntologyIngestor, ingest, ingest_ontology, OntologyData
+from sloth_graphmind.ingest import OntologyIngestor, ingest, ingest_ontology, OntologyData
 
 class TestOntologyIngestor:
     @pytest.fixture

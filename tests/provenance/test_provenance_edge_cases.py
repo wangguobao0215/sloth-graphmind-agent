@@ -5,7 +5,7 @@ Tests boundary conditions, error handling, and unusual scenarios.
 """
 
 import pytest
-from semantica.provenance import ProvenanceManager
+from sloth_graphmind.provenance import ProvenanceManager
 
 
 class TestProvenanceManagerEdgeCases:
@@ -144,7 +144,7 @@ class TestModuleSpecificEdgeCases:
     def test_context_with_none_context(self):
         """Test context manager with None context."""
         try:
-            from semantica.context.context_provenance import ContextManagerWithProvenance
+            from sloth_graphmind.context.context_provenance import ContextManagerWithProvenance
             ctx = ContextManagerWithProvenance(provenance=True)
             # Should handle None context
             assert ctx is not None
@@ -154,8 +154,8 @@ class TestModuleSpecificEdgeCases:
     def test_pipeline_with_empty_data(self):
         """Test pipeline with empty data."""
         try:
-            from semantica.pipeline.pipeline_builder import Pipeline
-            from semantica.pipeline.pipeline_provenance import PipelineWithProvenance
+            from sloth_graphmind.pipeline.pipeline_builder import Pipeline
+            from sloth_graphmind.pipeline.pipeline_provenance import PipelineWithProvenance
 
             pipeline = Pipeline(name="edge_case_test")
             runner = PipelineWithProvenance(pipeline, provenance=True)
@@ -167,7 +167,7 @@ class TestModuleSpecificEdgeCases:
     def test_embeddings_with_empty_list(self):
         """Test embeddings with empty text list."""
         try:
-            from semantica.embeddings.embeddings_provenance import EmbeddingGeneratorWithProvenance
+            from sloth_graphmind.embeddings.embeddings_provenance import EmbeddingGeneratorWithProvenance
             embedder = EmbeddingGeneratorWithProvenance(provenance=True)
             # Should handle empty list
             assert embedder is not None
@@ -177,7 +177,7 @@ class TestModuleSpecificEdgeCases:
     def test_deduplication_with_single_item(self):
         """Test deduplication with single item."""
         try:
-            from semantica.deduplication.deduplication_provenance import DeduplicatorWithProvenance
+            from sloth_graphmind.deduplication.deduplication_provenance import DeduplicatorWithProvenance
             dedup = DeduplicatorWithProvenance(provenance=True)
             # Should handle single item
             assert dedup is not None
@@ -187,7 +187,7 @@ class TestModuleSpecificEdgeCases:
     def test_graph_store_with_duplicate_nodes(self):
         """Test graph store with duplicate nodes."""
         try:
-            from semantica.graph_store.graph_store_provenance import GraphStoreWithProvenance
+            from sloth_graphmind.graph_store.graph_store_provenance import GraphStoreWithProvenance
             store = GraphStoreWithProvenance(provenance=True)
             # Should handle duplicate nodes
             assert store is not None
@@ -197,7 +197,7 @@ class TestModuleSpecificEdgeCases:
     def test_vector_store_with_mismatched_dimensions(self):
         """Test vector store with mismatched dimensions."""
         try:
-            from semantica.vector_store.vector_store_provenance import VectorStoreWithProvenance
+            from sloth_graphmind.vector_store.vector_store_provenance import VectorStoreWithProvenance
             store = VectorStoreWithProvenance(provenance=True)
             # Should handle dimension mismatches
             assert store is not None
@@ -268,7 +268,7 @@ class TestErrorHandlingEdgeCases:
     def test_provenance_disabled_operations(self):
         """Test that operations work when provenance is disabled."""
         try:
-            from semantica.context.context_provenance import ContextManagerWithProvenance
+            from sloth_graphmind.context.context_provenance import ContextManagerWithProvenance
             ctx = ContextManagerWithProvenance(provenance=False)
             # All operations should work without provenance
             assert ctx.provenance is False

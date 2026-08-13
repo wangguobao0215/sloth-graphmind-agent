@@ -1,7 +1,7 @@
 import pytest
 import time
 from unittest.mock import MagicMock, patch
-from semantica.pipeline import (
+from sloth_graphmind.pipeline import (
     PipelineBuilder,
     ExecutionEngine,
     FailureHandler,
@@ -18,8 +18,8 @@ from semantica.pipeline import (
     ResourceScheduler,
     ResourceType
 )
-from semantica.pipeline.pipeline_builder import Pipeline, PipelineSerializer
-from semantica.pipeline.execution_engine import ExecutionResult
+from sloth_graphmind.pipeline.pipeline_builder import Pipeline, PipelineSerializer
+from sloth_graphmind.pipeline.execution_engine import ExecutionResult
 
 pytestmark = pytest.mark.integration
 

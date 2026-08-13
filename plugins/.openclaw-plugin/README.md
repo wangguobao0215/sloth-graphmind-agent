@@ -1,13 +1,13 @@
-# Semantica — OpenClaw Plugin
+# GraphMind — OpenClaw Plugin
 
-> **v0.4.0** — Adds all 17 Semantica skills, 3 agents, and the full MCP integration to [OpenClaw](https://openclaw.ai) — the open-source personal AI agent platform.
+> **v0.4.0** — Adds all 17 GraphMind skills, 3 agents, and the full MCP integration to [OpenClaw](https://openclaw.ai) — the open-source personal AI agent platform.
 
 ## MCP Server Setup (recommended)
 
-### 1. Start the Semantica MCP server
+### 1. Start the GraphMind MCP server
 
 ```bash
-python -m semantica.mcp_server
+python -m sloth_graphmind.mcp_server
 ```
 
 ### 2. Add to `mcporter.json`
@@ -17,9 +17,9 @@ Paste the following into your OpenClaw `mcporter.json` (usually `~/.openclaw/mcp
 ```json
 {
   "mcpServers": {
-    "semantica": {
+    "sloth_graphmind": {
       "command": "python",
-      "args": ["-m", "semantica.mcp_server"],
+      "args": ["-m", "sloth_graphmind.mcp_server"],
       "transport": "stdio"
     }
   }
@@ -32,7 +32,7 @@ Paste the following into your OpenClaw `mcporter.json` (usually `~/.openclaw/mcp
 openclaw gateway restart
 ```
 
-OpenClaw will automatically discover all 17 Semantica tools and 3 agents.
+OpenClaw will automatically discover all 17 GraphMind tools and 3 agents.
 
 ## Skills
 
@@ -58,5 +58,5 @@ See [`integrations/openclaw/README.md`](../../integrations/openclaw/README.md) f
 ## Requirements
 
 - Python 3.10+
-- `pip install semantica`
+- `pip install sloth_graphmind`
 - OpenClaw — [openclaw.ai](https://openclaw.ai)

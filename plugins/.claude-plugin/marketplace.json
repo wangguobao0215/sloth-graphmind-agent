@@ -1,19 +1,19 @@
 {
-  "name": "semantica-local",
+  "name": "sloth_graphmind-local",
   "owner": {
     "name": "Hawksight AI",
-    "url": "https://github.com/Hawksight-AI/semantica"
+    "url": "https://github.com/Hawksight-AI/sloth_graphmind"
   },
   "plugins": [
     {
-      "name": "semantica",
-      "description": "Semantica plugin for Claude: knowledge graph skills, reasoning, extraction, and visualization.",
+      "name": "sloth_graphmind",
+      "description": "GraphMind plugin for Claude: knowledge graph skills, reasoning, extraction, and visualization.",
       "source": "./",
       "category": "Productivity",
       "tags": [
         "knowledge-graph",
         "reasoning",
-        "semantica"
+        "sloth_graphmind"
       ]
     }
   ]

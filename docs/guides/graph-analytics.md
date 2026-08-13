@@ -79,7 +79,7 @@ Graph analytics helps you understand the *shape* and *importance patterns* withi
 ## Setting Up the Analytical Graph
 
 ```python
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph(
     advanced_analytics  = True,
@@ -149,7 +149,7 @@ The betweenness score of 0.18 here is striking — it means APT29 acts as a brok
 To rank every node across all five measures at once:
 
 ```python
-from semantica.kg import CentralityCalculator
+from sloth_graphmind.kg import CentralityCalculator
 
 calc       = CentralityCalculator()
 graph_dict = graph.to_dict()
@@ -191,7 +191,7 @@ Centrality tells you about individual nodes. Community detection tells you about
 Imagine your graph has twenty distinct threat actor nodes. Centrality can rank them individually, but it can't tell you that twelve of them actually share infrastructure, tooling patterns, and target sectors in a way that makes them a single operational cluster, while the remaining eight split into two separate groups. Community detection finds that automatically.
 
 ```python
-from semantica.kg import CommunityDetector
+from sloth_graphmind.kg import CommunityDetector
 
 detector   = CommunityDetector()
 result     = detector.detect_communities(graph.to_dict(), algorithm="louvain")
@@ -214,7 +214,7 @@ When you see a community that mixes what you thought were unrelated threat actor
 Visualize immediately with:
 
 ```python
-from semantica.visualization import KGVisualizer
+from sloth_graphmind.visualization import KGVisualizer
 
 viz = KGVisualizer()
 viz.visualize_communities(
@@ -232,10 +232,10 @@ Centrality and community detection are topological — they work with edges as b
 The practical result: nodes that play similar *structural roles* end up near each other in embedding space — even if they have no direct edge between them. Two C2 domains that both sit between threat actors and victim infrastructure will have similar embeddings, even if they're in completely different parts of the graph.
 
 ```python
-from semantica.kg import NodeEmbedder
+from sloth_graphmind.kg import NodeEmbedder
 import numpy as np
 
-embedder   = NodeEmbedder()     # requires: pip install semantica[embeddings]
+embedder   = NodeEmbedder()     # requires: pip install sloth_graphmind[embeddings]
 embeddings = embedder.compute_embeddings(
     graph_store        = graph,   # ContextGraph instance — not a dict
     node_labels        = None,    # None = embed all node types
@@ -247,14 +247,14 @@ for node_id, vec in list(embeddings.items())[:3]:
     print(f"{node_id}: dim={len(vec)}, norm={np.linalg.norm(vec):.4f}")
 ```
 
-These vectors become first-class citizens in Semantica — they're stored on `Decision` nodes as `node2vec_embedding` and used automatically by `find_precedents_by_scenario()` as the structural similarity component.
+These vectors become first-class citizens in GraphMind — they're stored on `Decision` nodes as `node2vec_embedding` and used automatically by `find_precedents_by_scenario()` as the structural similarity component.
 
 ## What Does This Attack Pattern Remind Me Of?
 
 Once you have embeddings, you can ask: "which nodes in my graph are structurally most similar to APT29?" This isn't about shared edges — it's about shared *role*. Which other nodes play the same position in the graph that APT29 plays?
 
 ```python
-from semantica.kg import SimilarityCalculator
+from sloth_graphmind.kg import SimilarityCalculator
 
 calc = SimilarityCalculator()
 
@@ -297,7 +297,7 @@ Link prediction answers a different question: not "which nodes are similar" but 
 In practice: you have `APT29 → uses → SUNBURST` and `SUNBURST → targets → Windows Server 2019`. Link prediction might surface `APT29 → targets → Windows Server 2019` with a high score — the connection is implied by transitivity but hasn't been explicitly drawn.
 
 ```python
-from semantica.kg import LinkPredictor
+from sloth_graphmind.kg import LinkPredictor
 
 predictor   = LinkPredictor()
 predictions = predictor.predict_links(graph.to_dict(), top_k=10)
@@ -345,9 +345,9 @@ The `"advanced_analytics"` key inside `insights` contains the full `analyze_grap
 Your SOC just merged three threat intel feeds into a single CTI graph. Before this week's analyst briefing, you need to rank the most dangerous actors, identify hidden operational clusters, and flag implied connections that haven't been formally tracked.
 
 ```python
-from semantica.context import ContextGraph
-from semantica.kg import CentralityCalculator, CommunityDetector, LinkPredictor
-from semantica.visualization import AnalyticsVisualizer
+from sloth_graphmind.context import ContextGraph
+from sloth_graphmind.kg import CentralityCalculator, CommunityDetector, LinkPredictor
+from sloth_graphmind.visualization import AnalyticsVisualizer
 
 graph = ContextGraph(
     advanced_analytics  = True,
@@ -392,8 +392,8 @@ for n1, n2, score in predictions:
 During an active incident, your graph has grown to include alert nodes, affected hosts, lateral movement edges, and identified malware. You need to understand the blast radius: which hosts are structural brokers in the lateral movement chain, and which connections haven't been formally documented yet?
 
 ```python
-from semantica.context import ContextGraph
-from semantica.kg import CentralityCalculator, LinkPredictor
+from sloth_graphmind.context import ContextGraph
+from sloth_graphmind.kg import CentralityCalculator, LinkPredictor
 
 graph = ContextGraph(advanced_analytics=True)
 # (Populated from SIEM alert correlation and EDR telemetry)
@@ -431,8 +431,8 @@ print(f"  PageRank:    {dc_scores['pagerank']:.4f}")
 Your clinical trial platform maintains a graph of drugs, biomarkers, patient populations, adverse event types, and regulatory decisions. At the end of each trial phase, you need to understand whether the drug cluster for metabolic syndrome is truly isolated from the cardiovascular cluster — that separation matters for co-administration risk assessment.
 
 ```python
-from semantica.context import ContextGraph
-from semantica.kg import CommunityDetector, NodeEmbedder, SimilarityCalculator
+from sloth_graphmind.context import ContextGraph
+from sloth_graphmind.kg import CommunityDetector, NodeEmbedder, SimilarityCalculator
 
 graph = ContextGraph(
     advanced_analytics  = True,
@@ -477,8 +477,8 @@ for drug, score in similar_drugs:
 Your risk management team models counterparty relationships as a graph: banks, SPVs, exposure instruments, and regulatory entities connected by exposure, guarantees, and ownership edges. Before the quarterly stress test, you need to identify which entities are systemic — whose failure would cascade most broadly.
 
 ```python
-from semantica.context import ContextGraph
-from semantica.kg import CentralityCalculator, CommunityDetector
+from sloth_graphmind.context import ContextGraph
+from sloth_graphmind.kg import CentralityCalculator, CommunityDetector
 
 graph = ContextGraph(advanced_analytics=True, community_detection=True)
 # (Populated from regulatory filings, trade repositories, and internal exposure data)

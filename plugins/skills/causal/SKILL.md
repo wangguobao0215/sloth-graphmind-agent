@@ -1,11 +1,11 @@
 ---
 name: causal
-description: Analyze cause-and-effect relationships in the Semantica knowledge graph — causal chains, interventions, counterfactuals, and causal influence scores.
+description: Analyze cause-and-effect relationships in the GraphMind knowledge graph — causal chains, interventions, counterfactuals, and causal influence scores.
 ---
 
-# /semantica:causal
+# /sloth_graphmind:causal
 
-Analyze causal relationships and infer impacts. Usage: `/semantica:causal <task> [args]`
+Analyze causal relationships and infer impacts. Usage: `/sloth_graphmind:causal <task> [args]`
 
 `$ARGUMENTS` = task + optional target entity, filter, or intervention.
 
@@ -16,8 +16,8 @@ Analyze causal relationships and infer impacts. Usage: `/semantica:causal <task>
 Build and inspect causal chains for a subject or category.
 
 ```python
-from semantica.context.causal_analyzer import CausalChainAnalyzer
-from semantica.context import AgentContext
+from sloth_graphmind.context.causal_analyzer import CausalChainAnalyzer
+from sloth_graphmind.context import AgentContext
 
 # Option 1: Use an existing AgentContext decision backend
 chain = ctx.get_causal_chain(

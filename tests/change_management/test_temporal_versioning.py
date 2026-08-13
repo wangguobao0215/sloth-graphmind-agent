@@ -10,10 +10,10 @@ import tempfile
 import pytest
 from datetime import datetime, timezone
 from unittest.mock import patch
-from semantica.kg.temporal_query import TemporalVersionManager
-from semantica.kg.temporal_model import TemporalBound
-from semantica.change_management import ChangeLogEntry, InMemoryVersionStorage, SQLiteVersionStorage
-from semantica.utils.exceptions import ValidationError, ProcessingError
+from sloth_graphmind.kg.temporal_query import TemporalVersionManager
+from sloth_graphmind.kg.temporal_model import TemporalBound
+from sloth_graphmind.change_management import ChangeLogEntry, InMemoryVersionStorage, SQLiteVersionStorage
+from sloth_graphmind.utils.exceptions import ValidationError, ProcessingError
 
 
 class TestTemporalVersionManager:
@@ -271,7 +271,7 @@ class TestTemporalVersionManager:
             },
         )
 
-        query_engine = __import__("semantica.kg.temporal_query", fromlist=["TemporalGraphQuery"]).TemporalGraphQuery()
+        query_engine = __import__("sloth_graphmind.kg.temporal_query", fromlist=["TemporalGraphQuery"]).TemporalGraphQuery()
         result = query_engine.query_at_time(revised, "", "2020-06-01")
 
         assert len(result["relationships"]) == 1

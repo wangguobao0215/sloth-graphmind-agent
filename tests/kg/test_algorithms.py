@@ -6,9 +6,9 @@ import networkx as nx
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from semantica.kg.centrality_calculator import CentralityCalculator
-from semantica.kg.community_detector import CommunityDetector
-from semantica.kg.connectivity_analyzer import ConnectivityAnalyzer
+from sloth_graphmind.kg.centrality_calculator import CentralityCalculator
+from sloth_graphmind.kg.community_detector import CommunityDetector
+from sloth_graphmind.kg.connectivity_analyzer import ConnectivityAnalyzer
 
 class TestCentralityCalculator(unittest.TestCase):
     def setUp(self):

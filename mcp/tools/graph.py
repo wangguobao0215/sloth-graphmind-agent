@@ -9,11 +9,11 @@ import logging
 from mcp.schemas import ADD_ENTITY, ADD_RELATIONSHIP, EMPTY, GET_ANALYTICS, SEARCH_GRAPH
 from mcp.session import get_graph
 
-log = logging.getLogger("semantica.mcp.tools.graph")
+log = logging.getLogger("sloth_graphmind.mcp.tools.graph")
 
 
 def handle_add_entity(args: dict) -> dict:
-    """Add a node/entity to the Semantica knowledge graph."""
+    """Add a node/entity to the GraphMind knowledge graph."""
     node_id = args.get("id", "").strip()
     if not node_id:
         return {"error": "id is required"}
@@ -113,7 +113,7 @@ def handle_get_graph_analytics(args: dict) -> dict:
     result: dict = {}
     try:
         graph = get_graph()
-        from semantica.kg import CentralityCalculator, CommunityDetector
+        from sloth_graphmind.kg import CentralityCalculator, CommunityDetector
 
         if compute_all or "pagerank" in requested:
             try:

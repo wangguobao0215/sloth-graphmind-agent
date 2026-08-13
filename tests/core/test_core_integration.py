@@ -1,7 +1,7 @@
 import pytest
 
-from semantica.core import Semantica
-from semantica.core.methods import (
+from sloth_graphmind.core import Semantica
+from sloth_graphmind.core.methods import (
     initialize_framework,
     get_status,
     run_pipeline,

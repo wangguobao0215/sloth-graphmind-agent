@@ -1,11 +1,11 @@
 ---
-name: semantica
-description: Semantica full-stack knowledge graph skill for context graphs, decision intelligence, explainability, extraction, reasoning, visualization, ontology, provenance, policy, and export workflows.
+name: sloth_graphmind
+description: GraphMind full-stack knowledge graph skill for context graphs, decision intelligence, explainability, extraction, reasoning, visualization, ontology, provenance, policy, and export workflows.
 ---
 
-# Semantica
+# GraphMind
 
-This Skill helps Claude apply Semantica knowledge graph capabilities to context graph analysis, decision intelligence, explainability, semantic extraction, graph analytics, reasoning, provenance, ontology, policy, ingestion, deduplication, and export.
+This Skill helps Claude apply GraphMind knowledge graph capabilities to context graph analysis, decision intelligence, explainability, semantic extraction, graph analytics, reasoning, provenance, ontology, policy, ingestion, deduplication, and export.
 
 ## When to use this Skill
 
@@ -48,8 +48,8 @@ Use clear task descriptions, and mention the desired output format when possible
 
 ## How Claude should use this Skill
 
-1. Read the YAML metadata and identify whether the request matches Semantica graph, context graph, decision intelligence, or extraction tasks.
-2. Load this Skill when the request mentions Semantica, knowledge graphs, context graphs, decision intelligence, explainability, reasoning, or provenance.
+1. Read the YAML metadata and identify whether the request matches GraphMind graph, context graph, decision intelligence, or extraction tasks.
+2. Load this Skill when the request mentions GraphMind, knowledge graphs, context graphs, decision intelligence, explainability, reasoning, or provenance.
 3. Use the instructions here to choose the right workflow and then read additional files or scripts only if needed.
 
 ## Authoring note

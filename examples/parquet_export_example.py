@@ -8,7 +8,7 @@ knowledge graphs, entities, and relationships to Apache Parquet format.
 import tempfile
 from pathlib import Path
 
-from semantica.export import ParquetExporter, export_parquet
+from sloth_graphmind.export import ParquetExporter, export_parquet
 
 
 def main():

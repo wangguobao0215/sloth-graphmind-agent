@@ -55,11 +55,11 @@ def mock_snowflake_connection():
 class TestSnowflakeConnector:
     """Test SnowflakeConnector class."""
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_connector_init_with_password(self, mock_snowflake):
         """Test connector initialization with password authentication."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeConnector
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeConnector
 
         connector = SnowflakeConnector(
             account="test_account",
@@ -76,11 +76,11 @@ class TestSnowflakeConnector:
         assert connector.database == "TEST_DB"
         assert connector.schema == "PUBLIC"
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_connector_init_from_env(self, mock_snowflake):
         """Test connector initialization from environment variables."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeConnector
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeConnector
 
         with patch.dict(
             os.environ,
@@ -96,21 +96,21 @@ class TestSnowflakeConnector:
             assert connector.user == "env_user"
             assert connector.password == "env_password"
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_connector_init_missing_account(self, mock_snowflake):
         """Test connector initialization fails without account."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeConnector
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeConnector
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         with pytest.raises(ValidationError, match="Snowflake account is required"):
             SnowflakeConnector(user="test_user", password="test_password")
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_connector_connect_password_auth(self, mock_snowflake, mock_snowflake_connection):
         """Test connection with password authentication."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeConnector
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeConnector
 
         mock_conn, mock_cursor = mock_snowflake_connection
         mock_snowflake.connector.connect = Mock(return_value=mock_conn)
@@ -132,11 +132,11 @@ class TestSnowflakeConnector:
         assert call_kwargs["user"] == "test_user"
         assert call_kwargs["password"] == "test_password"
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_connector_connect_oauth(self, mock_snowflake, mock_snowflake_connection):
         """Test connection with OAuth authentication."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeConnector
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeConnector
 
         mock_conn, mock_cursor = mock_snowflake_connection
         mock_snowflake.connector.connect = Mock(return_value=mock_conn)
@@ -154,11 +154,11 @@ class TestSnowflakeConnector:
         assert call_kwargs["authenticator"] == "oauth"
         assert call_kwargs["token"] == "test_token"
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_connector_connect_sso(self, mock_snowflake, mock_snowflake_connection):
         """Test connection with SSO authentication."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeConnector
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeConnector
 
         mock_conn, mock_cursor = mock_snowflake_connection
         mock_snowflake.connector.connect = Mock(return_value=mock_conn)
@@ -174,11 +174,11 @@ class TestSnowflakeConnector:
         call_kwargs = mock_snowflake.connector.connect.call_args[1]
         assert call_kwargs["authenticator"] == "externalbrowser"
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_connector_disconnect(self, mock_snowflake, mock_snowflake_connection):
         """Test connection disconnect."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeConnector
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeConnector
 
         mock_conn, _ = mock_snowflake_connection
         mock_snowflake.connector.connect = Mock(return_value=mock_conn)
@@ -195,11 +195,11 @@ class TestSnowflakeConnector:
         mock_conn.close.assert_called_once()
         assert connector.connection is None
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_connector_test_connection_success(self, mock_snowflake, mock_snowflake_connection):
         """Test successful connection test."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeConnector
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeConnector
 
         mock_conn, mock_cursor = mock_snowflake_connection
         mock_snowflake.connector.connect = Mock(return_value=mock_conn)
@@ -215,11 +215,11 @@ class TestSnowflakeConnector:
         assert result is True
         mock_cursor.execute.assert_called_with("SELECT 1")
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_connector_test_connection_failure(self, mock_snowflake):
         """Test connection test failure."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeConnector
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeConnector
 
         mock_snowflake.connector.connect = Mock(side_effect=Exception("Connection failed"))
 
@@ -237,11 +237,11 @@ class TestSnowflakeConnector:
 class TestSnowflakeIngestor:
     """Test SnowflakeIngestor class."""
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_ingestor_init(self, mock_snowflake):
         """Test ingestor initialization."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeIngestor
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeIngestor
 
         ingestor = SnowflakeIngestor(
             account="test_account",
@@ -252,11 +252,11 @@ class TestSnowflakeIngestor:
         assert ingestor.connector is not None
         assert ingestor.connector.account == "test_account"
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_ingest_table_basic(self, mock_snowflake, mock_snowflake_connection):
         """Test basic table ingestion."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeIngestor
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeIngestor
 
         mock_conn, mock_cursor = mock_snowflake_connection
         mock_snowflake.connector.connect = Mock(return_value=mock_conn)
@@ -287,11 +287,11 @@ class TestSnowflakeIngestor:
         assert len(data.columns) == 3
         assert "ID" in data.columns
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_ingest_table_with_limit(self, mock_snowflake, mock_snowflake_connection):
         """Test table ingestion with limit."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeIngestor
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeIngestor
 
         mock_conn, mock_cursor = mock_snowflake_connection
         mock_snowflake.connector.connect = Mock(return_value=mock_conn)
@@ -308,11 +308,11 @@ class TestSnowflakeIngestor:
         executed_query = mock_cursor.execute.call_args[0][0]
         assert "LIMIT 100" in executed_query
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_ingest_table_with_where(self, mock_snowflake, mock_snowflake_connection):
         """Test table ingestion with WHERE clause."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeIngestor
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeIngestor
 
         mock_conn, mock_cursor = mock_snowflake_connection
         mock_snowflake.connector.connect = Mock(return_value=mock_conn)
@@ -328,11 +328,11 @@ class TestSnowflakeIngestor:
         executed_query = mock_cursor.execute.call_args[0][0]
         assert "WHERE VALUE > 100" in executed_query
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_ingest_query_basic(self, mock_snowflake, mock_snowflake_connection):
         """Test basic query execution."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeIngestor
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeIngestor
 
         mock_conn, mock_cursor = mock_snowflake_connection
         mock_snowflake.connector.connect = Mock(return_value=mock_conn)
@@ -355,11 +355,11 @@ class TestSnowflakeIngestor:
         assert data.query == query
         assert len(data.data) == 1
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_ingest_query_with_params(self, mock_snowflake, mock_snowflake_connection):
         """Test query execution with parameters."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeIngestor
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeIngestor
 
         mock_conn, mock_cursor = mock_snowflake_connection
         mock_snowflake.connector.connect = Mock(return_value=mock_conn)
@@ -378,11 +378,11 @@ class TestSnowflakeIngestor:
         # Verify params were passed
         assert mock_cursor.execute.call_args[0][1] == params
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_ingest_query_with_batching(self, mock_snowflake, mock_snowflake_connection):
         """Test query execution with batch fetching."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeIngestor
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeIngestor
 
         mock_conn, mock_cursor = mock_snowflake_connection
         mock_snowflake.connector.connect = Mock(return_value=mock_conn)
@@ -404,11 +404,11 @@ class TestSnowflakeIngestor:
         assert data.row_count == 3
         assert len(data.data) == 3
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_get_table_schema(self, mock_snowflake, mock_snowflake_connection):
         """Test getting table schema information."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeIngestor
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeIngestor
 
         mock_conn, mock_cursor = mock_snowflake_connection
         mock_snowflake.connector.connect = Mock(return_value=mock_conn)
@@ -452,11 +452,11 @@ class TestSnowflakeIngestor:
         assert schema["columns"][0]["nullable"] is False
         assert schema["primary_keys"] == ["ID"]
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_list_tables(self, mock_snowflake, mock_snowflake_connection):
         """Test listing tables in a schema."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeIngestor
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeIngestor
 
         mock_conn, mock_cursor = mock_snowflake_connection
         mock_snowflake.connector.connect = Mock(return_value=mock_conn)
@@ -479,11 +479,11 @@ class TestSnowflakeIngestor:
         assert "CUSTOMERS" in tables
         assert "ORDERS" in tables
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_export_as_documents(self, mock_snowflake):
         """Test exporting data as documents."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeData, SnowflakeIngestor
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeData, SnowflakeIngestor
 
         ingestor = SnowflakeIngestor(
             account="test_account",
@@ -514,11 +514,11 @@ class TestSnowflakeIngestor:
         assert documents[0]["metadata"]["source"] == "snowflake"
         assert documents[0]["metadata"]["table"] == "EMPLOYEES"
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_context_manager(self, mock_snowflake, mock_snowflake_connection):
         """Test using ingestor as context manager."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeIngestor
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeIngestor
 
         mock_conn, mock_cursor = mock_snowflake_connection
         mock_snowflake.connector.connect = Mock(return_value=mock_conn)
@@ -532,11 +532,11 @@ class TestSnowflakeIngestor:
 
         mock_conn.close.assert_called()
 
-    @patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
-    @patch("semantica.ingest.snowflake_ingestor.snowflake")
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", True)
+    @patch("sloth_graphmind.ingest.snowflake_ingestor.snowflake")
     def test_convert_datetime(self, mock_snowflake):
         """Test datetime conversion in _convert_rows."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeIngestor
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeIngestor
 
         ingestor = SnowflakeIngestor(
             account="test_account",
@@ -554,8 +554,8 @@ class TestSnowflakeIngestor:
 
     def test_import_error_without_snowflake(self):
         """Test that proper error is raised when snowflake-connector-python is not installed."""
-        with patch("semantica.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", False):
-            from semantica.ingest.snowflake_ingestor import SnowflakeConnector
+        with patch("sloth_graphmind.ingest.snowflake_ingestor.SNOWFLAKE_AVAILABLE", False):
+            from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeConnector
 
             with pytest.raises(ImportError, match="snowflake-connector-python is required"):
                 SnowflakeConnector(
@@ -570,7 +570,7 @@ class TestSnowflakeData:
 
     def test_snowflake_data_creation(self):
         """Test SnowflakeData creation."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeData
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeData
 
         data = SnowflakeData(
             data=[{"col1": "val1"}],
@@ -586,7 +586,7 @@ class TestSnowflakeData:
 
     def test_snowflake_data_with_metadata(self):
         """Test SnowflakeData with metadata."""
-        from semantica.ingest.snowflake_ingestor import SnowflakeData
+        from sloth_graphmind.ingest.snowflake_ingestor import SnowflakeData
 
         metadata = {"custom_field": "value"}
         data = SnowflakeData(

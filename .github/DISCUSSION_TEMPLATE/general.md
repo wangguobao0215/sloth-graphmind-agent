@@ -9,7 +9,7 @@ What would you like to discuss? Provide a clear topic or question.
 
 ## Details
 
-Provide context, background, or details about your discussion topic. This could be about Semantica, the community, best practices, architecture, use cases, etc.
+Provide context, background, or details about your discussion topic. This could be about GraphMind, the community, best practices, architecture, use cases, etc.
 
 ## Discussion Areas
 

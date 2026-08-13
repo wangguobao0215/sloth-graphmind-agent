@@ -1,11 +1,11 @@
 ---
 name: ingest
-description: Ingest data from files, databases, APIs, or streams into Semantica knowledge graphs with schema mapping and entity linking.
+description: Ingest data from files, databases, APIs, or streams into GraphMind knowledge graphs with schema mapping and entity linking.
 ---
 
-# /semantica:ingest
+# /sloth_graphmind:ingest
 
-Ingest new data into the knowledge graph. Usage: `/semantica:ingest <source> [args]`
+Ingest new data into the knowledge graph. Usage: `/sloth_graphmind:ingest <source> [args]`
 
 `$ARGUMENTS` = source type + optional file path, connection string, or dataset identifier.
 
@@ -16,7 +16,7 @@ Ingest new data into the knowledge graph. Usage: `/semantica:ingest <source> [ar
 Ingest structured data from a local file.
 
 ```python
-from semantica.ingest import ingest_file
+from sloth_graphmind.ingest import ingest_file
 
 data = ingest_file(file_path=path, method='file', file_format=file_format)
 ```
@@ -30,7 +30,7 @@ Output: imported node/edge count and ingestion summary.
 Ingest data from a database source.
 
 ```python
-from semantica.ingest import ingest_database
+from sloth_graphmind.ingest import ingest_database
 
 result = ingest_database(connection_string=conn, query=query)
 ```

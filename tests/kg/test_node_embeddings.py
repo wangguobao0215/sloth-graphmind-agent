@@ -9,7 +9,7 @@ import pytest
 import numpy as np
 from unittest.mock import Mock, patch
 
-from semantica.kg.node_embeddings import NodeEmbedder
+from sloth_graphmind.kg.node_embeddings import NodeEmbedder
 
 
 class TestNodeEmbedder:
@@ -61,7 +61,7 @@ class TestNodeEmbedder:
         with pytest.raises(ValueError, match="Unsupported embedding method"):
             NodeEmbedder(method="invalid_method")
     
-    @patch('semantica.kg.node_embeddings.GENSIM_AVAILABLE', False)
+    @patch('sloth_graphmind.kg.node_embeddings.GENSIM_AVAILABLE', False)
     def test_init_gensim_unavailable(self):
         """Test NodeEmbedder initialization when gensim is unavailable."""
         with pytest.raises(ImportError, match="gensim is required for Node2Vec"):
@@ -138,7 +138,7 @@ class TestNodeEmbedder:
         
         assert probabilities in neighbors
     
-    @patch('semantica.kg.node_embeddings.Word2Vec')
+    @patch('sloth_graphmind.kg.node_embeddings.Word2Vec')
     def test_train_word2vec(self, mock_word2vec):
         """Test Word2Vec model training."""
         mock_model = Mock()
@@ -169,7 +169,7 @@ class TestNodeEmbedder:
         similarity = embedder._cosine_similarity(vec1, vec3)
         assert abs(similarity - 1.0) < 1e-10  # Should be approximately 1
     
-    @patch('semantica.kg.node_embeddings.Word2Vec')
+    @patch('sloth_graphmind.kg.node_embeddings.Word2Vec')
     def test_compute_embeddings(self, mock_word2vec):
         """Test full embedding computation pipeline."""
         # Mock Word2Vec model

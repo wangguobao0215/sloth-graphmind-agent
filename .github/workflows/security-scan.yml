@@ -47,7 +47,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install safety bandit semgrep jq
           # Install the project itself (core deps + the LiteLLM provider extra)
-          # so Safety scans Semantica's actual dependency tree, not just the
+          # so Safety scans GraphMind's actual dependency tree, not just the
           # scanner tools' own dependencies.
           pip install -e ".[llm-litellm]"
 
@@ -97,18 +97,18 @@ jobs:
         
       - name: Run Bandit (Code Security Linter)
         run: |
-          bandit -r semantica/ -f json -o bandit-report.json || true
+          bandit -r sloth_graphmind/ -f json -o bandit-report.json || true
           echo "Checking for HIGH severity security issues..."
           
           # Count HIGH severity issues
-          HIGH_ISSUES=$(bandit -r semantica/ -f json -ll 2>/dev/null | jq -r '.results[]? | select(.issue_severity == "HIGH") | .test_name' 2>/dev/null | wc -l || echo "0")
+          HIGH_ISSUES=$(bandit -r sloth_graphmind/ -f json -ll 2>/dev/null | jq -r '.results[]? | select(.issue_severity == "HIGH") | .test_name' 2>/dev/null | wc -l || echo "0")
           
           if [ "$HIGH_ISSUES" -gt 0 ]; then
             echo "❌ HIGH severity security issues found: $HIGH_ISSUES"
             echo "CI will fail to prevent merging of high-risk code"
             echo ""
             echo "High severity issues:"
-            bandit -r semantica/ -ll | grep "Severity: High" -A 5 -B 1 || true
+            bandit -r sloth_graphmind/ -ll | grep "Severity: High" -A 5 -B 1 || true
             exit 1
           else
             echo "✅ No HIGH severity security issues found"
@@ -117,16 +117,16 @@ jobs:
       - name: Run Semgrep (Static Analysis)
         run: |
           echo "Running Semgrep static analysis..."
-          semgrep --config=auto --json --output=semgrep-report.json semantica/ || true
+          semgrep --config=auto --json --output=semgrep-report.json sloth_graphmind/ || true
           
           # Run security-focused rules
           echo "Checking for security patterns..."
-          SECURITY_ISSUES=$(semgrep --config=p/security --json semantica/ 2>/dev/null | jq '.results | length' 2>/dev/null || echo "0")
+          SECURITY_ISSUES=$(semgrep --config=p/security --json sloth_graphmind/ 2>/dev/null | jq '.results | length' 2>/dev/null || echo "0")
           
           if [ "$SECURITY_ISSUES" -gt 0 ]; then
             echo "⚠️ Security patterns found: $SECURITY_ISSUES"
             echo "Review these findings for potential improvements"
-            semgrep --config=p/security semantica/ || true
+            semgrep --config=p/security sloth_graphmind/ || true
           else
             echo "✅ No security patterns found"
           fi

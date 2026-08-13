@@ -10,7 +10,7 @@ import time
 from typing import Dict, List, Any
 import uuid
 
-from semantica.kg import (
+from sloth_graphmind.kg import (
     GraphBuilderWithProvenance,
     AlgorithmTrackerWithProvenance,
     NodeEmbedder,

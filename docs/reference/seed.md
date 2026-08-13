@@ -4,7 +4,7 @@ description: "Bootstrap Knowledge Graphs from verified, structured sources: taxo
 icon: "database"
 ---
 
-**`semantica.seed`** gives your knowledge graph a **reliable, verified starting point**:
+**`sloth_graphmind.seed`** gives your knowledge graph a **reliable, verified starting point**:
 
 - Load verified reference data first: ISO codes, employee rosters, product catalogs, domain taxonomies
 - `SeedDataManager` merges freshly extracted data onto foundation nodes without creating duplicates
@@ -39,7 +39,7 @@ icon: "database"
 <Steps>
   <Step title="Register your seed sources">
     ```python
-    from semantica.seed import SeedDataManager
+    from sloth_graphmind.seed import SeedDataManager
 
     manager = SeedDataManager()
 
@@ -79,7 +79,7 @@ icon: "database"
   </Step>
   <Step title="Merge with extracted data">
     ```python
-    from semantica.semantic_extract import NERExtractor
+    from sloth_graphmind.semantic_extract import NERExtractor
 
     extractor = NERExtractor(method="ml")
     new_entities = extractor.extract("Apple Inc. partners with Microsoft Corp.")
@@ -103,7 +103,7 @@ icon: "database"
 <Tabs>
   <Tab title="CSV">
     ```python
-    from semantica.seed import SeedDataSource, SeedDataManager
+    from sloth_graphmind.seed import SeedDataSource, SeedDataManager
 
     csv_source = SeedDataSource(
         name="employees",
@@ -235,10 +235,10 @@ Different strategies for resolving conflicts during `integrate_with_extracted()`
 ## Full Pipeline Example
 
 ```python
-from semantica.seed import SeedDataManager
-from semantica.parse import DocumentParser
-from semantica.split import TextSplitter
-from semantica.semantic_extract import NERExtractor, RelationExtractor
+from sloth_graphmind.seed import SeedDataManager
+from sloth_graphmind.parse import DocumentParser
+from sloth_graphmind.split import TextSplitter
+from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
 
 # Initialize components
 manager   = SeedDataManager()

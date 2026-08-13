@@ -3,8 +3,8 @@
 from datetime import datetime
 from unittest.mock import Mock
 
-from semantica.context.causal_analyzer import CausalChainAnalyzer
-from semantica.context.decision_query import DecisionQuery
+from sloth_graphmind.context.causal_analyzer import CausalChainAnalyzer
+from sloth_graphmind.context.decision_query import DecisionQuery
 
 
 def test_decision_query_unwraps_execute_query_records_wrapper():

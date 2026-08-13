@@ -4,7 +4,7 @@ description: "Universal data ingestion from files, Parquet, XML, web, public API
 icon: "database"
 ---
 
-**`semantica.ingest`** is the **universal entry point** for loading data into Semantica:
+**`sloth_graphmind.ingest`** is the **universal entry point** for loading data into GraphMind:
 
 - 15+ ingestion adapters: files, web, SQL, Databricks, Snowflake, Kafka, MCP, Git repos, email
 - PyArrow Parquet with column selection and partitioned dataset support
@@ -41,7 +41,7 @@ icon: "database"
 Use **`FileIngestor`** for local files: it **auto-detects format** from the file extension and handles archives:
 
 ```python
-from semantica.ingest import FileIngestor
+from sloth_graphmind.ingest import FileIngestor
 
 ingestor = FileIngestor()
 
@@ -66,18 +66,18 @@ For web, database, or stream sources, each ingestor exposes its own typed method
 
 ```python
 # Web
-from semantica.ingest import WebIngestor
+from sloth_graphmind.ingest import WebIngestor
 wc = WebIngestor(delay=1.0, respect_robots=True).ingest_url("https://example.com")
 print(wc.title, wc.text)
 
 # Database: constructor takes no required args; pass connection_string to methods
-from semantica.ingest import DBIngestor
+from sloth_graphmind.ingest import DBIngestor
 db = DBIngestor()
 result = db.ingest_database("postgresql://user:pass@localhost/db")
 # result["tables"]["documents"]["rows"] contains the rows
 
 # Unified dispatcher: auto-detects source type
-from semantica.ingest import ingest
+from sloth_graphmind.ingest import ingest
 result = ingest("data/report.pdf")          # -> {"files": [FileObject]}
 result = ingest("https://example.com")      # -> {"content": WebContent}
 result = ingest("data/events.parquet")      # -> {"data": ParquetData}
@@ -89,7 +89,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
 <Steps>
   <Step title="Ingest local files">
     ```python
-    from semantica.ingest import FileIngestor
+    from sloth_graphmind.ingest import FileIngestor
 
     ingestor = FileIngestor()
 
@@ -100,13 +100,13 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     files = ingestor.ingest_directory("data/", recursive=True)
 
     # ingest() also works: routes to file or directory automatically
-    from semantica.ingest import ingest
+    from sloth_graphmind.ingest import ingest
     result = ingest("data/report.pdf")   # {"files": [FileObject]}
     ```
   </Step>
   <Step title="Connect to a database">
     ```python
-    from semantica.ingest import DBIngestor
+    from sloth_graphmind.ingest import DBIngestor
 
     ingestor = DBIngestor()
 
@@ -127,10 +127,10 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
   </Step>
   <Step title="Feed into the pipeline">
     ```python
-    from semantica.ingest import FileIngestor
-    from semantica.pipeline import PipelineBuilder, ExecutionEngine
-    from semantica.parse import DocumentParser
-    from semantica.semantic_extract import NERExtractor
+    from sloth_graphmind.ingest import FileIngestor
+    from sloth_graphmind.pipeline import PipelineBuilder, ExecutionEngine
+    from sloth_graphmind.parse import DocumentParser
+    from sloth_graphmind.semantic_extract import NERExtractor
 
     ingestor  = FileIngestor()
     parser    = DocumentParser()
@@ -156,7 +156,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     ### FileIngestor
 
     ```python
-    from semantica.ingest import FileIngestor
+    from sloth_graphmind.ingest import FileIngestor
 
     ingestor = FileIngestor()
 
@@ -181,7 +181,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     PyArrow-based ingestion for Apache Parquet files, including Hive-style partitioned datasets:
 
     ```python
-    from semantica.ingest import ParquetIngestor
+    from sloth_graphmind.ingest import ParquetIngestor
 
     ingestor = ParquetIngestor()
 
@@ -192,7 +192,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     data = ingestor.ingest_directory("data/partitioned/")
 
     # Load only specific columns: pass as kwarg
-    from semantica.ingest import ingest_parquet
+    from sloth_graphmind.ingest import ingest_parquet
     data = ingest_parquet("data/events.parquet", columns=["id", "text", "timestamp"])
 
     # Extract schema without loading data
@@ -210,14 +210,14 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     XXE-safe lxml-based ingestion with optional schema validation:
 
     ```python
-    from semantica.ingest import XMLIngestor
+    from sloth_graphmind.ingest import XMLIngestor
 
     # Basic ingestion
     ingestor = XMLIngestor()
     data = ingestor.ingest_file("data/records.xml")
 
     # With XSD validation: pass schema_path as kwarg
-    from semantica.ingest import ingest_xml
+    from sloth_graphmind.ingest import ingest_xml
     data = ingest_xml("data/records.xml", schema_path="schema.xsd")
 
     # Validation report only
@@ -232,14 +232,14 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     </Note>
 
     <Warning>
-      **`XMLIngestor` is XXE-safe by default.** Do not use standard `xml.etree.ElementTree` to pre-parse XML before passing to Semantica: it does not block XXE attacks. `XMLIngestor` uses lxml with `resolve_entities=False` to safely parse untrusted XML.
+      **`XMLIngestor` is XXE-safe by default.** Do not use standard `xml.etree.ElementTree` to pre-parse XML before passing to GraphMind: it does not block XXE attacks. `XMLIngestor` uses lxml with `resolve_entities=False` to safely parse untrusted XML.
     </Warning>
   </Tab>
   <Tab title="Web & Feed">
     ### WebIngestor
 
     ```python
-    from semantica.ingest import WebIngestor
+    from sloth_graphmind.ingest import WebIngestor
 
     ingestor = WebIngestor(
         delay=1.0,             # seconds between requests
@@ -271,7 +271,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     Use this for public REST-style APIs that do not require keys or tokens:
 
     ```python
-    from semantica.ingest import PublicAPIIngestor, PublicAPIExamples, ingest_public_api
+    from sloth_graphmind.ingest import PublicAPIIngestor, PublicAPIExamples, ingest_public_api
 
     ingestor = PublicAPIIngestor(rate_limit_delay=1.0)
 
@@ -297,7 +297,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     ### FeedIngestor (RSS/Atom)
 
     ```python
-    from semantica.ingest import FeedIngestor
+    from sloth_graphmind.ingest import FeedIngestor
 
     ingestor = FeedIngestor()
 
@@ -305,7 +305,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     feed = ingestor.ingest_feed("https://feeds.example.com/rss")
 
     # Discover feeds from a website
-    from semantica.ingest import ingest_feed
+    from sloth_graphmind.ingest import ingest_feed
     feeds = ingest_feed("https://example.com", method="discover")
     ```
 
@@ -316,7 +316,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     Ingest Git repositories: source code, commit history, and dependency graphs:
 
     ```python
-    from semantica.ingest import RepoIngestor
+    from sloth_graphmind.ingest import RepoIngestor
 
     ingestor = RepoIngestor(
         branch="main",
@@ -336,7 +336,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     Ingest emails via IMAP or POP3 with attachment extraction and thread analysis:
 
     ```python
-    from semantica.ingest import EmailIngestor
+    from sloth_graphmind.ingest import EmailIngestor
     import os
 
     ingestor = EmailIngestor(
@@ -362,7 +362,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     `CloudStorageIngestor` is a unified client for AWS S3, Google Cloud Storage, and Azure Blob Storage:
 
     ```python
-    from semantica.ingest import CloudStorageIngestor
+    from sloth_graphmind.ingest import CloudStorageIngestor
     import os
 
     # AWS S3: list and download objects
@@ -376,7 +376,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     content = ingestor.download_object("my-documents-bucket", "reports/2024/report.pdf")
 
     # FileIngestor.ingest_cloud() wraps CloudStorageIngestor
-    from semantica.ingest import FileIngestor
+    from sloth_graphmind.ingest import FileIngestor
     files = FileIngestor().ingest_cloud(
         provider="s3",
         bucket="my-documents-bucket",
@@ -393,7 +393,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     `DBIngestor` takes no required constructor args. Pass the connection string to each method:
 
     ```python
-    from semantica.ingest import DBIngestor
+    from sloth_graphmind.ingest import DBIngestor
 
     ingestor = DBIngestor()
 
@@ -428,7 +428,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     ### SnowflakeIngestor
 
     ```python
-    from semantica.ingest import SnowflakeIngestor
+    from sloth_graphmind.ingest import SnowflakeIngestor
     import os
 
     ingestor = SnowflakeIngestor(
@@ -446,7 +446,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     ### DatabricksIngestor
 
     ```python
-    from semantica.ingest import DatabricksIngestor
+    from sloth_graphmind.ingest import DatabricksIngestor
     import os
 
     ingestor = DatabricksIngestor(
@@ -467,7 +467,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
     Real-time ingestion from message brokers: each method returns a typed processor:
 
     ```python
-    from semantica.ingest import StreamIngestor
+    from sloth_graphmind.ingest import StreamIngestor
 
     ingestor = StreamIngestor()
 
@@ -519,7 +519,7 @@ result = ingest("ontology.ttl")             # -> {"ontology": OntologyData}
 `ingest()` auto-detects source type from the path or URL and routes to the appropriate ingestor. It returns a `Dict[str, Any]` where the key depends on source type:
 
 ```python
-from semantica.ingest import ingest
+from sloth_graphmind.ingest import ingest
 
 # File
 result = ingest("report.pdf")               # {"files": [FileObject]}
@@ -608,14 +608,14 @@ files = FileIngestor().ingest_directory("data/", recursive=True, read_content=Fa
 Ingest existing OWL or RDF ontology files as structured knowledge sources:
 
 ```python
-from semantica.ingest import OntologyIngestor
+from sloth_graphmind.ingest import OntologyIngestor
 
 ingestor = OntologyIngestor()
 
 data = ingestor.ingest_ontology("domain_ontology.owl", format="turtle")
 
 # Or using the convenience function
-from semantica.ingest import ingest_ontology
+from sloth_graphmind.ingest import ingest_ontology
 data = ingest_ontology("domain_ontology.ttl")
 ```
 
@@ -624,8 +624,8 @@ data = ingest_ontology("domain_ontology.ttl")
 Register a custom ingestor function to participate in the full registry:
 
 ```python
-from semantica.ingest.registry import method_registry
-from semantica.ingest import FileObject
+from sloth_graphmind.ingest.registry import method_registry
+from sloth_graphmind.ingest import FileObject
 
 def my_ingestor(source, **kwargs):
     # Return whatever your format produces
@@ -641,7 +641,7 @@ def my_ingestor(source, **kwargs):
 method_registry.register("file", "my_format", my_ingestor)
 
 # Now callable via the convenience function
-from semantica.ingest import ingest_file
+from sloth_graphmind.ingest import ingest_file
 result = ingest_file("source_path", method="my_format")
 ```
 

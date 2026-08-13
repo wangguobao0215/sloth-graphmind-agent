@@ -7,9 +7,9 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from semantica.semantic_extract.triplet_extractor import Triplet
-from semantica.triplet_store.blazegraph_store import BlazegraphStore
-from semantica.utils.exceptions import ProcessingError
+from sloth_graphmind.semantic_extract.triplet_extractor import Triplet
+from sloth_graphmind.triplet_store.blazegraph_store import BlazegraphStore
+from sloth_graphmind.utils.exceptions import ProcessingError
 
 
 class TestBlazegraphStoreSerialization(unittest.TestCase):
@@ -222,7 +222,7 @@ class TestBlazegraphStoreSerialization(unittest.TestCase):
         self.assertEqual(obj, "\"Colour\"@en-GB")
 
 
-from semantica.triplet_store import sparql_escaping
+from sloth_graphmind.triplet_store import sparql_escaping
 
 
 class TestSparqlEscapingExtractionParity(unittest.TestCase):
@@ -388,7 +388,7 @@ class TestBlazegraphStoreConstructExtension(unittest.TestCase):
         )
         mock_response.raise_for_status = MagicMock()
 
-        with patch("semantica.triplet_store.blazegraph_store.requests.post", return_value=mock_response) as mock_post:
+        with patch("sloth_graphmind.triplet_store.blazegraph_store.requests.post", return_value=mock_response) as mock_post:
             store.execute_sparql("CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o }")
 
         _, kwargs = mock_post.call_args
@@ -408,7 +408,7 @@ class TestBlazegraphStoreConstructExtension(unittest.TestCase):
         mock_response.content = turtle_fixture
         mock_response.raise_for_status = MagicMock()
 
-        with patch("semantica.triplet_store.blazegraph_store.requests.post", return_value=mock_response):
+        with patch("sloth_graphmind.triplet_store.blazegraph_store.requests.post", return_value=mock_response):
             result = store.execute_sparql("CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o }")
 
         self.assertTrue(result["success"])
@@ -433,7 +433,7 @@ class TestBlazegraphStoreConstructExtension(unittest.TestCase):
         mock_response.content = b'@prefix ex: <http://ex.org/> .\nex:s1 ex:p1 "v" .\n'
         mock_response.raise_for_status = MagicMock()
 
-        with patch("semantica.triplet_store.blazegraph_store.requests.post", return_value=mock_response) as mock_post:
+        with patch("sloth_graphmind.triplet_store.blazegraph_store.requests.post", return_value=mock_response) as mock_post:
             result = store.execute_sparql("SELECT ?s WHERE { ?s ?p ?o }", result_format="construct")
 
         _, kwargs = mock_post.call_args
@@ -447,7 +447,7 @@ class TestBlazegraphStoreConstructExtension(unittest.TestCase):
         mock_response.content = b"this is { not [ valid turtle syntax at all !!!"
         mock_response.raise_for_status = MagicMock()
 
-        with patch("semantica.triplet_store.blazegraph_store.requests.post", return_value=mock_response):
+        with patch("sloth_graphmind.triplet_store.blazegraph_store.requests.post", return_value=mock_response):
             with self.assertRaises(ProcessingError) as ctx:
                 store.execute_sparql("CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o }")
 
@@ -470,7 +470,7 @@ class TestBlazegraphStoreConstructExtension(unittest.TestCase):
         mock_response.content = turtle_fixture
         mock_response.raise_for_status = MagicMock()
 
-        with patch("semantica.triplet_store.blazegraph_store.requests.post", return_value=mock_response):
+        with patch("sloth_graphmind.triplet_store.blazegraph_store.requests.post", return_value=mock_response):
             result = store.execute_sparql("CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o }")
 
         self.assertEqual(len(result["triples"]), 1)
@@ -499,7 +499,7 @@ class TestBlazegraphStoreConstructExtension(unittest.TestCase):
         }
         mock_response.raise_for_status = MagicMock()
 
-        with patch("semantica.triplet_store.blazegraph_store.requests.post", return_value=mock_response) as mock_post:
+        with patch("sloth_graphmind.triplet_store.blazegraph_store.requests.post", return_value=mock_response) as mock_post:
             result = store.execute_sparql("SELECT ?s ?p ?o WHERE { ?s ?p ?o }")
 
         # Accept header must NOT be sent for a non-CONSTRUCT query — request
@@ -530,7 +530,7 @@ class TestBlazegraphStoreConstructExtension(unittest.TestCase):
         mock_response.json.return_value = {"head": {}, "boolean": True}
         mock_response.raise_for_status = MagicMock()
 
-        with patch("semantica.triplet_store.blazegraph_store.requests.post", return_value=mock_response) as mock_post:
+        with patch("sloth_graphmind.triplet_store.blazegraph_store.requests.post", return_value=mock_response) as mock_post:
             store.execute_sparql("ASK { ?s ?p ?o }")
 
         _, kwargs = mock_post.call_args
@@ -544,7 +544,7 @@ class TestQueryEngineConstructValidation(unittest.TestCase):
     """
 
     def test_construct_query_passes_validation_unchanged(self):
-        from semantica.triplet_store.query_engine import QueryEngine
+        from sloth_graphmind.triplet_store.query_engine import QueryEngine
 
         engine = QueryEngine()
         query = "CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o }"

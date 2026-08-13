@@ -49,7 +49,7 @@ from unittest.mock import MagicMock, Mock, patch
 import pytest
 
 # ── Context module ────────────────────────────────────────────────────────────
-from semantica.context import (
+from sloth_graphmind.context import (
     AgentContext,
     CausalChainAnalyzer,
     ContextGraph,
@@ -59,7 +59,7 @@ from semantica.context import (
     Policy,
     PolicyEngine,
 )
-from semantica.context.decision_models import (
+from sloth_graphmind.context.decision_models import (
     ApprovalChain,
     PolicyException,
     Precedent,
@@ -69,7 +69,7 @@ from semantica.context.decision_models import (
 )
 
 # ── KG module ─────────────────────────────────────────────────────────────────
-from semantica.kg import (
+from sloth_graphmind.kg import (
     CentralityCalculator,
     CommunityDetector,
     ConnectivityAnalyzer,
@@ -891,7 +891,7 @@ class TestDeduplicationV2RealWorld:
     """Semantic deduplication with company name variants (real-world data quality issue)."""
 
     def test_semantic_dedup_company_name_variants(self):
-        from semantica.deduplication import DuplicateDetector
+        from sloth_graphmind.deduplication import DuplicateDetector
 
         entities = [
             {"id": "e1", "name": "Apple Inc.", "type": "Company"},
@@ -911,7 +911,7 @@ class TestDeduplicationV2RealWorld:
         assert len(duplicates) > 0
 
     def test_semantic_dedup_v2_mode(self):
-        from semantica.deduplication import DuplicateDetector
+        from sloth_graphmind.deduplication import DuplicateDetector
 
         entities = [
             {"id": "e1", "name": "OpenAI Inc.", "type": "Company"},
@@ -924,7 +924,7 @@ class TestDeduplicationV2RealWorld:
         assert isinstance(duplicates, list)
 
     def test_blocking_v2_candidate_generation(self):
-        from semantica.deduplication import DuplicateDetector
+        from sloth_graphmind.deduplication import DuplicateDetector
 
         entities = [
             {"id": f"ent_{i}", "name": f"Entity Name {i}", "type": "Organization"}
@@ -960,7 +960,7 @@ class TestRDFExportAliases:
         }
 
     def test_ttl_alias_export(self):
-        from semantica.export import RDFExporter
+        from sloth_graphmind.export import RDFExporter
         exporter = RDFExporter()
         kg_data = self._make_kg_data()
         # export_to_rdf returns a string; "ttl" is an alias for "turtle"
@@ -971,7 +971,7 @@ class TestRDFExportAliases:
         assert "apple" in result or "Apple" in result or "@" in result or "<" in result
 
     def test_nt_alias_export(self):
-        from semantica.export import RDFExporter
+        from sloth_graphmind.export import RDFExporter
         exporter = RDFExporter()
         kg_data = self._make_kg_data()
         result = exporter.export_to_rdf(kg_data, format="nt")
@@ -979,7 +979,7 @@ class TestRDFExportAliases:
         assert len(result) > 0
 
     def test_turtle_canonical_format(self):
-        from semantica.export import RDFExporter
+        from sloth_graphmind.export import RDFExporter
         exporter = RDFExporter()
         kg_data = self._make_kg_data()
         result = exporter.export_to_rdf(kg_data, format="turtle")
@@ -987,7 +987,7 @@ class TestRDFExportAliases:
         assert len(result) > 0
 
     def test_invalid_format_raises(self):
-        from semantica.export import RDFExporter
+        from sloth_graphmind.export import RDFExporter
         exporter = RDFExporter()
         with pytest.raises(Exception):
             exporter.export_to_rdf(self._make_kg_data(), format="invalid_format_xyz")
@@ -1002,7 +1002,7 @@ class TestReasonerPatternMatching:
 
     def test_multi_word_value_inference(self):
         """Bug #354 — _match_pattern must match facts with multi-word values."""
-        from semantica.reasoning.reasoner import Reasoner
+        from sloth_graphmind.reasoning.reasoner import Reasoner
         reasoner = Reasoner()
         # Use dict fact format: source_name/target_name/type
         for fact in [
@@ -1024,7 +1024,7 @@ class TestReasonerPatternMatching:
 
     def test_single_word_value_regression(self):
         """Single-word value inference must continue to work (regression guard)."""
-        from semantica.reasoning.reasoner import Reasoner
+        from sloth_graphmind.reasoning.reasoner import Reasoner
         reasoner = Reasoner()
         inferred = reasoner.infer_facts(
             ["Person(John)", "Parent(John, Jane)"],
@@ -1034,7 +1034,7 @@ class TestReasonerPatternMatching:
 
     def test_pre_bound_variable_match(self):
         """_match_pattern must enforce pre-bound variables."""
-        from semantica.reasoning.reasoner import Reasoner
+        from sloth_graphmind.reasoning.reasoner import Reasoner
         reasoner = Reasoner()
         # Pre-bound: org=Apple must match exactly
         result = reasoner._match_pattern(
@@ -1048,7 +1048,7 @@ class TestReasonerPatternMatching:
 
     def test_pre_bound_variable_conflict_returns_none(self):
         """_match_pattern must return None on variable binding conflict."""
-        from semantica.reasoning.reasoner import Reasoner
+        from sloth_graphmind.reasoning.reasoner import Reasoner
         reasoner = Reasoner()
         result = reasoner._match_pattern(
             "founded_by(?person, ?org)",
@@ -1059,7 +1059,7 @@ class TestReasonerPatternMatching:
 
     def test_forward_chain_tech_facts(self):
         """Forward chaining with real-world tech facts."""
-        from semantica.reasoning.reasoner import Reasoner
+        from sloth_graphmind.reasoning.reasoner import Reasoner
         reasoner = Reasoner()
         reasoner.add_rule("IF AICompany(?x) AND Creates(?x, ?product) THEN AIProduct(?product)")
         reasoner.add_fact("AICompany(OpenAI)")
@@ -1077,7 +1077,7 @@ class TestPipelineRetryAndFailure:
     """Pipeline retry loop and FailureHandler from 0.3.0-beta fix."""
 
     def test_pipeline_builder_returns_step(self):
-        from semantica.pipeline import PipelineBuilder
+        from sloth_graphmind.pipeline import PipelineBuilder
 
         builder = PipelineBuilder()
         step = builder.add_step("ingest", "file_ingestor", dependencies=[])
@@ -1085,7 +1085,7 @@ class TestPipelineRetryAndFailure:
         assert hasattr(step, "name")
 
     def test_pipeline_validator_detects_missing_dependency(self):
-        from semantica.pipeline import PipelineBuilder, PipelineValidator
+        from sloth_graphmind.pipeline import PipelineBuilder, PipelineValidator
 
         builder = PipelineBuilder()
         builder.add_step("ingest", "file_ingestor", dependencies=[])
@@ -1099,7 +1099,7 @@ class TestPipelineRetryAndFailure:
         assert any("ghost_step" in e for e in result.errors)
 
     def test_failure_handler_linear_backoff(self):
-        from semantica.pipeline.failure_handler import FailureHandler, RetryPolicy, RecoveryAction, RetryStrategy
+        from sloth_graphmind.pipeline.failure_handler import FailureHandler, RetryPolicy, RecoveryAction, RetryStrategy
 
         handler = FailureHandler()
         policy = RetryPolicy(strategy=RetryStrategy.LINEAR, initial_delay=0.5, max_retries=5)
@@ -1112,7 +1112,7 @@ class TestPipelineRetryAndFailure:
         assert action.retry_delay >= 0.0
 
     def test_failure_handler_exponential_backoff(self):
-        from semantica.pipeline.failure_handler import FailureHandler, RetryPolicy, RecoveryAction, RetryStrategy
+        from sloth_graphmind.pipeline.failure_handler import FailureHandler, RetryPolicy, RecoveryAction, RetryStrategy
 
         handler = FailureHandler()
         policy = RetryPolicy(strategy=RetryStrategy.EXPONENTIAL, initial_delay=1.0, max_retries=5)
@@ -1122,7 +1122,7 @@ class TestPipelineRetryAndFailure:
         assert action2.retry_delay >= action1.retry_delay
 
     def test_validate_alias_works(self):
-        from semantica.pipeline import PipelineBuilder, PipelineValidator
+        from sloth_graphmind.pipeline import PipelineBuilder, PipelineValidator
 
         builder = PipelineBuilder()
         builder.add_step("step_a", "some_processor", dependencies=[])
@@ -1133,19 +1133,19 @@ class TestPipelineRetryAndFailure:
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# 14. ProvenanceTracker – now exported from semantica.kg (0.3.0-beta fix)
+# 14. ProvenanceTracker – now exported from sloth_graphmind.kg (0.3.0-beta fix)
 # ═════════════════════════════════════════════════════════════════════════════
 
 class TestProvenanceTrackerExport:
-    """ProvenanceTracker must be importable from semantica.kg after the fix."""
+    """ProvenanceTracker must be importable from sloth_graphmind.kg after the fix."""
 
     def test_provenance_tracker_importable_from_kg(self):
-        from semantica.kg import ProvenanceTracker
+        from sloth_graphmind.kg import ProvenanceTracker
         tracker = ProvenanceTracker()
         assert tracker is not None
 
     def test_provenance_tracker_track_entity(self):
-        from semantica.kg import ProvenanceTracker
+        from sloth_graphmind.kg import ProvenanceTracker
         tracker = ProvenanceTracker()
         tracker.track_entity("E1", "wikipedia:Apple_Inc", metadata={"type": "company"})
         tracker.track_entity("E1", "crunchbase:apple-inc", metadata={"type": "company"})
@@ -1156,7 +1156,7 @@ class TestProvenanceTrackerExport:
         assert "crunchbase:apple-inc" in source_ids
 
     def test_provenance_tracker_clear(self):
-        from semantica.kg import ProvenanceTracker
+        from sloth_graphmind.kg import ProvenanceTracker
         tracker = ProvenanceTracker()
         tracker.track_entity("E2", "source_a")
         tracker.clear()
@@ -1172,9 +1172,9 @@ class TestSemanticExtractRelationFix:
     """_parse_relation_result must not create duplicate relations (0.3.0-beta fix)."""
 
     def test_llm_relation_not_duplicated(self):
-        from semantica.semantic_extract.ner_extractor import Entity
-        from semantica.semantic_extract.schemas import RelationOut, RelationsResponse
-        from semantica.semantic_extract.methods import extract_relations_llm
+        from sloth_graphmind.semantic_extract.ner_extractor import Entity
+        from sloth_graphmind.semantic_extract.schemas import RelationOut, RelationsResponse
+        from sloth_graphmind.semantic_extract.methods import extract_relations_llm
 
         entities = [
             Entity(text="OpenAI", label="ORG", start_char=0, end_char=6, confidence=1.0),
@@ -1188,7 +1188,7 @@ class TestSemanticExtractRelationFix:
                     RelationOut(subject="OpenAI", predicate="created", object="ChatGPT", confidence=0.98)
                 ])
 
-        with patch("semantica.semantic_extract.methods.create_provider", return_value=_FakeLLM()):
+        with patch("sloth_graphmind.semantic_extract.methods.create_provider", return_value=_FakeLLM()):
             relations = extract_relations_llm(
                 "OpenAI created ChatGPT.",
                 entities=entities,
@@ -1203,9 +1203,9 @@ class TestSemanticExtractRelationFix:
         assert relations[0].predicate == "created"
 
     def test_extraction_method_typed_metadata(self):
-        from semantica.semantic_extract.ner_extractor import Entity
-        from semantica.semantic_extract.schemas import RelationOut, RelationsResponse
-        from semantica.semantic_extract.methods import extract_relations_llm
+        from sloth_graphmind.semantic_extract.ner_extractor import Entity
+        from sloth_graphmind.semantic_extract.schemas import RelationOut, RelationsResponse
+        from sloth_graphmind.semantic_extract.methods import extract_relations_llm
 
         entities = [
             Entity(text="Anthropic", label="ORG", start_char=0, end_char=9, confidence=1.0),
@@ -1219,7 +1219,7 @@ class TestSemanticExtractRelationFix:
                     RelationOut(subject="Anthropic", predicate="built", object="Claude", confidence=0.99)
                 ])
 
-        with patch("semantica.semantic_extract.methods.create_provider", return_value=_FakeLLM()):
+        with patch("sloth_graphmind.semantic_extract.methods.create_provider", return_value=_FakeLLM()):
             relations = extract_relations_llm(
                 "Anthropic built Claude.",
                 entities=entities,
@@ -1233,9 +1233,9 @@ class TestSemanticExtractRelationFix:
 
     def test_ghost_entity_resolved_from_full_list(self):
         """Entity filtered from prompt (due to max_entities_prompt) is still matched from original list."""
-        from semantica.semantic_extract.ner_extractor import Entity
-        from semantica.semantic_extract.schemas import RelationOut, RelationsResponse
-        from semantica.semantic_extract.methods import extract_relations_llm
+        from sloth_graphmind.semantic_extract.ner_extractor import Entity
+        from sloth_graphmind.semantic_extract.schemas import RelationOut, RelationsResponse
+        from sloth_graphmind.semantic_extract.methods import extract_relations_llm
 
         # 120 long names + 1 ghost entity not mentioned in text
         # (will be filtered from prompt since it's not in text, but must still be matched)
@@ -1256,7 +1256,7 @@ class TestSemanticExtractRelationFix:
                     RelationOut(subject="GhostCorp", predicate="acquired", object="VeryLongOrgName0", confidence=0.9)
                 ])
 
-        with patch("semantica.semantic_extract.methods.create_provider", return_value=_FakeLLM()):
+        with patch("sloth_graphmind.semantic_extract.methods.create_provider", return_value=_FakeLLM()):
             relations = extract_relations_llm(
                 "Short text about VeryLongOrgName0 only.",
                 entities=entities,

@@ -14,7 +14,7 @@ class TestAllProvenanceModules:
     def test_semantic_extract_imports(self):
         """Test semantic_extract provenance imports."""
         try:
-            from semantica.semantic_extract.semantic_extract_provenance import (
+            from sloth_graphmind.semantic_extract.semantic_extract_provenance import (
                 NERExtractorWithProvenance,
                 RelationExtractorWithProvenance,
                 EventDetectorWithProvenance,
@@ -29,7 +29,7 @@ class TestAllProvenanceModules:
     def test_llms_imports(self):
         """Test llms provenance imports."""
         try:
-            from semantica.llms.llms_provenance import (
+            from sloth_graphmind.llms.llms_provenance import (
                 GroqLLMWithProvenance,
                 OpenAILLMWithProvenance,
                 HuggingFaceLLMWithProvenance,
@@ -42,7 +42,7 @@ class TestAllProvenanceModules:
     def test_pipeline_imports(self):
         """Test pipeline provenance imports."""
         try:
-            from semantica.pipeline.pipeline_provenance import PipelineWithProvenance
+            from sloth_graphmind.pipeline.pipeline_provenance import PipelineWithProvenance
             assert PipelineWithProvenance is not None
         except ImportError as e:
             pytest.skip(f"pipeline not available: {e}")
@@ -50,7 +50,7 @@ class TestAllProvenanceModules:
     def test_conflicts_imports(self):
         """Test conflicts provenance imports."""
         try:
-            from semantica.conflicts.conflicts_provenance import SourceTrackerWithUnifiedBackend
+            from sloth_graphmind.conflicts.conflicts_provenance import SourceTrackerWithUnifiedBackend
             assert SourceTrackerWithUnifiedBackend is not None
         except ImportError as e:
             pytest.skip(f"conflicts not available: {e}")
@@ -58,7 +58,7 @@ class TestAllProvenanceModules:
     def test_context_imports(self):
         """Test context provenance imports."""
         try:
-            from semantica.context.context_provenance import ContextManagerWithProvenance
+            from sloth_graphmind.context.context_provenance import ContextManagerWithProvenance
             assert ContextManagerWithProvenance is not None
         except ImportError as e:
             pytest.skip(f"context not available: {e}")
@@ -66,7 +66,7 @@ class TestAllProvenanceModules:
     def test_ingest_imports(self):
         """Test ingest provenance imports."""
         try:
-            from semantica.ingest.ingest_provenance import PDFIngestorWithProvenance
+            from sloth_graphmind.ingest.ingest_provenance import PDFIngestorWithProvenance
             assert PDFIngestorWithProvenance is not None
         except ImportError as e:
             pytest.skip(f"ingest not available: {e}")
@@ -74,7 +74,7 @@ class TestAllProvenanceModules:
     def test_embeddings_imports(self):
         """Test embeddings provenance imports."""
         try:
-            from semantica.embeddings.embeddings_provenance import EmbeddingGeneratorWithProvenance
+            from sloth_graphmind.embeddings.embeddings_provenance import EmbeddingGeneratorWithProvenance
             assert EmbeddingGeneratorWithProvenance is not None
         except ImportError as e:
             pytest.skip(f"embeddings not available: {e}")
@@ -82,7 +82,7 @@ class TestAllProvenanceModules:
     def test_reasoning_imports(self):
         """Test reasoning provenance imports."""
         try:
-            from semantica.reasoning.reasoning_provenance import ReasoningEngineWithProvenance
+            from sloth_graphmind.reasoning.reasoning_provenance import ReasoningEngineWithProvenance
             assert ReasoningEngineWithProvenance is not None
         except ImportError as e:
             pytest.skip(f"reasoning not available: {e}")
@@ -90,7 +90,7 @@ class TestAllProvenanceModules:
     def test_deduplication_imports(self):
         """Test deduplication provenance imports."""
         try:
-            from semantica.deduplication.deduplication_provenance import DeduplicatorWithProvenance
+            from sloth_graphmind.deduplication.deduplication_provenance import DeduplicatorWithProvenance
             assert DeduplicatorWithProvenance is not None
         except ImportError as e:
             pytest.skip(f"deduplication not available: {e}")
@@ -98,7 +98,7 @@ class TestAllProvenanceModules:
     def test_export_imports(self):
         """Test export provenance imports."""
         try:
-            from semantica.export.export_provenance import ExporterWithProvenance
+            from sloth_graphmind.export.export_provenance import ExporterWithProvenance
             assert ExporterWithProvenance is not None
         except ImportError as e:
             pytest.skip(f"export not available: {e}")
@@ -106,7 +106,7 @@ class TestAllProvenanceModules:
     def test_parse_imports(self):
         """Test parse provenance imports."""
         try:
-            from semantica.parse.parse_provenance import ParserWithProvenance
+            from sloth_graphmind.parse.parse_provenance import ParserWithProvenance
             assert ParserWithProvenance is not None
         except ImportError as e:
             pytest.skip(f"parse not available: {e}")
@@ -114,7 +114,7 @@ class TestAllProvenanceModules:
     def test_normalize_imports(self):
         """Test normalize provenance imports."""
         try:
-            from semantica.normalize.normalize_provenance import NormalizerWithProvenance
+            from sloth_graphmind.normalize.normalize_provenance import NormalizerWithProvenance
             assert NormalizerWithProvenance is not None
         except ImportError as e:
             pytest.skip(f"normalize not available: {e}")
@@ -122,7 +122,7 @@ class TestAllProvenanceModules:
     def test_ontology_imports(self):
         """Test ontology provenance imports."""
         try:
-            from semantica.ontology.ontology_provenance import OntologyManagerWithProvenance
+            from sloth_graphmind.ontology.ontology_provenance import OntologyManagerWithProvenance
             assert OntologyManagerWithProvenance is not None
         except ImportError as e:
             pytest.skip(f"ontology not available: {e}")
@@ -130,7 +130,7 @@ class TestAllProvenanceModules:
     def test_visualization_imports(self):
         """Test visualization provenance imports."""
         try:
-            from semantica.visualization.visualization_provenance import VisualizerWithProvenance
+            from sloth_graphmind.visualization.visualization_provenance import VisualizerWithProvenance
             assert VisualizerWithProvenance is not None
         except ImportError as e:
             pytest.skip(f"visualization not available: {e}")
@@ -138,7 +138,7 @@ class TestAllProvenanceModules:
     def test_graph_store_imports(self):
         """Test graph_store provenance imports."""
         try:
-            from semantica.graph_store.graph_store_provenance import GraphStoreWithProvenance
+            from sloth_graphmind.graph_store.graph_store_provenance import GraphStoreWithProvenance
             assert GraphStoreWithProvenance is not None
         except ImportError as e:
             pytest.skip(f"graph_store not available: {e}")
@@ -146,7 +146,7 @@ class TestAllProvenanceModules:
     def test_vector_store_imports(self):
         """Test vector_store provenance imports."""
         try:
-            from semantica.vector_store.vector_store_provenance import VectorStoreWithProvenance
+            from sloth_graphmind.vector_store.vector_store_provenance import VectorStoreWithProvenance
             assert VectorStoreWithProvenance is not None
         except ImportError as e:
             pytest.skip(f"vector_store not available: {e}")
@@ -154,7 +154,7 @@ class TestAllProvenanceModules:
     def test_triplet_store_imports(self):
         """Test triplet_store provenance imports."""
         try:
-            from semantica.triplet_store.triplet_store_provenance import TripletStoreWithProvenance
+            from sloth_graphmind.triplet_store.triplet_store_provenance import TripletStoreWithProvenance
             assert TripletStoreWithProvenance is not None
         except ImportError as e:
             pytest.skip(f"triplet_store not available: {e}")
@@ -166,7 +166,7 @@ class TestProvenanceEnabledDisabled:
     def test_all_modules_support_provenance_false(self):
         """Test all modules work with provenance=False."""
         modules_to_test = [
-            ('semantica.context.context_provenance', 'ContextManagerWithProvenance'),
+            ('sloth_graphmind.context.context_provenance', 'ContextManagerWithProvenance'),
         ]
         
         for module_path, class_name in modules_to_test:
@@ -181,7 +181,7 @@ class TestProvenanceEnabledDisabled:
     def test_all_modules_support_provenance_true(self):
         """Test all modules work with provenance=True."""
         modules_to_test = [
-            ('semantica.context.context_provenance', 'ContextManagerWithProvenance'),
+            ('sloth_graphmind.context.context_provenance', 'ContextManagerWithProvenance'),
         ]
         
         for module_path, class_name in modules_to_test:
@@ -201,8 +201,8 @@ class TestProvenanceEnabledDisabled:
         cannot participate in the generic no-argument constructor loop above.
         """
         try:
-            from semantica.pipeline.pipeline_builder import Pipeline
-            from semantica.pipeline.pipeline_provenance import PipelineWithProvenance
+            from sloth_graphmind.pipeline.pipeline_builder import Pipeline
+            from sloth_graphmind.pipeline.pipeline_provenance import PipelineWithProvenance
 
             pipeline = Pipeline(name="compat_test")
             assert PipelineWithProvenance(pipeline, provenance=False).provenance is False
@@ -217,8 +217,8 @@ class TestAllModulesEdgeCases:
     def test_all_modules_handle_none_config(self):
         """Test all modules handle None in config gracefully."""
         modules = [
-            ('semantica.context.context_provenance', 'ContextManagerWithProvenance'),
-            ('semantica.embeddings.embeddings_provenance', 'EmbeddingGeneratorWithProvenance'),
+            ('sloth_graphmind.context.context_provenance', 'ContextManagerWithProvenance'),
+            ('sloth_graphmind.embeddings.embeddings_provenance', 'EmbeddingGeneratorWithProvenance'),
         ]
         
         for module_path, class_name in modules:
@@ -233,9 +233,9 @@ class TestAllModulesEdgeCases:
     def test_all_modules_independent_managers(self):
         """Test each module has independent provenance manager."""
         try:
-            from semantica.context.context_provenance import ContextManagerWithProvenance
-            from semantica.pipeline.pipeline_builder import Pipeline
-            from semantica.pipeline.pipeline_provenance import PipelineWithProvenance
+            from sloth_graphmind.context.context_provenance import ContextManagerWithProvenance
+            from sloth_graphmind.pipeline.pipeline_builder import Pipeline
+            from sloth_graphmind.pipeline.pipeline_provenance import PipelineWithProvenance
             
             ctx = ContextManagerWithProvenance(provenance=True)
             pipe = PipelineWithProvenance(
@@ -253,9 +253,9 @@ class TestAllModulesEdgeCases:
         """Test all modules handle import failures gracefully."""
         # All modules should handle ProvenanceManager import failure
         modules = [
-            'semantica.context.context_provenance',
-            'semantica.pipeline.pipeline_provenance',
-            'semantica.embeddings.embeddings_provenance',
+            'sloth_graphmind.context.context_provenance',
+            'sloth_graphmind.pipeline.pipeline_provenance',
+            'sloth_graphmind.embeddings.embeddings_provenance',
         ]
         
         for module_path in modules:
@@ -268,9 +268,9 @@ class TestAllModulesEdgeCases:
     def test_storage_modules_handle_empty_operations(self):
         """Test storage modules handle empty operations."""
         storage_modules = [
-            ('semantica.graph_store.graph_store_provenance', 'GraphStoreWithProvenance'),
-            ('semantica.vector_store.vector_store_provenance', 'VectorStoreWithProvenance'),
-            ('semantica.triplet_store.triplet_store_provenance', 'TripletStoreWithProvenance'),
+            ('sloth_graphmind.graph_store.graph_store_provenance', 'GraphStoreWithProvenance'),
+            ('sloth_graphmind.vector_store.vector_store_provenance', 'VectorStoreWithProvenance'),
+            ('sloth_graphmind.triplet_store.triplet_store_provenance', 'TripletStoreWithProvenance'),
         ]
         
         for module_path, class_name in storage_modules:
@@ -287,7 +287,7 @@ class TestAllModulesEdgeCases:
         special_source = "file_@#$%_中文_émoji🎉.pdf"
         
         try:
-            from semantica.context.context_provenance import ContextManagerWithProvenance
+            from sloth_graphmind.context.context_provenance import ContextManagerWithProvenance
             ctx = ContextManagerWithProvenance(provenance=True)
             # Should handle special characters
             assert ctx is not None
@@ -297,7 +297,7 @@ class TestAllModulesEdgeCases:
     def test_processing_modules_handle_batch_operations(self):
         """Test processing modules handle batch operations."""
         try:
-            from semantica.deduplication.deduplication_provenance import DeduplicatorWithProvenance
+            from sloth_graphmind.deduplication.deduplication_provenance import DeduplicatorWithProvenance
             dedup = DeduplicatorWithProvenance(provenance=True)
             # Should handle batch operations
             assert dedup is not None
@@ -307,7 +307,7 @@ class TestAllModulesEdgeCases:
     def test_all_modules_memory_efficient(self):
         """Test all modules are memory efficient."""
         try:
-            from semantica.context.context_provenance import ContextManagerWithProvenance
+            from sloth_graphmind.context.context_provenance import ContextManagerWithProvenance
             # Create multiple instances
             instances = [ContextManagerWithProvenance(provenance=True) for _ in range(10)]
             # Should not cause memory issues
@@ -318,8 +318,8 @@ class TestAllModulesEdgeCases:
     def test_export_import_modules_handle_formats(self):
         """Test export/import modules handle various formats."""
         try:
-            from semantica.export.export_provenance import ExporterWithProvenance
-            from semantica.parse.parse_provenance import ParserWithProvenance
+            from sloth_graphmind.export.export_provenance import ExporterWithProvenance
+            from sloth_graphmind.parse.parse_provenance import ParserWithProvenance
             
             exporter = ExporterWithProvenance(provenance=True)
             parser = ParserWithProvenance(provenance=True)

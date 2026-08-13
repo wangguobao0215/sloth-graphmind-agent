@@ -17,7 +17,7 @@ export default defineConfig({
  
   base: '/',
   build: {
-    outDir: path.resolve(__dirname, '../semantica/static'),
+    outDir: path.resolve(__dirname, '../sloth_graphmind/static'),
     emptyOutDir: true,
     chunkSizeWarningLimit: 650,
     // Explicit target avoids esbuild attempting to lower syntax that all

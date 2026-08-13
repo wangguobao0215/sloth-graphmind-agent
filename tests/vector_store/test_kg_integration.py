@@ -9,8 +9,8 @@ import pytest
 import numpy as np
 from unittest.mock import Mock, patch, MagicMock
 
-from semantica.vector_store.decision_embedding_pipeline import DecisionEmbeddingPipeline
-from semantica.context import ContextRetriever
+from sloth_graphmind.vector_store.decision_embedding_pipeline import DecisionEmbeddingPipeline
+from sloth_graphmind.context import ContextRetriever
 
 
 class TestKGAlgorithmIntegration:
@@ -120,7 +120,7 @@ class TestKGAlgorithmIntegration:
         assert retriever.community_detector is None
         assert retriever.similarity_calculator is None
     
-    @patch('semantica.vector_store.decision_embedding_pipeline.NodeEmbedder')
+    @patch('sloth_graphmind.vector_store.decision_embedding_pipeline.NodeEmbedder')
     def test_structural_embedding_uses_kg_algorithms(self, mock_node_embedder):
         """Test that structural embedding generation uses KG algorithms."""
         # Mock NodeEmbedder
@@ -148,9 +148,9 @@ class TestKGAlgorithmIntegration:
         assert result["structural_embedding"] is not None
         assert isinstance(result["structural_embedding"], np.ndarray)
     
-    @patch('semantica.context.context_retriever.PathFinder')
-    @patch('semantica.context.context_retriever.CommunityDetector')
-    @patch('semantica.context.context_retriever.CentralityCalculator')
+    @patch('sloth_graphmind.context.context_retriever.PathFinder')
+    @patch('sloth_graphmind.context.context_retriever.CommunityDetector')
+    @patch('sloth_graphmind.context.context_retriever.CentralityCalculator')
     def test_context_expansion_uses_kg_algorithms(self, mock_centrality, mock_community, mock_path_finder):
         """Test that context expansion uses KG algorithms."""
         # Mock KG algorithms
@@ -190,10 +190,10 @@ class TestKGAlgorithmIntegration:
     
     def test_kg_algorithm_integration_in_decision_context(self):
         """Test KG algorithm integration in DecisionContext."""
-        from semantica.context import DecisionContext
+        from sloth_graphmind.context import DecisionContext
         
         # Mock decision pipeline to use KG algorithms
-        with patch('semantica.context.decision_context.DecisionEmbeddingPipeline') as mock_pipeline:
+        with patch('sloth_graphmind.context.decision_context.DecisionEmbeddingPipeline') as mock_pipeline:
             mock_pipeline.return_value.process_decision.return_value = {
                 "vector_id": "decision_123",
                 "semantic_embedding": np.array([0.1, 0.2, 0.3, 0.4]),

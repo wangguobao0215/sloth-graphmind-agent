@@ -9,15 +9,15 @@ import os
 import tempfile
 from unittest.mock import MagicMock
 import pytest
-from semantica.change_management import (
+from sloth_graphmind.change_management import (
     TemporalVersionManager,
     OntologyVersionManager,
     ChangeLogEntry
 )
-from semantica.change_management.change_log import generate_change_report, ChangeLogAnalyzer
-from semantica.change_management.ontology_version_manager import VersionManager
-from semantica.ontology.engine import OntologyEngine
-from semantica.utils.exceptions import ValidationError, ProcessingError
+from sloth_graphmind.change_management.change_log import generate_change_report, ChangeLogAnalyzer
+from sloth_graphmind.change_management.ontology_version_manager import VersionManager
+from sloth_graphmind.ontology.engine import OntologyEngine
+from sloth_graphmind.utils.exceptions import ValidationError, ProcessingError
 
 
 class TestTemporalVersionManager:

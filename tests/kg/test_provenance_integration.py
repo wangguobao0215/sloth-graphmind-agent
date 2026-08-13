@@ -9,7 +9,7 @@ import networkx as nx
 from typing import Dict, List, Any
 import time
 
-from semantica.kg import (
+from sloth_graphmind.kg import (
     GraphBuilderWithProvenance,
     AlgorithmTrackerWithProvenance,
     NodeEmbedder,

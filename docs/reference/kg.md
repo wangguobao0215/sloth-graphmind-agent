@@ -4,7 +4,7 @@ description: "Graph construction, temporal models, analytics, similarity scoring
 icon: "diagram-project"
 ---
 
-`semantica.kg` transforms extracted entities and relationships into structured, queryable knowledge graphs:
+`sloth_graphmind.kg` transforms extracted entities and relationships into structured, queryable knowledge graphs:
 
 - Temporal nodes and edges with `valid_from` / `valid_until` windows and all 13 Allen interval relations
 - Full graph analytics suite: centrality, community detection, path finding, link prediction
@@ -49,7 +49,7 @@ icon: "diagram-project"
 
 
 <Tip>
-  For conflict detection and advanced entity resolution, use `semantica.conflicts` and `semantica.deduplication` alongside this module.
+  For conflict detection and advanced entity resolution, use `sloth_graphmind.conflicts` and `sloth_graphmind.deduplication` alongside this module.
 </Tip>
 
 <img src="/assets/img/diagrams/kg-structure.svg" alt="Knowledge graph entity and relation structure: Person, Organization, Location, Date nodes with typed labeled edges" style={{ width: '100%', borderRadius: '12px', margin: '0 0 24px' }} />
@@ -59,7 +59,7 @@ icon: "diagram-project"
 **`GraphBuilder`** constructs knowledge graphs from extracted entities and relationships. `merge_entities` defaults to `False`: pass **`True`** to enable entity deduplication during construction:
 
 ```python
-from semantica.kg import GraphBuilder
+from sloth_graphmind.kg import GraphBuilder
 
 # Pass a dict with "entities" and "relationships" keys
 builder = GraphBuilder(merge_entities=True)
@@ -83,7 +83,7 @@ The temporal stack — see the [Temporal Intelligence](temporal) page for the fu
 ### Building a Temporal Graph
 
 ```python
-from semantica.kg import GraphBuilder, TemporalGraphQuery, TemporalVersionManager
+from sloth_graphmind.kg import GraphBuilder, TemporalGraphQuery, TemporalVersionManager
 
 builder = GraphBuilder()
 kg = builder.build(sources=[
@@ -114,7 +114,7 @@ kg = builder.build(sources=[
 `TemporalGraphQuery` accepts optional constructor args; pass the graph into each query call:
 
 ```python
-from semantica.kg import TemporalGraphQuery
+from sloth_graphmind.kg import TemporalGraphQuery
 
 query = TemporalGraphQuery(
     temporal_granularity="day",        # second|minute|hour|day|week|month|year
@@ -141,7 +141,7 @@ range_result = query.query_time_range(kg, "", "2021-01-01", "2021-12-31")
 `BiTemporalFact` is a **dataclass** — use the `from_relationship()` factory, not a positional constructor:
 
 ```python
-from semantica.kg import BiTemporalFact, TemporalBound
+from sloth_graphmind.kg import BiTemporalFact, TemporalBound
 
 rel = {
     "source": "alice", "target": "acme_corp", "type": "ceo_of",
@@ -171,7 +171,7 @@ fields = fact.to_relationship_fields()
 `TemporalReasoningEngine` implements **all 13 Allen relations** deterministically — no LLM, no probability. It operates on `TemporalInterval` objects (not plain dicts):
 
 ```python
-from semantica.kg import (
+from sloth_graphmind.kg import (
     TemporalReasoningEngine, TemporalInterval, IntervalRelation
 )
 from datetime import datetime, timezone
@@ -206,7 +206,7 @@ print(engine.active_at(h1_2020, dt(2020, 3, 15)))  # True
 ### Natural Language Temporal Parsing
 
 ```python
-from semantica.kg import TemporalNormalizer, TemporalQueryRewriter
+from sloth_graphmind.kg import TemporalNormalizer, TemporalQueryRewriter
 from datetime import datetime, timezone
 
 # reference_date set at construction time (required for relative phrases)
@@ -237,7 +237,7 @@ print(result.has_temporal_context())  # True
 ### Versioned Snapshots
 
 ```python
-from semantica.kg import TemporalVersionManager
+from sloth_graphmind.kg import TemporalVersionManager
 
 # In-memory (default); pass storage_path="versions.db" for SQLite persistence
 versioner = TemporalVersionManager()
@@ -273,7 +273,7 @@ versioner.verify_checksum(past_kg)
 `SimilarityCalculator` computes cosine, Euclidean, Manhattan, and correlation similarity between node embeddings:
 
 ```python
-from semantica.kg import SimilarityCalculator, NodeEmbedder
+from sloth_graphmind.kg import SimilarityCalculator, NodeEmbedder
 
 # First compute structural embeddings
 embedder   = NodeEmbedder(method="node2vec", embedding_dimension=128)
@@ -298,7 +298,7 @@ for node_id in similar:
     Measure node importance across five algorithms. Use `calculate_all_centrality()` to run them all at once.
 
     ```python
-    from semantica.kg import CentralityCalculator
+    from sloth_graphmind.kg import CentralityCalculator
 
     calculator = CentralityCalculator()
 
@@ -326,7 +326,7 @@ for node_id in similar:
     Discover clusters and communities within the graph. Louvain is the fastest; Leiden produces higher-quality partitions.
 
     ```python
-    from semantica.kg import CommunityDetector
+    from sloth_graphmind.kg import CommunityDetector
 
     detector = CommunityDetector()
 
@@ -353,7 +353,7 @@ for node_id in similar:
     Find shortest paths and route alternatives between any two nodes.
 
     ```python
-    from semantica.kg import PathFinder
+    from sloth_graphmind.kg import PathFinder
 
     finder = PathFinder()
 
@@ -379,7 +379,7 @@ for node_id in similar:
     Predict missing or future edges. Use to complete knowledge graphs or find implicit relationships.
 
     ```python
-    from semantica.kg import LinkPredictor
+    from sloth_graphmind.kg import LinkPredictor
 
     predictor = LinkPredictor(method="preferential_attachment")
 
@@ -404,7 +404,7 @@ for node_id in similar:
     Compute structural embeddings with Node2Vec, then find similar nodes or feed into downstream ML.
 
     ```python
-    from semantica.kg import NodeEmbedder, SimilarityCalculator
+    from sloth_graphmind.kg import NodeEmbedder, SimilarityCalculator
 
     # Compute Node2Vec embeddings
     embedder = NodeEmbedder(method="node2vec", embedding_dimension=128)
@@ -448,7 +448,7 @@ for node_id in similar:
 Validates graph structure: checks required fields, duplicate IDs, dangling edges, and optionally detects cycles and orphan nodes:
 
 ```python
-from semantica.kg import GraphValidator
+from sloth_graphmind.kg import GraphValidator
 
 validator = GraphValidator()
 result    = validator.validate(kg)   # accepts the dict returned by GraphBuilder.build()
@@ -482,8 +482,8 @@ kg:
 
 ### Cookbooks
 
-- [Building Knowledge Graphs](https://github.com/semantica-agi/semantica/blob/main/cookbook/introduction/07_Building_Knowledge_Graphs.ipynb): fundamentals of KG construction · Beginner
-- [Your First Knowledge Graph](https://github.com/semantica-agi/semantica/blob/main/cookbook/introduction/08_Your_First_Knowledge_Graph.ipynb): entity extraction to visualization · Beginner
-- [Graph Analytics](https://github.com/semantica-agi/semantica/blob/main/cookbook/introduction/10_Graph_Analytics.ipynb): centrality and community detection · Intermediate
-- [Advanced Graph Analytics](https://github.com/semantica-agi/semantica/blob/main/cookbook/advanced/02_Advanced_Graph_Analytics.ipynb): PageRank, Louvain, shortest path · Advanced
-- [Temporal Knowledge Graphs](https://github.com/semantica-agi/semantica/blob/main/cookbook/advanced/10_Temporal_Knowledge_Graphs.ipynb): temporal logic and graph evolution · Advanced
+- [Building Knowledge Graphs](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/introduction/07_Building_Knowledge_Graphs.ipynb): fundamentals of KG construction · Beginner
+- [Your First Knowledge Graph](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/introduction/08_Your_First_Knowledge_Graph.ipynb): entity extraction to visualization · Beginner
+- [Graph Analytics](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/introduction/10_Graph_Analytics.ipynb): centrality and community detection · Intermediate
+- [Advanced Graph Analytics](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/advanced/02_Advanced_Graph_Analytics.ipynb): PageRank, Louvain, shortest path · Advanced
+- [Temporal Knowledge Graphs](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/advanced/10_Temporal_Knowledge_Graphs.ipynb): temporal logic and graph evolution · Advanced

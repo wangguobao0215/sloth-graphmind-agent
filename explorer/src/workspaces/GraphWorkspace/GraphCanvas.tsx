@@ -48,8 +48,8 @@ import {
 import {
   SEMANTICA_EDGE_PROGRAM_CLASSES,
   SEMANTICA_NODE_PROGRAM_CLASSES,
-  drawSemanticaNodeHover,
-  drawSemanticaNodeLabel,
+  drawGraphMindNodeHover,
+  drawGraphMindNodeLabel,
 } from "./sigmaNativeRendering";
 import {
   buildGraphStructureCurveCache,
@@ -171,8 +171,8 @@ const SIGMA_SETTINGS = {
   webGLTarget: "webgl2" as const,
   nodeProgramClasses: SEMANTICA_NODE_PROGRAM_CLASSES,
   edgeProgramClasses: SEMANTICA_EDGE_PROGRAM_CLASSES,
-  defaultDrawNodeLabel: drawSemanticaNodeLabel,
-  defaultDrawNodeHover: drawSemanticaNodeHover,
+  defaultDrawNodeLabel: drawGraphMindNodeLabel,
+  defaultDrawNodeHover: drawGraphMindNodeHover,
 };
 
 const DEBUG_GRAPH_RUNTIME = import.meta.env.DEV;

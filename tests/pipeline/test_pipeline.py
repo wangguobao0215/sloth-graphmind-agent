@@ -1,13 +1,13 @@
 import unittest
 from unittest.mock import MagicMock, patch
-from semantica.pipeline.pipeline_builder import PipelineBuilder, StepStatus
-from semantica.pipeline.execution_engine import ExecutionEngine, PipelineStatus
+from sloth_graphmind.pipeline.pipeline_builder import PipelineBuilder, StepStatus
+from sloth_graphmind.pipeline.execution_engine import ExecutionEngine, PipelineStatus
 
 class TestPipelineModule(unittest.TestCase):
 
     def setUp(self):
         # Mock progress tracker
-        self.mock_tracker_patcher = patch("semantica.utils.progress_tracker.get_progress_tracker")
+        self.mock_tracker_patcher = patch("sloth_graphmind.utils.progress_tracker.get_progress_tracker")
         self.mock_get_tracker = self.mock_tracker_patcher.start()
         self.mock_tracker = MagicMock()
         self.mock_get_tracker.return_value = self.mock_tracker
@@ -108,12 +108,12 @@ class TestPipelineModule(unittest.TestCase):
         self.assertEqual(execution_order, ["A", "B", "C"])
 
     def test_imports_no_circular_dependencies(self):
-        import semantica
+        import sloth_graphmind
 
-        _ = semantica.pipeline
+        _ = sloth_graphmind.pipeline
 
-        from semantica.pipeline import PipelineBuilder, PipelineValidator
-        from semantica.deduplication import DuplicateDetector
+        from sloth_graphmind.pipeline import PipelineBuilder, PipelineValidator
+        from sloth_graphmind.deduplication import DuplicateDetector
 
         builder = PipelineBuilder()
         builder.add_step("step1", "dummy")

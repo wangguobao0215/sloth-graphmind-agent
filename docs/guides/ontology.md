@@ -23,7 +23,7 @@ An ontology makes your knowledge graph machine-readable by specifying which rela
 
 **Validation.** Ontologies enable automatic checking — does this relationship make sense? Should a Vulnerability have a CVSS score as text or number?
 
-**Reasoning.** Exporting to OWL/Turtle lets external reasoning engines (HermiT, Pellet, ELK) infer new facts. If Malware subclasses Software and HAMMERTOSS is Malware, an OWL reasoner concludes HAMMERTOSS is also Software. Semantica exports the ontology; reasoning itself runs in the external tool.
+**Reasoning.** Exporting to OWL/Turtle lets external reasoning engines (HermiT, Pellet, ELK) infer new facts. If Malware subclasses Software and HAMMERTOSS is Malware, an OWL reasoner concludes HAMMERTOSS is also Software. GraphMind exports the ontology; reasoning itself runs in the external tool.
 
 **Knowledge Graph Quality.** Structured schemas catch errors early and ensure new data integrates cleanly with existing entities.
 
@@ -44,7 +44,7 @@ An ontology makes your knowledge graph machine-readable by specifying which rela
 - Cases where the overhead exceeds the complexity of your domain
 
 <Info>
-Semantica's ontology module derives formal OWL ontologies directly from entities and relationships already in your knowledge graph — no schema design upfront. A 6-stage pipeline infers classes, builds hierarchies, maps OWL types, and serialises to Turtle. The pipeline runs in memory; you do not need a running triple store.
+GraphMind's ontology module derives formal OWL ontologies directly from entities and relationships already in your knowledge graph — no schema design upfront. A 6-stage pipeline infers classes, builds hierarchies, maps OWL types, and serialises to Turtle. The pipeline runs in memory; you do not need a running triple store.
 </Info>
 
 ---
@@ -54,7 +54,7 @@ Semantica's ontology module derives formal OWL ontologies directly from entities
 Start with a familiar business domain to understand the mechanics before diving into cybersecurity:
 
 ```python
-from semantica.ontology import OntologyGenerator
+from sloth_graphmind.ontology import OntologyGenerator
 
 # Build a simple organizational graph directly
 data = {
@@ -116,8 +116,8 @@ The **base_uri** (`https://company.example.org/ontology/`) becomes the namespace
 Now with a schema understanding, populate a knowledge graph with CTI data to make the pipeline mechanics visible.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 vs    = VectorStore(backend="faiss", dimension=768)
 graph = ContextGraph()
@@ -147,7 +147,7 @@ print(f"Graph nodes: {len(graph.to_dict().get('nodes', []))}")
 `OntologyGenerator` reads your graph dict and runs the 6-stage pipeline.
 
 ```python
-from semantica.ontology import OntologyGenerator
+from sloth_graphmind.ontology import OntologyGenerator
 
 generator = OntologyGenerator(
     base_uri="https://cti.example.org/ontology/",
@@ -185,7 +185,7 @@ The hierarchy entry for `Malware` shows the pipeline detected that malware is a 
 Run structural validation before exporting.
 
 ```python
-from semantica.ontology import validate_ontology
+from sloth_graphmind.ontology import validate_ontology
 
 result = validate_ontology(ontology)
 
@@ -210,7 +210,7 @@ A warning about missing datatype properties is common at this stage. It means th
 Use `ClassInferrer` to add new entity types incrementally without regenerating the full ontology.
 
 ```python
-from semantica.ontology import ClassInferrer, PropertyGenerator
+from sloth_graphmind.ontology import ClassInferrer, PropertyGenerator
 
 # Fine-grained control: infer classes from the new batch of entities
 new_entities = [
@@ -252,7 +252,7 @@ The pattern here is incremental: you run `infer_classes` on each new batch, revi
 `LLMOntologyGenerator` extracts classes and properties from prose using an LLM — useful for bootstrapping when no structured graph exists yet.
 
 ```python
-from semantica.ontology import LLMOntologyGenerator
+from sloth_graphmind.ontology import LLMOntologyGenerator
 
 llm_gen = LLMOntologyGenerator(provider="groq", model="llama-3.1-8b-instant")
 
@@ -282,7 +282,7 @@ print(f"Classes extracted: {len(ontology_from_text.get('classes', []))}")
 Export in the format your downstream tools expect.
 
 ```python
-from semantica.export import export_owl, export_rdf
+from sloth_graphmind.export import export_owl, export_rdf
 
 # OWL/XML — for Protégé, OWL API, HermiT, Pellet
 export_owl(ontology, "cyber_threat.owl", format="owl-xml")
@@ -297,7 +297,7 @@ export_rdf(ontology, "cyber_threat.jsonld", format="jsonld")
 export_rdf(ontology, "cyber_threat.nt", format="ntriples")
 ```
 
-The exported Turtle file is the input to Semantica's SHACL validation pipeline. See the [SHACL Validation](shacl-validation) guide for how to generate constraint shapes from this ontology and run them against live graph data.
+The exported Turtle file is the input to GraphMind's SHACL validation pipeline. See the [SHACL Validation](shacl-validation) guide for how to generate constraint shapes from this ontology and run them against live graph data.
 
 ---
 
@@ -320,11 +320,11 @@ The exported Turtle file is the input to Semantica's SHACL validation pipeline. 
 A defense CTI team ingests raw OSINT reports each morning. The ontology must stay interoperable with STIX 2.1 and the NATO MISP taxonomy, so IRIs follow the DoD namespace and the ontology is exported to OWL/XML for the org's SIEM reasoning plugin.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.ingest import ingest_file, ingest_web
-from semantica.ontology import OntologyGenerator, validate_ontology
-from semantica.export import export_owl, export_rdf
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.ingest import ingest_file, ingest_web
+from sloth_graphmind.ontology import OntologyGenerator, validate_ontology
+from sloth_graphmind.export import export_owl, export_rdf
 
 vs    = VectorStore(backend="faiss", dimension=768)
 graph = ContextGraph()
@@ -371,8 +371,8 @@ print(f"Properties : {len(ontology.get('properties', []))}")
 A SOC team models zero-trust identity entities — users, service accounts, resources, and policies — as an OWL ontology so their policy evaluation engine can use a shared formal vocabulary instead of hard-coded strings.
 
 ```python
-from semantica.ontology import OntologyGenerator, ClassInferrer
-from semantica.export import export_owl
+from sloth_graphmind.ontology import OntologyGenerator, ClassInferrer
+from sloth_graphmind.export import export_owl
 
 # Hand-specify the identity graph — in production this comes from your IAM export
 data = {
@@ -419,9 +419,9 @@ print("Ontology exported for policy evaluation engine")
 A pharma team needs an ontology aligned to OBO Foundry conventions (GO, CHEBI, HP) to describe Phase II/III oncology trial protocols. Because the source data lives in a PostgreSQL trials database — not a knowledge graph — they use `LLMOntologyGenerator` to bootstrap from prose descriptions.
 
 ```python
-from semantica.ontology import LLMOntologyGenerator, OntologyGenerator, validate_ontology
-from semantica.export import export_owl, export_rdf
-from semantica.ingest import DBIngestor
+from sloth_graphmind.ontology import LLMOntologyGenerator, OntologyGenerator, validate_ontology
+from sloth_graphmind.export import export_owl, export_rdf
+from sloth_graphmind.ingest import DBIngestor
 
 # Load trial records from the clinical database
 db = DBIngestor()
@@ -465,9 +465,9 @@ print("Ontology ready for Protégé review and OBO alignment check")
 A risk team formalises Basel III / BCBS 239 concepts as an OWL ontology so automated compliance rules can reason over credit risk entities with a shared vocabulary — replacing hard-coded field-name checks in Python scripts.
 
 ```python
-from semantica.ontology import LLMOntologyGenerator, validate_ontology
-from semantica.export import export_owl, export_rdf
-from semantica.ingest import ingest_file
+from sloth_graphmind.ontology import LLMOntologyGenerator, validate_ontology
+from sloth_graphmind.export import export_owl, export_rdf
+from sloth_graphmind.ingest import ingest_file
 
 # Ingest regulatory source documents
 regs = [

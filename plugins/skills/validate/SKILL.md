@@ -1,11 +1,11 @@
 ---
 name: validate
-description: Validate Semantica pipelines, extraction quality, graph schemas, and ontology consistency. Returns structured error/warning checklists. Uses PipelineValidator, PipelineBuilder.validate_pipeline(), GraphValidator, and OntologyValidator. Sub-commands: pipeline, step, dependencies, extraction, graph, ontology, performance.
+description: Validate GraphMind pipelines, extraction quality, graph schemas, and ontology consistency. Returns structured error/warning checklists. Uses PipelineValidator, PipelineBuilder.validate_pipeline(), GraphValidator, and OntologyValidator. Sub-commands: pipeline, step, dependencies, extraction, graph, ontology, performance.
 ---
 
-# /semantica:validate
+# /sloth_graphmind:validate
 
-Validate pipeline and graph quality. Usage: `/semantica:validate <target> [options]`
+Validate pipeline and graph quality. Usage: `/sloth_graphmind:validate <target> [options]`
 
 `$ARGUMENTS` = target type + optional config or path.
 
@@ -16,8 +16,8 @@ Validate pipeline and graph quality. Usage: `/semantica:validate <target> [optio
 Validate a full pipeline builder configuration.
 
 ```python
-from semantica.pipeline.pipeline_builder import PipelineBuilder
-from semantica.pipeline.pipeline_validator import PipelineValidator
+from sloth_graphmind.pipeline.pipeline_builder import PipelineBuilder
+from sloth_graphmind.pipeline.pipeline_validator import PipelineValidator
 
 builder = PipelineBuilder()
 if config_json:
@@ -63,8 +63,8 @@ Result: <valid> — K errors, J warnings
 Validate a single pipeline step.
 
 ```python
-from semantica.pipeline.pipeline_builder import PipelineBuilder
-from semantica.pipeline.pipeline_validator import PipelineValidator
+from sloth_graphmind.pipeline.pipeline_builder import PipelineBuilder
+from sloth_graphmind.pipeline.pipeline_validator import PipelineValidator
 import json
 
 builder = PipelineBuilder()
@@ -86,8 +86,8 @@ Output: same checklist format but scoped to a single step.
 Check all inter-step dependency resolution for the active pipeline.
 
 ```python
-from semantica.pipeline.pipeline_builder import PipelineBuilder
-from semantica.pipeline.pipeline_validator import PipelineValidator
+from sloth_graphmind.pipeline.pipeline_builder import PipelineBuilder
+from sloth_graphmind.pipeline.pipeline_validator import PipelineValidator
 
 builder = PipelineBuilder()
 validator = PipelineValidator()
@@ -114,12 +114,12 @@ Missing steps:   [list]
 Validate extraction quality for a file — entity confidence, relation density, coverage.
 
 ```python
-from semantica.semantic_extract.extraction_validator import ExtractionValidator
-from semantica.semantic_extract import (
+from sloth_graphmind.semantic_extract.extraction_validator import ExtractionValidator
+from sloth_graphmind.semantic_extract import (
     NamedEntityRecognizer,
     RelationExtractor,
 )
-from semantica.semantic_extract.cache import _result_cache
+from sloth_graphmind.semantic_extract.cache import _result_cache
 
 _result_cache.clear()  # prevent cross-invocation cache pollution
 
@@ -157,8 +157,8 @@ Quality score: X/100
 Check schema conformance, referential integrity, and structural health.
 
 ```python
-from semantica.kg.graph_validator import GraphValidator
-from semantica.context import ContextGraph
+from sloth_graphmind.kg.graph_validator import GraphValidator
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 validator = GraphValidator(graph)
@@ -187,7 +187,7 @@ Result: N errors, M warnings
 Validate ontology consistency and evaluate competency questions.
 
 ```python
-from semantica.ontology import OntologyValidator
+from sloth_graphmind.ontology import OntologyValidator
 
 validator = OntologyValidator()
 result = validator.validate()
@@ -215,8 +215,8 @@ Result: N consistency errors, M CQ failures
 Validate pipeline performance characteristics — bottlenecks, parallelism, and resource use.
 
 ```python
-from semantica.pipeline.pipeline_builder import PipelineBuilder
-from semantica.pipeline.pipeline_validator import PipelineValidator
+from sloth_graphmind.pipeline.pipeline_builder import PipelineBuilder
+from sloth_graphmind.pipeline.pipeline_validator import PipelineValidator
 
 builder = PipelineBuilder()
 pipeline = builder.build()

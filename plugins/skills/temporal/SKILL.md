@@ -1,11 +1,11 @@
 ---
 name: temporal
-description: Temporal graph operations on Semantica — scoped queries at a point in time, graph snapshots, node change timelines, temporal causal analysis, and graph state reconstruction. Uses AgentContext.find_precedents(as_of=), ContextGraph.state_at(), CausalChainAnalyzer.trace_at_time(), and TemporalQueryRewriter. Sub-commands: query, snapshot, timeline, causal-at, precedents-at.
+description: Temporal graph operations on GraphMind — scoped queries at a point in time, graph snapshots, node change timelines, temporal causal analysis, and graph state reconstruction. Uses AgentContext.find_precedents(as_of=), ContextGraph.state_at(), CausalChainAnalyzer.trace_at_time(), and TemporalQueryRewriter. Sub-commands: query, snapshot, timeline, causal-at, precedents-at.
 ---
 
-# /semantica:temporal
+# /sloth_graphmind:temporal
 
-Temporal graph operations. Usage: `/semantica:temporal <sub-command> [args]`
+Temporal graph operations. Usage: `/sloth_graphmind:temporal <sub-command> [args]`
 
 `$ARGUMENTS` = sub-command + query/node + date expression.
 
@@ -16,8 +16,8 @@ Temporal graph operations. Usage: `/semantica:temporal <sub-command> [args]`
 Temporally-scoped natural-language graph query.
 
 ```python
-from semantica.kg.temporal_query_rewriter import TemporalQueryRewriter
-from semantica.kg.temporal_normalizer import TemporalNormalizer
+from sloth_graphmind.kg.temporal_query_rewriter import TemporalQueryRewriter
+from sloth_graphmind.kg.temporal_normalizer import TemporalNormalizer
 
 normalizer = TemporalNormalizer()
 # Normalize natural date expressions: "last month", "Q3 2024", "2025-01-15"
@@ -42,7 +42,7 @@ Return ranked results with `Valid From`, `Valid Until`, `Active At <date>` colum
 Reconstruct the full graph state as it existed at a specific point in time.
 
 ```python
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph(advanced_analytics=True)
 
@@ -74,7 +74,7 @@ Top 10 nodes (by degree at <date>):
 Show attribute and relationship changes for a node across its full history.
 
 ```python
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 
@@ -111,8 +111,8 @@ Current state:  <active|superseded>
 Trace a causal chain as it existed at a specific point in time.
 
 ```python
-from semantica.context.causal_analyzer import CausalChainAnalyzer
-from semantica.context import AgentContext
+from sloth_graphmind.context.causal_analyzer import CausalChainAnalyzer
+from sloth_graphmind.context import AgentContext
 
 ctx = AgentContext(decision_tracking=True)
 analyzer = CausalChainAnalyzer(graph_store=ctx.graph_store)
@@ -143,7 +143,7 @@ Historical causal chain for <decision_id> at <date>:
 Find precedent decisions that existed as of a specific date — useful for auditing what context was available when a decision was made.
 
 ```python
-from semantica.context import AgentContext
+from sloth_graphmind.context import AgentContext
 
 ctx = AgentContext(decision_tracking=True, advanced_analytics=True)
 

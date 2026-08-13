@@ -4,18 +4,18 @@ description: "Structured learning paths, configuration reference, troubleshootin
 icon: "graduation-cap"
 ---
 
-Whether you're running your first pipeline or deploying Semantica in production, this page gives you a structured path forward: from beginner to enterprise-grade usage.
+Whether you're running your first pipeline or deploying GraphMind in production, this page gives you a structured path forward: from beginner to enterprise-grade usage.
 
 
 ## Learning Paths
 
-- **Beginner (1–2 hrs)** — New to Semantica and knowledge graphs. [Start with Installation →](installation)
+- **Beginner (1–2 hrs)** — New to GraphMind and knowledge graphs. [Start with Installation →](installation)
 - **Intermediate (4–6 hrs)** — Comfortable with basics, building real applications. [Start with Modules →](modules)
 - **Advanced (8+ hrs)** — Enterprise deployments, customization, and extension. [Start with Architecture →](architecture)
 
 <Tabs>
   <Tab title="Beginner (1–2 hrs)">
-    New to Semantica and knowledge graphs. No prior graph database experience required.
+    New to GraphMind and knowledge graphs. No prior graph database experience required.
 
     <Steps>
       <Step title="Set up your environment">
@@ -31,7 +31,7 @@ Whether you're running your first pipeline or deploying Semantica in production,
         [Quickstart Tutorial](quickstart): full 6-step pipeline from ingestion to visualization.
       </Step>
       <Step title="Explore interactively">
-        [Welcome to Semantica notebook](https://github.com/semantica-agi/semantica/blob/main/cookbook/introduction/01_Welcome_to_Semantica.ipynb): Jupyter walkthrough of every module.
+        [Welcome to GraphMind notebook](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/introduction/01_Welcome_to_GraphMind.ipynb): Jupyter walkthrough of every module.
       </Step>
     </Steps>
   </Tab>
@@ -43,13 +43,13 @@ Whether you're running your first pipeline or deploying Semantica in production,
         [Modules Guide](modules): all 27 modules with code examples and common pipeline chains.
       </Step>
       <Step title="Build production knowledge graphs">
-        [Building Knowledge Graphs notebook](https://github.com/semantica-agi/semantica/blob/main/cookbook/introduction/07_Building_Knowledge_Graphs.ipynb): multi-source, deduplication, conflict resolution.
+        [Building Knowledge Graphs notebook](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/introduction/07_Building_Knowledge_Graphs.ipynb): multi-source, deduplication, conflict resolution.
       </Step>
       <Step title="Add semantic search">
-        [Embeddings notebook](https://github.com/semantica-agi/semantica/blob/main/cookbook/introduction/09_Embeddings.ipynb): providers, pooling strategies, vector stores.
+        [Embeddings notebook](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/introduction/09_Embeddings.ipynb): providers, pooling strategies, vector stores.
       </Step>
       <Step title="Multi-source integration">
-        [Multi-Source Data Integration notebook](https://github.com/semantica-agi/semantica/blob/main/cookbook/advanced/06_Multi_Source_Data_Integration.ipynb) for multi-source patterns.
+        [Multi-Source Data Integration notebook](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/advanced/06_Multi_Source_Data_Integration.ipynb) for multi-source patterns.
       </Step>
     </Steps>
   </Tab>
@@ -61,16 +61,16 @@ Whether you're running your first pipeline or deploying Semantica in production,
         [Architecture Guide](architecture): four-layer design, extension points, and design decisions.
       </Step>
       <Step title="Temporal intelligence">
-        [Temporal Graphs notebook](https://github.com/semantica-agi/semantica/blob/main/cookbook/advanced/10_Temporal_Knowledge_Graphs.ipynb): `valid_from`/`valid_until`, Allen interval algebra, point-in-time queries.
+        [Temporal Graphs notebook](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/advanced/10_Temporal_Knowledge_Graphs.ipynb): `valid_from`/`valid_until`, Allen interval algebra, point-in-time queries.
       </Step>
       <Step title="Ontology-driven knowledge bases">
-        [Ontology notebook](https://github.com/semantica-agi/semantica/blob/main/cookbook/introduction/14_Ontology.ipynb): auto-generation, SHACL validation, Ontology Hub (v0.5.0).
+        [Ontology notebook](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/introduction/14_Ontology.ipynb): auto-generation, SHACL validation, Ontology Hub (v0.5.0).
       </Step>
       <Step title="Advanced visualization">
-        [Complete Visualization Suite notebook](https://github.com/semantica-agi/semantica/blob/main/cookbook/advanced/03_Complete_Visualization_Suite.ipynb): UMAP, t-SNE, community layouts, embedding projections.
+        [Complete Visualization Suite notebook](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/advanced/03_Complete_Visualization_Suite.ipynb): UMAP, t-SNE, community layouts, embedding projections.
       </Step>
       <Step title="Enterprise export">
-        [Multi-Format Export notebook](https://github.com/semantica-agi/semantica/blob/main/cookbook/advanced/05_Multi_Format_Export.ipynb): RDF with PROV-O, Parquet, Neo4j Cypher, Arrow, OWL.
+        [Multi-Format Export notebook](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/advanced/05_Multi_Format_Export.ipynb): RDF with PROV-O, Parquet, Neo4j Cypher, Arrow, OWL.
       </Step>
     </Steps>
   </Tab>
@@ -96,20 +96,20 @@ All settings can be overridden with environment variables: no code changes neede
 
 <AccordionGroup>
 
-<Accordion title="ModuleNotFoundError: No module named 'semantica'" icon="circle-xmark">
+<Accordion title="ModuleNotFoundError: No module named 'sloth_graphmind'" icon="circle-xmark">
 
 Verify installation and that the correct Python environment is active:
 
 ```bash
-pip list | grep semantica
-pip install --upgrade semantica
+pip list | grep sloth_graphmind
+pip install --upgrade sloth_graphmind
 ```
 
 For optional features, install the relevant extra:
 
 ```bash
-pip install "semantica[llm-openai]"   # OpenAI provider
-pip install "semantica[gpu]"          # GPU acceleration
+pip install "sloth_graphmind[llm-openai]"   # OpenAI provider
+pip install "sloth_graphmind[gpu]"          # GPU acceleration
 ```
 
 </Accordion>
@@ -130,8 +130,8 @@ export GROQ_API_KEY="gsk_..."
 Switch from the default in-memory NetworkX backend to a persistent graph database:
 
 ```python
-from semantica.graph_store import FalkorDBStore
-from semantica.kg import GraphBuilder
+from sloth_graphmind.graph_store import FalkorDBStore
+from sloth_graphmind.kg import GraphBuilder
 
 store   = FalkorDBStore(host="localhost", port=6379)
 builder = GraphBuilder(merge_entities=True, graph_store=store)
@@ -146,14 +146,14 @@ Also reduce batch sizes and enable streaming ingestion for large corpora.
 Enable parallel execution and GPU acceleration:
 
 ```python
-from semantica.pipeline import Pipeline
+from sloth_graphmind.pipeline import Pipeline
 
 pipeline = Pipeline(workers=8, batch_size=32)
 pipeline.run(sources)
 ```
 
 ```bash
-pip install "semantica[gpu]"  # CUDA-backed embeddings
+pip install "sloth_graphmind[gpu]"  # CUDA-backed embeddings
 ```
 
 </Accordion>
@@ -163,10 +163,10 @@ pip install "semantica[gpu]"  # CUDA-backed embeddings
 Fixed in **v0.5.0**. Upgrade:
 
 ```bash
-pip install --upgrade semantica
+pip install --upgrade sloth_graphmind
 ```
 
-Or install extras individually: `pip install "semantica[core]"`, then add `[llm-openai]`, `[gpu]`, etc. as needed.
+Or install extras individually: `pip install "sloth_graphmind[core]"`, then add `[llm-openai]`, `[gpu]`, etc. as needed.
 
 </Accordion>
 
@@ -205,7 +205,7 @@ Use NetworkX for local development and prototyping. Switch to a persistent backe
 Process documents in batches rather than one at a time. Configure `chunk_size` based on available RAM: a good starting point is 1,000 documents per batch on a 16 GB machine.
 
 ```python
-from semantica.pipeline import Pipeline
+from sloth_graphmind.pipeline import Pipeline
 
 pipeline = Pipeline(workers=8, batch_size=32)
 pipeline.run(sources)

@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from semantica.ontology import (
+from sloth_graphmind.ontology import (
     OntologyEngine, 
     ClassInferrer, 
     PropertyGenerator, 
@@ -11,7 +11,7 @@ from semantica.ontology import (
     CompetencyQuestionsManager,
     LLMOntologyGenerator
 )
-from semantica.visualization import OntologyVisualizer
+from sloth_graphmind.visualization import OntologyVisualizer
 
 pytestmark = pytest.mark.integration
 
@@ -23,7 +23,7 @@ class TestNotebook14(unittest.TestCase):
 
     def _run_full_pipeline(self):
         """Helper to run the full pipeline and return the ontology."""
-        engine = OntologyEngine(base_uri="https://docs.semantica.dev/ontology/")
+        engine = OntologyEngine(base_uri="https://docs.sloth_graphmind.dev/ontology/")
         
         # Sample Data
         entities = [
@@ -137,8 +137,8 @@ class TestNotebook14(unittest.TestCase):
         self.assertEqual(len(messy_ontology['classes']), 2)
         self.assertEqual(len(clean_ontology['classes']), 1)
 
-    @patch("semantica.visualization.ontology_visualizer.make_subplots")
-    @patch("semantica.visualization.ontology_visualizer.go")
+    @patch("sloth_graphmind.visualization.ontology_visualizer.make_subplots")
+    @patch("sloth_graphmind.visualization.ontology_visualizer.go")
     def test_visualization(self, mock_go, mock_make_subplots):
         """Test OntologyVisualizer usage (mocking plotly)."""
         viz = OntologyVisualizer()
@@ -161,7 +161,7 @@ class TestNotebook14(unittest.TestCase):
         # 3. Metrics Dashboard
         fig_metrics = viz.visualize_metrics(ontology, output="interactive")
 
-    @patch("semantica.ontology.llm_generator.LLMOntologyGenerator.generate_ontology_from_text")
+    @patch("sloth_graphmind.ontology.llm_generator.LLMOntologyGenerator.generate_ontology_from_text")
     def test_llm_ontology_generator(self, mock_generate):
         """Test LLMOntologyGenerator (mocked)."""
         mock_generate.return_value = {
@@ -192,7 +192,7 @@ class TestNotebook14(unittest.TestCase):
 
     def test_ontology_engine_initialization(self):
         """Test initializing the OntologyEngine."""
-        engine = OntologyEngine(base_uri="https://docs.semantica.dev/ontology/")
+        engine = OntologyEngine(base_uri="https://docs.sloth_graphmind.dev/ontology/")
         self.assertIsNotNone(engine)
 
 if __name__ == '__main__':

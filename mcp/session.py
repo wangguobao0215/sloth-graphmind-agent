@@ -12,7 +12,7 @@ import logging
 import os
 from typing import Any, Optional
 
-log = logging.getLogger("semantica.mcp.session")
+log = logging.getLogger("sloth_graphmind.mcp.session")
 
 _graph: Optional[Any] = None
 
@@ -26,7 +26,7 @@ def get_graph() -> Any:
     """
     global _graph
     if _graph is None:
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
 
         _graph = ContextGraph(advanced_analytics=True)
 

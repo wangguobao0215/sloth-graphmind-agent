@@ -7,11 +7,11 @@ from unittest.mock import patch
 import pytest
 from starlette.testclient import TestClient
 
-from semantica.context.context_graph import ContextGraph
-from semantica.explorer.app import create_app
-from semantica.explorer.session import GraphSession
-from semantica.provenance import ProvenanceManager
-from semantica.provenance.storage import SQLiteStorage
+from sloth_graphmind.context.context_graph import ContextGraph
+from sloth_graphmind.explorer.app import create_app
+from sloth_graphmind.explorer.session import GraphSession
+from sloth_graphmind.provenance import ProvenanceManager
+from sloth_graphmind.provenance.storage import SQLiteStorage
 
 
 @pytest.fixture

@@ -1,10 +1,10 @@
 ---
-title: "Semantica"
+title: "GraphMind"
 description: "The Accountability and Context Layer for AI: Context Graphs · Decision Intelligence · Full Provenance"
 ---
 
 ```bash
-pip install semantica
+pip install sloth_graphmind
 ```
 
 Your AI agent just made a decision. Now someone needs to explain it.
@@ -13,7 +13,7 @@ Your AI agent just made a decision. Now someone needs to explain it.
 
 If your stack can't answer those questions with a traceable record, you have a gap. Not a capability gap: an **accountability gap**. It's the reason AI hasn't landed at scale in healthcare, finance, legal, and government. And it's why teams building for those markets keep rebuilding the same guardrails from scratch.
 
-**Semantica closes that gap.** It's the context and accountability layer that sits beneath your existing agent framework: not a replacement for LangChain or LlamaIndex, but the infrastructure that makes their outputs trustworthy.
+**GraphMind closes that gap.** It's the context and accountability layer that sits beneath your existing agent framework: not a replacement for LangChain or LlamaIndex, but the infrastructure that makes their outputs trustworthy.
 
 
 ## The Problem Every Production AI Team Hits
@@ -50,9 +50,9 @@ Powerful agents aren't automatically trustworthy ones. Five structural blind spo
 </Note>
 
 
-## What Semantica Adds to Your Stack
+## What GraphMind Adds to Your Stack
 
-Semantica gives every agent the infrastructure it needs to be accountable. Drop it into your existing setup in minutes:
+GraphMind gives every agent the infrastructure it needs to be accountable. Drop it into your existing setup in minutes:
 
 **Context Graphs** — a structured, queryable graph of everything your agent knows, decides, and reasons about
 - Persistent across agent runs: no context loss between sessions
@@ -94,7 +94,7 @@ Semantica gives every agent the infrastructure it needs to be accountable. Drop 
   Works alongside any LLM provider and any agent framework: add it to an existing stack without changing your architecture.
 </Tip>
 
-<img src="/assets/img/diagrams/architecture-overview.svg" alt="Semantica four-layer architecture: Ingestion → Processing → Intelligence → Application" style={{ width: '100%', borderRadius: '12px', margin: '24px 0' }} />
+<img src="/assets/img/diagrams/architecture-overview.svg" alt="GraphMind four-layer architecture: Ingestion → Processing → Intelligence → Application" style={{ width: '100%', borderRadius: '12px', margin: '24px 0' }} />
 
 
 ## See It In Action
@@ -102,15 +102,15 @@ Semantica gives every agent the infrastructure it needs to be accountable. Drop 
 One pip install. A few lines to connect your agent. Everything else becomes traceable.
 
 ```bash
-pip install semantica
+pip install sloth_graphmind
 ```
 
 <CodeGroup>
 
 ```python OpenAI
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import OpenAI
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import OpenAI
 
 context = AgentContext(
     vector_store=VectorStore(backend="faiss", dimension=1536),
@@ -134,9 +134,9 @@ influence  = context.analyze_decision_influence(decision_id)
 ```
 
 ```python Anthropic
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import LiteLLM
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import LiteLLM
 import os
 
 context = AgentContext(
@@ -160,9 +160,9 @@ precedents = context.find_precedents("document analysis model", limit=5)
 ```
 
 ```python Ollama (Local)
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import LiteLLM
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import LiteLLM
 
 context = AgentContext(
     vector_store=VectorStore(backend="faiss", dimension=768),
@@ -192,7 +192,7 @@ decision_id = context.record_decision(
 
 ## Built for Where Mistakes Have Consequences
 
-Semantica was designed for domains where every decision must be explainable and every fact must be traceable:
+GraphMind was designed for domains where every decision must be explainable and every fact must be traceable:
 
 **Healthcare & Life Sciences**
 - Clinical decision support with full audit trails
@@ -234,9 +234,9 @@ Semantica was designed for domains where every decision must be explainable and 
 ## Start Here
 
 <Steps>
-  <Step title="Install Semantica">
+  <Step title="Install GraphMind">
     ```bash
-    pip install semantica
+    pip install sloth_graphmind
     ```
     See [Installation](installation) for optional extras (`[all]`, `[neo4j]`, `[pinecone]`) and environment setup.
   </Step>
@@ -250,7 +250,7 @@ Semantica was designed for domains where every decision must be explainable and 
   <Step title="Learn the mental model">
     [Core Concepts](concepts) covers:
     - Knowledge graphs vs. vector stores: when to use each
-    - What GraphRAG is and how Semantica implements it
+    - What GraphRAG is and how GraphMind implements it
     - How provenance and decision tracking work together
     - The accountability layer architecture
   </Step>
@@ -262,12 +262,12 @@ Semantica was designed for domains where every decision must be explainable and 
   </Step>
 </Steps>
 
-- [Installation](installation) — Get Semantica installed in under a minute
+- [Installation](installation) — Get GraphMind installed in under a minute
 - [Quickstart](quickstart) — Build a complete knowledge graph pipeline in 5 minutes
 - [Core Concepts](concepts) — The mental model behind the API
 - [API Reference](reference/context) — Exact module, class, and method details
 - [Cookbook](cookbook) — Domain notebooks for real-world use cases
-- [Changelog](https://github.com/semantica-agi/semantica/releases) — Release history
+- [Changelog](https://github.com/sloth_graphmind-agi/sloth_graphmind/releases) — Release history
 
 
 ## Full Capabilities
@@ -359,36 +359,36 @@ Semantica was designed for domains where every decision must be explainable and 
 
 | Module | What it provides |
 | :-------- | :----------------- |
-| `semantica.context` | Context graphs, agent memory, decision tracking, causal analysis, precedent search |
-| `semantica.kg` | KG construction, graph algorithms, temporal model, Allen interval algebra |
-| `semantica.semantic_extract` | NER, relation extraction, event extraction, triplet generation |
-| `semantica.reasoning` | Forward chaining, Rete, deductive, abductive, SPARQL, Datalog |
-| `semantica.ontology` | SHACL, SKOS, alignments, diff/migration, auto-generation, OWL/RDF |
-| `semantica.explorer` | FastAPI Knowledge Explorer, Ontology Hub, Distance Intelligence, SHACL Studio |
-| `semantica.mcp_server` | MCP stdio server: 12 tools for Claude Desktop, VS Code, Cursor, Windsurf, Cline |
-| `semantica.vector_store` | FAISS, Pinecone, Weaviate, Qdrant, Milvus, PgVector |
-| `semantica.graph_store` | Neo4j, FalkorDB, Apache AGE, Amazon Neptune |
-| `semantica.triplet_store` | In-memory and persistent RDF triple store with SPARQL |
-| `semantica.ingest` | Files, web, feeds, databases, Snowflake, Parquet, XML, MCP |
-| `semantica.parse` | Document parsing: PDF, DOCX, HTML, PPTX, Docling layout analysis |
-| `semantica.split` | Text chunking: sentence, paragraph, token, semantic boundary strategies |
-| `semantica.normalize` | Text normalization, entity canonicalization, whitespace and encoding cleanup |
-| `semantica.embeddings` | Sentence-Transformers, FastEmbed, OpenAI, BGE, Ollama local embeddings |
-| `semantica.pipeline` | Pipeline DSL, parallel workers, retry policies, failure handling |
-| `semantica.export` | RDF, Parquet, ArangoDB AQL, CSV, OWL, Arrow, GraphML, GEXF, DOT |
-| `semantica.visualization` | Programmatic graph rendering: force, hierarchical, circular, spring layouts |
-| `semantica.deduplication` | Entity deduplication v1/v2, similarity scoring, blocking, merging |
-| `semantica.conflicts` | Conflict detection and resolution across overlapping knowledge sources |
-| `semantica.provenance` | W3C PROV-O lineage tracking, source attribution, audit trails |
-| `semantica.change_management` | Version control with SHA-256 checksums, diff, rollback |
-| `semantica.llms` | Groq, OpenAI, Anthropic, Gemini, Ollama, DeepSeek, Novita AI, LiteLLM, HuggingFace |
-| `semantica.seed` | Foundation graph seeding from CSV, JSON, SQL, API, and RDF sources |
-| `semantica.evals` | Evaluation harness: KG quality, extraction F1, pipeline benchmarking, regression tracking |
-| `semantica.core` | Orchestration, ConfigManager, LifecycleManager, PluginRegistry, MethodRegistry |
-| `semantica.utils` | Logging, validation, progress tracking, hash utilities, nested dict helpers |
+| `sloth_graphmind.context` | Context graphs, agent memory, decision tracking, causal analysis, precedent search |
+| `sloth_graphmind.kg` | KG construction, graph algorithms, temporal model, Allen interval algebra |
+| `sloth_graphmind.semantic_extract` | NER, relation extraction, event extraction, triplet generation |
+| `sloth_graphmind.reasoning` | Forward chaining, Rete, deductive, abductive, SPARQL, Datalog |
+| `sloth_graphmind.ontology` | SHACL, SKOS, alignments, diff/migration, auto-generation, OWL/RDF |
+| `sloth_graphmind.explorer` | FastAPI Knowledge Explorer, Ontology Hub, Distance Intelligence, SHACL Studio |
+| `sloth_graphmind.mcp_server` | MCP stdio server: 12 tools for Claude Desktop, VS Code, Cursor, Windsurf, Cline |
+| `sloth_graphmind.vector_store` | FAISS, Pinecone, Weaviate, Qdrant, Milvus, PgVector |
+| `sloth_graphmind.graph_store` | Neo4j, FalkorDB, Apache AGE, Amazon Neptune |
+| `sloth_graphmind.triplet_store` | In-memory and persistent RDF triple store with SPARQL |
+| `sloth_graphmind.ingest` | Files, web, feeds, databases, Snowflake, Parquet, XML, MCP |
+| `sloth_graphmind.parse` | Document parsing: PDF, DOCX, HTML, PPTX, Docling layout analysis |
+| `sloth_graphmind.split` | Text chunking: sentence, paragraph, token, semantic boundary strategies |
+| `sloth_graphmind.normalize` | Text normalization, entity canonicalization, whitespace and encoding cleanup |
+| `sloth_graphmind.embeddings` | Sentence-Transformers, FastEmbed, OpenAI, BGE, Ollama local embeddings |
+| `sloth_graphmind.pipeline` | Pipeline DSL, parallel workers, retry policies, failure handling |
+| `sloth_graphmind.export` | RDF, Parquet, ArangoDB AQL, CSV, OWL, Arrow, GraphML, GEXF, DOT |
+| `sloth_graphmind.visualization` | Programmatic graph rendering: force, hierarchical, circular, spring layouts |
+| `sloth_graphmind.deduplication` | Entity deduplication v1/v2, similarity scoring, blocking, merging |
+| `sloth_graphmind.conflicts` | Conflict detection and resolution across overlapping knowledge sources |
+| `sloth_graphmind.provenance` | W3C PROV-O lineage tracking, source attribution, audit trails |
+| `sloth_graphmind.change_management` | Version control with SHA-256 checksums, diff, rollback |
+| `sloth_graphmind.llms` | Groq, OpenAI, Anthropic, Gemini, Ollama, DeepSeek, Novita AI, LiteLLM, HuggingFace |
+| `sloth_graphmind.seed` | Foundation graph seeding from CSV, JSON, SQL, API, and RDF sources |
+| `sloth_graphmind.evals` | Evaluation harness: KG quality, extraction F1, pipeline benchmarking, regression tracking |
+| `sloth_graphmind.core` | Orchestration, ConfigManager, LifecycleManager, PluginRegistry, MethodRegistry |
+| `sloth_graphmind.utils` | Logging, validation, progress tracking, hash utilities, nested dict helpers |
 
 
-## Why Semantica?
+## Why GraphMind?
 
 **Open Source, MIT** — No vendor lock-in. No paywalled features.
 - Full source available on GitHub

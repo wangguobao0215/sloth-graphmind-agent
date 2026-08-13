@@ -18,8 +18,8 @@ Install
 Example
 -------
     >>> from integrations.agno import AgnoKnowledgeGraph
-    >>> from semantica.kg import GraphBuilder
-    >>> from semantica.semantic_extract import NERExtractor, RelationExtractor
+    >>> from sloth_graphmind.kg import GraphBuilder
+    >>> from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
     >>> kg = AgnoKnowledgeGraph(
     ...     graph_builder=GraphBuilder(),
     ...     ner_extractor=NERExtractor(),
@@ -36,7 +36,7 @@ import os
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional, Union
 
-from semantica.utils.logging import get_logger
+from sloth_graphmind.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
@@ -94,16 +94,16 @@ class AgnoKnowledgeGraph(_KnowledgeBase):  # type: ignore[misc]
     Parameters
     ----------
     graph_builder:
-        A ``semantica.kg.GraphBuilder`` instance.  Created automatically if
+        A ``sloth_graphmind.kg.GraphBuilder`` instance.  Created automatically if
         ``None``.
     ner_extractor:
-        A ``semantica.semantic_extract.NERExtractor`` instance.  Created
+        A ``sloth_graphmind.semantic_extract.NERExtractor`` instance.  Created
         automatically if ``None``.
     relation_extractor:
-        A ``semantica.semantic_extract.RelationExtractor`` instance.  Created
+        A ``sloth_graphmind.semantic_extract.RelationExtractor`` instance.  Created
         automatically if ``None``.
     context_graph:
-        An existing ``semantica.context.ContextGraph`` to use as the backing
+        An existing ``sloth_graphmind.context.ContextGraph`` to use as the backing
         store.  A fresh in-memory graph is created when ``None``.
     graph_store_backend:
         Passed to ``ContextGraph`` when ``context_graph`` is ``None``.
@@ -137,10 +137,10 @@ class AgnoKnowledgeGraph(_KnowledgeBase):  # type: ignore[misc]
         self._graph_store_backend = graph_store_backend
 
         # Lazy imports to keep semantica core optional at import time
-        from semantica.context import AgentContext, ContextGraph
-        from semantica.kg import GraphBuilder
-        from semantica.semantic_extract import NERExtractor, RelationExtractor
-        from semantica.vector_store import VectorStore
+        from sloth_graphmind.context import AgentContext, ContextGraph
+        from sloth_graphmind.kg import GraphBuilder
+        from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
+        from sloth_graphmind.vector_store import VectorStore
 
         self._graph = context_graph or ContextGraph()
 

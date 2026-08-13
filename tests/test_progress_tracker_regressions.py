@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-import semantica.utils.progress_tracker as progress_module
+import sloth_graphmind.utils.progress_tracker as progress_module
 
 
 @pytest.fixture(autouse=True)
@@ -108,7 +108,7 @@ def test_build_knowledge_base_subprocess_does_not_deadlock():
     sample.write_text("Semantica builds small local knowledge graphs.", encoding="utf-8")
 
     code = (
-        "from semantica.core import Semantica; "
+        "from sloth_graphmind.core import Semantica; "
         f"result = Semantica().build_knowledge_base([{str(sample)!r}], embeddings=False, graph=False); "
         "print(result['statistics']['sources_processed'])"
     )

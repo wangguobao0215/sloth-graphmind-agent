@@ -8,24 +8,24 @@ from datetime import datetime, timezone
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from semantica.kg.graph_builder import GraphBuilder
-from semantica.kg.graph_analyzer import GraphAnalyzer
-from semantica.kg.temporal_model import TemporalBound, deserialize_relationship_temporal_fields
-from semantica.kg.temporal_query import TemporalConsistencyReport, validate_temporal_consistency
-from semantica.utils.exceptions import TemporalValidationError
+from sloth_graphmind.kg.graph_builder import GraphBuilder
+from sloth_graphmind.kg.graph_analyzer import GraphAnalyzer
+from sloth_graphmind.kg.temporal_model import TemporalBound, deserialize_relationship_temporal_fields
+from sloth_graphmind.kg.temporal_query import TemporalConsistencyReport, validate_temporal_consistency
+from sloth_graphmind.utils.exceptions import TemporalValidationError
 
 class TestGraphBuilder(unittest.TestCase):
     def setUp(self):
         # Patch where it is defined since it is imported inside __init__
-        self.mock_tracker_patcher = patch("semantica.utils.progress_tracker.get_progress_tracker")
+        self.mock_tracker_patcher = patch("sloth_graphmind.utils.progress_tracker.get_progress_tracker")
         self.mock_get_tracker = self.mock_tracker_patcher.start()
         self.mock_tracker = MagicMock()
         self.mock_get_tracker.return_value = self.mock_tracker
 
-        self.mock_resolver_patcher = patch("semantica.kg.entity_resolver.EntityResolver")
+        self.mock_resolver_patcher = patch("sloth_graphmind.kg.entity_resolver.EntityResolver")
         self.mock_resolver_cls = self.mock_resolver_patcher.start()
         
-        self.mock_conflict_patcher = patch("semantica.conflicts.conflict_detector.ConflictDetector")
+        self.mock_conflict_patcher = patch("sloth_graphmind.conflicts.conflict_detector.ConflictDetector")
         self.mock_conflict_cls = self.mock_conflict_patcher.start()
 
     def tearDown(self):
@@ -181,19 +181,19 @@ class TestGraphBuilder(unittest.TestCase):
 
 class TestGraphAnalyzer(unittest.TestCase):
     def setUp(self):
-        self.mock_tracker_patcher = patch("semantica.kg.graph_analyzer.get_progress_tracker")
+        self.mock_tracker_patcher = patch("sloth_graphmind.kg.graph_analyzer.get_progress_tracker")
         self.mock_get_tracker = self.mock_tracker_patcher.start()
         self.mock_get_tracker.return_value = MagicMock()
 
-        self.mock_centrality_patcher = patch("semantica.kg.graph_analyzer.CentralityCalculator")
+        self.mock_centrality_patcher = patch("sloth_graphmind.kg.graph_analyzer.CentralityCalculator")
         self.mock_centrality_cls = self.mock_centrality_patcher.start()
         self.mock_centrality = self.mock_centrality_cls.return_value
 
-        self.mock_community_patcher = patch("semantica.kg.graph_analyzer.CommunityDetector")
+        self.mock_community_patcher = patch("sloth_graphmind.kg.graph_analyzer.CommunityDetector")
         self.mock_community_cls = self.mock_community_patcher.start()
         self.mock_community = self.mock_community_cls.return_value
 
-        self.mock_connectivity_patcher = patch("semantica.kg.graph_analyzer.ConnectivityAnalyzer")
+        self.mock_connectivity_patcher = patch("sloth_graphmind.kg.graph_analyzer.ConnectivityAnalyzer")
         self.mock_connectivity_cls = self.mock_connectivity_patcher.start()
         self.mock_connectivity = self.mock_connectivity_cls.return_value
 
@@ -244,14 +244,14 @@ class TestGraphAnalyzer(unittest.TestCase):
 
 class TestTemporalGraphQuery(unittest.TestCase):
     def setUp(self):
-        self.mock_tracker_patcher = patch("semantica.utils.progress_tracker.get_progress_tracker")
+        self.mock_tracker_patcher = patch("sloth_graphmind.utils.progress_tracker.get_progress_tracker")
         self.mock_get_tracker = self.mock_tracker_patcher.start()
         self.mock_get_tracker.return_value = MagicMock()
         
         # Patch TemporalPatternDetector if needed, or let it run since it's simple
         # It's better to let it run to test integration within the module if it has no external deps
         
-        from semantica.kg.temporal_query import TemporalGraphQuery
+        from sloth_graphmind.kg.temporal_query import TemporalGraphQuery
         self.query_engine = TemporalGraphQuery()
 
     def tearDown(self):
@@ -562,7 +562,7 @@ class TestTemporalGraphQuery(unittest.TestCase):
         self.assertEqual(result["patterns"][0]["pattern_type"], "sequence")
 
     def test_query_temporal_pattern_sequence_supports_gap_tolerance(self):
-        query_engine = __import__("semantica.kg.temporal_query", fromlist=["TemporalGraphQuery"]).TemporalGraphQuery(
+        query_engine = __import__("sloth_graphmind.kg.temporal_query", fromlist=["TemporalGraphQuery"]).TemporalGraphQuery(
             pattern_detection={"gap_tolerance": 1}
         )
         graph = {
@@ -613,7 +613,7 @@ class TestTemporalGraphQuery(unittest.TestCase):
         self.assertIsInstance(result["patterns"], list)
 
     def test_query_time_range_evolution_buckets_by_granularity(self):
-        query_engine = __import__("semantica.kg.temporal_query", fromlist=["TemporalGraphQuery"]).TemporalGraphQuery(
+        query_engine = __import__("sloth_graphmind.kg.temporal_query", fromlist=["TemporalGraphQuery"]).TemporalGraphQuery(
             temporal_granularity="month"
         )
         graph = {

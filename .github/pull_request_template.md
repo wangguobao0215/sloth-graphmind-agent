@@ -1,4 +1,4 @@
-> **Before you submit:** make sure you followed the [issue workflow in CONTRIBUTING.md](https://github.com/semantica-agi/semantica/blob/main/CONTRIBUTING.md#-working-on-an-existing-issue) — comment on the issue and wait for assignment before opening a PR, to avoid duplicate work.
+> **Before you submit:** make sure you followed the [issue workflow in CONTRIBUTING.md](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/CONTRIBUTING.md#-working-on-an-existing-issue) — comment on the issue and wait for assignment before opening a PR, to avoid duplicate work.
 
 ## Description
 
@@ -47,8 +47,8 @@ python -m build
 pytest tests/
 
 # Optional: Format code
-black semantica/
-isort semantica/
+black sloth_graphmind/
+isort sloth_graphmind/
 ```
 
 ## Documentation

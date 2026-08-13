@@ -56,7 +56,7 @@ Policy evaluation is the systematic checking of decisions against predefined gov
 <Info>
 The Policy Engine sits above `AgentContext` and `ContextGraph`. Policies are stored as nodes in the same graph as decisions, giving them the same causal tracing, provenance, and temporal validity as any other knowledge graph entity. 
 
-**Key objects:** `PolicyEngine` and `Policy` import from `semantica.context`. `Decision` is a dataclass with fields like `decision_id`, `category`, `scenario`, `reasoning`, `outcome`, `confidence`, `timestamp`, `decision_maker`, and `metadata`. `DecisionRecorder` imports from `semantica.context.decision_recorder` for approval workflow tracking.
+**Key objects:** `PolicyEngine` and `Policy` import from `sloth_graphmind.context`. `Decision` is a dataclass with fields like `decision_id`, `category`, `scenario`, `reasoning`, `outcome`, `confidence`, `timestamp`, `decision_maker`, and `metadata`. `DecisionRecorder` imports from `sloth_graphmind.context.decision_recorder` for approval workflow tracking.
 </Info>
 
 ## Supported Rule Types
@@ -92,7 +92,7 @@ The PolicyEngine implementation supports specific rule patterns that evaluate de
 A `Policy` is a dataclass with a free-form `rules` dict — encode whatever your domain requires using supported rule patterns.
 
 ```python
-from semantica.context import ContextGraph, PolicyEngine, Policy
+from sloth_graphmind.context import ContextGraph, PolicyEngine, Policy
 from datetime import datetime
 
 graph  = ContextGraph()
@@ -135,7 +135,7 @@ The policy is now a node in the graph. It has a version string, a creation times
 `check_compliance` takes a `Decision` object and the policy ID and returns a boolean.
 
 ```python
-from semantica.context import Decision
+from sloth_graphmind.context import Decision
 
 # The AI analyst's APT29 attribution — only one source cited, no senior approval yet
 decision = Decision(
@@ -205,7 +205,7 @@ print(f"Exception recorded: {exception_id}")
 For the highest-stakes decisions — formal attribution reports that will be shared with government partners — a single approver is not enough. Three people need to sign off: the team lead, the department head, and the CISO. `DecisionRecorder.record_approval_chain` captures all three in a single call, linking each approver to the communication method and context of their sign-off.
 
 ```python
-from semantica.context.decision_recorder import DecisionRecorder
+from sloth_graphmind.context.decision_recorder import DecisionRecorder
 
 recorder = DecisionRecorder(graph_store=graph)
 
@@ -338,8 +338,8 @@ for version in history:
 TLP:RED intelligence must never be shared outside the originating organisation without commander-level approval. The policy is enforced on every information-sharing decision that touches classified threat reporting. Violations are routed to the J2 officer for exception review rather than silently logged.
 
 ```python
-from semantica.context import ContextGraph, PolicyEngine, Policy, Decision
-from semantica.context.decision_recorder import DecisionRecorder
+from sloth_graphmind.context import ContextGraph, PolicyEngine, Policy, Decision
+from sloth_graphmind.context.decision_recorder import DecisionRecorder
 from datetime import datetime
 
 graph    = ContextGraph()
@@ -413,7 +413,7 @@ print(f"Policy versions on record: {len(history)}")
 Zero-trust access policies enforce MFA for Tier-1 systems and PAM session checkout for privileged accounts. Every automated access decision is checked against both policies. When the PAM portal is unavailable during an emergency patch window, the SOC lead records a time-bounded exception with her sign-off before the work begins — not after.
 
 ```python
-from semantica.context import ContextGraph, PolicyEngine, Policy, Decision
+from sloth_graphmind.context import ContextGraph, PolicyEngine, Policy, Decision
 from datetime import datetime
 
 graph  = ContextGraph()
@@ -498,8 +498,8 @@ print(f"Decisions affected by tighter session cap: {impact.get('affected_decisio
 An absolute drug contraindication policy prevents metformin from being prescribed when eGFR is below 30. The AI clinical decision-support system checks every prescribing decision against this policy before it reaches the EHR. When a borderline case requires a clinical exception, a three-person MDT approval chain is recorded — consultant, renal specialist, and pharmacist — before the prescription is issued.
 
 ```python
-from semantica.context import ContextGraph, PolicyEngine, Policy, Decision
-from semantica.context.decision_recorder import DecisionRecorder
+from sloth_graphmind.context import ContextGraph, PolicyEngine, Policy, Decision
+from sloth_graphmind.context.decision_recorder import DecisionRecorder
 from datetime import datetime
 
 graph    = ContextGraph()
@@ -571,7 +571,7 @@ print(f"Policy versions on record: {len(history)}")
 A Basel III mortgage underwriting policy caps LTV at 85% and DSTI at 40%. The credit model checks every origination decision against this policy before booking. When the credit committee wants to raise the minimum credit score floor before the next quarter, the impact analysis shows how many approved loans in the current book would not have passed the new rule — and the audit trail for the policy change goes to the board risk committee.
 
 ```python
-from semantica.context import ContextGraph, PolicyEngine, Policy, Decision
+from sloth_graphmind.context import ContextGraph, PolicyEngine, Policy, Decision
 from datetime import datetime
 
 graph  = ContextGraph()

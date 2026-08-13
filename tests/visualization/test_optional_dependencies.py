@@ -42,10 +42,10 @@ class TestOptionalDependencies(unittest.TestCase):
     def setUp(self):
         # Clear cached visualization modules to ensure fresh imports
         self.viz_modules = [
-            'semantica.visualization.embedding_visualizer',
-            'semantica.visualization.ontology_visualizer',
-            'semantica.visualization.kg_visualizer',
-            'semantica.visualization.utils.export_formats'
+            'sloth_graphmind.visualization.embedding_visualizer',
+            'sloth_graphmind.visualization.ontology_visualizer',
+            'sloth_graphmind.visualization.kg_visualizer',
+            'sloth_graphmind.visualization.utils.export_formats'
         ]
         for mod in self.viz_modules:
             if mod in sys.modules:
@@ -55,7 +55,7 @@ class TestOptionalDependencies(unittest.TestCase):
         """Test EmbeddingVisualizer behavior when umap is missing."""
         # Ensure umap is missing
         with patch.dict(sys.modules, {'umap': None}):
-            from semantica.visualization.embedding_visualizer import EmbeddingVisualizer
+            from sloth_graphmind.visualization.embedding_visualizer import EmbeddingVisualizer
             
             # Setup PCA mock to verify fallback
             mock_pca_class = sys.modules['sklearn.decomposition'].PCA
@@ -78,7 +78,7 @@ class TestOptionalDependencies(unittest.TestCase):
         """Test OntologyVisualizer behavior when graphviz is missing."""
         # Ensure graphviz is missing
         with patch.dict(sys.modules, {'graphviz': None}):
-            from semantica.visualization.ontology_visualizer import OntologyVisualizer, ProcessingError
+            from sloth_graphmind.visualization.ontology_visualizer import OntologyVisualizer, ProcessingError
             
             viz = OntologyVisualizer()
             ontology = {
@@ -96,7 +96,7 @@ class TestOptionalDependencies(unittest.TestCase):
     def test_analytics_visualizer_without_plotly(self):
         """Test AnalyticsVisualizer behavior when plotly is missing."""
         with patch.dict(sys.modules, {'plotly': None, 'plotly.express': None, 'plotly.graph_objects': None}):
-            from semantica.visualization.analytics_visualizer import AnalyticsVisualizer, ProcessingError
+            from sloth_graphmind.visualization.analytics_visualizer import AnalyticsVisualizer, ProcessingError
             
             # Need to ensure numpy is available for init (it's imported at top level)
             # But we are testing plotly missing.
@@ -111,7 +111,7 @@ class TestOptionalDependencies(unittest.TestCase):
     def test_analytics_visualizer_without_plotly(self):
         """Test AnalyticsVisualizer behavior when plotly is missing."""
         with patch.dict(sys.modules, {'plotly': None, 'plotly.express': None, 'plotly.graph_objects': None}):
-            from semantica.visualization.analytics_visualizer import AnalyticsVisualizer, ProcessingError
+            from sloth_graphmind.visualization.analytics_visualizer import AnalyticsVisualizer, ProcessingError
             
             viz = AnalyticsVisualizer()
             
@@ -123,7 +123,7 @@ class TestOptionalDependencies(unittest.TestCase):
     def test_semantic_network_visualizer_without_plotly(self):
         """Test SemanticNetworkVisualizer behavior when plotly is missing."""
         with patch.dict(sys.modules, {'plotly': None, 'plotly.express': None, 'plotly.graph_objects': None}):
-            from semantica.visualization.semantic_network_visualizer import SemanticNetworkVisualizer, ProcessingError
+            from sloth_graphmind.visualization.semantic_network_visualizer import SemanticNetworkVisualizer, ProcessingError
             
             viz = SemanticNetworkVisualizer()
             
@@ -135,7 +135,7 @@ class TestOptionalDependencies(unittest.TestCase):
     def test_temporal_visualizer_without_plotly(self):
         """Test TemporalVisualizer behavior when plotly is missing."""
         with patch.dict(sys.modules, {'plotly': None, 'plotly.express': None, 'plotly.graph_objects': None}):
-            from semantica.visualization.temporal_visualizer import TemporalVisualizer, ProcessingError
+            from sloth_graphmind.visualization.temporal_visualizer import TemporalVisualizer, ProcessingError
             
             viz = TemporalVisualizer()
             

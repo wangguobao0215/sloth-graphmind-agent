@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-We actively support the following versions of Semantica with security updates:
+We actively support the following versions of GraphMind with security updates:
 
 | Version | Supported          |
 | ------- | ------------------ |
@@ -24,7 +24,7 @@ Security vulnerabilities should be reported privately to prevent potential explo
 
 ### 2. Report Security Issue
 
-Create a [GitHub Security Advisory](https://github.com/semantica-agi/semantica/security/advisories/new) or contact us via the security email listed in `SUPPORT.md`.
+Create a [GitHub Security Advisory](https://github.com/sloth_graphmind-agi/sloth_graphmind/security/advisories/new) or contact us via the security email listed in `SUPPORT.md`.
 
 Include the following information:
 
@@ -114,7 +114,7 @@ We regularly update dependencies to address security vulnerabilities. However, y
 
 ## CI/CD Supply-Chain Security
 
-Semantica's build and release pipeline is explicitly hardened against
+GraphMind's build and release pipeline is explicitly hardened against
 CI/CD supply-chain attacks — the class of attack behind the March 2026
 LiteLLM/Trivy incident, where a compromised third-party Action with a
 **mutable tag** was used to steal a long-lived publishing token, after which
@@ -164,7 +164,7 @@ Every scan below runs continuously in CI, not just at release time:
 - **CodeQL** (`security-and-quality` query pack) — Python source: injection, unsafe deserialization, and other code-level vulnerability classes. Runs in `codeql.yml` on every push/PR to `main` and weekly.
 - **Bandit** — Python-specific security anti-patterns (hardcoded secrets, unsafe `eval`/`pickle`, weak crypto, etc.); CI fails on any HIGH-severity finding. Runs in `security-scan.yml` on every push/PR to `main` and twice weekly.
 - **Semgrep** (`p/security` ruleset) — cross-language static-analysis security patterns. Runs in `security-scan.yml` on every push/PR to `main` and twice weekly.
-- **Safety** — known CVEs in Semantica's own installed dependencies, including optional LLM-provider extras such as LiteLLM; CI fails on any match. Runs in `security-scan.yml` on every push/PR to `main` and twice weekly.
+- **Safety** — known CVEs in GraphMind's own installed dependencies, including optional LLM-provider extras such as LiteLLM; CI fails on any match. Runs in `security-scan.yml` on every push/PR to `main` and twice weekly.
 - **pip-audit** — independent, PyPA-maintained vulnerability database cross-check against installed dependencies (Safety and pip-audit use different advisory sources, so both run). Runs in `security.yml` weekly.
 - **Microsoft Defender for DevOps** (`eslint`, `templateanalyzer`, `terrascan`) — JavaScript/TypeScript lint-security rules and infrastructure-as-code misconfigurations. Runs in `defender-for-devops.yml` on every push/PR to `main` and weekly.
 - **Checkov** — Kubernetes, Helm, Dockerfile, GitHub Actions, and secrets-pattern IaC scanning; results upload to the same Security tab as CodeQL. Runs in `defender-for-devops.yml` on every push/PR to `main` and weekly.
@@ -179,7 +179,7 @@ a single audit trail across tools rather than scattered per-tool reports.
 
 ### Adopting this posture in a fork or downstream deployment
 
-Teams standing up their own instance of Semantica, or forking it for an
+Teams standing up their own instance of GraphMind, or forking it for an
 internal/regulated deployment, can reuse this posture directly:
 
 1. Keep Dependabot's `github-actions` ecosystem entry — it is what keeps
@@ -220,7 +220,7 @@ internal/regulated deployment, can reuse this posture directly:
 If you discover a vulnerability in one of our dependencies:
 
 1. Check if it's already reported upstream
-2. Report to us if it affects Semantica specifically
+2. Report to us if it affects GraphMind specifically
 3. We will coordinate with upstream maintainers if needed
 
 ### Security Scanning
@@ -233,7 +233,7 @@ We use automated tools to scan for vulnerabilities:
 
 ## Best Practices for Users
 
-1. **Keep Semantica Updated**: Always use the latest stable version
+1. **Keep GraphMind Updated**: Always use the latest stable version
 2. **Review Dependencies**: Regularly update your project dependencies
 3. **Secure Configuration**: Use secure defaults and proper configuration
 4. **Monitor Logs**: Watch for suspicious activity
@@ -241,7 +241,7 @@ We use automated tools to scan for vulnerabilities:
 
 ## Security Acknowledgments
 
-We appreciate responsible disclosure. Security researchers who help us improve the security of Semantica will be:
+We appreciate responsible disclosure. Security researchers who help us improve the security of GraphMind will be:
 
 - Credited in security advisories (if desired)
 - Listed in our security acknowledgments
@@ -252,7 +252,7 @@ We appreciate responsible disclosure. Security researchers who help us improve t
 For security-related questions or concerns:
 
 - **Private Reporting**: Please do not report vulnerabilities in public issues.
-- **GitHub Security Advisories**: [Report vulnerability](https://github.com/semantica-agi/semantica/security/advisories/new)
+- **GitHub Security Advisories**: [Report vulnerability](https://github.com/sloth_graphmind-agi/sloth_graphmind/security/advisories/new)
 
 ## Additional Resources
 
@@ -262,5 +262,5 @@ For security-related questions or concerns:
 
 ---
 
-**Thank you for helping keep Semantica and its users safe!**
+**Thank you for helping keep GraphMind and its users safe!**
 

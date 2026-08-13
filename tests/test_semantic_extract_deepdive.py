@@ -7,22 +7,22 @@ import pytest
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from semantica.semantic_extract.ner_extractor import NERExtractor, Entity
-from semantica.semantic_extract.named_entity_recognizer import (
+from sloth_graphmind.semantic_extract.ner_extractor import NERExtractor, Entity
+from sloth_graphmind.semantic_extract.named_entity_recognizer import (
     NamedEntityRecognizer, 
     EntityClassifier, 
     EntityConfidenceScorer,
     CustomEntityDetector
 )
-from semantica.semantic_extract.relation_extractor import RelationExtractor, Relation
-from semantica.semantic_extract.triplet_extractor import (
+from sloth_graphmind.semantic_extract.relation_extractor import RelationExtractor, Relation
+from sloth_graphmind.semantic_extract.triplet_extractor import (
     TripletExtractor, 
     TripletValidator, 
     TripletQualityChecker,
     RDFSerializer,
     Triplet
 )
-from semantica.semantic_extract.methods import get_entity_method, get_relation_method
+from sloth_graphmind.semantic_extract.methods import get_entity_method, get_relation_method
 
 pytestmark = pytest.mark.integration
 
@@ -67,7 +67,7 @@ class TestSemanticExtractDeepDive(unittest.TestCase):
     def test_named_entity_recognizer_flow(self):
         """Test NamedEntityRecognizer with mocked method"""
         # We mock the internal extraction to avoid dependency on models
-        with patch('semantica.semantic_extract.methods.get_entity_method') as mock_get:
+        with patch('sloth_graphmind.semantic_extract.methods.get_entity_method') as mock_get:
             mock_method = MagicMock()
             mock_method.return_value = self.entities
             mock_get.return_value = mock_method
@@ -150,7 +150,7 @@ class TestSemanticExtractDeepDive(unittest.TestCase):
     def test_triplet_extractor(self):
         """Test TripletExtractor"""
         # Mocking get_triplet_method to return a simple extraction function
-        with patch('semantica.semantic_extract.methods.get_triplet_method') as mock_get:
+        with patch('sloth_graphmind.semantic_extract.methods.get_triplet_method') as mock_get:
             def mock_extract(text, entities, relations, **kwargs):
                 triplets = []
                 for rel in relations:

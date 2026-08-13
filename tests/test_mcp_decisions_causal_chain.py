@@ -44,7 +44,7 @@ class TestMCPDecisionsCausalChain(unittest.TestCase):
         self.assertNotIn("direction", response)
 
     @patch("mcp.tools.decisions.get_graph")
-    @patch("semantica.context.causal_analyzer.CausalChainAnalyzer")
+    @patch("sloth_graphmind.context.causal_analyzer.CausalChainAnalyzer")
     def test_unsupported_backend_returns_error(self, mock_analyzer_cls, mock_get_graph):
         """
         Issue #781 regression test:
@@ -68,7 +68,7 @@ class TestMCPDecisionsCausalChain(unittest.TestCase):
         self.assertNotIn("direction", response)
 
     @patch("mcp.tools.decisions.get_graph")
-    @patch("semantica.context.causal_analyzer.CausalChainAnalyzer")
+    @patch("sloth_graphmind.context.causal_analyzer.CausalChainAnalyzer")
     def test_fallback_path_forwards_direction_and_max_depth(self, mock_analyzer_cls, mock_get_graph):
         """Verify fallback graph.get_causal_chain receives direction and max_depth keyword arguments."""
         mock_analyzer_cls.side_effect = ImportError("mocked import error")
@@ -91,7 +91,7 @@ class TestMCPDecisionsCausalChain(unittest.TestCase):
         )
 
     @patch("mcp.tools.decisions.get_graph")
-    @patch("semantica.context.causal_analyzer.CausalChainAnalyzer")
+    @patch("sloth_graphmind.context.causal_analyzer.CausalChainAnalyzer")
     def test_fallback_success_response(self, mock_analyzer_cls, mock_get_graph):
         """Verify fallback graph.get_causal_chain default parameters and success response shape."""
         mock_analyzer_cls.side_effect = AttributeError("mocked attr error")
@@ -112,7 +112,7 @@ class TestMCPDecisionsCausalChain(unittest.TestCase):
         )
 
     @patch("mcp.tools.decisions.get_graph")
-    @patch("semantica.context.causal_analyzer.CausalChainAnalyzer")
+    @patch("sloth_graphmind.context.causal_analyzer.CausalChainAnalyzer")
     def test_primary_analyzer_success_path(self, mock_analyzer_cls, mock_get_graph):
         """Verify normal operation via CausalChainAnalyzer when available."""
         mock_analyzer_instance = MagicMock()
@@ -137,7 +137,7 @@ class TestMCPDecisionsCausalChain(unittest.TestCase):
         )
 
     @patch("mcp.tools.decisions.get_graph")
-    @patch("semantica.context.causal_analyzer.CausalChainAnalyzer")
+    @patch("sloth_graphmind.context.causal_analyzer.CausalChainAnalyzer")
     def test_fallback_depth_kwarg_signature(self, mock_analyzer_cls, mock_get_graph):
         """Verify fallback works for backends accepting 'depth' kwarg (like OpenClaw)."""
         mock_analyzer_cls.side_effect = ImportError("mocked import error")
@@ -164,7 +164,7 @@ class TestMCPDecisionsCausalChain(unittest.TestCase):
         )
 
     @patch("mcp.tools.decisions.get_graph")
-    @patch("semantica.context.causal_analyzer.CausalChainAnalyzer")
+    @patch("sloth_graphmind.context.causal_analyzer.CausalChainAnalyzer")
     def test_fallback_positional_only_signature(self, mock_analyzer_cls, mock_get_graph):
         """Verify fallback works for backends accepting only positional decision_id."""
         mock_analyzer_cls.side_effect = AttributeError("mocked attr error")
@@ -189,7 +189,7 @@ class TestMCPDecisionsCausalChain(unittest.TestCase):
         )
 
     @patch("mcp.tools.decisions.get_graph")
-    @patch("semantica.context.causal_analyzer.CausalChainAnalyzer")
+    @patch("sloth_graphmind.context.causal_analyzer.CausalChainAnalyzer")
     def test_input_hardening_and_dos_prevention(
         self, mock_analyzer_cls, mock_get_graph
     ):
@@ -213,7 +213,7 @@ class TestMCPDecisionsCausalChain(unittest.TestCase):
         )
 
     @patch("mcp.tools.decisions.get_graph")
-    @patch("semantica.context.causal_analyzer.CausalChainAnalyzer")
+    @patch("sloth_graphmind.context.causal_analyzer.CausalChainAnalyzer")
     def test_internal_typeerror_not_masked(self, mock_analyzer_cls, mock_get_graph):
         """Verify internal TypeError inside get_causal_chain is not masked as signature error."""
         mock_analyzer_cls.side_effect = ImportError("mocked import error")
@@ -233,7 +233,7 @@ class TestMCPDecisionsCausalChain(unittest.TestCase):
         )
 
     @patch("mcp.tools.decisions.get_graph")
-    @patch("semantica.context.causal_analyzer.CausalChainAnalyzer")
+    @patch("sloth_graphmind.context.causal_analyzer.CausalChainAnalyzer")
     def test_internal_typeerror_calls_backend_only_once(self, mock_analyzer_cls, mock_get_graph):
         """
         Regression test: a signature that introspects successfully must be called

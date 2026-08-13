@@ -3,11 +3,11 @@ print("Starting tests module...")
 import unittest
 from unittest.mock import MagicMock, patch
 try:
-    from semantica.semantic_extract.semantic_network_extractor import SemanticNetworkExtractor, SemanticNetwork, SemanticNode, SemanticEdge
-    from semantica.semantic_extract.event_detector import EventDetector, Event
-    from semantica.semantic_extract.semantic_analyzer import SemanticAnalyzer
-    from semantica.semantic_extract.coreference_resolver import CoreferenceResolver, CoreferenceChain, Mention
-    from semantica.semantic_extract.ner_extractor import Entity
+    from sloth_graphmind.semantic_extract.semantic_network_extractor import SemanticNetworkExtractor, SemanticNetwork, SemanticNode, SemanticEdge
+    from sloth_graphmind.semantic_extract.event_detector import EventDetector, Event
+    from sloth_graphmind.semantic_extract.semantic_analyzer import SemanticAnalyzer
+    from sloth_graphmind.semantic_extract.coreference_resolver import CoreferenceResolver, CoreferenceChain, Mention
+    from sloth_graphmind.semantic_extract.ner_extractor import Entity
     print("Imports successful")
 except Exception as e:
     print(f"Import failed: {e}")
@@ -16,7 +16,7 @@ class TestSemanticExtractBatch(unittest.TestCase):
 
     def setUp(self):
         # Mock progress tracker to avoid console spam
-        self.tracker_patcher = patch('semantica.utils.progress_tracker.get_progress_tracker')
+        self.tracker_patcher = patch('sloth_graphmind.utils.progress_tracker.get_progress_tracker')
         self.mock_tracker_cls = self.tracker_patcher.start()
         self.mock_tracker = self.mock_tracker_cls.return_value
         self.mock_tracker.enabled = True

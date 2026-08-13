@@ -10,7 +10,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from semantica.export.distance_exporter import DistanceExporter
+from sloth_graphmind.export.distance_exporter import DistanceExporter
 
 
 @pytest.fixture

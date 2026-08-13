@@ -1,6 +1,6 @@
 import unittest
-from semantica.normalize.text_normalizer import TextNormalizer
-from semantica.normalize.text_cleaner import TextCleaner
+from sloth_graphmind.normalize.text_normalizer import TextNormalizer
+from sloth_graphmind.normalize.text_cleaner import TextCleaner
 
 class TestTextNormalizer(unittest.TestCase):
 

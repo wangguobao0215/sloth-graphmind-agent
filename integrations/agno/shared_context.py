@@ -13,8 +13,8 @@ Install
 
 Example
 -------
-    >>> from semantica.context import ContextGraph
-    >>> from semantica.vector_store import VectorStore
+    >>> from sloth_graphmind.context import ContextGraph
+    >>> from sloth_graphmind.vector_store import VectorStore
     >>> from integrations.agno import AgnoSharedContext, AgnoDecisionKit, AgnoKGToolkit
     >>> shared = AgnoSharedContext(
     ...     vector_store=VectorStore(backend="faiss"),
@@ -41,7 +41,7 @@ from __future__ import annotations
 import threading
 from typing import Any, Dict, List, Optional
 
-from semantica.utils.logging import get_logger
+from sloth_graphmind.utils.logging import get_logger
 
 from .context_store import AgnoContextStore
 
@@ -138,9 +138,9 @@ class AgnoSharedContext:
     Parameters
     ----------
     vector_store:
-        Shared ``semantica.vector_store.VectorStore`` instance.
+        Shared ``sloth_graphmind.vector_store.VectorStore`` instance.
     knowledge_graph:
-        Shared ``semantica.context.ContextGraph`` instance.
+        Shared ``sloth_graphmind.context.ContextGraph`` instance.
     decision_tracking:
         Enable decision recording for all bound agents.
     graph_expansion:
@@ -160,8 +160,8 @@ class AgnoSharedContext:
     ) -> None:
         import uuid
 
-        from semantica.context import AgentContext, ContextGraph
-        from semantica.vector_store import VectorStore
+        from sloth_graphmind.context import AgentContext, ContextGraph
+        from sloth_graphmind.vector_store import VectorStore
 
         self.decision_tracking = decision_tracking
         self.graph_expansion = graph_expansion

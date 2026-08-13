@@ -5,13 +5,13 @@ from typing import Dict, Any
 
 import pytest
 
-from semantica.pipeline.pipeline_builder import PipelineBuilder, StepStatus, Pipeline
-from semantica.pipeline.execution_engine import ExecutionEngine, PipelineStatus
-from semantica.pipeline.failure_handler import (
+from sloth_graphmind.pipeline.pipeline_builder import PipelineBuilder, StepStatus, Pipeline
+from sloth_graphmind.pipeline.execution_engine import ExecutionEngine, PipelineStatus
+from sloth_graphmind.pipeline.failure_handler import (
     FailureHandler, RetryPolicy, RetryStrategy, ErrorSeverity
 )
-from semantica.pipeline.parallelism_manager import ParallelismManager, Task
-from semantica.pipeline.pipeline_validator import PipelineValidator
+from sloth_graphmind.pipeline.parallelism_manager import ParallelismManager, Task
+from sloth_graphmind.pipeline.pipeline_validator import PipelineValidator
 
 pytestmark = pytest.mark.integration
 
@@ -19,13 +19,13 @@ class TestPipelineComprehensive(unittest.TestCase):
 
     def setUp(self):
         # Common setup
-        self.mock_tracker_patcher = patch("semantica.utils.progress_tracker.get_progress_tracker")
+        self.mock_tracker_patcher = patch("sloth_graphmind.utils.progress_tracker.get_progress_tracker")
         self.mock_get_tracker = self.mock_tracker_patcher.start()
         self.mock_tracker = MagicMock()
         self.mock_get_tracker.return_value = self.mock_tracker
         
         # Mock logger
-        self.mock_logger_patcher = patch("semantica.utils.logging.get_logger")
+        self.mock_logger_patcher = patch("sloth_graphmind.utils.logging.get_logger")
         self.mock_get_logger = self.mock_logger_patcher.start()
         self.mock_logger = MagicMock()
         self.mock_get_logger.return_value = self.mock_logger

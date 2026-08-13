@@ -32,7 +32,7 @@ from unittest.mock import patch  # noqa: E402
 # Now proceed with normal imports
 import pytest  # noqa: E402
 
-from semantica.ingest.file_ingestor import (  # noqa: E402
+from sloth_graphmind.ingest.file_ingestor import (  # noqa: E402
     CloudStorageIngestor,
     FileIngestor,
     FileObject,
@@ -292,7 +292,7 @@ def test_ingest_alias(temp_files: Path) -> None:
         ingestor.ingest("ghost_path")
 
 
-@patch("semantica.ingest.file_ingestor.CloudStorageIngestor")
+@patch("sloth_graphmind.ingest.file_ingestor.CloudStorageIngestor")
 def test_ingest_cloud_loop_errors(mock_cloud_cls: MagicMock) -> None:
     """Test cloud ingestion where one file fails."""
 

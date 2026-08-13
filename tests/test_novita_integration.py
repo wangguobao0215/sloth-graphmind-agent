@@ -5,13 +5,13 @@ import pytest
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from semantica.semantic_extract.methods import (
+from sloth_graphmind.semantic_extract.methods import (
     extract_entities_llm,
     extract_relations_llm,
     extract_triplets_llm,
 )
-from semantica.semantic_extract.providers import create_provider
-from semantica.semantic_extract import Entity
+from sloth_graphmind.semantic_extract.providers import create_provider
+from sloth_graphmind.semantic_extract import Entity
 
 NOVITA_API_KEY = os.environ.get("NOVITA_API_KEY")
 NOVITA_MODEL = "deepseek/deepseek-v3.2"

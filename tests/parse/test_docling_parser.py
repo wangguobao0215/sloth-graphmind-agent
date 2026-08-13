@@ -1,16 +1,16 @@
 import unittest
 from unittest.mock import MagicMock, patch
 from pathlib import Path
-from semantica.parse.docling_parser import DoclingParser, DoclingMetadata
+from sloth_graphmind.parse.docling_parser import DoclingParser, DoclingMetadata
 
 class TestDoclingParser(unittest.TestCase):
     def setUp(self):
         # Patch DOCLING_AVAILABLE to True for testing logic
-        self.available_patcher = patch('semantica.parse.docling_parser.DOCLING_AVAILABLE', True)
+        self.available_patcher = patch('sloth_graphmind.parse.docling_parser.DOCLING_AVAILABLE', True)
         self.available_patcher.start()
         
         # Mock the DocumentConverter
-        self.mock_converter_cls = patch('semantica.parse.docling_parser.DocumentConverter').start()
+        self.mock_converter_cls = patch('sloth_graphmind.parse.docling_parser.DocumentConverter').start()
         self.mock_converter = self.mock_converter_cls.return_value
         
         self.parser = DoclingParser()

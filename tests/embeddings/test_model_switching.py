@@ -7,25 +7,25 @@ import os
 # Ensure the package is in the path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from semantica.embeddings.text_embedder import TextEmbedder
-from semantica.embeddings.embedding_generator import EmbeddingGenerator
+from sloth_graphmind.embeddings.text_embedder import TextEmbedder
+from sloth_graphmind.embeddings.embedding_generator import EmbeddingGenerator
 
 class TestModelSwitching(unittest.TestCase):
     """Test suite for dynamic model switching in TextEmbedder and EmbeddingGenerator."""
 
     def setUp(self):
         # Mock dependencies
-        self.mock_st_patcher = patch('semantica.embeddings.text_embedder.SentenceTransformer')
+        self.mock_st_patcher = patch('sloth_graphmind.embeddings.text_embedder.SentenceTransformer')
         self.mock_st_class = self.mock_st_patcher.start()
         
-        self.mock_fe_patcher = patch('semantica.embeddings.text_embedder.TextEmbedding')
+        self.mock_fe_patcher = patch('sloth_graphmind.embeddings.text_embedder.TextEmbedding')
         self.mock_fe_class = self.mock_fe_patcher.start()
         
         # Patch availability flags
-        self.st_avail_patcher = patch('semantica.embeddings.text_embedder.SENTENCE_TRANSFORMERS_AVAILABLE', True)
+        self.st_avail_patcher = patch('sloth_graphmind.embeddings.text_embedder.SENTENCE_TRANSFORMERS_AVAILABLE', True)
         self.st_avail_patcher.start()
         
-        self.fe_avail_patcher = patch('semantica.embeddings.text_embedder.FASTEMBED_AVAILABLE', True)
+        self.fe_avail_patcher = patch('sloth_graphmind.embeddings.text_embedder.FASTEMBED_AVAILABLE', True)
         self.fe_avail_patcher.start()
 
     def tearDown(self):
@@ -82,7 +82,7 @@ class TestModelSwitching(unittest.TestCase):
         embedder = TextEmbedder(method="sentence_transformers")
         
         # Mock availability to False for the next switch
-        with patch('semantica.embeddings.text_embedder.FASTEMBED_AVAILABLE', False):
+        with patch('sloth_graphmind.embeddings.text_embedder.FASTEMBED_AVAILABLE', False):
             embedder.set_model(method="fastembed", model_name="some-model")
             
             self.assertEqual(embedder.get_method(), "fallback")

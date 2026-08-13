@@ -1,11 +1,11 @@
 ---
 name: change
-description: Track and inspect graph changes, diffs, temporal updates, and the impact of new data on Semantica knowledge graphs.
+description: Track and inspect graph changes, diffs, temporal updates, and the impact of new data on GraphMind knowledge graphs.
 ---
 
-# /semantica:change
+# /sloth_graphmind:change
 
-Inspect changes over time and evaluate updates. Usage: `/semantica:change <task> [args]`
+Inspect changes over time and evaluate updates. Usage: `/sloth_graphmind:change <task> [args]`
 
 `$ARGUMENTS` = task + optional node, time window, or filter.
 
@@ -16,8 +16,8 @@ Inspect changes over time and evaluate updates. Usage: `/semantica:change <task>
 Compute graph diffs between two snapshots.
 
 ```python
-from semantica.provenance.change_tracker import ChangeTracker
-from semantica.context import ContextGraph
+from sloth_graphmind.provenance.change_tracker import ChangeTracker
+from sloth_graphmind.context import ContextGraph
 
 tracker = ChangeTracker()
 diff = tracker.compute_diff(from_ts=from_ts, to_ts=to_ts, node_id=node_id)

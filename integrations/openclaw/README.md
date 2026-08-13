@@ -1,22 +1,22 @@
-# Semantica × OpenClaw Integration
+# GraphMind × OpenClaw Integration
 
-Connect [OpenClaw](https://openclaw.ai) — the open-source personal AI agent — to Semantica's full knowledge-graph and decision-intelligence stack.
+Connect [OpenClaw](https://openclaw.ai) — the open-source personal AI agent — to GraphMind's full knowledge-graph and decision-intelligence stack.
 
 Two integration paths are available:
 
 | Path | When to use |
 |---|---|
 | **MCP (recommended)** | OpenClaw Gateway is running; zero extra code needed |
-| **REST / native tool** | Embedding Semantica directly in a SOUL.md agent config |
+| **REST / native tool** | Embedding GraphMind directly in a SOUL.md agent config |
 
 ---
 
 ## Path 1 — MCP Server (recommended)
 
-### 1. Start the Semantica MCP server
+### 1. Start the GraphMind MCP server
 
 ```bash
-python -m semantica.mcp_server
+python -m sloth_graphmind.mcp_server
 ```
 
 ### 2. Add to `mcporter.json`
@@ -24,9 +24,9 @@ python -m semantica.mcp_server
 ```json
 {
   "mcpServers": {
-    "semantica": {
+    "sloth_graphmind": {
       "command": "python",
-      "args": ["-m", "semantica.mcp_server"],
+      "args": ["-m", "sloth_graphmind.mcp_server"],
       "transport": "stdio"
     }
   }
@@ -39,7 +39,7 @@ python -m semantica.mcp_server
 openclaw gateway restart
 ```
 
-All **12 Semantica tools** are now available to any OpenClaw agent:
+All **12 GraphMind tools** are now available to any OpenClaw agent:
 
 | Tool | What it does |
 |---|---|
@@ -56,7 +56,7 @@ All **12 Semantica tools** are now available to any OpenClaw agent:
 | `export_graph` | Export graph (JSON, RDF, GraphML, …) |
 | `get_graph_summary` | High-level graph overview |
 
-**3 resources** are also exposed: `semantica://graph/summary`, `semantica://decisions/list`, `semantica://schema/info`.
+**3 resources** are also exposed: `sloth_graphmind://graph/summary`, `sloth_graphmind://decisions/list`, `sloth_graphmind://schema/info`.
 
 ---
 
@@ -67,7 +67,7 @@ Use `OpenClawKGTool` when you prefer a direct Python integration without the MCP
 ### Install
 
 ```bash
-pip install semantica[openclaw]   # pulls in 'requests'
+pip install sloth_graphmind[openclaw]   # pulls in 'requests'
 ```
 
 ### Quick start
@@ -106,14 +106,14 @@ print(cfg.to_json())   # → paste into mcporter.json
 
 ## SOUL.md agent snippet
 
-Add Semantica to any OpenClaw agent by referencing the tool in your `SOUL.md`:
+Add GraphMind to any OpenClaw agent by referencing the tool in your `SOUL.md`:
 
 ```markdown
 ## Tools
 
 - name: semantica_kg
   description: >
-    Semantica knowledge-graph tool. Supports entity extraction, decision
+    GraphMind knowledge-graph tool. Supports entity extraction, decision
     recording, graph querying, causal chain analysis, reasoning, and
     multi-format export.
   endpoint: http://localhost:8000
@@ -132,6 +132,6 @@ You have access to `semantica_kg`. Use it to:
 ## Requirements
 
 - Python 3.8+
-- `pip install semantica` (core)
-- `pip install semantica[openclaw]` (adds `requests` for the REST path)
+- `pip install sloth_graphmind` (core)
+- `pip install sloth_graphmind[openclaw]` (adds `requests` for the REST path)
 - OpenClaw ≥ latest — [openclaw.ai](https://openclaw.ai)

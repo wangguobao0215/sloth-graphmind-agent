@@ -4,7 +4,7 @@ description: "Install the Explorer extras, save a ContextGraph to JSON, and laun
 icon: "map"
 ---
 
-**`semantica-explorer`** is an **interactive browser dashboard** for knowledge graph exploration. You give it a graph file, it starts a local server, and opens a browser tab where you can search nodes, find paths, inspect provenance, and run analytics: no code required after launch.
+**`sloth_graphmind-explorer`** is an **interactive browser dashboard** for knowledge graph exploration. You give it a graph file, it starts a local server, and opens a browser tab where you can search nodes, find paths, inspect provenance, and run analytics: no code required after launch.
 
 This page covers everything needed to go from zero to a running Explorer. For the full REST API reference and endpoint catalogue, see [Explorer Reference](reference/explorer).
 
@@ -14,17 +14,17 @@ This page covers everything needed to go from zero to a running Explorer. For th
 The Explorer depends on FastAPI and uvicorn, which are not included in the base install:
 
 ```bash
-pip install semantica[explorer]
+pip install sloth_graphmind[explorer]
 ```
 
 <Note>
-  `pip install semantica` alone is not sufficient. Running `semantica-explorer` without the `[explorer]` extra immediately prints an error and exits with code 1.
+  `pip install sloth_graphmind` alone is not sufficient. Running `sloth_graphmind-explorer` without the `[explorer]` extra immediately prints an error and exits with code 1.
 </Note>
 
 Verify:
 
 ```bash
-semantica-explorer --help
+sloth_graphmind-explorer --help
 ```
 
 You should see the usage message with the four available flags. If you see `command not found`, activate your virtual environment first. See [CLI Setup](cli-setup#troubleshooting) for PATH help.
@@ -35,7 +35,7 @@ You should see the usage message with the four available flags. If you see `comm
 The following four steps are everything needed to get Explorer running:
 
 ```python
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 
 # 1. Create a graph
 graph = ContextGraph()
@@ -49,7 +49,7 @@ graph.save_to_file("my_graph.json")
 
 ```bash
 # 4. Launch Explorer
-semantica-explorer --graph my_graph.json
+sloth_graphmind-explorer --graph my_graph.json
 ```
 
 The browser opens at `http://127.0.0.1:8000`. The health endpoint confirms the server is up:
@@ -67,7 +67,7 @@ Explorer loads a graph from a JSON file on disk. You need to create that file fi
 <Steps>
   <Step title="Build a graph">
     ```python
-    from semantica.context import ContextGraph
+    from sloth_graphmind.context import ContextGraph
 
     graph = ContextGraph()
 
@@ -90,7 +90,7 @@ Explorer loads a graph from a JSON file on disk. You need to create that file fi
   </Step>
   <Step title="Verify the file loads (optional sanity check)">
     ```python
-    from semantica.context import ContextGraph
+    from sloth_graphmind.context import ContextGraph
 
     check = ContextGraph()
     check.load_from_file("my_graph.json")
@@ -116,14 +116,14 @@ Explorer loads a graph from a JSON file on disk. You need to create that file fi
 ## Step 2: Launch Explorer
 
 ```bash
-semantica-explorer --graph my_graph.json
+sloth_graphmind-explorer --graph my_graph.json
 ```
 
 The startup sequence prints:
 
 ```
 ✓ Graph loaded: 3 nodes, 2 edges
-╭─ Semantica Explorer · http://127.0.0.1:8000 ─╮
+╭─ GraphMind Explorer · http://127.0.0.1:8000 ─╮
 │  API docs  http://127.0.0.1:8000/docs         │
 │  Health    http://127.0.0.1:8000/api/health   │
 ╰───────────────────────────────────────────────╯
@@ -134,7 +134,7 @@ The browser opens automatically at `http://127.0.0.1:8000` shortly after the ser
 
 ## CLI Flags
 
-`semantica-explorer` accepts exactly four flags:
+`sloth_graphmind-explorer` accepts exactly four flags:
 
 | Flag | Short | Default | Description |
 | :---- | :----- | :------- | :----------- |
@@ -149,16 +149,16 @@ There are no flags for authentication, log level, or TLS. Those are not implemen
 
 ```bash
 # Minimal: local only, port 8000, browser opens automatically
-semantica-explorer --graph my_graph.json
+sloth_graphmind-explorer --graph my_graph.json
 
 # Short flags
-semantica-explorer -g my_graph.json -p 8080
+sloth_graphmind-explorer -g my_graph.json -p 8080
 
 # Expose on the network so other machines can connect
-semantica-explorer --graph my_graph.json --host 0.0.0.0 --port 8080
+sloth_graphmind-explorer --graph my_graph.json --host 0.0.0.0 --port 8080
 
 # Headless: skip the auto-open and navigate manually
-semantica-explorer --graph my_graph.json --no-browser
+sloth_graphmind-explorer --graph my_graph.json --no-browser
 ```
 
 <Warning>
@@ -181,10 +181,10 @@ The browser tab opens shortly after startup. If it does not open, navigate to th
 
 ## Running as a Python Module
 
-If `semantica-explorer` is not on `PATH`, use the module form:
+If `sloth_graphmind-explorer` is not on `PATH`, use the module form:
 
 ```bash
-python -m semantica.explorer --graph my_graph.json --port 8080
+python -m sloth_graphmind.explorer --graph my_graph.json --port 8080
 ```
 
 
@@ -202,7 +202,7 @@ ls my_graph.json                                          # Linux / Mac
 dir my_graph.json                                         # Windows
 
 # Use the full path if needed
-semantica-explorer --graph /absolute/path/to/my_graph.json
+sloth_graphmind-explorer --graph /absolute/path/to/my_graph.json
 ```
 
 </Accordion>
@@ -212,7 +212,7 @@ semantica-explorer --graph /absolute/path/to/my_graph.json
 The `[explorer]` extra was not installed alongside the base package:
 
 ```bash
-pip install semantica[explorer]
+pip install sloth_graphmind[explorer]
 ```
 
 </Accordion>
@@ -222,7 +222,7 @@ pip install semantica[explorer]
 The file loaded but contains no nodes. Verify with Python:
 
 ```python
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 g = ContextGraph()
 g.load_from_file("my_graph.json")
 print(g.stats())  # check node_count
@@ -237,7 +237,7 @@ A `node_count` of `0` means the graph was saved before any nodes were added. Mak
 The default `--host 127.0.0.1` only accepts connections from the same machine. To allow remote access:
 
 ```bash
-semantica-explorer --graph my_graph.json --host 0.0.0.0
+sloth_graphmind-explorer --graph my_graph.json --host 0.0.0.0
 ```
 
 </Accordion>
@@ -265,6 +265,6 @@ Once running, Explorer exposes a REST API and dashboard for:
 The full endpoint catalogue is documented in the Swagger UI at `/docs` and in the reference page below.
 
 - [Explorer Reference](reference/explorer) — Every REST endpoint, WebSocket events, analytics, and all supported flags.
-- [CLI Setup](cli-setup) — All five Semantica executables and when to use each one.
+- [CLI Setup](cli-setup) — All five GraphMind executables and when to use each one.
 - [Context Module](reference/context) — Full documentation for ContextGraph: build, query, save, and load.
 - [Quickstart](quickstart) — End-to-end pipeline: ingest → extract → build graph → export.

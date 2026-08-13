@@ -1,31 +1,31 @@
 ---
 title: "Agno Integration"
-description: "Wire Semantica's semantic intelligence stack into Agno multi-agent teams via five focused components."
+description: "Wire GraphMind's semantic intelligence stack into Agno multi-agent teams via five focused components."
 icon: "robot"
 ---
 
-> Five drop-in components that bring Semantica's KG, vector memory, and decision intelligence into any Agno agent or team.
+> Five drop-in components that bring GraphMind's KG, vector memory, and decision intelligence into any Agno agent or team.
 
 
 ## Installation
 
 ```bash
 # Core integration
-pip install "semantica[agno]"
+pip install "sloth_graphmind[agno]"
 
 # With a graph store backend
-pip install "semantica[agno,graph-neo4j]"
-pip install "semantica[agno,graph-falkordb]"
+pip install "sloth_graphmind[agno,graph-neo4j]"
+pip install "sloth_graphmind[agno,graph-falkordb]"
 
 # Full stack
-pip install "semantica[agno,graph-neo4j,vectorstore-pgvector]"
+pip install "sloth_graphmind[agno,graph-neo4j,vectorstore-pgvector]"
 ```
 
 
 ## Components at a Glance
 
 - **AgnoContextStore** — `AgentMemory(db=…)`: Replaces Agno's flat storage with hybrid vector + context graph memory. Adds decision tracking and precedent search to any agent.
-- **AgnoKnowledgeGraph** — `Agent(knowledge=…)`: Documents flow through the full Semantica extraction pipeline into a queryable `ContextGraph` with multi-hop GraphRAG.
+- **AgnoKnowledgeGraph** — `Agent(knowledge=…)`: Documents flow through the full GraphMind extraction pipeline into a queryable `ContextGraph` with multi-hop GraphRAG.
 - **AgnoDecisionKit** — `Agent(tools=[…])`: 6 decision intelligence tools: record decisions, find precedents, trace causal chains, analyze impact, check policies, summarize history.
 - **AgnoKGToolkit** — `Agent(tools=[…])`: 7 KG construction tools: extract entities, extract relations, add to graph, query graph, find related, infer facts, export subgraph.
 - **AgnoSharedContext** — Team-level: A single `ContextGraph` shared across all agents. Each agent gets a role-scoped view via `bind_agent()`. Writes are tagged by role.
@@ -41,8 +41,8 @@ pip install "semantica[agno,graph-neo4j,vectorstore-pgvector]"
     from agno.agent import Agent
     from agno.memory import AgentMemory
     from agno.models.openai import OpenAIChat
-    from semantica.context import ContextGraph
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
     from integrations.agno import AgnoContextStore
 
     store = AgnoContextStore(
@@ -68,13 +68,13 @@ pip install "semantica[agno,graph-neo4j,vectorstore-pgvector]"
     | `find_precedents()` | Return semantically similar historical decisions |
   </Tab>
   <Tab title="AgnoKnowledgeGraph">
-    Gives Agno agents a queryable `ContextGraph` instead of a flat document store. Ingested documents pass through the full Semantica extraction pipeline.
+    Gives Agno agents a queryable `ContextGraph` instead of a flat document store. Ingested documents pass through the full GraphMind extraction pipeline.
 
     ```python
     from agno.agent import Agent
     from agno.models.openai import OpenAIChat
-    from semantica.kg import GraphBuilder
-    from semantica.semantic_extract import NERExtractor, RelationExtractor
+    from sloth_graphmind.kg import GraphBuilder
+    from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
     from integrations.agno import AgnoKnowledgeGraph
 
     kg = AgnoKnowledgeGraph(
@@ -99,12 +99,12 @@ pip install "semantica[agno,graph-neo4j,vectorstore-pgvector]"
     ```
   </Tab>
   <Tab title="AgnoDecisionKit">
-    Exposes Semantica's decision intelligence as native Agno tools.
+    Exposes GraphMind's decision intelligence as native Agno tools.
 
     ```python
     from agno.agent import Agent
     from agno.models.openai import OpenAIChat
-    from semantica.context import AgentContext
+    from sloth_graphmind.context import AgentContext
     from integrations.agno import AgnoDecisionKit
 
     ctx   = AgentContext(decision_tracking=True)
@@ -157,8 +157,8 @@ pip install "semantica[agno,graph-neo4j,vectorstore-pgvector]"
     from agno.agent import Agent
     from agno.team import Team
     from agno.models.openai import OpenAIChat
-    from semantica.context import ContextGraph
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
     from integrations.agno import AgnoSharedContext, AgnoDecisionKit, AgnoKGToolkit
 
     shared = AgnoSharedContext(
@@ -216,7 +216,7 @@ from integrations.agno import (
 )
 ```
 
-All five classes are usable without `agno` installed: they carry the full Semantica API and degrade gracefully.
+All five classes are usable without `agno` installed: they carry the full GraphMind API and degrade gracefully.
 
 
 ## See Also

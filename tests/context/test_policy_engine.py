@@ -10,8 +10,8 @@ from datetime import datetime, timedelta
 from unittest.mock import Mock, patch
 from typing import List, Dict, Any
 
-from semantica.context.decision_models import Policy, PolicyException
-from semantica.context.policy_engine import PolicyEngine
+from sloth_graphmind.context.decision_models import Policy, PolicyException
+from sloth_graphmind.context.policy_engine import PolicyEngine
 
 
 class TestPolicyEngine:
@@ -272,7 +272,7 @@ class TestPolicyEngine:
     
     def test_check_compliance_success(self, policy_engine, mock_graph_store):
         """Test successful compliance checking."""
-        from semantica.context.decision_models import Decision
+        from sloth_graphmind.context.decision_models import Decision
         
         decision = Decision(
             decision_id="decision_001",
@@ -303,7 +303,7 @@ class TestPolicyEngine:
     
     def test_check_compliance_failure(self, policy_engine, mock_graph_store):
         """Test compliance checking failure."""
-        from semantica.context.decision_models import Decision
+        from sloth_graphmind.context.decision_models import Decision
         
         decision = Decision(
             decision_id="decision_001",
@@ -334,7 +334,7 @@ class TestPolicyEngine:
     
     def test_check_compliance_policy_not_found(self, policy_engine, mock_graph_store):
         """Test compliance checking when policy not found."""
-        from semantica.context.decision_models import Decision
+        from sloth_graphmind.context.decision_models import Decision
         
         decision = Decision(
             decision_id="decision_001",
@@ -555,7 +555,7 @@ class TestPolicyEngine:
     
     def test_evaluate_compliance_numeric_rules(self, policy_engine):
         """Test compliance evaluation with numeric rules."""
-        from semantica.context.decision_models import Decision
+        from sloth_graphmind.context.decision_models import Decision
         
         decision = Decision(
             decision_id="decision_001",
@@ -577,7 +577,7 @@ class TestPolicyEngine:
     
     def test_evaluate_compliance_string_rules(self, policy_engine):
         """Test compliance evaluation with string rules."""
-        from semantica.context.decision_models import Decision
+        from sloth_graphmind.context.decision_models import Decision
         
         decision = Decision(
             decision_id="decision_001",
@@ -599,7 +599,7 @@ class TestPolicyEngine:
     
     def test_evaluate_compliance_list_rules(self, policy_engine):
         """Test compliance evaluation with list rules."""
-        from semantica.context.decision_models import Decision
+        from sloth_graphmind.context.decision_models import Decision
         
         decision = Decision(
             decision_id="decision_001",
@@ -855,7 +855,7 @@ class TestPolicyEngineEdgeCases:
     
     def test_compliance_evaluation_with_missing_metadata(self, policy_engine):
         """Test compliance evaluation when decision metadata is missing."""
-        from semantica.context.decision_models import Decision
+        from sloth_graphmind.context.decision_models import Decision
         
         decision = Decision(
             decision_id="decision_001",

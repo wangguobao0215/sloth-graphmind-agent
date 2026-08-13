@@ -25,7 +25,7 @@ def _run_python(code: str) -> subprocess.CompletedProcess[str]:
 
 
 def test_core_extractors_import_from_package() -> None:
-    from semantica.semantic_extract import (
+    from sloth_graphmind.semantic_extract import (
         NERExtractor,
         RelationExtractor,
         TripletExtractor,
@@ -37,13 +37,13 @@ def test_core_extractors_import_from_package() -> None:
 
 
 def test_triple_extractor_alias_imports() -> None:
-    from semantica.semantic_extract import TripleExtractor, TripletExtractor
+    from sloth_graphmind.semantic_extract import TripleExtractor, TripletExtractor
 
     assert TripleExtractor is TripletExtractor
 
 
 def test_method_dispatchers_import_without_extractor_cycle() -> None:
-    from semantica.semantic_extract.methods import (
+    from sloth_graphmind.semantic_extract.methods import (
         get_entity_method,
         get_relation_method,
         get_triplet_method,
@@ -57,8 +57,8 @@ def test_method_dispatchers_import_without_extractor_cycle() -> None:
 def test_import_order_methods_before_extractors() -> None:
     result = _run_python(
         """
-from semantica.semantic_extract.methods import get_entity_method
-from semantica.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
+from sloth_graphmind.semantic_extract.methods import get_entity_method
+from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
 print(get_entity_method("pattern").__name__, NERExtractor.__name__, RelationExtractor.__name__, TripletExtractor.__name__)
 """
     )
@@ -70,8 +70,8 @@ print(get_entity_method("pattern").__name__, NERExtractor.__name__, RelationExtr
 def test_import_order_extractors_before_methods() -> None:
     result = _run_python(
         """
-from semantica.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
-from semantica.semantic_extract.methods import get_entity_method
+from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
+from sloth_graphmind.semantic_extract.methods import get_entity_method
 print(NERExtractor.__name__, RelationExtractor.__name__, TripletExtractor.__name__, get_entity_method("pattern").__name__)
 """
     )
@@ -81,10 +81,10 @@ print(NERExtractor.__name__, RelationExtractor.__name__, TripletExtractor.__name
 
 
 def test_legacy_type_imports_still_work() -> None:
-    from semantica.semantic_extract.ner_extractor import Entity
-    from semantica.semantic_extract.relation_extractor import Relation
-    from semantica.semantic_extract.triplet_extractor import Triplet
-    from semantica.semantic_extract.types import (
+    from sloth_graphmind.semantic_extract.ner_extractor import Entity
+    from sloth_graphmind.semantic_extract.relation_extractor import Relation
+    from sloth_graphmind.semantic_extract.triplet_extractor import Triplet
+    from sloth_graphmind.semantic_extract.types import (
         Entity as SharedEntity,
         Relation as SharedRelation,
         Triplet as SharedTriplet,
@@ -111,7 +111,7 @@ class OptionalDependencyBlocker(importlib.abc.MetaPathFinder):
 
 sys.meta_path.insert(0, OptionalDependencyBlocker())
 
-from semantica.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
+from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
 print(NERExtractor.__name__, RelationExtractor.__name__, TripletExtractor.__name__)
 """
     )

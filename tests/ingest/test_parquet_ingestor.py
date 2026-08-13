@@ -5,7 +5,7 @@ import pytest
 pa = pytest.importorskip("pyarrow")
 pq = pytest.importorskip("pyarrow.parquet")
 
-from semantica.ingest import (  # noqa: E402
+from sloth_graphmind.ingest import (  # noqa: E402
     ParquetData,
     ParquetIngestor,
     ingest,
@@ -13,8 +13,8 @@ from semantica.ingest import (  # noqa: E402
     ingest_parquet,
     list_available_methods,
 )
-from semantica.ingest.file_ingestor import FileTypeDetector  # noqa: E402
-from semantica.utils.exceptions import ValidationError  # noqa: E402
+from sloth_graphmind.ingest.file_ingestor import FileTypeDetector  # noqa: E402
+from sloth_graphmind.utils.exceptions import ValidationError  # noqa: E402
 
 
 @pytest.fixture

@@ -10,11 +10,11 @@ import tempfile
 import pytest
 from pathlib import Path
 
-from semantica.change_management import (
+from sloth_graphmind.change_management import (
     VersionStorage, InMemoryVersionStorage, SQLiteVersionStorage,
     compute_checksum, verify_checksum
 )
-from semantica.utils.exceptions import ValidationError, ProcessingError
+from sloth_graphmind.utils.exceptions import ValidationError, ProcessingError
 
 
 class TestInMemoryVersionStorage:

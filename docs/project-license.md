@@ -1,10 +1,10 @@
 ---
 title: "License"
-description: "Semantica is open source under the MIT License: free for personal and commercial use."
+description: "GraphMind is open source under the MIT License: free for personal and commercial use."
 icon: "file-contract"
 ---
 
-> Semantica is open source and free for everyone under the MIT License.
+> GraphMind is open source and free for everyone under the MIT License.
 
 
 ## MIT License
@@ -38,7 +38,7 @@ SOFTWARE.
 
 **You can:**
 
-<Check>Use Semantica commercially: free for business use</Check>
+<Check>Use GraphMind commercially: free for business use</Check>
 <Check>Modify the source code</Check>
 <Check>Distribute copies or derivatives</Check>
 <Check>Use in proprietary software</Check>
@@ -53,12 +53,12 @@ SOFTWARE.
 
 ## Commercial Use
 
-Semantica is completely free for commercial use. No attribution is required (though it's appreciated).
+GraphMind is completely free for commercial use. No attribution is required (though it's appreciated).
 
 
 ## Third-Party Dependencies
 
-Semantica uses open-source libraries with compatible licenses:
+GraphMind uses open-source libraries with compatible licenses:
 
 | Library | License |
 | :--------- | :--------- |
@@ -71,10 +71,10 @@ Semantica uses open-source libraries with compatible licenses:
 
 ## Contributing
 
-By contributing to Semantica, you agree that your contributions will be licensed under the same MIT License.
+By contributing to GraphMind, you agree that your contributions will be licensed under the same MIT License.
 
 
 ## See Also
 
 - [Contributing](contributing-guide) — How to contribute to the project.
-- [Citation](citation) — How to cite Semantica in research.
+- [Citation](citation) — How to cite GraphMind in research.

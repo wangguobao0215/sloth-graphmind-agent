@@ -4,22 +4,22 @@ services:
       - python
       - -m
       - uvicorn
-      - semantica.explorer.app:app
+      - sloth_graphmind.explorer.app:app
       - --host
       - 0.0.0.0
       - --port
       - "8000"
       - --reload
       - --reload-dir
-      - /app/semantica
+      - /app/sloth_graphmind
     environment:
       ALLOWED_ORIGINS: http://localhost:5173,http://127.0.0.1:5173,http://localhost:8000,http://127.0.0.1:8000
       FALKORDB_HOST: falkordb
       FALKORDB_PORT: "6379"
       # Local dev only: this compose file is not for public exposure.
-      SEMANTICA_ALLOW_ANONYMOUS: "true"
+      GRAPHMIND_ALLOW_ANONYMOUS: "true"
     volumes:
-      - ./semantica:/app/semantica
+      - ./sloth_graphmind:/app/sloth_graphmind
       - ./pyproject.toml:/app/pyproject.toml:ro
 
   frontend:
@@ -38,10 +38,10 @@ services:
       explorer:
         condition: service_started
     networks:
-      - semantica
+      - sloth_graphmind
 
 networks:
-  semantica:
+  sloth_graphmind:
     driver: bridge
 
 volumes:

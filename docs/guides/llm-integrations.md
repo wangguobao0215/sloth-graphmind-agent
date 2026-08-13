@@ -1,17 +1,17 @@
 ---
 title: "LLM Integrations"
-description: "Connect Semantica to Groq, OpenAI, Anthropic, HuggingFace, Novita AI, and 100+ LLM providers through a unified interface."
+description: "Connect GraphMind to Groq, OpenAI, Anthropic, HuggingFace, Novita AI, and 100+ LLM providers through a unified interface."
 ---
 
-Semantica exposes a unified provider interface — a single `.generate()` method — across Groq, OpenAI, Anthropic Claude, HuggingFace, Novita AI, and 100+ providers via LiteLLM. Use it when you need to swap providers for latency, accuracy, cost, or data-residency reasons without touching application code.
+GraphMind exposes a unified provider interface — a single `.generate()` method — across Groq, OpenAI, Anthropic Claude, HuggingFace, Novita AI, and 100+ providers via LiteLLM. Use it when you need to swap providers for latency, accuracy, cost, or data-residency reasons without touching application code.
 
 ## What Are LLM Integrations?
 
-The `semantica.llms` module provides a unified interface for connecting to Large Language Model providers. Instead of learning different APIs for each provider, you use the same methods (`.generate()`, `.generate_structured()`) regardless of whether you're calling Groq, OpenAI, Anthropic, or local HuggingFace models.
+The `sloth_graphmind.llms` module provides a unified interface for connecting to Large Language Model providers. Instead of learning different APIs for each provider, you use the same methods (`.generate()`, `.generate_structured()`) regardless of whether you're calling Groq, OpenAI, Anthropic, or local HuggingFace models.
 
-**Unified interface across providers:** All LLM providers in Semantica expose identical methods, so switching from OpenAI to Anthropic requires changing only the provider constructor, not your application code.
+**Unified interface across providers:** All LLM providers in GraphMind expose identical methods, so switching from OpenAI to Anthropic requires changing only the provider constructor, not your application code.
 
-**Provider wrappers vs semantic extraction provider strings:** The `semantica.llms` classes (`Groq`, `OpenAI`, `LiteLLM`, `HuggingFaceLLM`) are Python objects for text generation. The `semantica.semantic_extract` module accepts provider names as strings for entity and relationship extraction. Both approaches are covered in this guide.
+**Provider wrappers vs semantic extraction provider strings:** The `sloth_graphmind.llms` classes (`Groq`, `OpenAI`, `LiteLLM`, `HuggingFaceLLM`) are Python objects for text generation. The `sloth_graphmind.semantic_extract` module accepts provider names as strings for entity and relationship extraction. Both approaches are covered in this guide.
 
 ## Why Use LLM Integrations?
 
@@ -48,7 +48,7 @@ The `semantica.llms` module provides a unified interface for connecting to Large
 - Tasks where explainability requires transparent rule-based logic
 
 <Info>
-  The providers in `semantica.llms` (`Groq`, `OpenAI`, `LiteLLM`, `HuggingFaceLLM`) are for text generation and `query_with_reasoning()`. For structured entity and relation extraction, `semantica.semantic_extract` accepts provider names as strings. Both patterns are covered here.
+  The providers in `sloth_graphmind.llms` (`Groq`, `OpenAI`, `LiteLLM`, `HuggingFaceLLM`) are for text generation and `query_with_reasoning()`. For structured entity and relation extraction, `sloth_graphmind.semantic_extract` accepts provider names as strings. Both patterns are covered here.
 </Info>
 
 ## Choosing a Provider
@@ -77,7 +77,7 @@ provider.is_available() -> bool
 
 `generate()` returns a plain string. `generate_structured()` instructs the model to respond in JSON and returns a parsed `dict`. `is_available()` lets you health-check the provider before committing to a call — useful in retry logic and warm-up checks.
 
-This means every place in Semantica that accepts an LLM — `query_with_reasoning()`, semantic extraction, custom reasoning loops — accepts any of these providers interchangeably.
+This means every place in GraphMind that accepts an LLM — `query_with_reasoning()`, semantic extraction, custom reasoning loops — accepts any of these providers interchangeably.
 
 ## Groq — Fast Inference for Real-Time Agents
 
@@ -86,7 +86,7 @@ This means every place in Semantica that accepts an LLM — `query_with_reasonin
 Groq Cloud runs open models on purpose-built Language Processing Units that deliver sub-300ms latency for 8B parameter models. This makes Groq the right default for any agent loop where the LLM is in the hot path — SOC triage, real-time alert classification, conversational agents.
 
 ```python
-from semantica.llms import Groq
+from sloth_graphmind.llms import Groq
 
 # api_key falls back to the GROQ_API_KEY environment variable
 groq = Groq(model="llama-3.1-8b-instant", api_key="YOUR_GROQ_KEY")
@@ -121,7 +121,7 @@ Groq model selection comes down to the speed-vs-capability tradeoff: `llama-3.1-
 The `OpenAI` provider wraps the OpenAI API. Use it when you need GPT-4o's function-calling precision, vision capabilities for document screenshots, or when your team already has an OpenAI contract and wants to stay there.
 
 ```python
-from semantica.llms import OpenAI
+from sloth_graphmind.llms import OpenAI
 
 oai = OpenAI(model="gpt-4o", api_key="YOUR_OAI_KEY")
 # api_key falls back to OPENAI_API_KEY environment variable
@@ -150,7 +150,7 @@ The default model `gpt-3.5-turbo` is fine for classification and light extractio
 `LiteLLM` is the Swiss Army knife. It wraps the `litellm` library, which speaks to every major provider using a unified completion API. The model string encodes both provider and model name: `"anthropic/claude-sonnet-4-20250514"`, `"azure/gpt-4o"`, `"bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0"`, `"ollama/llama3.2"`. Change the string, change the provider — no other code changes needed.
 
 ```python
-from semantica.llms import LiteLLM
+from sloth_graphmind.llms import LiteLLM
 
 # Anthropic Claude — highest accuracy for complex reasoning
 llm = LiteLLM(model="anthropic/claude-sonnet-4-20250514")
@@ -196,7 +196,7 @@ llm = LiteLLM(model=PROVIDER_MAP[env])
 `HuggingFaceLLM` loads a model from the HuggingFace Hub or from a local directory path. No network calls during inference. This is the only option for classified environments, HIPAA-constrained clinical deployments, and any network segment without outbound internet access.
 
 ```python
-from semantica.llms import HuggingFaceLLM
+from sloth_graphmind.llms import HuggingFaceLLM
 
 # HuggingFace Hub — authentication via HF_TOKEN environment variable
 hf = HuggingFaceLLM(model="mistralai/Mistral-7B-Instruct-v0.3")
@@ -221,9 +221,9 @@ Set `HF_TOKEN` in your environment for Hub access to gated or private models. Fo
 The real payoff of the unified interface is in `query_with_reasoning()`. This is the call that drives graph-grounded reasoning in every `AgentContext`. Because it accepts any provider object, you can slot in a different LLM at any tier of your pipeline with zero changes to the surrounding code.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import Groq, LiteLLM
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import Groq, LiteLLM
 
 vs    = VectorStore(backend="faiss", dimension=768)
 graph = ContextGraph(advanced_analytics=True)
@@ -261,11 +261,11 @@ The `context`, the graph, the retrieval logic — none of it changes. Only the `
 
 ## Using Providers for Semantic Extraction
 
-For NER, relation extraction, and triplet extraction, Semantica's `semantica.semantic_extract` module accepts provider names as strings rather than class instances. The module handles provider instantiation internally.
+For NER, relation extraction, and triplet extraction, GraphMind's `sloth_graphmind.semantic_extract` module accepts provider names as strings rather than class instances. The module handles provider instantiation internally.
 
 ```python
-from semantica.semantic_extract import NamedEntityRecognizer, EventDetector
-from semantica.semantic_extract.methods import (
+from sloth_graphmind.semantic_extract import NamedEntityRecognizer, EventDetector
+from sloth_graphmind.semantic_extract.methods import (
     extract_entities_llm,
     extract_relations_llm,
     extract_triplets_llm,
@@ -306,11 +306,11 @@ for t in triplets:
 
 ## Novita AI — Cost-Efficient Bulk Extraction
 
-Novita AI exposes an OpenAI-compatible API and is available as a built-in provider for the extraction layer. It is accessed differently from the `semantica.llms` classes — through `create_provider` from `semantica.semantic_extract.providers` — making it the right choice for high-volume NER pipelines where per-call cost matters.
+Novita AI exposes an OpenAI-compatible API and is available as a built-in provider for the extraction layer. It is accessed differently from the `sloth_graphmind.llms` classes — through `create_provider` from `sloth_graphmind.semantic_extract.providers` — making it the right choice for high-volume NER pipelines where per-call cost matters.
 
 ```python
-from semantica.semantic_extract.providers import create_provider
-from semantica.semantic_extract import NamedEntityRecognizer
+from sloth_graphmind.semantic_extract.providers import create_provider
+from sloth_graphmind.semantic_extract import NamedEntityRecognizer
 
 # create_provider pools instances — same key reuses the same object
 provider = create_provider(
@@ -342,7 +342,7 @@ for e in entities:
     print("{} ({}) — conf={:.2f}".format(e.text, e.label, e.confidence))
 ```
 
-Novita requires the `openai` Python client under the hood — install with `pip install "semantica[llm-openai]"` or `pip install openai`.
+Novita requires the `openai` Python client under the hood — install with `pip install "sloth_graphmind[llm-openai]"` or `pip install openai`.
 
 ## Domain Examples
 
@@ -351,10 +351,10 @@ Novita requires the `openai` Python client under the hood — install with `pip 
 A classified threat-intelligence analysis unit needs to run entirely air-gapped — no outbound network traffic of any kind. The extraction model and the reasoning model both load from a local NFS share. The knowledge graph accumulates over the analysis session; all inference happens on-premise.
 
 ```python
-from semantica.llms import HuggingFaceLLM
-from semantica.semantic_extract import NamedEntityRecognizer
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.llms import HuggingFaceLLM
+from sloth_graphmind.semantic_extract import NamedEntityRecognizer
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 # Both models load from the air-gapped NFS share — no Hub calls
 extraction_llm = HuggingFaceLLM(model="/opt/models/mistral-7b-instruct")
@@ -409,9 +409,9 @@ context.save("./classified_output/q4_analysis/")
 A SOC pipeline uses two providers at different tiers: Groq for sub-500ms initial triage that keeps the analyst in flow, and Anthropic Claude for deep ATT&CK analysis when Tier 1 confidence falls below the escalation threshold. The provider switch is determined programmatically — no manual handoff required.
 
 ```python
-from semantica.llms import Groq, LiteLLM
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.llms import Groq, LiteLLM
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 vs    = VectorStore(backend="faiss", dimension=768)
 graph = ContextGraph()
@@ -473,8 +473,8 @@ if triage["confidence"] < 0.88:
 A clinical NLP pipeline uses a domain-specific biomedical NER model from HuggingFace for entity extraction, then switches to Anthropic Claude for structured oncology report synthesis. The same `LiteLLM` wrapper handles the Claude call — switching to Azure OpenAI for HIPAA compliance is a one-line change.
 
 ```python
-from semantica.llms import LiteLLM
-from semantica.semantic_extract import NamedEntityRecognizer
+from sloth_graphmind.llms import LiteLLM
+from sloth_graphmind.semantic_extract import NamedEntityRecognizer
 
 # Biomedical NER — HuggingFace extractor for clinical entities
 # (Note: HuggingFace NER uses method="huggingface", not the LLM generation interface)
@@ -520,9 +520,9 @@ print(oncology_summary)
 A regulatory Q&A system runs the same Basel III question through two providers and picks the answer with higher confidence — a simple consensus pattern for high-stakes regulatory interpretation where a wrong answer carries legal risk.
 
 ```python
-from semantica.llms import OpenAI, LiteLLM
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.llms import OpenAI, LiteLLM
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 vs    = VectorStore(backend="faiss", dimension=768)
 graph = ContextGraph(advanced_analytics=True)

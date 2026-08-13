@@ -1,6 +1,6 @@
 ---
 title: "Choose the Right Module"
-description: "Map your goal to the right Semantica module in under 30 seconds."
+description: "Map your goal to the right GraphMind module in under 30 seconds."
 icon: "compass"
 ---
 
@@ -51,9 +51,9 @@ Find your goal below. The **Module** column is your import path; **Key class** i
 | Export to Neo4j or Memgraph via Cypher | `export` | `LPGExporter` |
 | Visualize a knowledge graph interactively | `visualization` | `KGVisualizer` |
 | Run a reproducible multi-step pipeline | `pipeline` | `PipelineBuilder` |
-| Use Semantica from Claude Desktop or Cursor | `mcp_server` | `semantica-mcp` |
+| Use GraphMind from Claude Desktop or Cursor | `mcp_server` | `sloth_graphmind-mcp` |
 | Bootstrap a graph from verified seed data | `seed` | `SeedDataManager` |
-| Extend Semantica with a custom component | `core` | `PluginRegistry` |
+| Extend GraphMind with a custom component | `core` | `PluginRegistry` |
 
 
 ## Goal-by-Goal Starting Points
@@ -67,10 +67,10 @@ Pick your goal to see the minimum imports and a working skeleton.
     **Pipeline:** `ingest` → `parse` → `semantic_extract` → `kg`
 
     ```python
-    from semantica.ingest import FileIngestor
-    from semantica.parse import DocumentParser
-    from semantica.semantic_extract import NERExtractor, RelationExtractor
-    from semantica.kg import GraphBuilder
+    from sloth_graphmind.ingest import FileIngestor
+    from sloth_graphmind.parse import DocumentParser
+    from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
+    from sloth_graphmind.kg import GraphBuilder
 
     sources       = FileIngestor().ingest("report.pdf")
     parsed        = DocumentParser().parse_document("report.pdf")
@@ -98,9 +98,9 @@ Pick your goal to see the minimum imports and a working skeleton.
     **Module:** `context`
 
     ```python
-    from semantica.context import AgentContext, ContextGraph
-    from semantica.vector_store import VectorStore
-    from semantica.llms import Groq
+    from sloth_graphmind.context import AgentContext, ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
+    from sloth_graphmind.llms import Groq
 
     llm = Groq(model="llama-3.3-70b-versatile")
 
@@ -131,8 +131,8 @@ Pick your goal to see the minimum imports and a working skeleton.
     **Module:** `context`
 
     ```python
-    from semantica.context import AgentContext, ContextGraph
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext, ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
 
     context = AgentContext(
         vector_store=VectorStore(backend="faiss", dimension=768),
@@ -172,7 +172,7 @@ Pick your goal to see the minimum imports and a working skeleton.
     **Modules:** `provenance`, `change_management`
 
     ```python
-    from semantica.provenance import ProvenanceManager
+    from sloth_graphmind.provenance import ProvenanceManager
 
     prov = ProvenanceManager()
 
@@ -188,7 +188,7 @@ Pick your goal to see the minimum imports and a working skeleton.
     lineage = prov.get_lineage("entity_1")
 
     # Version-control the graph with SHA-256 checksums
-    from semantica.change_management import TemporalVersionManager
+    from sloth_graphmind.change_management import TemporalVersionManager
 
     manager  = TemporalVersionManager()
     snapshot = manager.create_snapshot(kg, "v1.0", "user@example.com", "Initial build")
@@ -204,7 +204,7 @@ Pick your goal to see the minimum imports and a working skeleton.
     **Module:** `export`
 
     ```python
-    from semantica.export import RDFExporter, ParquetExporter, LPGExporter, ArangoAQLExporter
+    from sloth_graphmind.export import RDFExporter, ParquetExporter, LPGExporter, ArangoAQLExporter
 
     # RDF — multiple serialization formats
     RDFExporter().export(graph, "graph.ttl",    format="turtle")
@@ -226,11 +226,11 @@ Pick your goal to see the minimum imports and a working skeleton.
   </Tab>
 
   <Tab title="MCP — Claude / Cursor">
-    Use Semantica from Claude Desktop, Cursor, VS Code, or any MCP-aware tool — no Python code required after setup. 12 tools available instantly.
+    Use GraphMind from Claude Desktop, Cursor, VS Code, or any MCP-aware tool — no Python code required after setup. 12 tools available instantly.
 
     **Step 1 — Install:**
     ```bash
-    pip install semantica
+    pip install sloth_graphmind
     ```
 
     **Step 2 — Add to your MCP client config:**
@@ -240,8 +240,8 @@ Pick your goal to see the minimum imports and a working skeleton.
     ```json Claude Desktop / Windsurf / Cline
     {
       "mcpServers": {
-        "semantica": {
-          "command": "semantica-mcp"
+        "sloth_graphmind": {
+          "command": "sloth_graphmind-mcp"
         }
       }
     }
@@ -250,8 +250,8 @@ Pick your goal to see the minimum imports and a working skeleton.
     ```json Cursor / VS Code / Continue
     {
       "mcpServers": {
-        "semantica": {
-          "command": "semantica-mcp",
+        "sloth_graphmind": {
+          "command": "sloth_graphmind-mcp",
           "env": {
             "SEMANTICA_KG_PATH": "/path/to/my_graph.json"
           }
@@ -290,12 +290,12 @@ Pick your goal to see the minimum imports and a working skeleton.
     Start with the [Quickstart](quickstart). It builds a complete pipeline (ingest → parse → extract → graph → visualize → export) with no API key required.
   </Accordion>
 
-  <Accordion title="I'm adding Semantica to an existing agent — what's the minimum?" icon="plug">
+  <Accordion title="I'm adding GraphMind to an existing agent — what's the minimum?" icon="plug">
     Add `AgentContext`. It wraps your existing agent with memory, decision tracking, and precedent search — no changes to your LLM provider or agent framework needed.
 
     ```python
-    from semantica.context import AgentContext, ContextGraph
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.context import AgentContext, ContextGraph
+    from sloth_graphmind.vector_store import VectorStore
 
     context = AgentContext(
         vector_store=VectorStore(backend="faiss", dimension=768),

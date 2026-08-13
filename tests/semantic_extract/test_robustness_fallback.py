@@ -2,9 +2,9 @@
 import pytest
 import sys
 
-from semantica.semantic_extract.ner_extractor import NERExtractor, Entity
-from semantica.semantic_extract.relation_extractor import RelationExtractor, Relation
-from semantica.semantic_extract.triplet_extractor import TripletExtractor
+from sloth_graphmind.semantic_extract.ner_extractor import NERExtractor, Entity
+from sloth_graphmind.semantic_extract.relation_extractor import RelationExtractor, Relation
+from sloth_graphmind.semantic_extract.triplet_extractor import TripletExtractor
 
 class TestRobustnessFallback:
     

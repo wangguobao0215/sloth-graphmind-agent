@@ -5,10 +5,10 @@ from urllib.parse import quote
 
 import pytest
 
-from semantica.context.context_graph import ContextGraph
-from semantica.explorer.app import create_app
-from semantica.explorer.routes.ontology import OntologyEntry
-from semantica.explorer.session import GraphSession
+from sloth_graphmind.context.context_graph import ContextGraph
+from sloth_graphmind.explorer.app import create_app
+from sloth_graphmind.explorer.routes.ontology import OntologyEntry
+from sloth_graphmind.explorer.session import GraphSession
 
 try:
     from starlette.testclient import TestClient
@@ -284,7 +284,7 @@ onto:PersonEmailShape a sh:NodeShape ;
 
 
 def test_health_dedupes_node_edge_fetch(client):
-    import semantica.explorer.routes.ontology as ont_mod
+    import sloth_graphmind.explorer.routes.ontology as ont_mod
 
     with patch.object(
         ont_mod, "_fetch_analysis_graph", wraps=ont_mod._fetch_analysis_graph
@@ -422,7 +422,7 @@ def test_suggest_alignments_unaffected_by_individuals(client):
 
 
 def test_health_shacl_dimension_degrades_gracefully_on_real_error(client):
-    import semantica.explorer.routes.ontology as ont_mod
+    import sloth_graphmind.explorer.routes.ontology as ont_mod
     with patch.object(ont_mod, "_data_graph_turtle_for_uri", side_effect=RuntimeError("boom")):
         response = client.get("/api/ontology/health?uri=http%3A%2F%2Fexample.org%2Fonto-a")
     assert response.status_code == 200
@@ -435,7 +435,7 @@ def test_health_shacl_dimension_degrades_gracefully_on_real_error(client):
 @pytest.mark.asyncio
 async def test_data_graph_turtle_resolves_onto_prefix_and_unknown_curies(client):
     from unittest.mock import MagicMock
-    from semantica.explorer.routes.ontology import _data_graph_turtle_for_uri
+    from sloth_graphmind.explorer.routes.ontology import _data_graph_turtle_for_uri
 
     graph = client.app.state.session.graph
     onto_uri = "http://example.org/onto-a"
@@ -460,7 +460,7 @@ async def test_data_graph_turtle_resolves_onto_prefix_and_unknown_curies(client)
 
 
 def test_ontology_namespace_helper_handles_all_uri_forms():
-    from semantica.explorer.routes.ontology import _ontology_namespace
+    from sloth_graphmind.explorer.routes.ontology import _ontology_namespace
 
     assert _ontology_namespace("http://example.org/onto-a") == "http://example.org/onto-a#"
     assert _ontology_namespace("http://example.org/onto-a/") == "http://example.org/onto-a/"
@@ -470,7 +470,7 @@ def test_ontology_namespace_helper_handles_all_uri_forms():
 
 @pytest.mark.asyncio
 async def test_data_graph_turtle_preserves_slash_namespace_for_local_terms(client):
-    from semantica.explorer.routes.ontology import _data_graph_turtle_for_uri
+    from sloth_graphmind.explorer.routes.ontology import _data_graph_turtle_for_uri
     from unittest.mock import MagicMock
 
     graph = client.app.state.session.graph
@@ -504,7 +504,7 @@ async def test_data_graph_turtle_preserves_slash_namespace_for_local_terms(clien
 
 @pytest.mark.asyncio
 async def test_data_graph_turtle_serializes_list_of_dicts_as_uri_references(client):
-    from semantica.explorer.routes.ontology import _data_graph_turtle_for_uri
+    from sloth_graphmind.explorer.routes.ontology import _data_graph_turtle_for_uri
     from unittest.mock import MagicMock
 
     graph = client.app.state.session.graph
@@ -545,7 +545,7 @@ def test_validate_shacl_rejects_oversized_turtle(client):
 onto:PersonShape a sh:NodeShape ;
     sh:targetClass onto:Person .
 """
-    with patch("semantica.explorer.routes.ontology._MAX_SHACL_TURTLE_BYTES", 20):
+    with patch("sloth_graphmind.explorer.routes.ontology._MAX_SHACL_TURTLE_BYTES", 20):
         response = client.post(
             "/api/ontology/shacl/validate",
             json={
@@ -567,7 +567,7 @@ def test_validate_shacl_rejects_too_many_triples(client):
 onto:PersonShape a sh:NodeShape ;
     sh:targetClass onto:Person .
 """
-    with patch("semantica.explorer.routes.ontology._MAX_SHACL_TRIPLES", 1):
+    with patch("sloth_graphmind.explorer.routes.ontology._MAX_SHACL_TRIPLES", 1):
         response = client.post(
             "/api/ontology/shacl/validate",
             json={
@@ -595,8 +595,8 @@ onto:PersonShape a sh:NodeShape ;
         time.sleep(0.3)
         return MagicMock(conforms=True, violations=[])
 
-    with patch("semantica.explorer.routes.ontology._MAX_SHACL_TIMEOUT_SECONDS", 0.05), \
-         patch("semantica.ontology.OntologyEngine.validate_graph", side_effect=slow_validate):
+    with patch("sloth_graphmind.explorer.routes.ontology._MAX_SHACL_TIMEOUT_SECONDS", 0.05), \
+         patch("sloth_graphmind.ontology.OntologyEngine.validate_graph", side_effect=slow_validate):
         response = client.post(
             "/api/ontology/shacl/validate",
             json={
@@ -618,7 +618,7 @@ def test_validate_shacl_returns_unavailable_for_truncated_graph(client):
 onto:PersonShape a sh:NodeShape ;
     sh:targetClass onto:Person .
 """
-    with patch("semantica.explorer.routes.ontology._MAX_ANALYSIS_NODES", 0):
+    with patch("sloth_graphmind.explorer.routes.ontology._MAX_ANALYSIS_NODES", 0):
         response = client.post(
             "/api/ontology/shacl/validate",
             json={
@@ -634,7 +634,7 @@ onto:PersonShape a sh:NodeShape ;
 
 
 def test_health_shacl_dimension_returns_critical_for_truncated_graph(client):
-    with patch("semantica.explorer.routes.ontology._MAX_ANALYSIS_NODES", 0):
+    with patch("sloth_graphmind.explorer.routes.ontology._MAX_ANALYSIS_NODES", 0):
         payload = client.get("/api/ontology/health?uri=http%3A%2F%2Fexample.org%2Fonto-a").json()
         shacl_dim = next(d for d in payload["dimensions"] if d["key"] == "shacl")
         assert shacl_dim["status"] == "critical"
@@ -665,7 +665,7 @@ def test_ontology_load_does_not_swallow_422_from_ingestor_success_path(client):
     succeeds must surface as its own 422, not be masked by the broad
     `except Exception` fallback-to-basic-parsing handler and silently
     retried under a different parser."""
-    from semantica.ingest.ontology_ingestor import OntologyData
+    from sloth_graphmind.ingest.ontology_ingestor import OntologyData
 
     fake_data = OntologyData(
         data={
@@ -679,13 +679,13 @@ def test_ontology_load_does_not_swallow_422_from_ingestor_success_path(client):
     )
 
     with patch(
-        "semantica.ingest.ontology_ingestor.OntologyIngestor.ingest_ontology",
+        "sloth_graphmind.ingest.ontology_ingestor.OntologyIngestor.ingest_ontology",
         return_value=fake_data,
     ), patch(
-        "semantica.explorer.session.GraphSession.add_nodes_and_edges",
+        "sloth_graphmind.explorer.session.GraphSession.add_nodes_and_edges",
         side_effect=ValueError("SKOS hierarchy contains a cycle involving 'A'."),
     ), patch(
-        "semantica.explorer.routes.ontology._parse_rdf_sync"
+        "sloth_graphmind.explorer.routes.ontology._parse_rdf_sync"
     ) as fallback_parse:
         response = client.post(
             "/api/ontology/load",
@@ -740,7 +740,7 @@ def test_refresh_ontology_success_adds_nodes_and_edges(client):
     encoded_uri = quote(entry.uri, safe="")
 
     with patch(
-        "semantica.explorer.routes.ontology._fetch_url_sync",
+        "sloth_graphmind.explorer.routes.ontology._fetch_url_sync",
         return_value=_REFRESH_TTL.encode("utf-8"),
     ):
         response = client.post(f"/api/ontology/{encoded_uri}/refresh")
@@ -760,10 +760,10 @@ def test_refresh_ontology_rejects_cyclic_skos_hierarchy_without_partial_write(cl
     nodes_before = len(graph.nodes)
 
     with patch(
-        "semantica.explorer.routes.ontology._fetch_url_sync",
+        "sloth_graphmind.explorer.routes.ontology._fetch_url_sync",
         return_value=_REFRESH_CYCLIC_TTL.encode("utf-8"),
     ), patch(
-        "semantica.explorer.session.GraphSession.add_nodes_and_edges",
+        "sloth_graphmind.explorer.session.GraphSession.add_nodes_and_edges",
         wraps=client.app.state.session.add_nodes_and_edges,
     ) as spy:
         response = client.post(f"/api/ontology/{encoded_uri}/refresh")

@@ -4,7 +4,7 @@ description: "Entity deduplication: similarity scoring, blocking, merging, and c
 icon: "copy"
 ---
 
-**`semantica.deduplication`** detects and merges duplicate entities across sources to produce a **clean, single-source-of-truth** knowledge graph:
+**`sloth_graphmind.deduplication`** detects and merges duplicate entities across sources to produce a **clean, single-source-of-truth** knowledge graph:
 
 - Four v2 strategies up to 7× faster than v1: `blocking_v2`, `hybrid_v2`, `semantic_v2`
 - `ClusterBuilder` uses Union-Find and hierarchical clustering for batch deduplication at scale
@@ -41,7 +41,7 @@ icon: "copy"
 ## Getting Started
 
 ```python
-from semantica.deduplication import DuplicateDetector, EntityMerger
+from sloth_graphmind.deduplication import DuplicateDetector, EntityMerger
 
 entities = [
     {"id": "1", "name": "Apple Inc.",   "type": "Company"},
@@ -82,7 +82,7 @@ for op in operations:
 Find duplicate entity pairs:
 
 ```python
-from semantica.deduplication import DuplicateDetector
+from sloth_graphmind.deduplication import DuplicateDetector
 
 detector = DuplicateDetector(
     similarity_threshold=0.7,    # default 0.7: minimum score to include a candidate
@@ -165,7 +165,7 @@ method used internally:
 Merges detected duplicate groups into canonical entities:
 
 ```python
-from semantica.deduplication import EntityMerger, MergeStrategy
+from sloth_graphmind.deduplication import EntityMerger, MergeStrategy
 
 # Basic usage
 merger     = EntityMerger(preserve_provenance=True)
@@ -212,7 +212,7 @@ Per-property rules are set on `EntityMerger.merge_strategy_manager` using
 `add_property_rule()`. Rules take a `MergeStrategy` enum value:
 
 ```python
-from semantica.deduplication import EntityMerger, MergeStrategy
+from sloth_graphmind.deduplication import EntityMerger, MergeStrategy
 
 merger = EntityMerger()
 
@@ -253,7 +253,7 @@ operations = merger.merge_duplicates(entities)
 Compute multi-factor similarity scores between entity pairs:
 
 ```python
-from semantica.deduplication import SimilarityCalculator
+from sloth_graphmind.deduplication import SimilarityCalculator
 
 calc = SimilarityCalculator(
     string_weight=0.6,        # default 0.6
@@ -299,7 +299,7 @@ rel_score  = calc.calculate_relationship_similarity(entity_a, entity_b)
 Build entity clusters for large-scale batch deduplication:
 
 ```python
-from semantica.deduplication import ClusterBuilder
+from sloth_graphmind.deduplication import ClusterBuilder
 
 builder = ClusterBuilder(
     similarity_threshold=0.8,  # minimum similarity to be in same cluster
@@ -335,7 +335,7 @@ print("Quality metrics:", result.quality_metrics)
 ## Convenience Functions
 
 ```python
-from semantica.deduplication import detect_duplicates, merge_entities, calculate_similarity
+from sloth_graphmind.deduplication import detect_duplicates, merge_entities, calculate_similarity
 
 # Detect: method= accepts "pairwise" (default), "batch", "incremental", "group"
 candidates = detect_duplicates(
@@ -360,7 +360,7 @@ print(result.score)
 Register domain-specific similarity logic and use it via the method registry:
 
 ```python
-from semantica.deduplication import method_registry, SimilarityResult
+from sloth_graphmind.deduplication import method_registry, SimilarityResult
 
 def drug_name_similarity(entity_a, entity_b, **kwargs):
     """Match drug names by active compound prefix."""
@@ -372,7 +372,7 @@ def drug_name_similarity(entity_a, entity_b, **kwargs):
 method_registry.register("similarity", "drug_name", drug_name_similarity)
 
 # Now callable via calculate_similarity
-from semantica.deduplication import calculate_similarity
+from sloth_graphmind.deduplication import calculate_similarity
 result = calculate_similarity(entity_a, entity_b, method="drug_name")
 ```
 
@@ -381,7 +381,7 @@ result = calculate_similarity(entity_a, entity_b, method="drug_name")
 <Tabs>
   <Tab title="Basic Deduplication">
     ```python
-    from semantica.deduplication import DuplicateDetector, EntityMerger
+    from sloth_graphmind.deduplication import DuplicateDetector, EntityMerger
 
     detector   = DuplicateDetector(similarity_threshold=0.8)
     candidates = detector.detect_duplicates(entities)
@@ -396,7 +396,7 @@ result = calculate_similarity(entity_a, entity_b, method="drug_name")
   </Tab>
   <Tab title="Group-based Batch">
     ```python
-    from semantica.deduplication import DuplicateDetector, EntityMerger
+    from sloth_graphmind.deduplication import DuplicateDetector, EntityMerger
 
     detector = DuplicateDetector(similarity_threshold=0.75)
     # detect_duplicate_groups uses union-find internally
@@ -410,7 +410,7 @@ result = calculate_similarity(entity_a, entity_b, method="drug_name")
   </Tab>
   <Tab title="Large-scale Clustering">
     ```python
-    from semantica.deduplication import ClusterBuilder, EntityMerger
+    from sloth_graphmind.deduplication import ClusterBuilder, EntityMerger
 
     # Build clusters first: more efficient for large entity sets
     builder = ClusterBuilder(similarity_threshold=0.8, min_cluster_size=2)
@@ -424,7 +424,7 @@ result = calculate_similarity(entity_a, entity_b, method="drug_name")
   </Tab>
   <Tab title="Incremental">
     ```python
-    from semantica.deduplication import EntityMerger
+    from sloth_graphmind.deduplication import EntityMerger
 
     existing_entities = [...]  # already in the graph
     new_entities      = [...]  # arriving in a batch

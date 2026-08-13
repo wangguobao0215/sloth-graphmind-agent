@@ -1,4 +1,4 @@
-app = "semantica-knowledge-explorer"
+app = "sloth_graphmind-knowledge-explorer"
 primary_region = "iad"
 kill_signal = "SIGTERM"
 kill_timeout = "30s"
@@ -7,7 +7,7 @@ kill_timeout = "30s"
 dockerfile = "Dockerfile"
 
 [env]
-ALLOWED_ORIGINS = "https://semantica-knowledge-explorer.fly.dev"
+ALLOWED_ORIGINS = "https://sloth_graphmind-knowledge-explorer.fly.dev"
 # Set via: flyctl secrets set FALKORDB_HOST=<your-falkordb-app-name>.internal FALKORDB_PORT=6379
 # Do not use localhost unless FalkorDB runs as a co-located process in the same Machine.
 FALKORDB_HOST = "falkordb-REPLACE_ME.internal"

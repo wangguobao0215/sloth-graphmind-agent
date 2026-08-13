@@ -8,8 +8,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from semantica.kg import GraphBuilder
-from semantica.export import (
+from sloth_graphmind.kg import GraphBuilder
+from sloth_graphmind.export import (
     JSONExporter,
     CSVExporter,
     RDFExporter,

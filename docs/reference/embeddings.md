@@ -4,7 +4,7 @@ description: "Text and graph embedding generation: FastEmbed, Sentence-Transform
 icon: "vector-square"
 ---
 
-**`semantica.embeddings`** converts text and graph structures into **dense vector representations**:
+**`sloth_graphmind.embeddings`** converts text and graph structures into **dense vector representations**:
 
 - Provider-agnostic API: FastEmbed (default, ONNX, no GPU), Sentence-Transformers, OpenAI, BGE
 - Powers semantic search, entity resolution, GraphRAG retrieval, and deduplication
@@ -17,7 +17,7 @@ icon: "vector-square"
 
 Raw text can't be compared mathematically. Embeddings translate meaning into geometry: two semantically similar sentences produce vectors that are close together in high-dimensional space, even when they share no words.
 
-Semantica uses embeddings for:
+GraphMind uses embeddings for:
 
 - **Semantic search**: find knowledge graph nodes by meaning, not just keywords
 - **Entity resolution**: detect that "Apple Inc." and "Apple Computer" refer to the same entity
@@ -55,11 +55,11 @@ Semantica uses embeddings for:
     ONNX-accelerated local embeddings. No GPU required, no API key. Best starting point.
 
     ```bash
-    pip install "semantica[fastembed]"
+    pip install "sloth_graphmind[fastembed]"
     ```
 
     ```python
-    from semantica.embeddings import EmbeddingGenerator
+    from sloth_graphmind.embeddings import EmbeddingGenerator
 
     # FastEmbed is the default: no config needed
     generator = EmbeddingGenerator()
@@ -78,11 +78,11 @@ Semantica uses embeddings for:
     Broad model selection via HuggingFace. Runs locally, no API key.
 
     ```bash
-    pip install semantica  # sentence-transformers included
+    pip install sloth_graphmind  # sentence-transformers included
     ```
 
     ```python
-    from semantica.embeddings import EmbeddingGenerator
+    from sloth_graphmind.embeddings import EmbeddingGenerator
 
     generator = EmbeddingGenerator(config={
         "text": {
@@ -102,11 +102,11 @@ Semantica uses embeddings for:
     BAAI/bge models via sentence-transformers. State-of-the-art retrieval performance, runs locally.
 
     ```bash
-    pip install semantica
+    pip install sloth_graphmind
     ```
 
     ```python
-    from semantica.embeddings import BGEStore, EmbeddingGenerator
+    from sloth_graphmind.embeddings import BGEStore, EmbeddingGenerator
 
     store     = BGEStore(model="BAAI/bge-large-en-v1.5")
     embedding = store.embed("Text about AI")
@@ -120,13 +120,13 @@ Semantica uses embeddings for:
     Cloud embeddings via OpenAI API. Highest quality, requires API key.
 
     ```bash
-    pip install "semantica[llm-openai]"
+    pip install "sloth_graphmind[llm-openai]"
     export OPENAI_API_KEY="sk-..."
     ```
 
     ```python
     import os
-    from semantica.embeddings import OpenAIStore
+    from sloth_graphmind.embeddings import OpenAIStore
 
     store = OpenAIStore(
         api_key=os.getenv("OPENAI_API_KEY"),
@@ -145,7 +145,7 @@ Semantica uses embeddings for:
 Check which providers are installed in your environment:
 
 ```python
-from semantica.embeddings import check_available_providers
+from sloth_graphmind.embeddings import check_available_providers
 
 providers = check_available_providers()
 # → {"sentence_transformers": True, "fastembed": True, "openai": False}
@@ -156,7 +156,7 @@ providers = check_available_providers()
 `EmbeddingGenerator` is the fastest path to embeddings: the default method is FastEmbed (ONNX, no GPU needed):
 
 ```python
-from semantica.embeddings import EmbeddingGenerator
+from sloth_graphmind.embeddings import EmbeddingGenerator
 
 # Default: FastEmbed with BAAI/bge-small-en-v1.5
 generator = EmbeddingGenerator()
@@ -191,7 +191,7 @@ generator.set_text_model("sentence_transformers", "BAAI/bge-large-en-v1.5")
 <Steps>
   <Step title="Install and initialize a provider">
     ```python
-    from semantica.embeddings import EmbeddingGenerator
+    from sloth_graphmind.embeddings import EmbeddingGenerator
 
     # Default: FastEmbed, free, runs locally with no GPU
     generator = EmbeddingGenerator()
@@ -218,7 +218,7 @@ generator.set_text_model("sentence_transformers", "BAAI/bge-large-en-v1.5")
   </Step>
   <Step title="Prepare for a vector database">
     ```python
-    from semantica.embeddings import VectorEmbeddingManager
+    from sloth_graphmind.embeddings import VectorEmbeddingManager
     import numpy as np
 
     manager = VectorEmbeddingManager()
@@ -250,7 +250,7 @@ generator.set_text_model("sentence_transformers", "BAAI/bge-large-en-v1.5")
 <Tabs>
   <Tab title="FastEmbed (default)">
     ```python
-    from semantica.embeddings import EmbeddingGenerator
+    from sloth_graphmind.embeddings import EmbeddingGenerator
 
     # Default: FastEmbed with BAAI/bge-small-en-v1.5
     generator = EmbeddingGenerator()
@@ -262,7 +262,7 @@ generator.set_text_model("sentence_transformers", "BAAI/bge-large-en-v1.5")
   </Tab>
   <Tab title="Sentence-Transformers">
     ```python
-    from semantica.embeddings import EmbeddingGenerator
+    from sloth_graphmind.embeddings import EmbeddingGenerator
 
     generator = EmbeddingGenerator()
     generator.set_text_model("sentence_transformers", "all-MiniLM-L6-v2")
@@ -273,7 +273,7 @@ generator.set_text_model("sentence_transformers", "BAAI/bge-large-en-v1.5")
   </Tab>
   <Tab title="OpenAI">
     ```python
-    from semantica.embeddings import OpenAIStore
+    from sloth_graphmind.embeddings import OpenAIStore
     import os
 
     store     = OpenAIStore(api_key=os.getenv("OPENAI_API_KEY"), model="text-embedding-3-small")
@@ -284,7 +284,7 @@ generator.set_text_model("sentence_transformers", "BAAI/bge-large-en-v1.5")
   </Tab>
   <Tab title="GPU acceleration">
     ```python
-    from semantica.embeddings import EmbeddingGenerator
+    from sloth_graphmind.embeddings import EmbeddingGenerator
 
     # Use CUDA via sentence-transformers
     generator = EmbeddingGenerator(config={"text": {"method": "sentence_transformers", "device": "cuda"}})
@@ -311,7 +311,7 @@ Use `generator.set_text_model(method, model_name)` to switch the embedding model
 Direct text embedding with batch processing:
 
 ```python
-from semantica.embeddings import TextEmbedder
+from sloth_graphmind.embeddings import TextEmbedder
 
 # Default: FastEmbed with BAAI/bge-small-en-v1.5
 embedder = TextEmbedder()
@@ -355,7 +355,7 @@ dim = embedder.get_embedding_dimension()
 Use provider stores directly when you need fine-grained control over a single backend:
 
 ```python
-from semantica.embeddings import (
+from sloth_graphmind.embeddings import (
     OpenAIStore, BGEStore, FastEmbedStore,
     ProviderStoreFactory,
 )
@@ -395,7 +395,7 @@ Pooling aggregates a set of embeddings into a single vector: useful when you hav
 <Tabs>
   <Tab title="MeanPooling (default)">
     ```python
-    from semantica.embeddings import MeanPooling
+    from sloth_graphmind.embeddings import MeanPooling
 
     pooler = MeanPooling()
     pooled = pooler.pool(token_embeddings)   # shape: (hidden_dim,)
@@ -405,7 +405,7 @@ Pooling aggregates a set of embeddings into a single vector: useful when you hav
   </Tab>
   <Tab title="MaxPooling">
     ```python
-    from semantica.embeddings import MaxPooling
+    from sloth_graphmind.embeddings import MaxPooling
 
     pooler = MaxPooling()
     pooled = pooler.pool(token_embeddings)
@@ -415,7 +415,7 @@ Pooling aggregates a set of embeddings into a single vector: useful when you hav
   </Tab>
   <Tab title="CLSPooling">
     ```python
-    from semantica.embeddings import CLSPooling
+    from sloth_graphmind.embeddings import CLSPooling
 
     pooler = CLSPooling()
     pooled = pooler.pool(token_embeddings)
@@ -425,7 +425,7 @@ Pooling aggregates a set of embeddings into a single vector: useful when you hav
   </Tab>
   <Tab title="HierarchicalPooling">
     ```python
-    from semantica.embeddings import HierarchicalPooling
+    from sloth_graphmind.embeddings import HierarchicalPooling
 
     pooler = HierarchicalPooling()
     # chunk_size is passed at pool time, not at construction
@@ -445,7 +445,7 @@ Pooling aggregates a set of embeddings into a single vector: useful when you hav
     | `hierarchical` | Long documents with many chunks; combines chunk-level then global pooling |
 
     ```python
-    from semantica.embeddings import PoolingStrategyFactory
+    from sloth_graphmind.embeddings import PoolingStrategyFactory
 
     pooler = PoolingStrategyFactory.create(strategy="mean")
     ```
@@ -458,7 +458,7 @@ Pooling aggregates a set of embeddings into a single vector: useful when you hav
 Embed graph nodes and edges for storage in graph databases:
 
 ```python
-from semantica.embeddings import GraphEmbeddingManager
+from sloth_graphmind.embeddings import GraphEmbeddingManager
 
 manager = GraphEmbeddingManager()
 
@@ -491,7 +491,7 @@ result = manager.prepare_for_graph_db(entities, relationships, backend="neo4j")
 Prepare and validate embeddings for vector database storage:
 
 ```python
-from semantica.embeddings import VectorEmbeddingManager
+from sloth_graphmind.embeddings import VectorEmbeddingManager
 import numpy as np
 
 manager    = VectorEmbeddingManager()
@@ -518,7 +518,7 @@ combined = manager.batch_prepare([embeddings_a, embeddings_b], backend="qdrant")
 <Tabs>
   <Tab title="Batch Text Embedding">
     ```python
-    from semantica.embeddings import TextEmbedder
+    from sloth_graphmind.embeddings import TextEmbedder
 
     embedder = TextEmbedder()   # default: FastEmbed
 
@@ -535,7 +535,7 @@ combined = manager.batch_prepare([embeddings_a, embeddings_b], backend="qdrant")
   </Tab>
   <Tab title="Provider Comparison">
     ```python
-    from semantica.embeddings import check_available_providers, EmbeddingGenerator
+    from sloth_graphmind.embeddings import check_available_providers, EmbeddingGenerator
 
     # Check what's installed
     available = check_available_providers()
@@ -553,7 +553,7 @@ combined = manager.batch_prepare([embeddings_a, embeddings_b], backend="qdrant")
   </Tab>
   <Tab title="Graph Node Embedding">
     ```python
-    from semantica.embeddings import GraphEmbeddingManager
+    from sloth_graphmind.embeddings import GraphEmbeddingManager
 
     manager  = GraphEmbeddingManager()
     entities = [{"id": "n1", "text": "Python"}, {"id": "n2", "text": "Django"}]
@@ -564,7 +564,7 @@ combined = manager.batch_prepare([embeddings_a, embeddings_b], backend="qdrant")
   </Tab>
   <Tab title="Similarity Search">
     ```python
-    from semantica.embeddings import EmbeddingGenerator, calculate_similarity
+    from sloth_graphmind.embeddings import EmbeddingGenerator, calculate_similarity
     import numpy as np
 
     generator = EmbeddingGenerator()
@@ -587,7 +587,7 @@ combined = manager.batch_prepare([embeddings_a, embeddings_b], backend="qdrant")
 ## Similarity Computation
 
 ```python
-from semantica.embeddings import calculate_similarity
+from sloth_graphmind.embeddings import calculate_similarity
 
 # Cosine similarity: direction only, not magnitude; most common for text
 score = calculate_similarity(embedding_a, embedding_b, method="cosine")
@@ -600,7 +600,7 @@ score = calculate_similarity(embedding_a, embedding_b, method="euclidean")
 ## Convenience Functions
 
 ```python
-from semantica.embeddings import (
+from sloth_graphmind.embeddings import (
     embed_text, generate_embeddings, calculate_similarity,
     pool_embeddings, check_available_providers,
 )

@@ -1,5 +1,5 @@
 """
-Tests for semantica.triplet_store.query_engine, focused on the
+Tests for sloth_graphmind.triplet_store.query_engine, focused on the
 QueryResult.triples field added for CONSTRUCT query support.
 """
 
@@ -12,7 +12,7 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from semantica.triplet_store.query_engine import QueryEngine, QueryResult
+from sloth_graphmind.triplet_store.query_engine import QueryEngine, QueryResult
 
 
 class TestQueryResultTriplesField(unittest.TestCase):

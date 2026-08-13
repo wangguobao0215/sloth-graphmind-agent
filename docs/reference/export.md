@@ -4,7 +4,7 @@ description: "Export knowledge graphs to RDF, Parquet, LPG, ArangoDB AQL, CSV, G
 icon: "file-export"
 ---
 
-**`semantica.export`** serializes knowledge graphs to **every downstream format**:
+**`sloth_graphmind.export`** serializes knowledge graphs to **every downstream format**:
 
 - RDF: Turtle, JSON-LD, N-Triples, RDF/XML: with optional W3C PROV-O provenance inline
 - Analytics: Apache Parquet and Arrow for Spark, BigQuery, Databricks
@@ -33,7 +33,7 @@ icon: "file-export"
 ## Getting Started
 
 ```python
-from semantica.export import RDFExporter
+from sloth_graphmind.export import RDFExporter
 
 # Export a knowledge graph dict to Turtle
 exporter = RDFExporter()
@@ -45,7 +45,7 @@ with open("output.ttl", "w") as f:
 Or use the one-liner convenience functions:
 
 ```python
-from semantica.export import export_rdf, export_csv, export_lpg
+from sloth_graphmind.export import export_rdf, export_csv, export_lpg
 
 export_rdf(graph,  "output.ttl",    format="turtle")
 export_csv(graph,  "output_base")   # writes entities and relationships as CSV
@@ -57,7 +57,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
 <Steps>
   <Step title="Export to RDF string">
     ```python
-    from semantica.export import RDFExporter
+    from sloth_graphmind.export import RDFExporter
 
     exporter = RDFExporter()
     rdf_str = exporter.export_to_rdf(graph, format="turtle")
@@ -70,7 +70,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
   </Step>
   <Step title="Columnar export for analytics">
     ```python
-    from semantica.export import ParquetExporter
+    from sloth_graphmind.export import ParquetExporter
 
     exporter = ParquetExporter(compression="snappy")
     exporter.export_entities(entities, "nodes.parquet")
@@ -79,7 +79,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
   </Step>
   <Step title="Graph database import">
     ```python
-    from semantica.export import LPGExporter
+    from sloth_graphmind.export import LPGExporter
 
     exporter = LPGExporter()
     exporter.export(graph, "import.cypher")   # Cypher CREATE statements
@@ -96,7 +96,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
     **`export_to_rdf()` returns a string; `export()` writes to a file:**
 
     ```python
-    from semantica.export import RDFExporter
+    from sloth_graphmind.export import RDFExporter
 
     exporter = RDFExporter()
 
@@ -131,10 +131,10 @@ export_lpg(graph,  "import.cypher", method="cypher")
     **Namespace management:**
 
     ```python
-    from semantica.export import NamespaceManager, RDFExporter
+    from sloth_graphmind.export import NamespaceManager, RDFExporter
 
     ns_manager = NamespaceManager()
-    # ns_manager.namespaces contains the built-in prefix dict (rdf, rdfs, owl, xsd, semantica)
+    # ns_manager.namespaces contains the built-in prefix dict (rdf, rdfs, owl, xsd, sloth_graphmind)
     # Add custom namespaces by updating the dict directly
     ns_manager.namespaces["ex"]     = "http://example.org/"
     ns_manager.namespaces["schema"] = "https://schema.org/"
@@ -160,7 +160,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
   </Tab>
   <Tab title="Columnar & Analytics">
     ```python
-    from semantica.export import ParquetExporter
+    from sloth_graphmind.export import ParquetExporter
 
     exporter = ParquetExporter(compression="snappy")
     # compression: snappy | gzip | brotli | zstd | lz4 | none
@@ -189,7 +189,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
     Requires `pyarrow`: `pip install pyarrow`. Schema is explicitly typed.
 
     ```python
-    from semantica.export import CSVExporter
+    from sloth_graphmind.export import CSVExporter
 
     exporter = CSVExporter(delimiter=",")
     exporter.export_entities(entities,           "nodes.csv")
@@ -198,7 +198,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
     ```
 
     ```python
-    from semantica.export import SemanticNetworkYAMLExporter
+    from sloth_graphmind.export import SemanticNetworkYAMLExporter
 
     exporter = SemanticNetworkYAMLExporter()
     exporter.export(graph, "graph.yaml")
@@ -208,7 +208,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
     **LPGExporter** writes Cypher `CREATE` statements for Neo4j and Memgraph:
 
     ```python
-    from semantica.export import LPGExporter
+    from sloth_graphmind.export import LPGExporter
 
     exporter = LPGExporter()
 
@@ -222,7 +222,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
     **ArangoAQLExporter** writes `INSERT` statements for ArangoDB:
 
     ```python
-    from semantica.export import ArangoAQLExporter
+    from sloth_graphmind.export import ArangoAQLExporter
 
     exporter = ArangoAQLExporter(
         vertex_collection="entities",
@@ -242,7 +242,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
   </Tab>
   <Tab title="Visualization & OWL">
     ```python
-    from semantica.export import GraphExporter
+    from sloth_graphmind.export import GraphExporter
 
     exporter = GraphExporter()
     exporter.export(graph, "graph.graphml", format="graphml")  # Gephi, yEd
@@ -251,7 +251,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
     ```
 
     ```python
-    from semantica.export import OWLExporter
+    from sloth_graphmind.export import OWLExporter
 
     exporter = OWLExporter()
     exporter.export(ontology, path="ontology.owl", format="owl-xml")
@@ -262,7 +262,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
     **VectorExporter**: takes `(vectors, file_path, format=)`:
 
     ```python
-    from semantica.export import VectorExporter
+    from sloth_graphmind.export import VectorExporter
 
     exporter = VectorExporter()
     # vectors: list of dicts with 'id', 'vector', 'text', 'metadata' keys
@@ -275,7 +275,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
     **ArrowExporter**: requires `pyarrow`:
 
     ```python
-    from semantica.export import ArrowExporter
+    from sloth_graphmind.export import ArrowExporter
 
     exporter = ArrowExporter()
     exporter.export(graph, "graph.arrow")
@@ -284,7 +284,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
     **DistanceExporter**: takes a `graph` argument at construction:
 
     ```python
-    from semantica.export import DistanceExporter
+    from sloth_graphmind.export import DistanceExporter
 
     exporter = DistanceExporter(graph)   # graph is required
 
@@ -316,7 +316,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
     **ReportGenerator:**
 
     ```python
-    from semantica.export import ReportGenerator
+    from sloth_graphmind.export import ReportGenerator
 
     generator = ReportGenerator()
     generator.generate_report(data, "report.html",  format="html")
@@ -330,7 +330,7 @@ export_lpg(graph,  "import.cypher", method="cypher")
 ## Convenience Functions
 
 ```python
-from semantica.export import (
+from sloth_graphmind.export import (
     export_rdf, export_json, export_parquet, export_csv,
     export_lpg, export_arango, export_graph, export_owl,
     export_vector, export_arrow, export_yaml, generate_report,

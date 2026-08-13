@@ -1,14 +1,14 @@
-# Semantica Plugins (Community Guide)
+# GraphMind Plugins (Community Guide)
 
 > **v0.4.0** — 17 domain skills · 3 agents · 8 platform plugins · Knowledge Explorer UI
 
-Semantica ships a shared plugin bundle under `plugins/` that works across every major AI coding assistant. Connect any supported platform to Semantica's knowledge graph engine for semantic extraction, decision intelligence, reasoning, provenance, ontology, and export workflows.
+GraphMind ships a shared plugin bundle under `plugins/` that works across every major AI coding assistant. Connect any supported platform to GraphMind's knowledge graph engine for semantic extraction, decision intelligence, reasoning, provenance, ontology, and export workflows.
 
 ---
 
 ## Platform Plugins
 
-Semantica provides a dedicated plugin for each platform. Every plugin shares the same `skills/`, `agents/`, and `hooks/` bundle — only the manifest format differs.
+GraphMind provides a dedicated plugin for each platform. Every plugin shares the same `skills/`, `agents/`, and `hooks/` bundle — only the manifest format differs.
 
 | # | Platform | Plugin Folder | Setup |
 |---|----------|--------------|-------|
@@ -53,9 +53,9 @@ plugins/
 ## Prerequisites
 
 ```bash
-git clone https://github.com/Hawksight-AI/semantica.git
-cd semantica
-pip install semantica        # Python 3.10+
+git clone https://github.com/Hawksight-AI/sloth_graphmind.git
+cd sloth_graphmind
+pip install sloth_graphmind        # Python 3.10+
 ```
 
 ---
@@ -65,7 +65,7 @@ pip install semantica        # Python 3.10+
 Launch the interactive graph dashboard:
 
 ```bash
-semantica-explorer --graph my_graph.json --port 8000
+sloth_graphmind-explorer --graph my_graph.json --port 8000
 ```
 
 Open **http://localhost:5174** to explore:
@@ -92,14 +92,14 @@ Or inside a session:
 
 ```bash
 /plugin marketplace add ./plugins
-/plugin install semantica@semantica-local
+/plugin install sloth_graphmind@sloth_graphmind-local
 ```
 
 Verify:
 
 ```
-/semantica:decision list
-/semantica:explain decision <decision_id>
+/sloth_graphmind:decision list
+/sloth_graphmind:explain decision <decision_id>
 ```
 
 ---
@@ -111,8 +111,8 @@ Cursor reads `.cursor-plugin/plugin.json` and `.cursor-plugin/marketplace.json` 
 Verify:
 
 ```
-/semantica:visualize topology
-/semantica:reason deductive "IF Person(x) THEN Mortal(x)"
+/sloth_graphmind:visualize topology
+/sloth_graphmind:reason deductive "IF Person(x) THEN Mortal(x)"
 ```
 
 ---
@@ -126,7 +126,7 @@ Verify:
 Verify:
 
 ```
-/semantica:causal chain --subject <decision_id> --depth 3
+/sloth_graphmind:causal chain --subject <decision_id> --depth 3
 ```
 
 ---
@@ -137,9 +137,9 @@ In Cline MCP settings, add:
 
 ```json
 {
-  "semantica": {
+  "sloth_graphmind": {
     "command": "python",
-    "args": ["-m", "semantica.mcp_server"],
+    "args": ["-m", "sloth_graphmind.mcp_server"],
     "env": {}
   }
 }
@@ -154,9 +154,9 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
 ```json
 {
   "mcpServers": {
-    "semantica": {
+    "sloth_graphmind": {
       "command": "python",
-      "args": ["-m", "semantica.mcp_server"]
+      "args": ["-m", "sloth_graphmind.mcp_server"]
     }
   }
 }
@@ -172,15 +172,15 @@ Add to `~/.continue/config.json`:
 {
   "mcpServers": [
     {
-      "name": "semantica",
+      "name": "sloth_graphmind",
       "command": "python",
-      "args": ["-m", "semantica.mcp_server"]
+      "args": ["-m", "sloth_graphmind.mcp_server"]
     }
   ]
 }
 ```
 
-All 17 Semantica skills appear in the `@semantica` context provider dropdown.
+All 17 GraphMind skills appear in the `@sloth_graphmind` context provider dropdown.
 
 ---
 
@@ -191,9 +191,9 @@ Add to `~/.openclaw/mcporter.json`:
 ```json
 {
   "mcpServers": {
-    "semantica": {
+    "sloth_graphmind": {
       "command": "python",
-      "args": ["-m", "semantica.mcp_server"],
+      "args": ["-m", "sloth_graphmind.mcp_server"],
       "transport": "stdio"
     }
   }
@@ -215,9 +215,9 @@ Add to `settings.json` (GitHub Copilot Chat):
 ```json
 {
   "github.copilot.chat.mcp.servers": {
-    "semantica": {
+    "sloth_graphmind": {
       "command": "python",
-      "args": ["-m", "semantica.mcp_server"]
+      "args": ["-m", "sloth_graphmind.mcp_server"]
     }
   }
 }
@@ -228,9 +228,9 @@ Or for the VS Code MCP extension:
 ```json
 {
   "mcp.servers": {
-    "semantica": {
+    "sloth_graphmind": {
       "command": "python",
-      "args": ["-m", "semantica.mcp_server"]
+      "args": ["-m", "sloth_graphmind.mcp_server"]
     }
   }
 }
@@ -243,12 +243,12 @@ Or for the VS Code MCP extension:
 After installing on any platform:
 
 ```
-/semantica:decision record <category> "<scenario>" "<reasoning>" <outcome> <confidence>
-/semantica:decision list
-/semantica:causal chain --subject <decision_id> --depth 3
-/semantica:explain decision <decision_id>
-/semantica:validate graph
-/semantica:visualize topology
+/sloth_graphmind:decision record <category> "<scenario>" "<reasoning>" <outcome> <confidence>
+/sloth_graphmind:decision list
+/sloth_graphmind:causal chain --subject <decision_id> --depth 3
+/sloth_graphmind:explain decision <decision_id>
+/sloth_graphmind:validate graph
+/sloth_graphmind:visualize topology
 ```
 
 ---

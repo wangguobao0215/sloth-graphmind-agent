@@ -1,15 +1,15 @@
 import unittest
 from unittest.mock import MagicMock, patch
-from semantica.split.splitter import TextSplitter
-from semantica.split.semantic_chunker import SemanticChunker, Chunk
+from sloth_graphmind.split.splitter import TextSplitter
+from sloth_graphmind.split.semantic_chunker import SemanticChunker, Chunk
 
 class TestSplitter(unittest.TestCase):
 
     def setUp(self):
         self.mock_logger = MagicMock()
-        self.logger_patcher = patch('semantica.split.splitter.get_logger', return_value=self.mock_logger)
-        self.logger_patcher_sc = patch('semantica.split.semantic_chunker.get_logger', return_value=self.mock_logger)
-        self.tracker_patcher = patch('semantica.split.semantic_chunker.get_progress_tracker', return_value=MagicMock())
+        self.logger_patcher = patch('sloth_graphmind.split.splitter.get_logger', return_value=self.mock_logger)
+        self.logger_patcher_sc = patch('sloth_graphmind.split.semantic_chunker.get_logger', return_value=self.mock_logger)
+        self.tracker_patcher = patch('sloth_graphmind.split.semantic_chunker.get_progress_tracker', return_value=MagicMock())
         
         self.logger_patcher.start()
         self.logger_patcher_sc.start()
@@ -30,7 +30,7 @@ class TestSplitter(unittest.TestCase):
         splitter = TextSplitter(method=["recursive", "token"])
         self.assertEqual(splitter.methods, ["recursive", "token"])
 
-    @patch('semantica.split.semantic_chunker.spacy')
+    @patch('sloth_graphmind.split.semantic_chunker.spacy')
     def test_semantic_chunker_initialization(self, mock_spacy):
         # Mock spacy.load to return a mock nlp object
         mock_nlp = MagicMock()

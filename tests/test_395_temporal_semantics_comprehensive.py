@@ -46,7 +46,7 @@ class TestTemporalBoundSentinel:
     """TemporalBound.OPEN must be a distinct sentinel, not a datetime."""
 
     def setup_method(self):
-        from semantica.kg.temporal_model import TemporalBound
+        from sloth_graphmind.kg.temporal_model import TemporalBound
         self.OPEN = TemporalBound.OPEN
 
     def test_open_is_not_none(self):
@@ -59,14 +59,14 @@ class TestTemporalBoundSentinel:
         assert self.OPEN.value == "OPEN"
 
     def test_open_equality_with_self(self):
-        from semantica.kg.temporal_model import TemporalBound
+        from sloth_graphmind.kg.temporal_model import TemporalBound
         assert self.OPEN is TemporalBound.OPEN
 
     def test_open_not_equal_to_arbitrary_datetime(self):
         assert self.OPEN != _dt(2024)
 
     def test_open_string_comparison(self):
-        from semantica.kg.temporal_model import TemporalBound
+        from sloth_graphmind.kg.temporal_model import TemporalBound
         assert TemporalBound.OPEN.value == "OPEN"
 
 
@@ -74,7 +74,7 @@ class TestParseTemporalValue:
     """parse_temporal_value handles all supported input types."""
 
     def setup_method(self):
-        from semantica.kg.temporal_model import parse_temporal_value
+        from sloth_graphmind.kg.temporal_model import parse_temporal_value
         self.parse = parse_temporal_value
 
     def test_none_returns_none(self):
@@ -121,12 +121,12 @@ class TestParseTemporalValue:
         assert result.year == 2024
 
     def test_invalid_string_raises_temporal_validation_error(self):
-        from semantica.utils.exceptions import TemporalValidationError
+        from sloth_graphmind.utils.exceptions import TemporalValidationError
         with pytest.raises(TemporalValidationError):
             self.parse("not-a-date")
 
     def test_unsupported_type_raises_temporal_validation_error(self):
-        from semantica.utils.exceptions import TemporalValidationError
+        from sloth_graphmind.utils.exceptions import TemporalValidationError
         with pytest.raises(TemporalValidationError):
             self.parse([2024, 1, 1])
 
@@ -140,7 +140,7 @@ class TestParseTemporalBound:
     """parse_temporal_bound wraps parse_temporal_value for bound fields."""
 
     def setup_method(self):
-        from semantica.kg.temporal_model import parse_temporal_bound, TemporalBound
+        from sloth_graphmind.kg.temporal_model import parse_temporal_bound, TemporalBound
         self.parse = parse_temporal_bound
         self.OPEN = TemporalBound.OPEN
 
@@ -173,7 +173,7 @@ class TestSerializeTemporalHelpers:
     """serialize_temporal_value / serialize_temporal_bound round-trip."""
 
     def setup_method(self):
-        from semantica.kg.temporal_model import (
+        from sloth_graphmind.kg.temporal_model import (
             serialize_temporal_value,
             serialize_temporal_bound,
             TemporalBound,
@@ -210,7 +210,7 @@ class TestBiTemporalFact:
     """BiTemporalFact construction, from_relationship, to_relationship_fields."""
 
     def setup_method(self):
-        from semantica.kg.temporal_model import BiTemporalFact, TemporalBound
+        from sloth_graphmind.kg.temporal_model import BiTemporalFact, TemporalBound
         self.BiTemporalFact = BiTemporalFact
         self.OPEN = TemporalBound.OPEN
 
@@ -306,7 +306,7 @@ class TestDeserializeAndJsonReady:
     """deserialize_relationship_temporal_fields and relationship_to_json_ready."""
 
     def setup_method(self):
-        from semantica.kg.temporal_model import (
+        from sloth_graphmind.kg.temporal_model import (
             deserialize_relationship_temporal_fields,
             relationship_to_json_ready,
             temporal_structure_to_json_ready,
@@ -379,7 +379,7 @@ class TestReconstructAtTime:
     """TemporalGraphQuery.reconstruct_at_time returns a self-consistent subgraph."""
 
     def setup_method(self):
-        from semantica.kg import TemporalGraphQuery
+        from sloth_graphmind.kg import TemporalGraphQuery
         self.q = TemporalGraphQuery()
 
     def _graph(self, entities, relationships):
@@ -517,7 +517,7 @@ class TestTemporalConsistencyValidation:
     """TemporalGraphQuery.validate_temporal_consistency detects all issue types."""
 
     def setup_method(self):
-        from semantica.kg import TemporalGraphQuery
+        from sloth_graphmind.kg import TemporalGraphQuery
         self.q = TemporalGraphQuery()
 
     def test_valid_graph_has_no_errors(self):
@@ -643,7 +643,7 @@ class TestQueryTimeRangeAggregation:
     """query_time_range aggregation strategies."""
 
     def setup_method(self):
-        from semantica.kg import TemporalGraphQuery
+        from sloth_graphmind.kg import TemporalGraphQuery
         # Use year granularity so normalization is coarse and predictable
         self.q = TemporalGraphQuery(temporal_granularity="year")
         self.graph = {
@@ -710,7 +710,7 @@ class TestAnalyzeEvolution:
     """TemporalGraphQuery.analyze_evolution returns expected keys and values."""
 
     def setup_method(self):
-        from semantica.kg import TemporalGraphQuery
+        from sloth_graphmind.kg import TemporalGraphQuery
         self.q = TemporalGraphQuery()
         self.graph = {
             "relationships": [
@@ -780,7 +780,7 @@ class TestDetectTemporalPatterns:
     """TemporalGraphQuery.query_temporal_pattern exercises pattern detection."""
 
     def setup_method(self):
-        from semantica.kg import TemporalGraphQuery
+        from sloth_graphmind.kg import TemporalGraphQuery
         self.q = TemporalGraphQuery()
         # Build a graph with a repeating sequence
         self.graph = {
@@ -829,7 +829,7 @@ class TestContextGraphStateAt:
     """ContextGraph.state_at returns snapshot valid at the given timestamp."""
 
     def setup_method(self):
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
         self.graph = ContextGraph()
 
     def test_returns_dict_with_expected_keys(self):
@@ -942,7 +942,7 @@ class TestRecordDecisionWithValidityWindows:
     """record_decision() accepts valid_from / valid_until and they appear in state_at."""
 
     def setup_method(self):
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
         self.graph = ContextGraph()
 
     def test_record_decision_returns_id(self):
@@ -1031,7 +1031,7 @@ class TestFindPrecedentsAsOf:
     """find_precedents_by_scenario with as_of filters to decisions recorded by then."""
 
     def setup_method(self):
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
         self.graph = ContextGraph()
 
     def test_as_of_filters_future_decisions(self):
@@ -1083,8 +1083,8 @@ class TestCausalChainAnalyzerTraceAtTime:
     """CausalChainAnalyzer.trace_at_time uses only facts recorded up to at_time."""
 
     def setup_method(self):
-        from semantica.context.causal_analyzer import CausalChainAnalyzer
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context.causal_analyzer import CausalChainAnalyzer
+        from sloth_graphmind.context import ContextGraph
         self.ContextGraph = ContextGraph
         self.CausalChainAnalyzer = CausalChainAnalyzer
 

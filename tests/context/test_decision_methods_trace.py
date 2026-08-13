@@ -4,11 +4,11 @@ from datetime import datetime
 import logging
 from unittest.mock import Mock
 
-from semantica.context.decision_methods import (
+from sloth_graphmind.context.decision_methods import (
     _append_immutable_trace_events,
     capture_decision_trace,
 )
-from semantica.context.decision_models import Decision
+from sloth_graphmind.context.decision_models import Decision
 
 
 def _sample_decision() -> Decision:

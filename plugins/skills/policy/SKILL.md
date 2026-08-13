@@ -1,11 +1,11 @@
 ---
 name: policy
-description: Define and enforce policies, access controls, and compliance rules over Semantica knowledge graphs.
+description: Define and enforce policies, access controls, and compliance rules over GraphMind knowledge graphs.
 ---
 
-# /semantica:policy
+# /sloth_graphmind:policy
 
-Apply policy rules and checks. Usage: `/semantica:policy <task> [args]`
+Apply policy rules and checks. Usage: `/sloth_graphmind:policy <task> [args]`
 
 `$ARGUMENTS` = task + optional policy name, rule set, or target entity.
 
@@ -16,7 +16,7 @@ Apply policy rules and checks. Usage: `/semantica:policy <task> [args]`
 Run policy checks against the graph.
 
 ```python
-from semantica.policy import PolicyEngine
+from sloth_graphmind.policy import PolicyEngine
 
 engine = PolicyEngine()
 result = engine.check(rule_name=rule_name, target=target)

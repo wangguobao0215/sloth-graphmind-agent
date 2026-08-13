@@ -12,8 +12,8 @@ from rich.console import Console
 from rich.rule import Rule
 from rich.table import Table
 
-from semantica.ingest import SnowflakeIngestor
-from semantica.utils.logging import get_logger
+from sloth_graphmind.ingest import SnowflakeIngestor
+from sloth_graphmind.utils.logging import get_logger
 
 logger = get_logger("snowflake_examples")
 console = Console()
@@ -270,7 +270,7 @@ def example_error_handling():
     """Example: Error handling."""
     _section("Example 12: Error Handling")
 
-    from semantica.utils.exceptions import ProcessingError, ValidationError
+    from sloth_graphmind.utils.exceptions import ProcessingError, ValidationError
 
     try:
         ingestor = SnowflakeIngestor(
@@ -335,7 +335,7 @@ def example_etl_pipeline():
     )
     console.print(f"  [dim]Transform:[/dim] [cyan]{len(documents)}[/cyan] documents")
 
-    from semantica.pipeline import Pipeline
+    from sloth_graphmind.pipeline import Pipeline
     pipeline = Pipeline()
     for doc in documents:
         pipeline.process_document(doc)

@@ -8,7 +8,7 @@ icon: "shield-check"
 
 SHACL (Shapes Constraint Language) is a standard for validating graph-based data. While an ontology defines the conceptual *schema* (the "what" exists in your domain), SHACL defines the structural *rules and constraints* (the "how" it should be structured). 
 
-In Semantica, `SHACLGenerator` produces constraint rules (shapes) based on your ontology, and `_run_pyshacl` evaluates your actual data against these rules. If a node violates a rule (e.g., missing a required property or using the wrong datatype), a detailed violation report is generated.
+In GraphMind, `SHACLGenerator` produces constraint rules (shapes) based on your ontology, and `_run_pyshacl` evaluates your actual data against these rules. If a node violates a rule (e.g., missing a required property or using the wrong datatype), a detailed violation report is generated.
 
 ## Why Use SHACL Validation?
 
@@ -53,9 +53,9 @@ A typical SHACL validation pipeline follows this lifecycle:
 Let's look at a simple, universally understood example: ensuring every `Employee` belongs to a `Department` and has an `employee_id`.
 
 ```python
-from semantica.context import ContextGraph
-from semantica.ontology import OntologyGenerator, SHACLGenerator, PropertyShape
-from semantica.ontology.ontology_validator import _run_pyshacl
+from sloth_graphmind.context import ContextGraph
+from sloth_graphmind.ontology import OntologyGenerator, SHACLGenerator, PropertyShape
+from sloth_graphmind.ontology.ontology_validator import _run_pyshacl
 
 # 1. Prepare your data graph
 graph = ContextGraph()
@@ -114,9 +114,9 @@ Now, let's explore the workflow in more depth.
 SHACL shapes are derived from an ontology. If you already have one from a previous run, skip this step.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.ontology import OntologyGenerator
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.ontology import OntologyGenerator
 
 graph = ContextGraph()
 ctx   = AgentContext(
@@ -153,7 +153,7 @@ print(f"Classes inferred: {len(ontology.get('classes', []))}")
 `SHACLGenerator` produces a `SHACLGraph` with one `NodeShape` per OWL class.
 
 ```python
-from semantica.ontology import SHACLGenerator
+from sloth_graphmind.ontology import SHACLGenerator
 
 shacl_gen = SHACLGenerator(
     base_uri="https://cti.example.org/shapes/",
@@ -184,7 +184,7 @@ The generated shapes tell you what the pipeline observed. They do not yet encode
 Add mandatory `PropertyShape` constraints the pipeline cannot infer from data alone.
 
 ```python
-from semantica.ontology import PropertyShape
+from sloth_graphmind.ontology import PropertyShape
 
 BASE = "https://cti.example.org/ontology/"
 
@@ -241,7 +241,7 @@ print("Shapes written to cti_shapes.ttl")
 You can also construct shapes manually from scratch — useful when you need to express constraints the generator would never infer, such as a regex pattern on a CVE ID field:
 
 ```python
-from semantica.ontology import NodeShape, PropertyShape, SHACLGraph
+from sloth_graphmind.ontology import NodeShape, PropertyShape, SHACLGraph
 
 # Require CVE IDs to match the canonical NIST format
 cve_id_shape = NodeShape(
@@ -268,7 +268,7 @@ cve_id_shape = NodeShape(
 Serialize the graph to RDF, then run `_run_pyshacl` against the shapes.
 
 ```python
-from semantica.ontology.ontology_validator import _run_pyshacl
+from sloth_graphmind.ontology.ontology_validator import _run_pyshacl
 
 # Prepare your RDF data string (since export_rdf primarily exports structural metadata,
 # you typically serialize your custom data graph to Turtle using rdflib or similar).
@@ -393,10 +393,10 @@ print(f"Violations after remediation: {report2.violation_count}")
 A DoD CTI team enforces STIX-compatible constraints on a threat graph before sharing it with ISAC partners. Every `ThreatActor` must declare a `name` and every `Vulnerability` must carry a `cvss_score`. The validation gate runs automatically on each nightly sync.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.ontology import OntologyGenerator, SHACLGenerator, PropertyShape
-from semantica.ontology.ontology_validator import _run_pyshacl
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.ontology import OntologyGenerator, SHACLGenerator, PropertyShape
+from sloth_graphmind.ontology.ontology_validator import _run_pyshacl
 
 graph = ContextGraph()
 ctx   = AgentContext(
@@ -467,9 +467,9 @@ if not report.conforms:
 A SOC team validates zero-trust policy nodes before publishing them to the policy enforcement point. Every `Policy` node must carry a `version` (semver format) and an `effective_date`. A node missing either field is a Violation that blocks publication.
 
 ```python
-from semantica.context import ContextGraph
-from semantica.ontology import OntologyGenerator, SHACLGenerator, PropertyShape
-from semantica.ontology.ontology_validator import _run_pyshacl
+from sloth_graphmind.context import ContextGraph
+from sloth_graphmind.ontology import OntologyGenerator, SHACLGenerator, PropertyShape
+from sloth_graphmind.ontology.ontology_validator import _run_pyshacl
 
 graph = ContextGraph()
 graph.add_node("policy-001", "Policy", "MFA Required for Tier-1 Resources",
@@ -533,9 +533,9 @@ for v in report.violations:
 A clinical informatics team validates trial ontology nodes before loading them into the trial registry system. Every `ClinicalTrial` node must declare a `phase` (one of Phase I–IV), a `primary_endpoint`, and a `principal_investigator`. Missing any of these blocks registry submission.
 
 ```python
-from semantica.ontology import LLMOntologyGenerator, SHACLGenerator, PropertyShape
-from semantica.ontology.ontology_validator import _run_pyshacl
-from semantica.export import export_rdf
+from sloth_graphmind.ontology import LLMOntologyGenerator, SHACLGenerator, PropertyShape
+from sloth_graphmind.ontology.ontology_validator import _run_pyshacl
+from sloth_graphmind.export import export_rdf
 import tempfile, os
 
 llm_gen  = LLMOntologyGenerator(provider="openai", model="gpt-4o")
@@ -598,9 +598,9 @@ print(f"Warnings           : {report.warning_count}")
 A credit risk team validates every `LoanApplication` node against Basel III CRE20 mandatory fields (`ltv`, `pd`, `lgd`, `asset_class`) before the application enters the credit model. Any missing field is a Violation that rejects the record.
 
 ```python
-from semantica.context import ContextGraph
-from semantica.ontology import OntologyGenerator, SHACLGenerator, PropertyShape
-from semantica.ontology.ontology_validator import _run_pyshacl
+from sloth_graphmind.context import ContextGraph
+from sloth_graphmind.ontology import OntologyGenerator, SHACLGenerator, PropertyShape
+from sloth_graphmind.ontology.ontology_validator import _run_pyshacl
 
 graph = ContextGraph()
 graph.add_node("loan-001", "LoanApplication", "Prime mortgage APP-2025-88421",
@@ -674,8 +674,8 @@ Call this function as a pre-publish gate; exit code 1 blocks the pipeline.
 
 ```python
 import sys
-from semantica.ontology import OntologyGenerator, SHACLGenerator
-from semantica.ontology.ontology_validator import _run_pyshacl
+from sloth_graphmind.ontology import OntologyGenerator, SHACLGenerator
+from sloth_graphmind.ontology.ontology_validator import _run_pyshacl
 
 def validate_before_publish(data_graph_str: str, ontology: dict) -> None:
     shacl_gen   = SHACLGenerator(base_uri="https://example.org/shapes/")

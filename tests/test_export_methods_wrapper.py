@@ -7,7 +7,7 @@ import tempfile
 import shutil
 import yaml
 from pathlib import Path
-from semantica.export.methods import export_yaml
+from sloth_graphmind.export.methods import export_yaml
 
 class TestExportMethodsWrapper(unittest.TestCase):
     def setUp(self):

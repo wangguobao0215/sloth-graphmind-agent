@@ -5,8 +5,8 @@ import json
 import csv
 from pathlib import Path
 from unittest.mock import MagicMock, patch
-from semantica.seed.seed_manager import SeedDataManager, SeedDataSource, SeedData
-from semantica.utils.exceptions import ProcessingError
+from sloth_graphmind.seed.seed_manager import SeedDataManager, SeedDataSource, SeedData
+from sloth_graphmind.utils.exceptions import ProcessingError
 
 @pytest.fixture
 def seed_manager():
@@ -109,7 +109,7 @@ def test_load_from_json_not_found(seed_manager):
     with pytest.raises(ProcessingError):
         seed_manager.load_from_json("non_existent.json")
 
-@patch("semantica.ingest.db_ingestor.DBIngestor")
+@patch("sloth_graphmind.ingest.db_ingestor.DBIngestor")
 def test_load_from_database(mock_db_ingestor_cls, seed_manager):
     mock_db_ingestor = MagicMock()
     mock_db_ingestor_cls.return_value = mock_db_ingestor
@@ -141,7 +141,7 @@ def test_load_from_database(mock_db_ingestor_cls, seed_manager):
     assert records[0]["id"] == 2
 
 def test_load_from_database_import_error(seed_manager):
-    with patch.dict("sys.modules", {"semantica.ingest.db_ingestor": None}):
+    with patch.dict("sys.modules", {"sloth_graphmind.ingest.db_ingestor": None}):
         # This simulates the module not existing.
         with pytest.raises(ProcessingError) as excinfo:
             seed_manager.load_from_database("sqlite:///:memory:", query="SELECT 1")

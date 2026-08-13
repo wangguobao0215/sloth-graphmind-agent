@@ -1,7 +1,7 @@
 """
-Resource handlers for Semantica MCP resources.
+Resource handlers for GraphMind MCP resources.
 
-Each resource maps a semantica:// URI to a callable that returns
+Each resource maps a graphmind:// URI to a callable that returns
 {"uri": ..., "mimeType": ..., "text": ...}.
 """
 
@@ -13,7 +13,7 @@ import logging
 from mcp import __version__
 from mcp.session import get_graph
 
-log = logging.getLogger("semantica.mcp.resources")
+log = logging.getLogger("sloth_graphmind.mcp.resources")
 
 
 def _read_graph_summary(uri: str) -> dict:
@@ -87,7 +87,7 @@ def _read_ontology_schema(uri: str) -> dict:
     try:
         graph = get_graph()
         try:
-            from semantica.ontology import OntologyManager
+            from sloth_graphmind.ontology import OntologyManager
             mgr = OntologyManager(graph_store=graph)
             schema = mgr.get_schema()
             text = json.dumps(schema, indent=2) if isinstance(schema, dict) else str(schema)
@@ -100,33 +100,33 @@ def _read_ontology_schema(uri: str) -> dict:
 
 # Map URI → handler
 _HANDLERS: dict[str, object] = {
-    "semantica://graph/summary": _read_graph_summary,
-    "semantica://decisions/list": _read_decisions_list,
-    "semantica://schema/info": _read_schema_info,
-    "semantica://ontology/schema": _read_ontology_schema,
+    "graphmind://graph/summary": _read_graph_summary,
+    "graphmind://decisions/list": _read_decisions_list,
+    "graphmind://schema/info": _read_schema_info,
+    "graphmind://ontology/schema": _read_ontology_schema,
 }
 
 RESOURCE_DEFINITIONS = [
     {
-        "uri": "semantica://graph/summary",
+        "uri": "graphmind://graph/summary",
         "name": "Graph Summary",
         "description": "High-level summary of the current knowledge graph: node/edge counts and type breakdown.",
         "mimeType": "application/json",
     },
     {
-        "uri": "semantica://decisions/list",
+        "uri": "graphmind://decisions/list",
         "name": "Decision List",
         "description": "Most recent decisions recorded in the knowledge graph (up to 50).",
         "mimeType": "application/json",
     },
     {
-        "uri": "semantica://schema/info",
+        "uri": "graphmind://schema/info",
         "name": "Schema Info",
-        "description": "Semantica schema version, supported node/edge types, and available tool names.",
+        "description": "GraphMind schema version, supported node/edge types, and available tool names.",
         "mimeType": "application/json",
     },
     {
-        "uri": "semantica://ontology/schema",
+        "uri": "graphmind://ontology/schema",
         "name": "Ontology Schema",
         "description": "Full ontology schema from the OntologyManager (concept hierarchy and constraints).",
         "mimeType": "application/json",

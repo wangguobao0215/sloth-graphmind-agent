@@ -1,11 +1,11 @@
 ---
 name: visualize
-description: Visualize the Semantica knowledge graph — topology, centrality, communities, paths, embeddings, decision insights, and temporal evolution. Uses GraphAnalyzer, CentralityCalculator, CommunityDetector, PathFinder, and ContextGraph analytics. Sub-commands: topology, centrality, community, path, decision-graph, insights, temporal, embedding.
+description: Visualize the GraphMind knowledge graph — topology, centrality, communities, paths, embeddings, decision insights, and temporal evolution. Uses GraphAnalyzer, CentralityCalculator, CommunityDetector, PathFinder, and ContextGraph analytics. Sub-commands: topology, centrality, community, path, decision-graph, insights, temporal, embedding.
 ---
 
-# /semantica:visualize
+# /sloth_graphmind:visualize
 
-Render graph visualizations as Mermaid, ASCII, or structured Markdown. Usage: `/semantica:visualize <sub-command> [args]`
+Render graph visualizations as Mermaid, ASCII, or structured Markdown. Usage: `/sloth_graphmind:visualize <sub-command> [args]`
 
 `$ARGUMENTS` = sub-command + optional node label or filter.
 
@@ -16,8 +16,8 @@ Render graph visualizations as Mermaid, ASCII, or structured Markdown. Usage: `/
 Full graph structure analysis — node types, edge distribution, connectivity metrics.
 
 ```python
-from semantica.kg.graph_analyzer import GraphAnalyzer
-from semantica.context import ContextGraph
+from sloth_graphmind.kg.graph_analyzer import GraphAnalyzer
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph(advanced_analytics=True)
 analyzer = GraphAnalyzer()
@@ -52,8 +52,8 @@ Top-10 connected nodes:
 Calculate and rank nodes by centrality.
 
 ```python
-from semantica.kg.centrality_calculator import CentralityCalculator
-from semantica.context import ContextGraph
+from sloth_graphmind.kg.centrality_calculator import CentralityCalculator
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 calc = CentralityCalculator()
@@ -87,8 +87,8 @@ For a single node, also call `ContextGraph.get_node_centrality(node_id)` and `ge
 Detect and visualize graph communities/clusters.
 
 ```python
-from semantica.kg.community_detector import CommunityDetector
-from semantica.context import ContextGraph
+from sloth_graphmind.kg.community_detector import CommunityDetector
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 detector = CommunityDetector()
@@ -129,8 +129,8 @@ Community summary:
 Find and visualize paths between two nodes.
 
 ```python
-from semantica.kg.path_finder import PathFinder
-from semantica.context import ContextGraph
+from sloth_graphmind.kg.path_finder import PathFinder
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 finder = PathFinder()
@@ -164,9 +164,9 @@ Path 2 (length: 3.7): ...
 Visualize the decision influence graph for a category or all decisions.
 
 ```python
-from semantica.context import ContextGraph
-from semantica.context.causal_analyzer import CausalChainAnalyzer
-from semantica.context import AgentContext
+from sloth_graphmind.context import ContextGraph
+from sloth_graphmind.context.causal_analyzer import CausalChainAnalyzer
+from sloth_graphmind.context import AgentContext
 
 ctx = AgentContext(decision_tracking=True, advanced_analytics=True)
 graph = ContextGraph(advanced_analytics=True)
@@ -191,7 +191,7 @@ Output as Mermaid `graph TD` with:
 Comprehensive decision analytics dashboard.
 
 ```python
-from semantica.context import ContextGraph, AgentContext
+from sloth_graphmind.context import ContextGraph, AgentContext
 
 ctx = AgentContext(decision_tracking=True, advanced_analytics=True, kg_algorithms=True)
 graph = ContextGraph(advanced_analytics=True, centrality_analysis=True)
@@ -228,8 +228,8 @@ Graph health:
 Analyze how the graph evolved over time.
 
 ```python
-from semantica.kg.graph_analyzer import GraphAnalyzer
-from semantica.context import ContextGraph
+from sloth_graphmind.kg.graph_analyzer import GraphAnalyzer
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 analyzer = GraphAnalyzer()

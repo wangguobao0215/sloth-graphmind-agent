@@ -1,20 +1,20 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from semantica.kg.graph_builder import GraphBuilder
+from sloth_graphmind.kg.graph_builder import GraphBuilder
 
 
 class TestGraphBuilderExternal(unittest.TestCase):
     def setUp(self):
-        self.mock_tracker_patcher = patch("semantica.utils.progress_tracker.get_progress_tracker")
+        self.mock_tracker_patcher = patch("sloth_graphmind.utils.progress_tracker.get_progress_tracker")
         self.mock_get_tracker = self.mock_tracker_patcher.start()
         self.mock_tracker = MagicMock()
         self.mock_get_tracker.return_value = self.mock_tracker
 
-        self.mock_resolver_patcher = patch("semantica.kg.entity_resolver.EntityResolver")
+        self.mock_resolver_patcher = patch("sloth_graphmind.kg.entity_resolver.EntityResolver")
         self.mock_resolver_cls = self.mock_resolver_patcher.start()
 
-        self.mock_conflict_patcher = patch("semantica.conflicts.conflict_detector.ConflictDetector")
+        self.mock_conflict_patcher = patch("sloth_graphmind.conflicts.conflict_detector.ConflictDetector")
         self.mock_conflict_cls = self.mock_conflict_patcher.start()
 
     def tearDown(self):

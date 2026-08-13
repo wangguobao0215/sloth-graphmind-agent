@@ -7,7 +7,7 @@ import pytest
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from semantica.semantic_extract import (
+from sloth_graphmind.semantic_extract import (
     NERExtractor, 
     NamedEntityRecognizer, 
     RelationExtractor, 
@@ -15,7 +15,7 @@ from semantica.semantic_extract import (
     Entity,
     Relation
 )
-from semantica.semantic_extract.methods import get_entity_method, get_relation_method
+from sloth_graphmind.semantic_extract.methods import get_entity_method, get_relation_method
 
 pytestmark = pytest.mark.integration
 

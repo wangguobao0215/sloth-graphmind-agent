@@ -5,10 +5,10 @@ Tests end-to-end integration of provenance tracking across all modules.
 """
 
 import pytest
-from semantica.provenance import ProvenanceManager
-from semantica.kg import ProvenanceTracker as KGTracker
-from semantica.split import ProvenanceTracker as SplitTracker
-from semantica.split.semantic_chunker import Chunk
+from sloth_graphmind.provenance import ProvenanceManager
+from sloth_graphmind.kg import ProvenanceTracker as KGTracker
+from sloth_graphmind.split import ProvenanceTracker as SplitTracker
+from sloth_graphmind.split.semantic_chunker import Chunk
 
 
 class TestEndToEndProvenance:
@@ -166,7 +166,7 @@ class TestDataIntegrity:
     
     def test_checksum_verification(self):
         """Test checksum verification."""
-        from semantica.provenance import compute_checksum, verify_checksum
+        from sloth_graphmind.provenance import compute_checksum, verify_checksum
         
         prov_mgr = ProvenanceManager()
         
@@ -185,7 +185,7 @@ class TestStorageBackends:
     
     def test_in_memory_storage(self):
         """Test in-memory storage backend."""
-        from semantica.provenance import InMemoryStorage
+        from sloth_graphmind.provenance import InMemoryStorage
         
         storage = InMemoryStorage()
         prov_mgr = ProvenanceManager(storage=storage)
@@ -199,7 +199,7 @@ class TestStorageBackends:
         """Test SQLite storage backend."""
         import tempfile
         import os
-        from semantica.provenance import SQLiteStorage
+        from sloth_graphmind.provenance import SQLiteStorage
         
         with tempfile.NamedTemporaryFile(delete=False, suffix=".db") as tmp:
             db_path = tmp.name

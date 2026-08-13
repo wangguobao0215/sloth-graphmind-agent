@@ -13,9 +13,9 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from semantica.change_management import VersionManager
-from semantica.conflicts import detect_conflicts, resolve_conflicts, voting
-from semantica.context import (
+from sloth_graphmind.change_management import VersionManager
+from sloth_graphmind.conflicts import detect_conflicts, resolve_conflicts, voting
+from sloth_graphmind.context import (
     AgentContext,
     ContextGraph,
     Decision,
@@ -23,7 +23,7 @@ from semantica.context import (
     PolicyEngine,
     multi_hop_query,
 )
-from semantica.export import (
+from sloth_graphmind.export import (
     ReportGenerator,
     export_csv,
     export_graph,
@@ -32,8 +32,8 @@ from semantica.export import (
     export_rdf,
     export_yaml,
 )
-from semantica.ingest import FileIngestor, OntologyIngestor, ingest_web
-from semantica.kg import (
+from sloth_graphmind.ingest import FileIngestor, OntologyIngestor, ingest_web
+from sloth_graphmind.kg import (
     CentralityCalculator,
     CommunityDetector,
     ConnectivityAnalyzer,
@@ -44,14 +44,14 @@ from semantica.kg import (
     NodeEmbedder,
     SimilarityCalculator,
 )
-from semantica.normalize import (
+from sloth_graphmind.normalize import (
     clean_text,
     detect_language,
     handle_encoding,
     normalize_text,
 )
-from semantica.ontology import OntologyEvaluator, ingest_ontology
-from semantica.parse import (
+from sloth_graphmind.ontology import OntologyEvaluator, ingest_ontology
+from sloth_graphmind.parse import (
     DOCLING_AVAILABLE,
     DocumentParser,
     DoclingParser,
@@ -59,10 +59,10 @@ from semantica.parse import (
     parse_document,
     parse_pdf,
 )
-from semantica.pipeline import PipelineBuilder
-from semantica.provenance import ProvenanceManager
-from semantica.reasoning import ExplanationGenerator, Reasoner
-from semantica.semantic_extract import (
+from sloth_graphmind.pipeline import PipelineBuilder
+from sloth_graphmind.provenance import ProvenanceManager
+from sloth_graphmind.reasoning import ExplanationGenerator, Reasoner
+from sloth_graphmind.semantic_extract import (
     CoreferenceResolver,
     EventDetector,
     ExtractionValidator,
@@ -72,9 +72,9 @@ from semantica.semantic_extract import (
     SemanticNetworkExtractor,
     TripletExtractor,
 )
-from semantica.split import TextSplitter
-from semantica.vector_store import VectorStore
-from semantica.visualization import KGVisualizer
+from sloth_graphmind.split import TextSplitter
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.visualization import KGVisualizer
 
 
 def build_paths() -> tuple[Path, Path, Path]:

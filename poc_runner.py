@@ -1,5 +1,5 @@
 """
-Standalone PoC runner for 3 security vulnerabilities in semantica.
+Standalone PoC runner for 3 security vulnerabilities in sloth_graphmind.
 
 Spins up the FastAPI app in-process using httpx.AsyncClient + ASGITransport,
 so no external server is needed. Run with:

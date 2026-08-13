@@ -6,7 +6,7 @@ import time
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from semantica.ingest import (
+from sloth_graphmind.ingest import (
     ingest, 
     FileIngestor, FileTypeDetector, CloudStorageIngestor,
     WebIngestor, ContentExtractor, SitemapCrawler, RobotsChecker,
@@ -46,7 +46,7 @@ class TestNotebook02DataIngestion:
         assert result_explicit["files"].name == "sample.txt"
 
         # Ingest web URL (mocked)
-        with patch("semantica.ingest.web_ingestor.WebIngestor.ingest_url") as mock_ingest:
+        with patch("sloth_graphmind.ingest.web_ingestor.WebIngestor.ingest_url") as mock_ingest:
             mock_ingest.return_value = MagicMock(title="Mock Title")
             result_web = ingest("https://example.com")
             assert "content" in result_web
@@ -109,7 +109,7 @@ class TestNotebook02DataIngestion:
 
             web_ingestor = WebIngestor(delay=0.1)
             # Patch RobotsChecker.can_fetch globally for WebIngestor usage
-            with patch("semantica.ingest.web_ingestor.RobotsChecker.can_fetch", return_value=True):
+            with patch("sloth_graphmind.ingest.web_ingestor.RobotsChecker.can_fetch", return_value=True):
                  web_content = web_ingestor.ingest_url("https://example.com")
                  assert web_content is not None
                  assert "Web" in web_content.text
@@ -127,11 +127,11 @@ class TestNotebook02DataIngestion:
         stream_ingestor = StreamIngestor()
         
         # Mock Kafka/RabbitMQ
-        with patch("semantica.ingest.stream_ingestor.StreamIngestor.ingest_kafka") as mock_kafka:
+        with patch("sloth_graphmind.ingest.stream_ingestor.StreamIngestor.ingest_kafka") as mock_kafka:
             mock_kafka.return_value = MagicMock()
             stream_ingestor.ingest_kafka("my-topic", bootstrap_servers=["localhost:9092"])
             
-        with patch("semantica.ingest.stream_ingestor.StreamIngestor.ingest_rabbitmq") as mock_rabbit:
+        with patch("sloth_graphmind.ingest.stream_ingestor.StreamIngestor.ingest_rabbitmq") as mock_rabbit:
             mock_rabbit.return_value = MagicMock()
             stream_ingestor.ingest_rabbitmq("my-queue", "amqp://guest:guest@localhost:5672/")
 
@@ -157,7 +157,7 @@ class TestNotebook02DataIngestion:
         repo_ingestor = RepoIngestor()
         with patch.object(repo_ingestor, 'ingest_repository') as mock_ingest:
             mock_ingest.return_value = {'name': 'semantica'}
-            repo_data = repo_ingestor.ingest_repository("https://github.com/Hawksight-AI/semantica.git")
+            repo_data = repo_ingestor.ingest_repository("https://github.com/Hawksight-AI/sloth_graphmind.git")
             assert repo_data['name'] == 'semantica'
 
     def test_07_email_ingestion(self):

@@ -6,9 +6,9 @@ Ensures RLock prevents deadlock in nested lock acquisition.
 import pytest
 import threading
 import time
-from semantica.pipeline.resource_scheduler import ResourceScheduler
-from semantica.pipeline.pipeline_builder import Pipeline
-from semantica.utils.exceptions import ValidationError
+from sloth_graphmind.pipeline.resource_scheduler import ResourceScheduler
+from sloth_graphmind.pipeline.pipeline_builder import Pipeline
+from sloth_graphmind.utils.exceptions import ValidationError
 
 
 class TestResourceSchedulerDeadlock:

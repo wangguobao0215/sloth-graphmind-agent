@@ -8,8 +8,8 @@ chunk tracking, source tracking, and lineage tracing.
 import pytest
 from unittest.mock import patch
 from datetime import datetime
-from semantica.provenance import ProvenanceManager, SourceReference, ProvenanceEntry
-from semantica.provenance.storage import InMemoryStorage, SQLiteStorage
+from sloth_graphmind.provenance import ProvenanceManager, SourceReference, ProvenanceEntry
+from sloth_graphmind.provenance.storage import InMemoryStorage, SQLiteStorage
 
 
 class TestProvenanceManager:
@@ -25,7 +25,7 @@ class TestProvenanceManager:
 
     def test_default_storage_path_pattern(self, tmp_path):
         """Test global default storage pattern, config kwarg, and test-isolation context manager."""
-        from semantica.provenance import default_storage_path, InMemoryStorage, SQLiteStorage
+        from sloth_graphmind.provenance import default_storage_path, InMemoryStorage, SQLiteStorage
 
         # 1. Default should fallback to InMemoryStorage when no path/config
         prov_mgr = ProvenanceManager()
@@ -78,7 +78,7 @@ class TestProvenanceManager:
         """Test that default_storage_path context manager is thread-safe under concurrent use."""
         import threading
         import time
-        from semantica.provenance import default_storage_path, SQLiteStorage
+        from sloth_graphmind.provenance import default_storage_path, SQLiteStorage
 
         errors = []
 
@@ -107,7 +107,7 @@ class TestProvenanceManager:
 
     def test_isolation_part_1_with_context_manager(self, tmp_path):
         """Part 1: Prove context manager sets default storage path for ProvenanceManager created inside context."""
-        from semantica.provenance import default_storage_path, SQLiteStorage
+        from sloth_graphmind.provenance import default_storage_path, SQLiteStorage
         iso_db = str(tmp_path / "iso_part1.db")
         with default_storage_path(iso_db):
             prov_mgr = ProvenanceManager()
@@ -116,15 +116,15 @@ class TestProvenanceManager:
 
     def test_isolation_part_2_no_leakage_after_context(self):
         """Part 2: Prove that in a SEPARATE test function after context exit, ProvenanceManager falls back to InMemoryStorage without leakage."""
-        from semantica.provenance import InMemoryStorage
+        from sloth_graphmind.provenance import InMemoryStorage
         assert ProvenanceManager._default_storage_path is None
         prov_mgr = ProvenanceManager()
         assert isinstance(prov_mgr.storage, InMemoryStorage)
 
     def test_orchestrator_config_wiring(self, tmp_path):
         """Test Semantica orchestrator configures ProvenanceManager._default_storage_path."""
-        from semantica.core import Semantica
-        from semantica.provenance import ProvenanceManager, InMemoryStorage, SQLiteStorage
+        from sloth_graphmind.core import Semantica
+        from sloth_graphmind.provenance import ProvenanceManager, InMemoryStorage, SQLiteStorage
 
         # 1. No path set in config means InMemoryStorage fallback
         _ = Semantica()
@@ -1053,7 +1053,7 @@ class TestAgentTyping:
         assert entry.role == "approver"
 
     def test_track_entity_agent_record_kwarg(self):
-        from semantica.provenance import AgentRecord
+        from sloth_graphmind.provenance import AgentRecord
         prov_mgr = ProvenanceManager()
         agent = AgentRecord(id="reviewer_bob", agent_type="person", is_automated=False)
         entry = prov_mgr.track_entity("e1", source="doc1", agent=agent, role="approver")
@@ -1361,7 +1361,7 @@ class TestTypedActivity:
     """Issue #825, Part B Tier 1 — typed Activity via ActivityRecord."""
 
     def test_track_entity_activity_record_kwarg(self):
-        from semantica.provenance import ActivityRecord
+        from sloth_graphmind.provenance import ActivityRecord
         prov_mgr = ProvenanceManager()
         activity = ActivityRecord(
             id="bureau_parsing_run_42",
@@ -1400,7 +1400,7 @@ class TestTypedActivity:
         assert "Derivation" in ttl
 
     def test_export_prov_activity_timing(self):
-        from semantica.provenance import ActivityRecord
+        from sloth_graphmind.provenance import ActivityRecord
         prov_mgr = ProvenanceManager()
         prov_mgr.track_entity(
             "e1", source="doc1",
@@ -1526,8 +1526,8 @@ class TestBundleAndBaseUri:
         assert "hadMember" in ttl
 
     def test_default_base_uri_matches_rdf_exporter_namespace(self):
-        from semantica.provenance.manager import DEFAULT_BASE_URI
-        from semantica.export.rdf_exporter import NamespaceManager
+        from sloth_graphmind.provenance.manager import DEFAULT_BASE_URI
+        from sloth_graphmind.export.rdf_exporter import NamespaceManager
         assert NamespaceManager().namespaces["semantica"] == DEFAULT_BASE_URI
 
     def test_export_prov_base_uri_override(self):
@@ -1535,19 +1535,19 @@ class TestBundleAndBaseUri:
         prov_mgr.track_entity("e1", source="doc1")
 
         default_ttl = prov_mgr.export_prov(format="turtle")
-        assert "https://semantica.dev/ns#" in default_ttl
+        assert "https://sloth_graphmind.dev/ns#" in default_ttl
 
         custom_ttl = prov_mgr.export_prov(format="turtle", base_uri="https://example.org/kg#")
         assert "https://example.org/kg#" in custom_ttl
-        assert "https://semantica.dev/ns#" not in custom_ttl
+        assert "https://sloth_graphmind.dev/ns#" not in custom_ttl
 
     def test_owl_exporter_default_ontology_uri_matches_shared_namespace(self):
         """Issue #825 follow-up — OWLExporter was the one exporter left out of
         the Part B Tier 3 namespace interlinking; its default ontology_uri
         must match the same shared DEFAULT_BASE_URI as RDFExporter and
         export_prov()."""
-        from semantica.provenance.manager import DEFAULT_BASE_URI
-        from semantica.export.owl_exporter import OWLExporter
+        from sloth_graphmind.provenance.manager import DEFAULT_BASE_URI
+        from sloth_graphmind.export.owl_exporter import OWLExporter
         assert OWLExporter().ontology_uri == DEFAULT_BASE_URI
 
 
@@ -1602,7 +1602,7 @@ class TestActivityTimingAcrossWrappers:
     just the 2 wrappers from the original Part B pass."""
 
     def test_embedding_wrapper_records_activity_timing(self):
-        from semantica.embeddings.embeddings_provenance import EmbeddingGeneratorWithProvenance
+        from sloth_graphmind.embeddings.embeddings_provenance import EmbeddingGeneratorWithProvenance
         wrapper = EmbeddingGeneratorWithProvenance(provenance=True, agent_id="embed_svc")
         wrapper._generator.embed = lambda texts, **kw: [[0.1, 0.2] for _ in texts]
         wrapper.embed(["hello", "world"])
@@ -1612,7 +1612,7 @@ class TestActivityTimingAcrossWrappers:
         assert entries[0].activity_ended_at_time is not None
 
     def test_kg_algorithm_tracker_accepts_caller_supplied_activity_timing(self):
-        from semantica.kg.kg_provenance import AlgorithmTrackerWithProvenance
+        from sloth_graphmind.kg.kg_provenance import AlgorithmTrackerWithProvenance
         tracker = AlgorithmTrackerWithProvenance(provenance=True, agent_id="algo_svc")
         eid = tracker.track_embedding_computation(
             graph=object(), algorithm="node2vec", embeddings={"n1": [0.1, 0.2]},
@@ -1626,7 +1626,7 @@ class TestActivityTimingAcrossWrappers:
     def test_graph_builder_build_operation_has_no_end_time_yet(self):
         """The build-operation marker is recorded before the build runs, so
         it legitimately has a start but no end time."""
-        from semantica.kg.kg_provenance import GraphBuilderWithProvenance
+        from sloth_graphmind.kg.kg_provenance import GraphBuilderWithProvenance
         builder = GraphBuilderWithProvenance(provenance=True, agent_id="builder_svc")
         builder._builder.build_single_source = lambda kg_data, **kw: {"entities": [], "relationships": []}
         builder.build_single_source({"foo": "bar"})
@@ -1641,7 +1641,7 @@ class TestActivityTimingAcrossWrappers:
         assert build_entries[0].activity_ended_at_time is None
 
     def test_semantic_extract_wrapper_records_activity_timing(self):
-        from semantica.semantic_extract.semantic_extract_provenance import ProvenanceMixin
+        from sloth_graphmind.semantic_extract.semantic_extract_provenance import ProvenanceMixin
 
         class FakeExtractor(ProvenanceMixin):
             pass
@@ -1657,7 +1657,7 @@ class TestActivityTimingAcrossWrappers:
         assert "activity_started_at_time" not in entry["metadata"]
 
     def test_conflicts_wrapper_records_activity_timing(self):
-        from semantica.conflicts.conflicts_provenance import SourceTrackerWithUnifiedBackend
+        from sloth_graphmind.conflicts.conflicts_provenance import SourceTrackerWithUnifiedBackend
 
         class FakeSource:
             document = "doc1"

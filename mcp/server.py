@@ -1,9 +1,9 @@
 """
-Semantica MCP Server — JSON-RPC 2.0 over stdio.
+GraphMind MCP Server — JSON-RPC 2.0 over stdio.
 
 Implements the Model Context Protocol so any MCP-compatible AI tool
 (Claude Code, Cursor, Windsurf, Cline, Continue, VS Code Copilot, etc.)
-can interact with the Semantica knowledge graph.
+can interact with the GraphMind knowledge graph.
 
 Run:
     python -m mcp                  # via __main__.py
@@ -21,7 +21,7 @@ from mcp import __version__
 from mcp.resources import RESOURCE_DEFINITIONS, handle_resource_read
 from mcp.tools import TOOL_DEFINITIONS
 
-log = logging.getLogger("semantica.mcp.server")
+log = logging.getLogger("sloth_graphmind.mcp.server")
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -63,7 +63,7 @@ def _handle_initialize(req_id: Any, params: dict) -> dict:
             "resources": {},
         },
         "serverInfo": {
-            "name": "semantica-mcp",
+            "name": "graphmind-mcp",
             "version": __version__,
         },
     })
@@ -144,8 +144,8 @@ _DISPATCH = {
 # Main server class
 # ---------------------------------------------------------------------------
 
-class SemanticaMCPServer:
-    """Semantica MCP server — reads JSON-RPC requests from stdin, writes to stdout."""
+class GraphMindMCPServer:
+    """GraphMind MCP server — reads JSON-RPC requests from stdin, writes to stdout."""
 
     def __init__(self, *, debug: bool = False) -> None:
         level = logging.DEBUG if debug else logging.WARNING
@@ -176,7 +176,7 @@ class SemanticaMCPServer:
     # ------------------------------------------------------------------
     def run(self) -> None:
         """Start the stdio event loop."""
-        log.info("Semantica MCP server starting (stdio)")
+        log.info("GraphMind MCP server starting (stdio)")
         for raw_line in sys.stdin:
             raw_line = raw_line.strip()
             if not raw_line:
@@ -214,10 +214,10 @@ def _write(obj: Any) -> None:
 
 def main() -> None:
     import argparse
-    parser = argparse.ArgumentParser(description="Semantica MCP Server")
+    parser = argparse.ArgumentParser(description="GraphMind MCP Server")
     parser.add_argument("--debug", action="store_true", help="Enable debug logging")
     args = parser.parse_args()
-    SemanticaMCPServer(debug=args.debug).run()
+    GraphMindMCPServer(debug=args.debug).run()
 
 
 if __name__ == "__main__":

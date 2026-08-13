@@ -45,7 +45,7 @@ class TestInMemorySearchSchema(unittest.TestCase):
 
     def test_search_vectors_canonical_schema(self):
         """In-memory VectorStore.search_vectors() returns canonical schema."""
-        from semantica.vector_store import VectorStore
+        from sloth_graphmind.vector_store import VectorStore
 
         store = VectorStore(backend="inmemory", dimension=4)
         vectors = [np.array([0.1, 0.2, 0.3, 0.4]), np.array([0.5, 0.6, 0.7, 0.8])]
@@ -58,7 +58,7 @@ class TestInMemorySearchSchema(unittest.TestCase):
 
     def test_search_vectors_no_metadata_gives_empty_dict(self):
         """In-memory results have metadata={} when no metadata was stored."""
-        from semantica.vector_store import VectorStore
+        from sloth_graphmind.vector_store import VectorStore
 
         store = VectorStore(backend="inmemory", dimension=4)
         store.store_vectors([np.array([0.1, 0.2, 0.3, 0.4])])
@@ -74,10 +74,10 @@ class TestInMemorySearchSchema(unittest.TestCase):
 
 class TestFAISSSearchSchema(unittest.TestCase):
 
-    @patch("semantica.vector_store.faiss_store.FAISS_AVAILABLE", True)
-    @patch("semantica.vector_store.faiss_store.faiss")
+    @patch("sloth_graphmind.vector_store.faiss_store.FAISS_AVAILABLE", True)
+    @patch("sloth_graphmind.vector_store.faiss_store.faiss")
     def test_faiss_search_similar_canonical_schema(self, mock_faiss):
-        from semantica.vector_store.faiss_store import FAISSIndex, FAISSSearch
+        from sloth_graphmind.vector_store.faiss_store import FAISSIndex, FAISSSearch
 
         mock_index = MagicMock()
         mock_index.search.return_value = (
@@ -103,9 +103,9 @@ class TestFAISSSearchSchema(unittest.TestCase):
 
 class TestQdrantSearchSchema(unittest.TestCase):
 
-    @patch("semantica.vector_store.qdrant_store.QDRANT_AVAILABLE", True)
+    @patch("sloth_graphmind.vector_store.qdrant_store.QDRANT_AVAILABLE", True)
     def test_qdrant_search_points_canonical_schema(self):
-        from semantica.vector_store.qdrant_store import QdrantCollection
+        from sloth_graphmind.vector_store.qdrant_store import QdrantCollection
 
         mock_client = MagicMock()
         mock_hit = MagicMock()
@@ -121,12 +121,12 @@ class TestQdrantSearchSchema(unittest.TestCase):
         self.assertIsNone(results[0]["vector"])
         self.assertEqual(results[0]["metadata"], {"category": "x"})
 
-    @patch("semantica.vector_store.qdrant_store.QDRANT_AVAILABLE", True)
+    @patch("sloth_graphmind.vector_store.qdrant_store.QDRANT_AVAILABLE", True)
     def test_qdrant_unbounded_dot_product_scores_preserve_ranking(self):
         """Qdrant's Dot distance metric is unbounded; normalized scores must
         stay strictly ordered instead of collapsing once raw score >= 1.0
         (regression for #845 follow-up)."""
-        from semantica.vector_store.qdrant_store import QdrantCollection
+        from sloth_graphmind.vector_store.qdrant_store import QdrantCollection
 
         mock_client = MagicMock()
         mock_hit_high = MagicMock(id="q_hi", score=50.0, payload={})
@@ -151,9 +151,9 @@ class TestQdrantSearchSchema(unittest.TestCase):
 
 class TestPineconeSearchSchema(unittest.TestCase):
 
-    @patch("semantica.vector_store.pinecone_store.PINECONE_AVAILABLE", True)
+    @patch("sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE", True)
     def test_pinecone_search_vectors_canonical_schema(self):
-        from semantica.vector_store.pinecone_store import PineconeIndex
+        from sloth_graphmind.vector_store.pinecone_store import PineconeIndex
 
         mock_index = MagicMock()
         mock_match = MagicMock()
@@ -169,9 +169,9 @@ class TestPineconeSearchSchema(unittest.TestCase):
         self.assertIsNone(results[0]["vector"])
         self.assertEqual(results[0]["metadata"], {"source": "web"})
 
-    @patch("semantica.vector_store.pinecone_store.PINECONE_AVAILABLE", True)
+    @patch("sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE", True)
     def test_pinecone_none_metadata_becomes_empty_dict(self):
-        from semantica.vector_store.pinecone_store import PineconeIndex
+        from sloth_graphmind.vector_store.pinecone_store import PineconeIndex
 
         mock_index = MagicMock()
         mock_match = MagicMock()
@@ -186,12 +186,12 @@ class TestPineconeSearchSchema(unittest.TestCase):
         _assert_canonical_schema(self, results)
         self.assertEqual(results[0]["metadata"], {})
 
-    @patch("semantica.vector_store.pinecone_store.PINECONE_AVAILABLE", True)
+    @patch("sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE", True)
     def test_pinecone_unbounded_dotproduct_scores_preserve_ranking(self):
         """Pinecone's dotproduct metric is unbounded; normalized scores must
         stay strictly ordered instead of collapsing once raw score >= 1.0
         (regression for #845 follow-up)."""
-        from semantica.vector_store.pinecone_store import PineconeIndex
+        from sloth_graphmind.vector_store.pinecone_store import PineconeIndex
 
         mock_index = MagicMock()
         mock_match_high = MagicMock(id="p_hi", score=50.0, metadata={})
@@ -218,9 +218,9 @@ class TestPineconeSearchSchema(unittest.TestCase):
 
 class TestMilvusSearchSchema(unittest.TestCase):
 
-    @patch("semantica.vector_store.milvus_store.MILVUS_AVAILABLE", True)
+    @patch("sloth_graphmind.vector_store.milvus_store.MILVUS_AVAILABLE", True)
     def test_milvus_search_canonical_schema(self):
-        from semantica.vector_store.milvus_store import MilvusCollection
+        from sloth_graphmind.vector_store.milvus_store import MilvusCollection
 
         mock_collection = MagicMock()
         mock_hit = MagicMock()
@@ -252,10 +252,10 @@ class TestMilvusSearchSchema(unittest.TestCase):
 
 class TestWeaviateSearchSchema(unittest.TestCase):
 
-    @patch("semantica.vector_store.weaviate_store.WEAVIATE_AVAILABLE", True)
-    @patch("semantica.vector_store.weaviate_store.MetadataQuery")
+    @patch("sloth_graphmind.vector_store.weaviate_store.WEAVIATE_AVAILABLE", True)
+    @patch("sloth_graphmind.vector_store.weaviate_store.MetadataQuery")
     def test_weaviate_similarity_search_canonical_schema(self, mock_mq):
-        from semantica.vector_store.weaviate_store import WeaviateQuery
+        from sloth_graphmind.vector_store.weaviate_store import WeaviateQuery
 
         mock_obj = MagicMock()
         mock_obj.uuid = "weaviate-uuid-1"
@@ -283,11 +283,11 @@ class TestWeaviateSearchSchema(unittest.TestCase):
 class TestSearchResultTypeImport(unittest.TestCase):
 
     def test_search_result_importable_from_package(self):
-        from semantica.vector_store import SearchResult
+        from sloth_graphmind.vector_store import SearchResult
         self.assertTrue(callable(SearchResult))
 
     def test_search_result_importable_from_module(self):
-        from semantica.vector_store.vector_store import SearchResult
+        from sloth_graphmind.vector_store.vector_store import SearchResult
         self.assertTrue(callable(SearchResult))
 
 

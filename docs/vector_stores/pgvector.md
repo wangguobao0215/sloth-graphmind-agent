@@ -4,7 +4,7 @@ description: "PostgreSQL with pgvector extension: cosine, L2, and inner product 
 icon: "database"
 ---
 
-**`PgVectorStore`** adds PostgreSQL-native vector storage and similarity search to Semantica: no dedicated vector database required.
+**`PgVectorStore`** adds PostgreSQL-native vector storage and similarity search to GraphMind: no dedicated vector database required.
 
 
 ## Overview
@@ -32,7 +32,7 @@ icon: "database"
 
 ```bash
 # Install with pgvector support
-pip install semantica[vectorstore-pgvector]
+pip install sloth_graphmind[vectorstore-pgvector]
 
 # Or install manually
 pip install psycopg[binary] pgvector
@@ -89,13 +89,13 @@ Examples:
 
 ```python
 # Local development
-"postgresql://postgres:postgres@localhost:5432/semantica"
+"postgresql://postgres:postgres@localhost:5432/sloth_graphmind"
 
 # With SSL
 "postgresql://user:pass@host/db?sslmode=require"
 
 # Connection parameters
-"postgresql://user:pass@localhost/db?connect_timeout=10&application_name=semantica"
+"postgresql://user:pass@localhost/db?connect_timeout=10&application_name=sloth_graphmind"
 ```
 
 
@@ -104,12 +104,12 @@ Examples:
 ### Basic Usage
 
 ```python
-from semantica.vector_store import PgVectorStore
+from sloth_graphmind.vector_store import PgVectorStore
 import numpy as np
 
 # Initialize store
 store = PgVectorStore(
-    connection_string="postgresql://postgres:postgres@localhost:5432/semantica",
+    connection_string="postgresql://postgres:postgres@localhost:5432/sloth_graphmind",
     table_name="document_vectors",
     dimension=768,
     distance_metric="cosine",
@@ -277,7 +277,7 @@ CREATE TABLE IF NOT EXISTS {table_name} (
 
 ```python
 # Export from existing store
-from semantica.vector_store import FAISSStore
+from sloth_graphmind.vector_store import FAISSStore
 
 faiss_store = FAISSStore(dimension=768)
 # ... load existing index
@@ -305,10 +305,10 @@ Use PostgreSQL native backup tools:
 
 ```bash
 # Backup
-pg_dump -h localhost -U postgres -d semantica -t document_vectors > vectors_backup.sql
+pg_dump -h localhost -U postgres -d sloth_graphmind -t document_vectors > vectors_backup.sql
 
 # Restore
-psql -h localhost -U postgres -d semantica < vectors_backup.sql
+psql -h localhost -U postgres -d sloth_graphmind < vectors_backup.sql
 ```
 
 ## Configuration

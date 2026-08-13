@@ -46,7 +46,7 @@ sys.meta_path.insert(0, OptionalDependencyBlocker())
 def test_file_ingestion_imports_without_optional_backends() -> None:
     result = _run_python_with_blocked_modules(
         """
-from semantica.ingest import FileIngestor, ingest_file
+from sloth_graphmind.ingest import FileIngestor, ingest_file
 print(FileIngestor.__name__, callable(ingest_file))
 """,
         ("git", "bs4", "pyarrow"),
@@ -59,7 +59,7 @@ print(FileIngestor.__name__, callable(ingest_file))
 def test_public_api_ingestion_imports_without_web_scraping_backends() -> None:
     result = _run_python_with_blocked_modules(
         """
-from semantica.ingest import PublicAPIIngestor, RESTIngestor, ingest_public_api
+from sloth_graphmind.ingest import PublicAPIIngestor, RESTIngestor, ingest_public_api
 print(PublicAPIIngestor.__name__, RESTIngestor.__name__, callable(ingest_public_api))
 """,
         ("bs4",),
@@ -73,7 +73,7 @@ def test_public_api_ingestion_falls_back_without_defusedxml() -> None:
     result = _run_python_with_blocked_modules(
         """
 from unittest.mock import MagicMock, patch
-from semantica.ingest import PublicAPIIngestor
+from sloth_graphmind.ingest import PublicAPIIngestor
 
 response = MagicMock()
 response.status_code = 200
@@ -104,7 +104,7 @@ print(data.data[0]["tag"], data.metadata["response_format"])
 def test_repository_ingestion_reports_missing_gitpython_when_used() -> None:
     result = _run_python_with_blocked_modules(
         """
-from semantica.ingest import ingest_repository
+from sloth_graphmind.ingest import ingest_repository
 
 try:
     ingest_repository("https://example.com/repo.git")
@@ -125,7 +125,7 @@ else:
 def test_parquet_ingestion_reports_missing_pyarrow_when_used() -> None:
     result = _run_python_with_blocked_modules(
         """
-from semantica.ingest import ingest_parquet
+from sloth_graphmind.ingest import ingest_parquet
 
 try:
     ingest_parquet("events.parquet")

@@ -1,6 +1,6 @@
 import unittest
 
-from semantica.normalize.encoding_handler import EncodingHandler
+from sloth_graphmind.normalize.encoding_handler import EncodingHandler
 
 
 class TestEncodingHandler(unittest.TestCase):

@@ -4,7 +4,7 @@ description: "Pipeline DSL with parallel workers, retry policies, failure handli
 icon: "gear"
 ---
 
-**`semantica.pipeline`** lets you chain Semantica components into **reproducible, fault-tolerant workflows**:
+**`sloth_graphmind.pipeline`** lets you chain GraphMind components into **reproducible, fault-tolerant workflows**:
 
 - Per-step failure strategies: `skip`, `retry`, `abort`, or `fallback`
 - Parallel workers via `ParallelismManager`: thread or process pool
@@ -27,7 +27,7 @@ icon: "gear"
 
 ## Why Use a Pipeline?
 
-You could wire Semantica modules together with plain Python code. Pipelines add:
+You could wire GraphMind modules together with plain Python code. Pipelines add:
 
 - **Retry and failure handling** — A single bad document doesn't crash a 10,000-document run.
 - **Parallelism** — Run extraction across multiple workers with one parameter.
@@ -47,11 +47,11 @@ You could wire Semantica modules together with plain Python code. Pipelines add:
 <Steps>
   <Step title="Build a pipeline">
     ```python
-    from semantica.pipeline import PipelineBuilder
-    from semantica.ingest import FileIngestor
-    from semantica.parse import DocumentParser
-    from semantica.semantic_extract import NERExtractor
-    from semantica.kg import GraphBuilder
+    from sloth_graphmind.pipeline import PipelineBuilder
+    from sloth_graphmind.ingest import FileIngestor
+    from sloth_graphmind.parse import DocumentParser
+    from sloth_graphmind.semantic_extract import NERExtractor
+    from sloth_graphmind.kg import GraphBuilder
 
     ingestor   = FileIngestor()
     parser     = DocumentParser()
@@ -72,7 +72,7 @@ You could wire Semantica modules together with plain Python code. Pipelines add:
   </Step>
   <Step title="Validate before running">
     ```python
-    from semantica.pipeline import PipelineValidator
+    from sloth_graphmind.pipeline import PipelineValidator
 
     validator = PipelineValidator()
     result = validator.validate_pipeline(pipeline)
@@ -90,7 +90,7 @@ You could wire Semantica modules together with plain Python code. Pipelines add:
   </Step>
   <Step title="Execute and inspect results">
     ```python
-    from semantica.pipeline import ExecutionEngine
+    from sloth_graphmind.pipeline import ExecutionEngine
 
     engine = ExecutionEngine()
     result = engine.execute_pipeline(pipeline, data="data/")
@@ -113,7 +113,7 @@ You could wire Semantica modules together with plain Python code. Pipelines add:
 Set parallelism on the builder and pass `max_workers` to `ExecutionEngine`:
 
 ```python
-from semantica.pipeline import PipelineBuilder, ExecutionEngine
+from sloth_graphmind.pipeline import PipelineBuilder, ExecutionEngine
 
 builder = PipelineBuilder()
 builder.add_step("ingest",  "file_ingest",    handler=ingestor.ingest_file)
@@ -136,7 +136,7 @@ result   = engine.execute_pipeline(pipeline, data="data/")
 <Tabs>
   <Tab title="Exponential backoff (recommended)">
     ```python
-    from semantica.pipeline import RetryPolicy, RetryStrategy, FailureHandler, ExecutionEngine
+    from sloth_graphmind.pipeline import RetryPolicy, RetryStrategy, FailureHandler, ExecutionEngine
 
     policy = RetryPolicy(
         max_retries=3,
@@ -156,7 +156,7 @@ result   = engine.execute_pipeline(pipeline, data="data/")
   </Tab>
   <Tab title="Linear backoff">
     ```python
-    from semantica.pipeline import RetryPolicy, RetryStrategy
+    from sloth_graphmind.pipeline import RetryPolicy, RetryStrategy
 
     policy = RetryPolicy(
         max_retries=3,
@@ -169,7 +169,7 @@ result   = engine.execute_pipeline(pipeline, data="data/")
   </Tab>
   <Tab title="Fixed backoff">
     ```python
-    from semantica.pipeline import RetryPolicy, RetryStrategy
+    from sloth_graphmind.pipeline import RetryPolicy, RetryStrategy
 
     policy = RetryPolicy(
         max_retries=5,
@@ -203,18 +203,18 @@ result   = engine.execute_pipeline(pipeline, data="data/")
 <Tabs>
   <Tab title="Console (tqdm)">
     ```python
-    from semantica.pipeline import ExecutionEngine
+    from sloth_graphmind.pipeline import ExecutionEngine
 
     engine = ExecutionEngine()
     result = engine.execute_pipeline(pipeline, data="data/")
     # The progress tracker outputs tqdm bars to the console during execution
     ```
 
-    Displays a live progress bar in the terminal via Semantica's built-in progress tracker. Best for scripts and CLI tools.
+    Displays a live progress bar in the terminal via GraphMind's built-in progress tracker. Best for scripts and CLI tools.
   </Tab>
   <Tab title="Live status check">
     ```python
-    from semantica.pipeline import ExecutionEngine
+    from sloth_graphmind.pipeline import ExecutionEngine
     import threading, time
 
     engine = ExecutionEngine()
@@ -242,7 +242,7 @@ result   = engine.execute_pipeline(pipeline, data="data/")
 `PipelineBuilder` uses `add_step(name, type, **config)` and `connect_steps(from, to)` to define a DAG:
 
 ```python
-from semantica.pipeline import PipelineBuilder, ExecutionEngine
+from sloth_graphmind.pipeline import PipelineBuilder, ExecutionEngine
 
 builder = PipelineBuilder()
 
@@ -274,7 +274,7 @@ result   = ExecutionEngine().execute_pipeline(pipeline, data="data/")
 `PipelineSerializer` converts a pipeline to JSON or dict for storage and reloads it later:
 
 ```python
-from semantica.pipeline import PipelineSerializer
+from sloth_graphmind.pipeline import PipelineSerializer
 
 serializer = PipelineSerializer()
 
@@ -301,7 +301,7 @@ result = ExecutionEngine().execute_pipeline(restored, data="data/")
 `PipelineTemplateManager` wires common workflows with the correct step order: no manual wiring required:
 
 ```python
-from semantica.pipeline import PipelineTemplateManager
+from sloth_graphmind.pipeline import PipelineTemplateManager
 
 manager = PipelineTemplateManager()
 ```
@@ -345,7 +345,7 @@ The `create_pipeline_from_template(name)` method returns a configured `PipelineB
 Fine-grained control over pipeline execution: pause, resume, cancel, and inspect live progress:
 
 ```python
-from semantica.pipeline import ExecutionEngine
+from sloth_graphmind.pipeline import ExecutionEngine
 
 engine = ExecutionEngine(max_workers=4)
 
@@ -379,7 +379,7 @@ engine.stop_pipeline(pipeline_id)
 Catches problems before they surface as mid-run failures:
 
 ```python
-from semantica.pipeline import PipelineValidator
+from sloth_graphmind.pipeline import PipelineValidator
 
 validator = PipelineValidator()
 result    = validator.validate_pipeline(pipeline)
@@ -404,7 +404,7 @@ Checks performed:
 <Tabs>
   <Tab title="Thread pool (I/O-bound)">
     ```python
-    from semantica.pipeline import ParallelismManager, Task
+    from sloth_graphmind.pipeline import ParallelismManager, Task
 
     # use_processes=False (default) → thread pool for I/O-bound tasks
     manager = ParallelismManager(max_workers=8, use_processes=False)
@@ -421,7 +421,7 @@ Checks performed:
   </Tab>
   <Tab title="Process pool (CPU-bound)">
     ```python
-    from semantica.pipeline import ParallelismManager, Task
+    from sloth_graphmind.pipeline import ParallelismManager, Task
 
     # use_processes=True → process pool, bypasses Python GIL
     manager = ParallelismManager(max_workers=4, use_processes=True)
@@ -439,7 +439,7 @@ Checks performed:
 Prevents memory oversubscription on large runs:
 
 ```python
-from semantica.pipeline import ResourceScheduler, ExecutionEngine
+from sloth_graphmind.pipeline import ResourceScheduler, ExecutionEngine
 
 scheduler = ResourceScheduler()
 engine    = ExecutionEngine()
@@ -457,7 +457,7 @@ finally:
 Re-process only data that has changed since the last run:
 
 ```python
-from semantica.pipeline import PipelineBuilder, ExecutionEngine
+from sloth_graphmind.pipeline import PipelineBuilder, ExecutionEngine
 
 builder = PipelineBuilder()
 
@@ -500,8 +500,8 @@ result   = engine.execute_pipeline(
 Use the `"construct_template"` step type to render and execute a [SPARQL CONSTRUCT template](triplet_store#sparql-construct-templates) as part of a pipeline. `store_backend` and `construct_template_registry` are execution-time resources, not step config — pass them to `execute_pipeline()`, the same way `delta_mode` steps receive `version_manager` and `triplet_store`:
 
 ```python
-from semantica.pipeline import PipelineBuilder, ExecutionEngine
-from semantica.triplet_store.construct_templates import construct_template_step_handler
+from sloth_graphmind.pipeline import PipelineBuilder, ExecutionEngine
+from sloth_graphmind.triplet_store.construct_templates import construct_template_step_handler
 
 builder = PipelineBuilder()
 builder.add_step(
@@ -576,7 +576,7 @@ class PipelineStep:
   <Accordion title="StepStatus enum">
 
 ```python
-from semantica.pipeline import StepStatus
+from sloth_graphmind.pipeline import StepStatus
 
 StepStatus.PENDING    # Not yet started
 StepStatus.RUNNING    # Currently executing

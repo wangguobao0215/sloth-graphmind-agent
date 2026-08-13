@@ -2,10 +2,10 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: knowledge-explorer
-  namespace: semantica
+  namespace: sloth_graphmind
   labels:
     app.kubernetes.io/name: knowledge-explorer
-    app.kubernetes.io/part-of: semantica
+    app.kubernetes.io/part-of: sloth_graphmind
 spec:
   podSelector:
     matchLabels:

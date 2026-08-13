@@ -3,7 +3,7 @@
 import logging
 from unittest.mock import Mock
 
-from semantica.context.graph_schema import create_decision_constraints
+from sloth_graphmind.context.graph_schema import create_decision_constraints
 
 
 def test_create_decision_constraints_logs_legacy_drop_failure(caplog):

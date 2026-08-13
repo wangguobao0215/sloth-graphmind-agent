@@ -4,15 +4,15 @@ from unittest.mock import MagicMock, patch
 from typing import Type, List, Optional
 from pydantic import BaseModel, ValidationError
 
-from semantica.semantic_extract.providers import BaseProvider
-from semantica.semantic_extract.methods import (
+from sloth_graphmind.semantic_extract.providers import BaseProvider
+from sloth_graphmind.semantic_extract.methods import (
     extract_entities_llm, 
     extract_relations_llm, 
     extract_triplets_llm
 )
-from semantica.semantic_extract.schemas import EntitiesResponse, RelationsResponse, TripletsResponse
-from semantica.semantic_extract.ner_extractor import Entity
-from semantica.semantic_extract.relation_extractor import Relation
+from sloth_graphmind.semantic_extract.schemas import EntitiesResponse, RelationsResponse, TripletsResponse
+from sloth_graphmind.semantic_extract.ner_extractor import Entity
+from sloth_graphmind.semantic_extract.relation_extractor import Relation
 
 # Mock Pydantic models for responses
 class MockEntity(BaseModel):
@@ -94,7 +94,7 @@ class MockProvider(BaseProvider):
 def mock_provider():
     return MockProvider()
 
-@patch("semantica.semantic_extract.methods.create_provider")
+@patch("sloth_graphmind.semantic_extract.methods.create_provider")
 def test_extract_entities_typed(mock_create_provider, mock_provider):
     mock_create_provider.return_value = mock_provider
     
@@ -111,7 +111,7 @@ def test_extract_entities_typed(mock_create_provider, mock_provider):
     assert entities[0].label == "ORG"
     assert entities[0].metadata["extraction_method"] == "llm_typed"
 
-@patch("semantica.semantic_extract.methods.create_provider")
+@patch("sloth_graphmind.semantic_extract.methods.create_provider")
 def test_extract_entities_legacy(mock_create_provider, mock_provider):
     mock_create_provider.return_value = mock_provider
     
@@ -130,7 +130,7 @@ def test_extract_entities_legacy(mock_create_provider, mock_provider):
     assert entities[0].label == "ORG"
     assert entities[0].metadata["extraction_method"] == "llm_typed"
 
-@patch("semantica.semantic_extract.methods.create_provider")
+@patch("sloth_graphmind.semantic_extract.methods.create_provider")
 def test_extract_relations_typed(mock_create_provider, mock_provider):
     mock_create_provider.return_value = mock_provider
     
@@ -154,7 +154,7 @@ def test_extract_relations_typed(mock_create_provider, mock_provider):
     assert relations[0].predicate == "founded"
     assert relations[0].metadata["extraction_method"] == "llm_typed"
 
-@patch("semantica.semantic_extract.methods.create_provider")
+@patch("sloth_graphmind.semantic_extract.methods.create_provider")
 def test_extract_triplets_typed(mock_create_provider, mock_provider):
     mock_create_provider.return_value = mock_provider
     

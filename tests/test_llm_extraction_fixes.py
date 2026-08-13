@@ -5,28 +5,28 @@ import sys
 import os
 import importlib
 
-# Add parent directory to sys.path to import semantica
+# Add parent directory to sys.path to import sloth_graphmind
 PARENT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, PARENT_DIR)
 
 # Import modules
-import semantica.utils.exceptions
-import semantica.semantic_extract.methods
-import semantica.semantic_extract.triplet_extractor
+import sloth_graphmind.utils.exceptions
+import sloth_graphmind.semantic_extract.methods
+import sloth_graphmind.semantic_extract.triplet_extractor
 
-from semantica.semantic_extract.methods import extract_entities_llm, extract_relations_llm, extract_triplets_llm
-from semantica.semantic_extract.triplet_extractor import TripletExtractor, Triplet
-from semantica.semantic_extract.ner_extractor import Entity
-from semantica.utils.exceptions import ProcessingError
+from sloth_graphmind.semantic_extract.methods import extract_entities_llm, extract_relations_llm, extract_triplets_llm
+from sloth_graphmind.semantic_extract.triplet_extractor import TripletExtractor, Triplet
+from sloth_graphmind.semantic_extract.ner_extractor import Entity
+from sloth_graphmind.utils.exceptions import ProcessingError
 
 print(f"\nDEBUG: PARENT_DIR: {PARENT_DIR}")
 print(f"DEBUG: sys.path[0]: {sys.path[0]}")
-print(f"DEBUG: semantica.semantic_extract.methods file: {semantica.semantic_extract.methods.__file__}")
-print(f"DEBUG: semantica.semantic_extract.triplet_extractor file: {semantica.semantic_extract.triplet_extractor.__file__}")
+print(f"DEBUG: sloth_graphmind.semantic_extract.methods file: {sloth_graphmind.semantic_extract.methods.__file__}")
+print(f"DEBUG: sloth_graphmind.semantic_extract.triplet_extractor file: {sloth_graphmind.semantic_extract.triplet_extractor.__file__}")
 
 class TestLLMExtractionFixes(unittest.TestCase):
 
-    @patch('semantica.semantic_extract.methods.create_provider')
+    @patch('sloth_graphmind.semantic_extract.methods.create_provider')
     def test_raise_by_default(self, mock_create):
         """Test that methods raise ProcessingError by default on failure."""
         mock_llm = MagicMock()
@@ -40,7 +40,7 @@ class TestLLMExtractionFixes(unittest.TestCase):
         except ProcessingError as e:
             pass
 
-    @patch('semantica.semantic_extract.methods.create_provider')
+    @patch('sloth_graphmind.semantic_extract.methods.create_provider')
     def test_silent_fail_parameter(self, mock_create):
         """Test that silent_fail=True returns empty list instead of raising."""
         mock_llm = MagicMock()
@@ -51,7 +51,7 @@ class TestLLMExtractionFixes(unittest.TestCase):
         entities = extract_entities_llm("test text", provider="openai", silent_fail=True)
         self.assertEqual(entities, [])
 
-    @patch('semantica.semantic_extract.methods.create_provider')
+    @patch('sloth_graphmind.semantic_extract.methods.create_provider')
     def test_empty_text_validation(self, mock_create):
         """Test that empty text raises error or returns [] based on silent_fail."""
         with self.assertRaises(ProcessingError):
@@ -75,7 +75,7 @@ class TestLLMExtractionFixes(unittest.TestCase):
         validated = extractor.validate_triplets(triplets, min_confidence=0.5)
         self.assertEqual(len(validated), 0)
 
-    @patch('semantica.semantic_extract.methods.create_provider')
+    @patch('sloth_graphmind.semantic_extract.methods.create_provider')
     def test_chunking_detection(self, mock_create):
         """Test that long text triggers chunking."""
         mock_llm = MagicMock()
@@ -84,12 +84,12 @@ class TestLLMExtractionFixes(unittest.TestCase):
         mock_create.return_value = mock_llm
 
         long_text = "This is a long text that should be chunked into multiple pieces."
-        with patch('semantica.semantic_extract.methods._extract_entities_chunked') as mock_chunked:
+        with patch('sloth_graphmind.semantic_extract.methods._extract_entities_chunked') as mock_chunked:
             mock_chunked.return_value = []
             extract_entities_llm(long_text, max_text_length=10)
             mock_chunked.assert_called_once()
 
-    @patch('semantica.semantic_extract.methods.create_provider')
+    @patch('sloth_graphmind.semantic_extract.methods.create_provider')
     def test_relation_extraction_validation(self, mock_create):
         """Test that relation extraction validates entities list."""
         with self.assertRaises(ProcessingError):

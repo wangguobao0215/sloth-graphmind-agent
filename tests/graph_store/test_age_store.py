@@ -39,7 +39,7 @@ for _key in list(sys.modules.keys()):
     if "semantica" in _key and "age_store" in _key:
         del sys.modules[_key]
 
-from semantica.graph_store.age_store import (
+from sloth_graphmind.graph_store.age_store import (
     ApacheAgeStore,
     _edge_to_rel_dict,
     _parse_agtype,
@@ -49,7 +49,7 @@ from semantica.graph_store.age_store import (
     _value_to_cypher_literal,
     _vertex_to_node_dict,
 )
-from semantica.utils.exceptions import ProcessingError, ValidationError
+from sloth_graphmind.utils.exceptions import ProcessingError, ValidationError
 
 
 # ---------------------------------------------------------------------------
@@ -731,10 +731,10 @@ class TestApacheAgeStore(unittest.TestCase):
 class TestGraphStoreFacadeAge(unittest.TestCase):
     """Test that GraphStore(backend='age') initialises ApacheAgeStore."""
 
-    @patch("semantica.graph_store.age_store.ApacheAgeStore", autospec=True)
+    @patch("sloth_graphmind.graph_store.age_store.ApacheAgeStore", autospec=True)
     def test_age_backend_initialisation(self, MockAgeStore):
         """GraphStore should instantiate ApacheAgeStore for 'age' backend."""
-        from semantica.graph_store.graph_store import GraphStore
+        from sloth_graphmind.graph_store.graph_store import GraphStore
 
         mock_instance = MagicMock()
         MockAgeStore.return_value = mock_instance
@@ -742,10 +742,10 @@ class TestGraphStoreFacadeAge(unittest.TestCase):
         store = GraphStore(backend="age")
         self.assertIs(store._store_backend, mock_instance)
 
-    @patch("semantica.graph_store.age_store.ApacheAgeStore", autospec=True)
+    @patch("sloth_graphmind.graph_store.age_store.ApacheAgeStore", autospec=True)
     def test_apache_age_backend_alias(self, MockAgeStore):
         """GraphStore should accept 'apache_age' as backend alias."""
-        from semantica.graph_store.graph_store import GraphStore
+        from sloth_graphmind.graph_store.graph_store import GraphStore
 
         mock_instance = MagicMock()
         MockAgeStore.return_value = mock_instance

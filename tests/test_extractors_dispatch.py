@@ -8,20 +8,20 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 # Mock dependencies to avoid import hangs and external calls
 sys.modules['spacy'] = MagicMock()
-sys.modules['semantica.semantic_extract.methods'] = MagicMock()
-sys.modules['semantica.utils.logging'] = MagicMock()
-sys.modules['semantica.utils.progress_tracker'] = MagicMock()
-sys.modules['semantica.semantic_extract.providers'] = MagicMock()
+sys.modules['sloth_graphmind.semantic_extract.methods'] = MagicMock()
+sys.modules['sloth_graphmind.utils.logging'] = MagicMock()
+sys.modules['sloth_graphmind.utils.progress_tracker'] = MagicMock()
+sys.modules['sloth_graphmind.semantic_extract.providers'] = MagicMock()
 
 # Mock get_logger and get_progress_tracker
 mock_logger = MagicMock()
-sys.modules['semantica.utils.logging'].get_logger.return_value = mock_logger
+sys.modules['sloth_graphmind.utils.logging'].get_logger.return_value = mock_logger
 
 mock_tracker = MagicMock()
-sys.modules['semantica.utils.progress_tracker'].get_progress_tracker.return_value = mock_tracker
+sys.modules['sloth_graphmind.utils.progress_tracker'].get_progress_tracker.return_value = mock_tracker
 
 # Mock the methods module functions specifically
-mock_methods = sys.modules['semantica.semantic_extract.methods']
+mock_methods = sys.modules['sloth_graphmind.semantic_extract.methods']
 mock_methods.get_entity_method = MagicMock()
 mock_methods.get_relation_method = MagicMock()
 mock_methods.get_triplet_method = MagicMock()
@@ -39,11 +39,11 @@ mock_methods.get_triplet_method.return_value = mock_extract_triplets_hf
 # Now import the classes under test
 # We need to patch where they import 'methods' locally if they do
 with patch.dict(sys.modules):
-    from semantica.semantic_extract.ner_extractor import NERExtractor
-    from semantica.semantic_extract.relation_extractor import RelationExtractor
-    from semantica.semantic_extract.triplet_extractor import TripletExtractor
-    from semantica.semantic_extract.ner_extractor import Entity
-    from semantica.semantic_extract.relation_extractor import Relation
+    from sloth_graphmind.semantic_extract.ner_extractor import NERExtractor
+    from sloth_graphmind.semantic_extract.relation_extractor import RelationExtractor
+    from sloth_graphmind.semantic_extract.triplet_extractor import TripletExtractor
+    from sloth_graphmind.semantic_extract.ner_extractor import Entity
+    from sloth_graphmind.semantic_extract.relation_extractor import Relation
 
 class TestExtractorsDispatch(unittest.TestCase):
     def setUp(self):

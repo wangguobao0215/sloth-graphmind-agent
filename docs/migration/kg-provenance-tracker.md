@@ -1,11 +1,11 @@
 ---
 title: "Migrating from kg.ProvenanceTracker"
-description: "How to move from the deprecated semantica.kg.ProvenanceTracker to the unified semantica.provenance.ProvenanceManager."
+description: "How to move from the deprecated sloth_graphmind.kg.ProvenanceTracker to the unified sloth_graphmind.provenance.ProvenanceManager."
 ---
 
 ## Why migrate
 
-`semantica.kg.ProvenanceTracker` is deprecated and will be removed in a future major version. It was a standalone, in-memory implementation that never delegated to the unified provenance backend — `semantica.provenance.ProvenanceManager` is that backend, and is now the supported way to track entity and relationship provenance across every Semantica module (see the [Provenance & Audit Trails guide](/guides/provenance)).
+`sloth_graphmind.kg.ProvenanceTracker` is deprecated and will be removed in a future major version. It was a standalone, in-memory implementation that never delegated to the unified provenance backend — `sloth_graphmind.provenance.ProvenanceManager` is that backend, and is now the supported way to track entity and relationship provenance across every GraphMind module (see the [Provenance & Audit Trails guide](/guides/provenance)).
 
 Every method on `kg.ProvenanceTracker` now emits a `DeprecationWarning` on use, but existing code keeps working unchanged until the class is removed — there is no forced migration deadline yet.
 
@@ -27,14 +27,14 @@ Methods with no direct equivalent are not planned to be reimplemented on `kg.Pro
 
 ```python
 # Before
-from semantica.kg import ProvenanceTracker
+from sloth_graphmind.kg import ProvenanceTracker
 
 tracker = ProvenanceTracker()
 tracker.track_entity("entity_1", source="doc_1", metadata={"confidence": 0.9})
 sources = tracker.get_all_sources("entity_1")  # [{"source": ..., "recorded_at": ..., "confidence": 0.9}]
 
 # After
-from semantica.provenance import ProvenanceManager
+from sloth_graphmind.provenance import ProvenanceManager
 
 prov = ProvenanceManager()
 prov.track_entity("entity_1", source="doc_1", metadata={"confidence": 0.9})

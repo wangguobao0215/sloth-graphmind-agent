@@ -4,7 +4,7 @@ description: "W3C PROV-O lineage tracking, source attribution, tamper-evident ch
 icon: "link"
 ---
 
-`semantica.provenance` tracks the full lineage of every fact: from raw ingestion through extraction, chunking, and relationship building:
+`sloth_graphmind.provenance` tracks the full lineage of every fact: from raw ingestion through extraction, chunking, and relationship building:
 
 - W3C PROV-O compliant: suitable for HIPAA, SOX, GDPR, FDA 21 CFR Part 11 audit trails
 - SHA-256 checksums for tamper detection on every stored `ProvenanceEntry`
@@ -33,7 +33,7 @@ icon: "link"
     Zero configuration: fast, no disk writes. Use for notebooks, testing, and single-run scripts.
 
     ```python
-    from semantica.provenance import ProvenanceManager, compute_checksum, verify_checksum
+    from sloth_graphmind.provenance import ProvenanceManager, compute_checksum, verify_checksum
 
     manager = ProvenanceManager()   # InMemoryStorage by default
 
@@ -57,7 +57,7 @@ icon: "link"
     Persists provenance to a local SQLite file. Use for production pipelines and audit trails.
 
     ```python
-    from semantica.provenance import ProvenanceManager, SQLiteStorage
+    from sloth_graphmind.provenance import ProvenanceManager, SQLiteStorage
 
     # Option 1: explicit storage instance
     manager = ProvenanceManager(storage=SQLiteStorage("provenance.db"))
@@ -105,7 +105,7 @@ If both `storage` and `storage_path` are omitted, an `InMemoryStorage` is used.
 ### Tracking Methods
 
 ```python
-from semantica.provenance import ProvenanceManager, SourceReference
+from sloth_graphmind.provenance import ProvenanceManager, SourceReference
 
 manager = ProvenanceManager()
 
@@ -239,14 +239,14 @@ cleared = manager.clear()
 `ProvenanceEntry` is the core dataclass. Every tracking method returns one on success (or `None` on storage failure):
 
 ```python
-from semantica.provenance import ProvenanceEntry
+from sloth_graphmind.provenance import ProvenanceEntry
 
 # All fields with their types and defaults
 entry = ProvenanceEntry(
     entity_id="entity_001",           # str: required
     entity_type="entity",             # str: required (entity, chunk, relationship, property)
     activity_id="ner_extraction",     # str: required
-    agent_id="semantica",             # str: default "semantica"
+    agent_id="sloth_graphmind",             # str: default "sloth_graphmind"
     source_document="report.pdf",     # str: default ""
     source_location="Page 4",         # Optional[str]: default None
     source_quote="Relevant text...",  # Optional[str]: default None
@@ -276,7 +276,7 @@ entry2 = ProvenanceEntry.from_dict(d)
 `SourceReference` provides a citable pointer to a location within a source document:
 
 ```python
-from semantica.provenance import SourceReference
+from sloth_graphmind.provenance import SourceReference
 
 ref = SourceReference(
     document="DOI:10.1038/s41586-021-03371-z",  # str: required (DOI, URL, file path)
@@ -304,7 +304,7 @@ manager.track_property_source(
 Fast, no persistence. Suitable for development, tests, and short-lived processes:
 
 ```python
-from semantica.provenance import InMemoryStorage, ProvenanceManager
+from sloth_graphmind.provenance import InMemoryStorage, ProvenanceManager
 
 manager = ProvenanceManager(storage=InMemoryStorage())
 ```
@@ -314,7 +314,7 @@ manager = ProvenanceManager(storage=InMemoryStorage())
 Persists to disk. Suitable for production, audit trails, and regulatory compliance:
 
 ```python
-from semantica.provenance import SQLiteStorage, ProvenanceManager
+from sloth_graphmind.provenance import SQLiteStorage, ProvenanceManager
 
 manager = ProvenanceManager(storage=SQLiteStorage("provenance.db"))
 
@@ -332,7 +332,7 @@ manager = ProvenanceManager(storage_path="provenance.db")
 `compute_checksum` and `verify_checksum` are auto-used by `track_entity` and all other tracking methods. You can also call them directly:
 
 ```python
-from semantica.provenance import compute_checksum, verify_checksum
+from sloth_graphmind.provenance import compute_checksum, verify_checksum
 
 entry = manager.trace_lineage("apple_inc")[0]
 
@@ -357,11 +357,11 @@ The checksum covers `entity_id`, `entity_type`, `activity_id`, `source_document`
 
 ## Bridge Axiom Translation Chains
 
-`BridgeAxiom` and `TranslationChain` are available in `semantica.provenance.bridge_axiom` for tracking multi-layer domain translations with full coefficient attribution:
+`BridgeAxiom` and `TranslationChain` are available in `sloth_graphmind.provenance.bridge_axiom` for tracking multi-layer domain translations with full coefficient attribution:
 
 ```python
-from semantica.provenance.bridge_axiom import BridgeAxiom, create_translation_chain
-from semantica.provenance import ProvenanceManager
+from sloth_graphmind.provenance.bridge_axiom import BridgeAxiom, create_translation_chain
+from sloth_graphmind.provenance import ProvenanceManager
 
 manager = ProvenanceManager()
 
@@ -394,11 +394,11 @@ print(chain.confidence)  # 0.92
 
 ## Integration with GraphBuilder
 
-`GraphBuilderWithProvenance` (from `semantica.kg`) automatically records provenance for every node and edge:
+`GraphBuilderWithProvenance` (from `sloth_graphmind.kg`) automatically records provenance for every node and edge:
 
 ```python
-from semantica.kg import GraphBuilderWithProvenance
-from semantica.provenance import ProvenanceManager, SQLiteStorage
+from sloth_graphmind.kg import GraphBuilderWithProvenance
+from sloth_graphmind.provenance import ProvenanceManager, SQLiteStorage
 
 prov_manager = ProvenanceManager(storage=SQLiteStorage("provenance.db"))
 builder = GraphBuilderWithProvenance(provenance_manager=prov_manager)
@@ -415,8 +415,8 @@ print(lineage["first_seen"])        # ISO timestamp
 `NERExtractor` and other extractors accept `provenance=True` to embed provenance metadata on each extracted entity. You must track the results manually using `ProvenanceManager`:
 
 ```python
-from semantica.semantic_extract import NERExtractor
-from semantica.provenance import ProvenanceManager
+from sloth_graphmind.semantic_extract import NERExtractor
+from sloth_graphmind.provenance import ProvenanceManager
 
 manager = ProvenanceManager()
 
@@ -446,7 +446,7 @@ print(lineage["source_documents"])
 <Tabs>
   <Tab title="Entity Tracking">
     ```python
-    from semantica.provenance import ProvenanceManager
+    from sloth_graphmind.provenance import ProvenanceManager
 
     manager = ProvenanceManager(storage_path="provenance.db")
 
@@ -467,7 +467,7 @@ print(lineage["source_documents"])
   </Tab>
   <Tab title="Chunk Tracking">
     ```python
-    from semantica.provenance import ProvenanceManager
+    from sloth_graphmind.provenance import ProvenanceManager
 
     manager = ProvenanceManager()
 
@@ -489,7 +489,7 @@ print(lineage["source_documents"])
   </Tab>
   <Tab title="Integrity Check">
     ```python
-    from semantica.provenance import (
+    from sloth_graphmind.provenance import (
         ProvenanceManager, compute_checksum, verify_checksum
     )
 
@@ -508,7 +508,7 @@ print(lineage["source_documents"])
 
 ## Compliance Notes
 
-Provenance tracking in Semantica produces the following audit artifacts:
+Provenance tracking in GraphMind produces the following audit artifacts:
 
 | Standard | Available |
 | :-------- | :--------- |

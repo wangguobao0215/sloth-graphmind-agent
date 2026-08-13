@@ -14,12 +14,12 @@ from unittest.mock import Mock, MagicMock
 # Add the project root to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
-from semantica.context import (
+from sloth_graphmind.context import (
     Decision, Policy, DecisionRecorder, DecisionQuery, 
     AgentContext, ContextGraph, CausalChainAnalyzer, PolicyEngine
 )
-from semantica.vector_store import VectorStore
-from semantica.graph_store import GraphStore
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.graph_store import GraphStore
 
 
 class TestHealthcareDecisionSystem:
@@ -312,7 +312,7 @@ class TestHealthcareDecisionSystem:
         print("\n=== Testing Healthcare Policy Compliance ===")
         
         # Create healthcare policies
-        from semantica.context import Policy
+        from sloth_graphmind.context import Policy
         
         policies = [
             Policy(

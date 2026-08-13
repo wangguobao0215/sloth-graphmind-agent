@@ -54,8 +54,8 @@ Agent Memory provides persistent storage and intelligent retrieval of informatio
 Configure the vector store, knowledge graph, and `AgentContext` together at startup so all three components persist to disk at the same path.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 # The VectorStore relies on explicit save()/load() for persistence
 ti_vs = VectorStore(
@@ -200,7 +200,7 @@ The `proximity_weight` parameter is a per-call override — you can use heavy pr
 When you need a natural-language answer that synthesizes multiple memory items, use `query_with_reasoning()` to retrieve context from the graph and ask the LLM to ground its answer in those sources.
 
 ```python
-from semantica.llms import Groq
+from sloth_graphmind.llms import Groq
 
 llm = Groq(model="llama-3.1-8b-instant", api_key="YOUR_GROQ_KEY")
 
@@ -274,9 +274,9 @@ This pattern lets the agent build a focused working memory window for each incid
 A threat-intelligence fusion cell ingests OSINT feeds, MISP events, and internal hunt findings continuously. The agent must correlate new indicators against known actor profiles and produce attribution assessments grounded in accumulated intelligence — not just the latest report.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import Groq
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import Groq
 
 ti_graph = ContextGraph(advanced_analytics=True, node_embeddings=True)
 ti_agent = AgentContext(
@@ -329,9 +329,9 @@ ti_agent.save("ti_state/")
 A SOC analyst assistant carries context across shift handoffs. Tier 1 logs the initial alert and triage verdict; Tier 2 picks up with full incident history already loaded, without reading back through a ticket trail. The agent surfaces relevant runbook steps and finds similar past incidents for MTTR estimation.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.llms import Groq
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.llms import Groq
 
 soc_graph = ContextGraph()
 soc_agent = AgentContext(
@@ -403,8 +403,8 @@ soc_agent.save("soc_state/")
 A clinical decision support agent maintains patient context across consultations and carries treatment history forward. The agent surfaces guideline contraindications before a prescribing decision, then records the decision with full causal tracing for MDT audit.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 clinical_graph = ContextGraph(advanced_analytics=True)
 clinical_agent = AgentContext(
@@ -479,8 +479,8 @@ clinical_agent.save("clinical_state/{}/".format(patient_id))
 A mortgage underwriting agent carries regulatory knowledge and application context through the decisioning workflow. Every credit decision is recorded with the exact regulatory guidance that grounded it, producing a defensible audit trail for model risk governance review.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 credit_graph = ContextGraph(advanced_analytics=True)
 credit_agent = AgentContext(
@@ -579,8 +579,8 @@ ti_agent.save("agent_state/")
 When a new process starts — or a new analyst logs in — restore from that checkpoint:
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 # Create a fresh context with matching configuration
 ti_agent_restored = AgentContext(

@@ -23,7 +23,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from click.testing import CliRunner
 
-import semantica.cli as cli_module
+import sloth_graphmind.cli as cli_module
 
 
 # ─── fixtures ─────────────────────────────────────────────────────────────────
@@ -154,7 +154,7 @@ class TestGlobalFlags:
         def fake_setup_logging(*, config=None, **_kwargs):
             calls.append(dict(config or {}))
             if len(calls) == 1:
-                raise PermissionError("readonly semantica.log")
+                raise PermissionError("readonly sloth_graphmind.log")
 
         monkeypatch.setattr(cli_module, "setup_logging", fake_setup_logging)
         result = runner.invoke(
@@ -166,7 +166,7 @@ class TestGlobalFlags:
         assert payload["cron"].startswith("0 2 * * *")
         assert len(calls) == 2
         assert calls[1].get("file") is None
-        assert "readonly semantica.log" not in result.output
+        assert "readonly sloth_graphmind.log" not in result.output
 
 
 # ─── kg subcommands ───────────────────────────────────────────────────────────
@@ -184,7 +184,7 @@ class TestKgSubcommands:
         fake_gs = _fake_module(
             execute_query=lambda q, **kw: {"query": q, "lang": "cypher", "rows": []},
         )
-        monkeypatch.setitem(__import__("sys").modules, "semantica.graph_store", fake_gs)
+        monkeypatch.setitem(__import__("sys").modules, "sloth_graphmind.graph_store", fake_gs)
         result = runner.invoke(cli_module.main, ["kg", "query", "MATCH (n) RETURN n", "--json"])
         _ok(result)
         data = _json_output(result)
@@ -201,7 +201,7 @@ class TestKgSubcommands:
                 compute_metrics=lambda: {"nodes": 10, "edges": 25, "density": 0.5}
             ),
         )
-        monkeypatch.setitem(__import__("sys").modules, "semantica.kg", fake_kg)
+        monkeypatch.setitem(__import__("sys").modules, "sloth_graphmind.kg", fake_kg)
         result = runner.invoke(cli_module.main, ["kg", "stats", "--json"])
         _ok(result)
         data = _json_output(result)
@@ -214,7 +214,7 @@ class TestKgSubcommands:
                 analyze=lambda mode: {"mode": mode, "communities": 3}
             ),
         )
-        monkeypatch.setitem(__import__("sys").modules, "semantica.kg", fake_kg)
+        monkeypatch.setitem(__import__("sys").modules, "sloth_graphmind.kg", fake_kg)
         result = runner.invoke(cli_module.main, ["kg", "analyze", "--mode", "community", "--json"])
         _ok(result)
         data = _json_output(result)
@@ -230,7 +230,7 @@ class TestKgSubcommands:
                 find_path=lambda f, t, path_type: {"from": f, "to": t, "path": [f, t]}
             ),
         )
-        monkeypatch.setitem(__import__("sys").modules, "semantica.kg", fake_kg)
+        monkeypatch.setitem(__import__("sys").modules, "sloth_graphmind.kg", fake_kg)
         result = runner.invoke(cli_module.main, ["kg", "find-path",
                                       "--from", "Alice", "--to", "Acme", "--json"])
         _ok(result)
@@ -241,7 +241,7 @@ class TestKgSubcommands:
         fake_kg = _fake_module(
             EntityResolver=lambda **kw: MagicMock(resolve=lambda: {"resolved": 5}),
         )
-        monkeypatch.setitem(__import__("sys").modules, "semantica.kg", fake_kg)
+        monkeypatch.setitem(__import__("sys").modules, "sloth_graphmind.kg", fake_kg)
         result = runner.invoke(cli_module.main, ["kg", "resolve"])
         assert result.exit_code == 0
 
@@ -249,7 +249,7 @@ class TestKgSubcommands:
         fake_kg = _fake_module(
             LinkPredictor=lambda **kw: MagicMock(predict=lambda: {"predictions": []}),
         )
-        monkeypatch.setitem(__import__("sys").modules, "semantica.kg", fake_kg)
+        monkeypatch.setitem(__import__("sys").modules, "sloth_graphmind.kg", fake_kg)
         result = runner.invoke(cli_module.main, ["kg", "predict"])
         assert result.exit_code == 0
 
@@ -260,7 +260,7 @@ class TestKgSubcommands:
                 integrity_check=lambda: {"valid": True},
             ),
         )
-        monkeypatch.setitem(__import__("sys").modules, "semantica.kg", fake_kg)
+        monkeypatch.setitem(__import__("sys").modules, "sloth_graphmind.kg", fake_kg)
         result = runner.invoke(cli_module.main, ["kg", "validate"])
         assert result.exit_code == 0
 
@@ -303,7 +303,7 @@ class TestIngest:
             captured["kwargs"] = kwargs
             return [{"path": sources}]
 
-        monkeypatch.setattr("semantica.ingest.methods.ingest_file", fake_ingest_file)
+        monkeypatch.setattr("sloth_graphmind.ingest.methods.ingest_file", fake_ingest_file)
 
         result = runner.invoke(
             cli_module.main,
@@ -326,7 +326,7 @@ class TestIngest:
             captured["kwargs"] = kwargs
             return [{"path": sources}]
 
-        monkeypatch.setattr("semantica.ingest.methods.ingest_file", fake_ingest_file)
+        monkeypatch.setattr("sloth_graphmind.ingest.methods.ingest_file", fake_ingest_file)
 
         result = runner.invoke(cli_module.main, ["ingest", "README.md", "--json"])
 
@@ -341,7 +341,7 @@ class TestIngest:
         original_import = __import__
         with patch("builtins.__import__", side_effect=lambda n, *a, **k: (
             (_ for _ in ()).throw(ImportError(n))
-            if n.startswith("semantica.ingest") else original_import(n, *a, **k)
+            if n.startswith("sloth_graphmind.ingest") else original_import(n, *a, **k)
         )):
             result = runner.invoke(cli_module.main, ["ingest", "data.pdf"])
         assert result.exit_code != 0
@@ -387,7 +387,7 @@ class TestParse:
                 f.write("Hello world")
             with patch("builtins.__import__", side_effect=lambda n, *a, **k: (
                 (_ for _ in ()).throw(ImportError(n))
-                if n.startswith("semantica.parse") else __import__(n, *a, **k)
+                if n.startswith("sloth_graphmind.parse") else __import__(n, *a, **k)
             )):
                 result = runner.invoke(cli_module.main, ["parse", "doc.txt"])
         assert result.exit_code != 0
@@ -420,7 +420,7 @@ class TestSplit:
                 f.write("content")
             with patch("builtins.__import__", side_effect=lambda n, *a, **k: (
                 (_ for _ in ()).throw(ImportError(n))
-                if n.startswith("semantica.split") else __import__(n, *a, **k)
+                if n.startswith("sloth_graphmind.split") else __import__(n, *a, **k)
             )):
                 result = runner.invoke(cli_module.main, ["split", "doc.txt"])
         assert result.exit_code != 0
@@ -434,7 +434,7 @@ class TestSplit:
             get_split_method=lambda s: lambda *a, **kw: mock_chunks,
         )
         monkeypatch.setitem(
-            __import__("sys").modules, "semantica.split", fake_split
+            __import__("sys").modules, "sloth_graphmind.split", fake_split
         )
         with runner.isolated_filesystem():
             with open("doc.txt", "w") as f:
@@ -463,7 +463,7 @@ class TestNormalize:
             normalize_entity=lambda t, **kw: t,
         )
         monkeypatch.setitem(
-            __import__("sys").modules, "semantica.normalize", fake_norm
+            __import__("sys").modules, "sloth_graphmind.normalize", fake_norm
         )
         result = runner.invoke(cli_module.main, ["normalize", "hello world", "--mode", "text"])
         assert result.exit_code == 0
@@ -476,7 +476,7 @@ class TestNormalize:
             normalize_entity=lambda t, **kw: "normalized",
         )
         monkeypatch.setitem(
-            __import__("sys").modules, "semantica.normalize", fake_norm
+            __import__("sys").modules, "sloth_graphmind.normalize", fake_norm
         )
         result = runner.invoke(cli_module.main, ["normalize", "text", "--json"])
         _ok(result)
@@ -510,7 +510,7 @@ class TestExtract:
             EventDetector=lambda **kw: MagicMock(extract=lambda text, **kw2: []),
         )
         monkeypatch.setitem(
-            __import__("sys").modules, "semantica.semantic_extract", fake_ext
+            __import__("sys").modules, "sloth_graphmind.semantic_extract", fake_ext
         )
         result = runner.invoke(
             cli_module.main, ["extract", "Alice works at Acme.", "--mode", "ner", "--json"]
@@ -529,7 +529,7 @@ class TestExtract:
             EventDetector=lambda **kw: MagicMock(extract=lambda text, **kw2: []),
         )
         monkeypatch.setitem(
-            __import__("sys").modules, "semantica.semantic_extract", fake_ext
+            __import__("sys").modules, "sloth_graphmind.semantic_extract", fake_ext
         )
         result = runner.invoke(
             cli_module.main, ["extract", "-", "--mode", "ner", "--json"], input="Alice\n"
@@ -539,7 +539,7 @@ class TestExtract:
     def test_import_error_is_clean(self, runner):
         with patch("builtins.__import__", side_effect=lambda n, *a, **k: (
             (_ for _ in ()).throw(ImportError(n))
-            if n.startswith("semantica.semantic_extract") else __import__(n, *a, **k)
+            if n.startswith("sloth_graphmind.semantic_extract") else __import__(n, *a, **k)
         )):
             result = runner.invoke(cli_module.main, ["extract", "text"])
         assert result.exit_code != 0
@@ -614,7 +614,7 @@ class TestEmbed:
             return {"status": "ok"}
 
         fake_vs = _fake_module(create_index=fake_create_index)
-        monkeypatch.setitem(__import__("sys").modules, "semantica.vector_store", fake_vs)
+        monkeypatch.setitem(__import__("sys").modules, "sloth_graphmind.vector_store", fake_vs)
         result = runner.invoke(cli_module.main, ["embed", "index", str(json_file), "--json"])
         _ok(result)
         assert len(captured["vectors"]) == 2
@@ -624,7 +624,7 @@ class TestEmbed:
         txt_file = tmp_path / "embeddings.txt"
         txt_file.write_text("not a supported format")
         fake_vs = _fake_module(create_index=MagicMock(return_value={}))
-        monkeypatch.setitem(__import__("sys").modules, "semantica.vector_store", fake_vs)
+        monkeypatch.setitem(__import__("sys").modules, "sloth_graphmind.vector_store", fake_vs)
         result = runner.invoke(cli_module.main, ["embed", "index", str(txt_file)])
         assert result.exit_code != 0
 
@@ -660,8 +660,8 @@ class TestDeduplicate:
             def get_nodes(self, labels=None, properties=None, limit=100, **options):
                 return entities
 
-        monkeypatch.setattr("semantica.graph_store.methods._get_store", lambda: FakeStore())
-        monkeypatch.setattr("semantica.graph_store.methods.get_nodes", lambda **kwargs: entities)
+        monkeypatch.setattr("sloth_graphmind.graph_store.methods._get_store", lambda: FakeStore())
+        monkeypatch.setattr("sloth_graphmind.graph_store.methods.get_nodes", lambda **kwargs: entities)
 
         result = runner.invoke(
             cli_module.main,
@@ -683,8 +683,8 @@ class TestDeduplicate:
             def get_nodes(self, labels=None, properties=None, limit=100, **options):
                 return entities
 
-        monkeypatch.setattr("semantica.graph_store.methods._get_store", lambda: FakeStore())
-        monkeypatch.setattr("semantica.graph_store.methods.get_nodes", lambda **kwargs: entities)
+        monkeypatch.setattr("sloth_graphmind.graph_store.methods._get_store", lambda: FakeStore())
+        monkeypatch.setattr("sloth_graphmind.graph_store.methods.get_nodes", lambda **kwargs: entities)
 
         def fake_merge(self, loaded_entities, **kwargs):
             captured["entities"] = loaded_entities
@@ -692,7 +692,7 @@ class TestDeduplicate:
             return [{"merged": True, "count": len(loaded_entities)}]
 
         monkeypatch.setattr(
-            "semantica.deduplication.entity_merger.EntityMerger.merge_duplicates",
+            "sloth_graphmind.deduplication.entity_merger.EntityMerger.merge_duplicates",
             fake_merge,
         )
 
@@ -825,7 +825,7 @@ class TestDecision:
     def test_record_import_error_is_clean(self, runner):
         with patch("builtins.__import__", side_effect=lambda n, *a, **k: (
             (_ for _ in ()).throw(ImportError(n))
-            if "semantica.context" in n else __import__(n, *a, **k)
+            if "sloth_graphmind.context" in n else __import__(n, *a, **k)
         )):
             result = runner.invoke(cli_module.main, ["decision", "record", "--title", "X"])
         assert result.exit_code != 0
@@ -844,16 +844,16 @@ class TestDecision:
         fake_decision_query = _fake_module(DecisionQuery=lambda *a, **kw: fake_dq)
         fake_graph_store = _fake_module(GraphStore=MagicMock(return_value=MagicMock()))
         monkeypatch.setitem(__import__("sys").modules,
-                            "semantica.context.decision_query", fake_decision_query)
+                            "sloth_graphmind.context.decision_query", fake_decision_query)
         monkeypatch.setitem(__import__("sys").modules,
-                            "semantica.graph_store", fake_graph_store)
+                            "sloth_graphmind.graph_store", fake_graph_store)
         result = runner.invoke(cli_module.main, ["decision", "list", "--format", "json"])
         _ok(result)
 
     def test_trace_import_error_is_clean(self, runner):
         with patch("builtins.__import__", side_effect=lambda n, *a, **k: (
             (_ for _ in ()).throw(ImportError(n))
-            if "semantica.context" in n else __import__(n, *a, **k)
+            if "sloth_graphmind.context" in n else __import__(n, *a, **k)
         )):
             result = runner.invoke(cli_module.main, ["decision", "trace", "dec_123"])
         assert result.exit_code != 0
@@ -889,7 +889,7 @@ class TestTemporal:
                 snapshot=lambda at: {"at": at, "nodes": 5}
             ),
         )
-        monkeypatch.setitem(__import__("sys").modules, "semantica.kg", fake_kg)
+        monkeypatch.setitem(__import__("sys").modules, "sloth_graphmind.kg", fake_kg)
         result = runner.invoke(cli_module.main, ["temporal", "snapshot",
                                       "--at", "2026-01-01T00:00:00Z", "--json"])
         _ok(result)
@@ -908,7 +908,7 @@ class TestTemporal:
     def test_history_import_error_is_clean(self, runner):
         with patch("builtins.__import__", side_effect=lambda n, *a, **k: (
             (_ for _ in ()).throw(ImportError(n))
-            if n.startswith("semantica.kg") else __import__(n, *a, **k)
+            if n.startswith("sloth_graphmind.kg") else __import__(n, *a, **k)
         )):
             result = runner.invoke(cli_module.main, ["temporal", "history", "entity_alice"])
         assert result.exit_code != 0
@@ -948,7 +948,7 @@ class TestProvenance:
                 audit_log=lambda **kw2: [{"actor": "user", "action": "ingest"}]
             ),
         )
-        monkeypatch.setitem(__import__("sys").modules, "semantica.provenance", fake_prov)
+        monkeypatch.setitem(__import__("sys").modules, "sloth_graphmind.provenance", fake_prov)
         with runner.isolated_filesystem():
             result = runner.invoke(cli_module.main, ["provenance", "audit", "--output", "audit.json"])
             if result.exit_code == 0:
@@ -992,7 +992,7 @@ class TestValidate:
         fake_conf = _fake_module(
             detect_conflicts=lambda **kw: {"conflicts": [], "count": 0},
         )
-        monkeypatch.setitem(__import__("sys").modules, "semantica.conflicts", fake_conf)
+        monkeypatch.setitem(__import__("sys").modules, "sloth_graphmind.conflicts", fake_conf)
         result = runner.invoke(cli_module.main, ["validate", "conflicts", "--json"])
         _ok(result)
         data = _json_output(result)
@@ -1001,7 +1001,7 @@ class TestValidate:
     def test_integrity_exits_0_with_import_error(self, runner):
         with patch("builtins.__import__", side_effect=lambda n, *a, **k: (
             (_ for _ in ()).throw(ImportError(n))
-            if n.startswith("semantica.kg") else __import__(n, *a, **k)
+            if n.startswith("sloth_graphmind.kg") else __import__(n, *a, **k)
         )):
             result = runner.invoke(cli_module.main, ["validate", "integrity"])
         assert result.exit_code != 0
@@ -1144,11 +1144,11 @@ class TestExport:
                 ]
 
         monkeypatch.setattr(
-            "semantica.graph_store.methods._get_store",
+            "sloth_graphmind.graph_store.methods._get_store",
             lambda: FakeGraphStore(),
         )
         monkeypatch.setattr(
-            "semantica.graph_store.get_nodes",
+            "sloth_graphmind.graph_store.get_nodes",
             lambda **kwargs: [
                 {
                     "id": "n1",
@@ -1159,7 +1159,7 @@ class TestExport:
             ],
         )
         monkeypatch.setattr(
-            "semantica.graph_store.methods.get_nodes",
+            "sloth_graphmind.graph_store.methods.get_nodes",
             lambda **kwargs: [
                 {
                     "id": "n1",
@@ -1170,7 +1170,7 @@ class TestExport:
             ],
         )
         monkeypatch.setattr(
-            "semantica.graph_store.get_relationships",
+            "sloth_graphmind.graph_store.get_relationships",
             lambda **kwargs: [
                 {
                     "id": "r1",
@@ -1182,7 +1182,7 @@ class TestExport:
             ],
         )
         monkeypatch.setattr(
-            "semantica.graph_store.methods.get_relationships",
+            "sloth_graphmind.graph_store.methods.get_relationships",
             lambda **kwargs: [
                 {
                     "id": "r1",
@@ -1209,7 +1209,7 @@ class TestExport:
         original_import = __import__
         with patch("builtins.__import__", side_effect=lambda n, *a, **k: (
             (_ for _ in ()).throw(ImportError(n))
-            if "semantica.export" in n else original_import(n, *a, **k)
+            if "sloth_graphmind.export" in n else original_import(n, *a, **k)
         )):
             result = runner.invoke(cli_module.main, ["export", "--format", "json"])
         assert result.exit_code != 0
@@ -1272,7 +1272,7 @@ class TestPipeline:
         fake_pl = _fake_module(
             PipelineTemplateManager=lambda: MagicMock(scaffold=lambda t: "steps: []\n"),
         )
-        monkeypatch.setitem(__import__("sys").modules, "semantica.pipeline", fake_pl)
+        monkeypatch.setitem(__import__("sys").modules, "sloth_graphmind.pipeline", fake_pl)
         with runner.isolated_filesystem():
             result = runner.invoke(cli_module.main, ["pipeline", "init",
                                           "--template", "rag", "--output", "pl.yaml"])
@@ -1366,7 +1366,7 @@ class TestStore:
 
     def test_flush_with_confirm(self, runner, monkeypatch):
         fake_vs = _fake_module(delete_vectors=lambda **kw: None)
-        monkeypatch.setitem(__import__("sys").modules, "semantica.vector_store", fake_vs)
+        monkeypatch.setitem(__import__("sys").modules, "sloth_graphmind.vector_store", fake_vs)
         result = runner.invoke(cli_module.main, ["store", "flush", "--confirm"])
         _ok(result)
 

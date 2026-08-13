@@ -19,11 +19,11 @@ import time
 from unittest.mock import Mock, patch
 from typing import Dict, List, Any
 
-from semantica.context import ContextRetriever, DecisionContext, RetrievedContext
-from semantica.vector_store import VectorStore, HybridSimilarityCalculator
-from semantica.kg.path_finder import PathFinder
-from semantica.kg.centrality_calculator import CentralityCalculator
-from semantica.kg.community_detector import CommunityDetector
+from sloth_graphmind.context import ContextRetriever, DecisionContext, RetrievedContext
+from sloth_graphmind.vector_store import VectorStore, HybridSimilarityCalculator
+from sloth_graphmind.kg.path_finder import PathFinder
+from sloth_graphmind.kg.centrality_calculator import CentralityCalculator
+from sloth_graphmind.kg.community_detector import CommunityDetector
 
 
 class TestEndToEndContextIntegration:

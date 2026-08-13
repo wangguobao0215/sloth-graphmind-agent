@@ -6,12 +6,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from semantica.semantic_extract.ner_extractor import NERExtractor
-from semantica.semantic_extract.relation_extractor import RelationExtractor
-from semantica.semantic_extract.triplet_extractor import TripletExtractor
-from semantica.semantic_extract.event_detector import EventDetector
-from semantica.semantic_extract.semantic_network_extractor import SemanticNetworkExtractor
-from semantica.semantic_extract.methods import _result_cache
+from sloth_graphmind.semantic_extract.ner_extractor import NERExtractor
+from sloth_graphmind.semantic_extract.relation_extractor import RelationExtractor
+from sloth_graphmind.semantic_extract.triplet_extractor import TripletExtractor
+from sloth_graphmind.semantic_extract.event_detector import EventDetector
+from sloth_graphmind.semantic_extract.semantic_network_extractor import SemanticNetworkExtractor
+from sloth_graphmind.semantic_extract.methods import _result_cache
 
 class TestGroqRealWorldPerformance(unittest.TestCase):
     """

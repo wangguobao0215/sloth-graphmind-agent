@@ -1,11 +1,11 @@
 ---
 name: reason
-description: Run reasoning over the Semantica knowledge graph — deductive logic, abductive hypothesis generation, Datalog programs, SPARQL queries, Rete network evaluation. Uses DeductiveReasoner, AbductiveReasoner, DatalogReasoner, SPARQLReasoner, ReteEngine. Sub-commands: deductive, abductive, datalog, sparql, rete, prove, hypotheses.
+description: Run reasoning over the GraphMind knowledge graph — deductive logic, abductive hypothesis generation, Datalog programs, SPARQL queries, Rete network evaluation. Uses DeductiveReasoner, AbductiveReasoner, DatalogReasoner, SPARQLReasoner, ReteEngine. Sub-commands: deductive, abductive, datalog, sparql, rete, prove, hypotheses.
 ---
 
-# /semantica:reason
+# /sloth_graphmind:reason
 
-Apply reasoning over the knowledge graph. Usage: `/semantica:reason <mode> [args]`
+Apply reasoning over the knowledge graph. Usage: `/sloth_graphmind:reason <mode> [args]`
 
 `$ARGUMENTS` = reasoning mode + rules/observations/query.
 
@@ -16,7 +16,7 @@ Apply reasoning over the knowledge graph. Usage: `/semantica:reason <mode> [args
 Apply deductive rules to known facts to derive new conclusions.
 
 ```python
-from semantica.reasoning.deductive_reasoner import DeductiveReasoner, Premise
+from sloth_graphmind.reasoning.deductive_reasoner import DeductiveReasoner, Premise
 
 reasoner = DeductiveReasoner()
 
@@ -52,7 +52,7 @@ Output: `Proof: <proof.steps>  |  Valid: YES / NO`
 Prove or disprove a theorem against known facts.
 
 ```python
-from semantica.reasoning.deductive_reasoner import DeductiveReasoner
+from sloth_graphmind.reasoning.deductive_reasoner import DeductiveReasoner
 
 reasoner = DeductiveReasoner()
 import json
@@ -81,7 +81,7 @@ Confidence: <proof.confidence>
 Generate and rank hypotheses that explain an observation.
 
 ```python
-from semantica.reasoning.abductive_reasoner import (
+from sloth_graphmind.reasoning.abductive_reasoner import (
     AbductiveReasoner, Observation
 )
 
@@ -126,8 +126,8 @@ Full explanations:
 Evaluate a Datalog program over graph facts.
 
 ```python
-from semantica.reasoning.datalog_reasoner import DatalogReasoner
-from semantica.context import ContextGraph
+from sloth_graphmind.reasoning.datalog_reasoner import DatalogReasoner
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 reasoner = DatalogReasoner()
@@ -145,8 +145,8 @@ Return derived tuples as a relation table. Show rule derivation counts.
 Run a SPARQL query over the knowledge graph and return results.
 
 ```python
-from semantica.reasoning.sparql_reasoner import SPARQLReasoner
-from semantica.context import ContextGraph
+from sloth_graphmind.reasoning.sparql_reasoner import SPARQLReasoner
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 reasoner = SPARQLReasoner()
@@ -163,7 +163,7 @@ Return as a Markdown table with bound variable columns matching the SELECT claus
 Incremental rule evaluation using the Rete network with working memory.
 
 ```python
-from semantica.reasoning.rete_engine import ReteEngine
+from sloth_graphmind.reasoning.rete_engine import ReteEngine
 import json
 
 engine = ReteEngine()
@@ -185,7 +185,7 @@ Return: `| Rule Fired | Variable Bindings | Working Memory Delta | Activation Or
 Generate the top-N most probable explanations for a complex scenario.
 
 ```python
-from semantica.reasoning.abductive_reasoner import AbductiveReasoner, Observation
+from sloth_graphmind.reasoning.abductive_reasoner import AbductiveReasoner, Observation
 import json
 
 reasoner = AbductiveReasoner()

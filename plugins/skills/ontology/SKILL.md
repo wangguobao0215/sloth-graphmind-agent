@@ -1,11 +1,11 @@
 ---
 name: ontology
-description: Manage ontology schemas, concepts, relationships, and alignments for Semantica knowledge graphs.
+description: Manage ontology schemas, concepts, relationships, and alignments for GraphMind knowledge graphs.
 ---
 
-# /semantica:ontology
+# /sloth_graphmind:ontology
 
-Manage ontology definitions and validation. Usage: `/semantica:ontology <task> [args]`
+Manage ontology definitions and validation. Usage: `/sloth_graphmind:ontology <task> [args]`
 
 `$ARGUMENTS` = task + optional ontology item or schema file.
 
@@ -16,7 +16,7 @@ Manage ontology definitions and validation. Usage: `/semantica:ontology <task> [
 Show ontology concept details.
 
 ```python
-from semantica.ontology import OntologyManager
+from sloth_graphmind.ontology import OntologyManager
 
 manager = OntologyManager()
 concept = manager.get_concept(concept_name)

@@ -1,6 +1,6 @@
 ---
 title: "Modules"
-description: "Every Semantica module works independently: use only what you need."
+description: "Every GraphMind module works independently: use only what you need."
 icon: "puzzle-piece"
 ---
 
@@ -12,7 +12,7 @@ icon: "puzzle-piece"
   Not sure which module to use? The [Choose the Right Module](choose-your-module) guide maps 35+ developer goals to modules with code examples — start there if you're orienting for the first time.
 </Tip>
 
-Semantica is organized into **27 modules** across six logical layers. Each module is independently importable: you never pay for what you don't use.
+GraphMind is organized into **27 modules** across six logical layers. Each module is independently importable: you never pay for what you don't use.
 
 ## Architecture Overview
 
@@ -31,7 +31,7 @@ Semantica is organized into **27 modules** across six logical layers. Each modul
 Loads data from files, web, databases, and streams into a unified `SourceDocument` format.
 
 ```python
-from semantica.ingest import FileIngestor, WebIngestor, ParquetIngestor, XMLIngestor, DatabricksIngestor
+from sloth_graphmind.ingest import FileIngestor, WebIngestor, ParquetIngestor, XMLIngestor, DatabricksIngestor
 
 # Files: PDF, DOCX, CSV, Excel, PPTX, JSON, HTML, archives
 ingestor = FileIngestor()
@@ -57,7 +57,7 @@ customers   = databricks.ingest_table("customers")
 **Available ingestors:** `FileIngestor`, `WebIngestor`, `ParquetIngestor`, `XMLIngestor`, `RESTIngestor`, `PublicAPIIngestor`, `DBIngestor`, `DatabricksIngestor`, `SnowflakeIngestor`, `EmailIngestor`, `FeedIngestor`, `MCPIngestor`, `OntologyIngestor`, `RepoIngestor`, `StreamIngestor`, `ArrowIngestor`, `CloudStorageIngestor`
 
 <Note>
-  `DuckDBIngestor`, `ElasticIngestor`, `GDriveIngestor`, `HuggingFaceIngestor`, `MongoIngestor`, and `PandasIngestor` also ship but aren't re-exported from the top-level `semantica.ingest` namespace yet — import them directly, e.g. `from semantica.ingest.duckdb_ingestor import DuckDBIngestor`.
+  `DuckDBIngestor`, `ElasticIngestor`, `GDriveIngestor`, `HuggingFaceIngestor`, `MongoIngestor`, and `PandasIngestor` also ship but aren't re-exported from the top-level `sloth_graphmind.ingest` namespace yet — import them directly, e.g. `from sloth_graphmind.ingest.duckdb_ingestor import DuckDBIngestor`.
 </Note>
 
 ### Parse
@@ -65,7 +65,7 @@ customers   = databricks.ingest_table("customers")
 Extracts structured text and layout metadata from raw documents.
 
 ```python
-from semantica.parse import DocumentParser, DoclingParser
+from sloth_graphmind.parse import DocumentParser, DoclingParser
 
 # Standard parser: all common formats
 parser = DocumentParser()
@@ -83,7 +83,7 @@ parsed = parser.parse("data/annual_report.pdf")
 Chunks text for embedding and RAG pipelines with awareness of semantic boundaries.
 
 ```python
-from semantica.split import TextSplitter
+from sloth_graphmind.split import TextSplitter
 
 splitter = TextSplitter(method="semantic_transformer")
 chunks = splitter.split(text, chunk_size=1000, chunk_overlap=200)
@@ -96,7 +96,7 @@ chunks = splitter.split(text, chunk_size=1000, chunk_overlap=200)
 Cleans and standardizes text before semantic processing.
 
 ```python
-from semantica.normalize import TextNormalizer, normalize_text, normalize_date
+from sloth_graphmind.normalize import TextNormalizer, normalize_text, normalize_date
 
 normalizer = TextNormalizer()
 clean_text        = normalizer.normalize_text(text)
@@ -113,7 +113,7 @@ standardized_date = normalize_date("Jan 1st, 2020")
 Named entity recognition, relation extraction, and triplet generation.
 
 ```python
-from semantica.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
+from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
 
 ner = NERExtractor(method="llm", llm_provider=llm)
 entities = ner.extract("Apple Inc. was founded by Steve Jobs.")
@@ -134,7 +134,7 @@ triplets = trip.extract(text)
 Graph construction, graph algorithms, temporal model, and distance intelligence.
 
 ```python
-from semantica.kg import GraphBuilder, GraphAnalyzer, TemporalGraphQuery, SimilarityCalculator
+from sloth_graphmind.kg import GraphBuilder, GraphAnalyzer, TemporalGraphQuery, SimilarityCalculator
 from datetime import datetime
 
 # Build
@@ -157,7 +157,7 @@ scores = calc.calculate_similarity(entity_a, entity_b)
 Schema management including SHACL, SKOS, alignments, diff/migration, auto-generation, and the visual Ontology Hub (v0.5.0).
 
 ```python
-from semantica.ontology import OntologyGenerator, SHACLGenerator
+from sloth_graphmind.ontology import OntologyGenerator, SHACLGenerator
 
 generator = OntologyGenerator()
 ontology  = generator.generate_from_graph(kg)
@@ -173,7 +173,7 @@ shapes = shacl.generate(ontology)
 Derives new facts from existing knowledge using multiple inference strategies.
 
 ```python
-from semantica.reasoning import Reasoner, DatalogReasoner
+from sloth_graphmind.reasoning import Reasoner, DatalogReasoner
 
 # Rule-based reasoning
 engine = Reasoner()
@@ -197,7 +197,7 @@ results = datalog.query("ancestor(alice, ?)")
 Generates and manages vector embeddings for semantic similarity.
 
 ```python
-from semantica.embeddings import EmbeddingGenerator
+from sloth_graphmind.embeddings import EmbeddingGenerator
 
 generator  = EmbeddingGenerator(model="sentence-transformers")
 embeddings = generator.generate(["text1", "text2"])
@@ -213,7 +213,7 @@ similarity = generator.similarity(embeddings[0], embeddings[1])
 Multi-backend vector database with hybrid search support.
 
 ```python
-from semantica.vector_store import VectorStore
+from sloth_graphmind.vector_store import VectorStore
 
 store   = VectorStore(backend="faiss", dimension=768)
 store.add_vectors(embeddings, ids)
@@ -229,7 +229,7 @@ results = store.search(query_vector, top_k=10)
 Connects to graph databases for persistent, query-able storage.
 
 ```python
-from semantica.graph_store import GraphStore
+from sloth_graphmind.graph_store import GraphStore
 
 store = GraphStore(backend="neo4j")
 store.add_nodes(entities)
@@ -244,7 +244,7 @@ results = store.query("MATCH (n)-[r]->(m) RETURN n, r, m")
 RDF triple-based storage with SPARQL query support.
 
 ```python
-from semantica.triplet_store import TripletStore
+from sloth_graphmind.triplet_store import TripletStore
 
 store = TripletStore(backend="blazegraph")
 store.add_triplets(subject, predicate, obj)
@@ -261,7 +261,7 @@ results = store.sparql("SELECT ?s ?p ?o WHERE { ?s ?p ?o }")
 Detects, scores, and merges duplicate entities across sources.
 
 ```python
-from semantica.deduplication import EntityResolver
+from sloth_graphmind.deduplication import EntityResolver
 
 resolver = EntityResolver()
 merged   = resolver.resolve(entities, strategy="semantic_v2")
@@ -278,7 +278,7 @@ merged   = resolver.resolve(entities, strategy="semantic_v2")
 Detects and resolves fact conflicts across overlapping knowledge sources.
 
 ```python
-from semantica.conflicts import ConflictDetector
+from sloth_graphmind.conflicts import ConflictDetector
 
 detector  = ConflictDetector()
 conflicts = detector.detect_conflicts(kg)
@@ -297,7 +297,7 @@ resolved  = detector.resolve(conflicts, strategy="most_recent")
 Agent context graphs, decision tracking, causal chains, and precedent search.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
+from sloth_graphmind.context import AgentContext, ContextGraph
 
 context = AgentContext(
     vector_store=VectorStore(backend="faiss", dimension=768),
@@ -325,7 +325,7 @@ precedents = context.find_precedents("model selection", limit=5)
 W3C PROV-O compliant lineage tracking across all modules.
 
 ```python
-from semantica.provenance import ProvenanceManager
+from sloth_graphmind.provenance import ProvenanceManager
 
 manager = ProvenanceManager()
 manager.track_entity("entity_1", "document.pdf", "person")
@@ -339,7 +339,7 @@ lineage = manager.get_lineage("entity_1")
 Version control with SHA-256 checksums, diffs, and rollback.
 
 ```python
-from semantica.change_management import TemporalVersionManager
+from sloth_graphmind.change_management import TemporalVersionManager
 
 manager  = TemporalVersionManager(storage_path="versions.db")
 snapshot = manager.create_snapshot(kg, "v1.0", "user@example.com", "Initial version")
@@ -356,7 +356,7 @@ diff     = manager.diff("v1.0", "v1.1")
 Serializes graphs to downstream formats for analytics, semantic web, or graph databases.
 
 ```python
-from semantica.export import RDFExporter, ParquetExporter, ArangoAQLExporter
+from sloth_graphmind.export import RDFExporter, ParquetExporter, ArangoAQLExporter
 
 # RDF formats
 RDFExporter().export(graph, file_path="graph.ttl", format="turtle")
@@ -375,7 +375,7 @@ aql = ArangoAQLExporter().export(graph)
 Renders interactive and static knowledge graph visualizations.
 
 ```python
-from semantica.visualization import KGVisualizer
+from sloth_graphmind.visualization import KGVisualizer
 
 viz = KGVisualizer()
 viz.visualize_network(graph, output="html", file_path="graph.html")
@@ -390,7 +390,7 @@ viz.visualize_network(graph, output="html", file_path="graph.html")
 Pipeline DSL with parallel workers, retry policies, and failure handling.
 
 ```python
-from semantica.pipeline import Pipeline
+from sloth_graphmind.pipeline import Pipeline
 
 pipeline = Pipeline()
 pipeline.add_step("ingest",   FileIngestor())
@@ -406,7 +406,7 @@ result = pipeline.run("data/")
 FastAPI Knowledge Explorer with Ontology Hub, WebSocket progress, bidirectional path finding, and indexed search (0.004ms on 118k nodes).
 
 ```bash
-semantica-explorer --graph my_graph.json
+sloth_graphmind-explorer --graph my_graph.json
 ```
 
 **Routes:** graph, ontology, provenance, decisions, analytics, SPARQL, temporal, annotations, export/import, vocabulary
@@ -419,7 +419,7 @@ semantica-explorer --graph my_graph.json
 Unified interface to all supported LLM providers.
 
 ```python
-from semantica.llms import Groq, OpenAI, LiteLLM
+from sloth_graphmind.llms import Groq, OpenAI, LiteLLM
 import os
 
 llm = Groq(model="llama-3.3-70b-versatile", api_key=os.getenv("GROQ_API_KEY"))
@@ -432,10 +432,10 @@ llm = LiteLLM(model="anthropic/claude-opus-4-7", api_key=os.getenv("ANTHROPIC_AP
 
 ### MCP Server
 
-Exposes Semantica as an MCP stdio server for IDE and agent integrations.
+Exposes GraphMind as an MCP stdio server for IDE and agent integrations.
 
 ```bash
-python -m semantica.mcp_server
+python -m sloth_graphmind.mcp_server
 ```
 
 **Integrations:** Claude Desktop, VS Code, Cursor, Windsurf, Cline: 12 MCP tools exposed
@@ -445,7 +445,7 @@ python -m semantica.mcp_server
 Bootstrap knowledge graphs from verified structured sources: fixed-point reference data, controlled vocabularies, and domain anchors.
 
 ```python
-from semantica.seed import SeedManager
+from sloth_graphmind.seed import SeedManager
 
 seed = SeedManager()
 seed.populate(kg, dataset="companies", count=100)
@@ -462,7 +462,7 @@ seed.inject(kg)   # merges seed nodes without duplicating existing entities
 Evaluation framework for measuring KG quality, extraction accuracy, and pipeline performance.
 
 ```python
-from semantica.evals import KGEvaluator, ExtractionEvaluator, PipelineEvaluator, RegressionTracker
+from sloth_graphmind.evals import KGEvaluator, ExtractionEvaluator, PipelineEvaluator, RegressionTracker
 
 # KG quality
 report = KGEvaluator().evaluate(kg, ontology=ontology)
@@ -489,10 +489,10 @@ diff    = tracker.compare(run_id, baseline_run_id="run_abc123")
 Base classes, shared data models, and the plugin registry used across all modules.
 
 ```python
-from semantica.core import Semantica, PluginRegistry, ConfigManager
+from sloth_graphmind.core import GraphMind, PluginRegistry, ConfigManager
 
 # Top-level orchestrator
-sem = Semantica(config_path="config.yaml")
+sem = GraphMind(config_path="config.yaml")
 sem.initialize()
 
 # Plugin registry: register custom components
@@ -504,14 +504,14 @@ config  = ConfigManager(config_path="config.yaml")
 batch   = config.get("processing.batch_size", default=32)
 ```
 
-**Components:** `Semantica`, `PluginRegistry`, `ConfigManager`, `LifecycleManager`, `HealthMonitor`, `Config`
+**Components:** `GraphMind`, `PluginRegistry`, `ConfigManager`, `LifecycleManager`, `HealthMonitor`, `Config`
 
 ### Utils
 
 Shared utilities for ID generation, date parsing, validation, and logging.
 
 ```python
-from semantica.utils import helpers, validators, logging
+from sloth_graphmind.utils import helpers, validators, logging
 ```
 
 **Components:** `helpers`, `validators`, `constants`, `types`, `exceptions`, `logging`, `ProgressTracker`
@@ -526,10 +526,10 @@ from semantica.utils import helpers, validators, logging
     **Pipeline:** `Ingest` → `Parse` → `Normalize` → `Semantic Extract` → `GraphBuilder` → `KG`
 
 ```python
-from semantica.ingest import FileIngestor
-from semantica.parse import DocumentParser
-from semantica.semantic_extract import NERExtractor, RelationExtractor
-from semantica.kg import GraphBuilder
+from sloth_graphmind.ingest import FileIngestor
+from sloth_graphmind.parse import DocumentParser
+from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
+from sloth_graphmind.kg import GraphBuilder
 
 sources       = FileIngestor().ingest("data/")
 parsed        = DocumentParser().parse(sources[0])
@@ -549,8 +549,8 @@ graph         = GraphBuilder(merge_entities=True).build(
     **Pipeline:** `KG` + `VectorStore` → `AgentContext` → GraphRAG query → grounded answer
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 context = AgentContext(
     vector_store=VectorStore(backend="faiss", dimension=768),
@@ -576,8 +576,8 @@ for claim in result.claims:
     **Pipeline:** `AgentContext` → decision recording → precedent search → policy check → causal analysis
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 context = AgentContext(
     vector_store=VectorStore(backend="faiss", dimension=768),
@@ -605,11 +605,11 @@ precedents = context.find_precedents("model selection", limit=5)
     **Pipeline:** `Ingest` → `Parse` → `Extract` → `KG` → `Provenance` → `ChangeManagement` → `Export`
 
 ```python
-from semantica.ingest import FileIngestor
-from semantica.semantic_extract import NERExtractor
-from semantica.kg import GraphBuilder
-from semantica.provenance import ProvenanceManager
-from semantica.export import RDFExporter
+from sloth_graphmind.ingest import FileIngestor
+from sloth_graphmind.semantic_extract import NERExtractor
+from sloth_graphmind.kg import GraphBuilder
+from sloth_graphmind.provenance import ProvenanceManager
+from sloth_graphmind.export import RDFExporter
 
 sources  = FileIngestor().ingest("records/")
 entities = NERExtractor(method="llm", llm_provider=llm).extract(sources)
@@ -629,10 +629,10 @@ RDFExporter(include_provenance=True).export(graph, file_path="audit.ttl", format
     **Pipeline:** `WebIngestor` → `Normalize` → `Semantic Extract` → `GraphStore`
 
 ```python
-from semantica.ingest import WebIngestor
-from semantica.normalize import TextNormalizer
-from semantica.semantic_extract import NERExtractor, RelationExtractor
-from semantica.graph_store import Neo4jStore
+from sloth_graphmind.ingest import WebIngestor
+from sloth_graphmind.normalize import TextNormalizer
+from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
+from sloth_graphmind.graph_store import Neo4jStore
 
 pages      = WebIngestor(max_depth=2).ingest("https://example.com")
 normalizer = TextNormalizer()
@@ -655,7 +655,7 @@ for page in pages:
     **Pipeline:** `KG (Temporal)` → `TemporalGraphQuery` → `VersionManager` → `ChangeManagement`
 
 ```python
-from semantica.kg import GraphBuilder, TemporalGraphQuery, TemporalVersionManager
+from sloth_graphmind.kg import GraphBuilder, TemporalGraphQuery, TemporalVersionManager
 
 builder = GraphBuilder()
 kg      = builder.build(sources=[{
@@ -700,12 +700,12 @@ versioner.create_snapshot(kg, "2024-Q1", author="user@example.com", description=
 | [export](reference/export) | Data export | `RDFExporter`, `ParquetExporter` |
 | [visualization](reference/visualization) | Graph visualization | `KGVisualizer` |
 | [pipeline](reference/pipeline) | Workflow orchestration | `Pipeline`, `PipelineBuilder` |
-| [explorer](reference/explorer) | Knowledge Explorer UI | `semantica-explorer --graph <file>` |
+| [explorer](reference/explorer) | Knowledge Explorer UI | `sloth_graphmind-explorer --graph <file>` |
 | [llms](reference/llms) | LLM providers | `Groq`, `OpenAI`, `create_provider` |
-| [mcp_server](reference/mcp_server) | MCP stdio server | `python -m semantica.mcp_server` |
+| [mcp_server](reference/mcp_server) | MCP stdio server | `python -m sloth_graphmind.mcp_server` |
 | [seed](reference/seed) | KG bootstrapping from structured sources | `SeedManager` |
 | [evals](reference/evals) | Quality evaluation | `KGEvaluator`, `ExtractionEvaluator`, `PipelineEvaluator`, `RegressionTracker` |
-| [core](reference/core) | Base classes & registry | `Semantica`, `ConfigManager`, `PluginRegistry`, `LifecycleManager` |
+| [core](reference/core) | Base classes & registry | `GraphMind`, `ConfigManager`, `PluginRegistry`, `LifecycleManager` |
 | [utils](reference/utils) | Shared utilities | `helpers`, `validators` |
 
 - [Getting Started](getting-started) — Your first knowledge graph in 5 minutes.

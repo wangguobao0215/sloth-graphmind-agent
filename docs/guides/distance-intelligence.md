@@ -67,7 +67,7 @@ Distance intelligence quantifies and analyzes the structural relationships betwe
 The first tool in distance intelligence is `classify_path_distance` — it maps any Breadth-First Search (BFS) depth to a human-readable band that carries semantic meaning.
 
 ```python
-from semantica.utils.helpers import classify_path_distance
+from sloth_graphmind.utils.helpers import classify_path_distance
 
 print(classify_path_distance(0))   # "direct"  — same node
 print(classify_path_distance(1))   # "direct"  — single edge
@@ -99,7 +99,7 @@ Each hop along a path multiplies the accumulated confidence by the edge weight. 
 </Info>
 
 ```python
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 graph.add_node("apt29",       "ThreatActor",   "APT29 / NOBELIUM")
@@ -172,7 +172,7 @@ for n in neighbors:
 `PathFinder` exposes five path algorithms. The right one depends on whether you need the single cheapest path, multiple alternative paths, or all paths from a source.
 
 ```python
-from semantica.kg import PathFinder
+from sloth_graphmind.kg import PathFinder
 
 pf = PathFinder()
 ```
@@ -227,8 +227,8 @@ for target, paths in all_paths.items():
 Standard semantic retrieval ranks results by text similarity to the query. Proximity-blended retrieval adds a second signal: how structurally close is each result to an anchor node in the graph? The `proximity_weight` parameter controls the blend.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 graph   = ContextGraph(advanced_analytics=True)
 context = AgentContext(
@@ -300,9 +300,9 @@ for n in content_similar:
 Finding the primary attribution path from a C2 IP to a threat actor, then finding all alternative corroboration paths to strengthen the attribution case before it goes into an intelligence product.
 
 ```python
-from semantica.context import ContextGraph
-from semantica.kg import PathFinder
-from semantica.utils.helpers import classify_path_distance
+from sloth_graphmind.context import ContextGraph
+from sloth_graphmind.kg import PathFinder
+from sloth_graphmind.utils.helpers import classify_path_distance
 
 graph = ContextGraph(advanced_analytics=True)
 
@@ -354,8 +354,8 @@ for n in neighbors:
 Mapping the lateral movement attack graph, finding all alternative routes an attacker could take to the domain controller, and scoring each route by confidence decay to prioritise which paths to block first.
 
 ```python
-from semantica.context import ContextGraph
-from semantica.kg import PathFinder
+from sloth_graphmind.context import ContextGraph
+from sloth_graphmind.kg import PathFinder
 
 graph = ContextGraph()
 
@@ -399,9 +399,9 @@ for n in exposed:
 Mapping drug-enzyme inhibition chains, computing confidence decay for multi-step metabolic pathways, and using proximity-blended retrieval to surface the most structurally relevant drug interaction evidence.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.kg import PathFinder
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.kg import PathFinder
 
 graph   = ContextGraph(advanced_analytics=True)
 context = AgentContext(
@@ -467,10 +467,10 @@ for r in results:
 Scoring causal distance from a macroeconomic shock to specific loan portfolios, finding all exposure routes, and recording a stress-test decision with full causal chain annotation.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.kg import PathFinder
-from semantica.utils.helpers import classify_path_distance
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.kg import PathFinder
+from sloth_graphmind.utils.helpers import classify_path_distance
 
 graph   = ContextGraph(advanced_analytics=True)
 context = AgentContext(

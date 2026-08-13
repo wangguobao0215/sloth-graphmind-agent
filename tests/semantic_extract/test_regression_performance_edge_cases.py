@@ -4,13 +4,13 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from semantica.semantic_extract.config import resolve_max_workers
-from semantica.semantic_extract.ner_extractor import Entity, NERExtractor
-from semantica.semantic_extract.relation_extractor import RelationExtractor
-from semantica.semantic_extract.triplet_extractor import TripletExtractor
-from semantica.semantic_extract.semantic_network_extractor import SemanticNetworkExtractor
-from semantica.semantic_extract.methods import filter_entities_for_text
-from semantica.semantic_extract.schemas import RelationsResponse, RelationOut
+from sloth_graphmind.semantic_extract.config import resolve_max_workers
+from sloth_graphmind.semantic_extract.ner_extractor import Entity, NERExtractor
+from sloth_graphmind.semantic_extract.relation_extractor import RelationExtractor
+from sloth_graphmind.semantic_extract.triplet_extractor import TripletExtractor
+from sloth_graphmind.semantic_extract.semantic_network_extractor import SemanticNetworkExtractor
+from sloth_graphmind.semantic_extract.methods import filter_entities_for_text
+from sloth_graphmind.semantic_extract.schemas import RelationsResponse, RelationOut
 
 
 def test_resolve_max_workers_defaults_and_clamps():
@@ -61,8 +61,8 @@ def test_relation_llm_prompt_filter_does_not_break_mapping():
                 ]
             )
 
-    with patch("semantica.semantic_extract.methods.create_provider", return_value=FakeLLM()):
-        from semantica.semantic_extract.methods import extract_relations_llm
+    with patch("sloth_graphmind.semantic_extract.methods.create_provider", return_value=FakeLLM()):
+        from sloth_graphmind.semantic_extract.methods import extract_relations_llm
 
         relations = extract_relations_llm(
             "Short text mentioning VeryLongEntityName0 only.",
@@ -89,9 +89,9 @@ def test_triplet_extractor_reuses_sub_extractors():
     ner_ctor = MagicMock(return_value=ner_instance)
     rel_ctor = MagicMock(return_value=rel_instance)
 
-    with patch("semantica.semantic_extract.ner_extractor.NERExtractor", ner_ctor), patch(
-        "semantica.semantic_extract.relation_extractor.RelationExtractor", rel_ctor
-    ), patch("semantica.semantic_extract.methods.get_triplet_method", return_value=lambda *args, **kwargs: []):
+    with patch("sloth_graphmind.semantic_extract.ner_extractor.NERExtractor", ner_ctor), patch(
+        "sloth_graphmind.semantic_extract.relation_extractor.RelationExtractor", rel_ctor
+    ), patch("sloth_graphmind.semantic_extract.methods.get_triplet_method", return_value=lambda *args, **kwargs: []):
         extractor = TripletExtractor(method="pattern")
         extractor.extract_triplets("A text.")
         extractor.extract_triplets("A text again.")
@@ -112,8 +112,8 @@ def test_semantic_network_extractor_reuses_sub_extractors():
     ner_ctor = MagicMock(return_value=ner_instance)
     rel_ctor = MagicMock(return_value=rel_instance)
 
-    with patch("semantica.semantic_extract.ner_extractor.NERExtractor", ner_ctor), patch(
-        "semantica.semantic_extract.relation_extractor.RelationExtractor", rel_ctor
+    with patch("sloth_graphmind.semantic_extract.ner_extractor.NERExtractor", ner_ctor), patch(
+        "sloth_graphmind.semantic_extract.relation_extractor.RelationExtractor", rel_ctor
     ):
         extractor = SemanticNetworkExtractor(method="pattern")
         extractor.extract_network("A text.")

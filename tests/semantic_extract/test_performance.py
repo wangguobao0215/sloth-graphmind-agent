@@ -2,12 +2,12 @@ import time
 import unittest
 print("Starting tests module...")
 from unittest.mock import MagicMock, patch
-from semantica.semantic_extract.providers import create_provider, ProviderPool, _provider_pool
-from semantica.semantic_extract.ner_extractor import NERExtractor
-from semantica.semantic_extract.relation_extractor import RelationExtractor
-from semantica.semantic_extract.triplet_extractor import TripletExtractor, Triplet
-from semantica.semantic_extract.methods import _result_cache, extract_entities_llm, extract_relations_llm, extract_triplets_llm, match_entity
-from semantica.semantic_extract.ner_extractor import Entity
+from sloth_graphmind.semantic_extract.providers import create_provider, ProviderPool, _provider_pool
+from sloth_graphmind.semantic_extract.ner_extractor import NERExtractor
+from sloth_graphmind.semantic_extract.relation_extractor import RelationExtractor
+from sloth_graphmind.semantic_extract.triplet_extractor import TripletExtractor, Triplet
+from sloth_graphmind.semantic_extract.methods import _result_cache, extract_entities_llm, extract_relations_llm, extract_triplets_llm, match_entity
+from sloth_graphmind.semantic_extract.ner_extractor import Entity
 
 class TestSemanticExtractImprovements(unittest.TestCase):
     def setUp(self):
@@ -80,7 +80,7 @@ class TestSemanticExtractImprovements(unittest.TestCase):
         ]
         mock_provider.generate_typed.return_value = mock_entities_response
         
-        with patch('semantica.semantic_extract.methods.create_provider', return_value=mock_provider) as mock_create:
+        with patch('sloth_graphmind.semantic_extract.methods.create_provider', return_value=mock_provider) as mock_create:
             # First call - should hit provider
             print("  First call (cache miss)...")
             results1 = extract_entities_llm(text, provider="openai", model="gpt-4", api_key="test")
@@ -112,7 +112,7 @@ class TestSemanticExtractImprovements(unittest.TestCase):
         mock_entities_response.entities = [MagicMock(text="Test", label="TEST", confidence=1.0)]
         mock_provider.generate_typed.return_value = mock_entities_response
         
-        with patch('semantica.semantic_extract.methods.create_provider', return_value=mock_provider):
+        with patch('sloth_graphmind.semantic_extract.methods.create_provider', return_value=mock_provider):
             # First call with one API key
             extract_entities_llm(text, provider="openai", model="gpt-4", api_key="secret_key_1")
             
@@ -132,7 +132,7 @@ class TestSemanticExtractImprovements(unittest.TestCase):
         print("\nTesting Provider Pool...")
         # Create provider twice with same args
         # We need to mock the actual provider init to avoid API keys requirement if not present
-        with patch('semantica.semantic_extract.providers.OpenAIProvider') as MockProvider:
+        with patch('sloth_graphmind.semantic_extract.providers.OpenAIProvider') as MockProvider:
             MockProvider.side_effect = lambda *args, **kwargs: MagicMock()
             
             p1 = create_provider("openai", api_key="test", model_name="gpt-4")

@@ -9,7 +9,7 @@ import pytest
 import numpy as np
 from unittest.mock import Mock, patch
 
-from semantica.vector_store.hybrid_similarity import HybridSimilarityCalculator
+from sloth_graphmind.vector_store.hybrid_similarity import HybridSimilarityCalculator
 
 
 class TestHybridSimilarityCalculator:

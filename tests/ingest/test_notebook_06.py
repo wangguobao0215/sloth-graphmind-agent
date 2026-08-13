@@ -3,9 +3,9 @@ import tempfile
 import pytest
 from unittest.mock import MagicMock, patch
 
-from semantica.ingest import FileIngestor, WebIngestor, DBIngestor, StreamIngestor, FeedIngestor
-from semantica.kg import GraphBuilder, EntityResolver, ProvenanceTracker
-from semantica.conflicts import ConflictDetector
+from sloth_graphmind.ingest import FileIngestor, WebIngestor, DBIngestor, StreamIngestor, FeedIngestor
+from sloth_graphmind.kg import GraphBuilder, EntityResolver, ProvenanceTracker
+from sloth_graphmind.conflicts import ConflictDetector
 
 pytestmark = pytest.mark.integration
 

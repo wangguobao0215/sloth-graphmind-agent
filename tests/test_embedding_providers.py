@@ -7,7 +7,7 @@ import numpy as np
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from semantica.embeddings import TextEmbedder, EmbeddingGenerator
+from sloth_graphmind.embeddings import TextEmbedder, EmbeddingGenerator
 
 class TestEmbeddingProviders(unittest.TestCase):
     def test_sentence_transformers_default(self):

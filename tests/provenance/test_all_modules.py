@@ -6,7 +6,7 @@ ALL Semantica modules.
 """
 
 import pytest
-from semantica.provenance import ProvenanceManager
+from sloth_graphmind.provenance import ProvenanceManager
 
 
 class TestSemanticExtractModule:
@@ -15,7 +15,7 @@ class TestSemanticExtractModule:
     def test_semantic_extract_imports(self):
         """Test that semantic_extract module can be imported."""
         try:
-            from semantica import semantic_extract
+            from sloth_graphmind import semantic_extract
             assert semantic_extract is not None
         except ImportError as e:
             pytest.skip(f"semantic_extract module not available: {e}")
@@ -23,7 +23,7 @@ class TestSemanticExtractModule:
     def test_ner_extractor_provenance_ready(self):
         """Test NER extractor is ready for provenance tracking."""
         try:
-            from semantica.semantic_extract import NERExtractor
+            from sloth_graphmind.semantic_extract import NERExtractor
             
             # Should be able to instantiate
             extractor = NERExtractor()
@@ -40,7 +40,7 @@ class TestSemanticExtractModule:
     def test_relation_extractor_provenance_ready(self):
         """Test relation extractor is ready for provenance tracking."""
         try:
-            from semantica.semantic_extract import RelationExtractor
+            from sloth_graphmind.semantic_extract import RelationExtractor
             
             extractor = RelationExtractor()
             assert extractor is not None
@@ -54,7 +54,7 @@ class TestKGModule:
     
     def test_kg_provenance_tracker_available(self):
         """Test kg.ProvenanceTracker is available and working."""
-        from semantica.kg import ProvenanceTracker
+        from sloth_graphmind.kg import ProvenanceTracker
         
         tracker = ProvenanceTracker()
         assert tracker is not None
@@ -63,7 +63,7 @@ class TestKGModule:
         # NOTE: tracker.get_lineage() was never implemented on
         # kg.ProvenanceTracker; this tested an intended unified-backend
         # migration that never happened (#744). ProvenanceTracker is now
-        # deprecated in favor of semantica.provenance.ProvenanceManager.
+        # deprecated in favor of sloth_graphmind.provenance.ProvenanceManager.
         # Instead, verify the observable behavior of the still-supported
         # track_entity()/get_all_sources() pair.
         tracker.track_entity("test_entity", source="test_source")
@@ -78,12 +78,12 @@ class TestKGModule:
     # never implemented on kg.ProvenanceTracker. This tested an intended
     # unified-backend migration that never happened (#744).
     # ProvenanceTracker is now deprecated in favor of
-    # semantica.provenance.ProvenanceManager.
+    # sloth_graphmind.provenance.ProvenanceManager.
     
     def test_kg_graph_builder_ready(self):
         """Test GraphBuilder is ready for provenance."""
         try:
-            from semantica.kg import GraphBuilder
+            from sloth_graphmind.kg import GraphBuilder
             
             builder = GraphBuilder()
             assert builder is not None
@@ -97,8 +97,8 @@ class TestSplitModule:
     
     def test_split_provenance_tracker_available(self):
         """Test split.ProvenanceTracker is available and working."""
-        from semantica.split import ProvenanceTracker
-        from semantica.split.semantic_chunker import Chunk
+        from sloth_graphmind.split import ProvenanceTracker
+        from sloth_graphmind.split.semantic_chunker import Chunk
         
         tracker = ProvenanceTracker()
         assert tracker is not None
@@ -115,7 +115,7 @@ class TestSplitModule:
     
     def test_split_uses_unified_backend(self):
         """Test that split module uses unified backend."""
-        from semantica.split import ProvenanceTracker
+        from sloth_graphmind.split import ProvenanceTracker
         
         tracker = ProvenanceTracker()
         
@@ -126,7 +126,7 @@ class TestSplitModule:
     def test_semantic_chunker_ready(self):
         """Test SemanticChunker is ready for provenance."""
         try:
-            from semantica.split import SemanticChunker
+            from sloth_graphmind.split import SemanticChunker
             
             chunker = SemanticChunker()
             assert chunker is not None
@@ -141,7 +141,7 @@ class TestLLMsModule:
     def test_llms_module_available(self):
         """Test llms module is available."""
         try:
-            from semantica import llms
+            from sloth_graphmind import llms
             assert llms is not None
         except ImportError as e:
             pytest.skip(f"llms module not available: {e}")
@@ -149,7 +149,7 @@ class TestLLMsModule:
     def test_groq_llm_ready(self):
         """Test GroqLLM is ready for provenance tracking."""
         try:
-            from semantica.llms import GroqLLM
+            from sloth_graphmind.llms import GroqLLM
             
             # Should be able to import
             assert GroqLLM is not None
@@ -160,7 +160,7 @@ class TestLLMsModule:
     def test_openai_llm_ready(self):
         """Test OpenAI LLM is ready for provenance tracking."""
         try:
-            from semantica.llms import OpenAILLM
+            from sloth_graphmind.llms import OpenAILLM
             
             assert OpenAILLM is not None
             
@@ -174,7 +174,7 @@ class TestContextModule:
     def test_context_module_available(self):
         """Test context module is available."""
         try:
-            from semantica import context
+            from sloth_graphmind import context
             assert context is not None
         except ImportError as e:
             pytest.skip(f"context module not available: {e}")
@@ -186,7 +186,7 @@ class TestIngestModule:
     def test_ingest_module_available(self):
         """Test ingest module is available."""
         try:
-            from semantica import ingest
+            from sloth_graphmind import ingest
             assert ingest is not None
         except ImportError as e:
             pytest.skip(f"ingest module not available: {e}")
@@ -198,7 +198,7 @@ class TestEmbeddingsModule:
     def test_embeddings_module_available(self):
         """Test embeddings module is available."""
         try:
-            from semantica import embeddings
+            from sloth_graphmind import embeddings
             assert embeddings is not None
         except ImportError as e:
             pytest.skip(f"embeddings module not available: {e}")
@@ -210,7 +210,7 @@ class TestReasoningModule:
     def test_reasoning_module_available(self):
         """Test reasoning module is available."""
         try:
-            from semantica import reasoning
+            from sloth_graphmind import reasoning
             assert reasoning is not None
         except ImportError as e:
             pytest.skip(f"reasoning module not available: {e}")
@@ -222,7 +222,7 @@ class TestConflictsModule:
     def test_conflicts_module_available(self):
         """Test conflicts module is available."""
         try:
-            from semantica import conflicts
+            from sloth_graphmind import conflicts
             assert conflicts is not None
         except ImportError as e:
             pytest.skip(f"conflicts module not available: {e}")
@@ -230,7 +230,7 @@ class TestConflictsModule:
     def test_source_tracker_available(self):
         """Test SourceTracker is available."""
         try:
-            from semantica.conflicts import SourceTracker
+            from sloth_graphmind.conflicts import SourceTracker
             
             tracker = SourceTracker()
             assert tracker is not None
@@ -245,7 +245,7 @@ class TestDeduplicationModule:
     def test_deduplication_module_available(self):
         """Test deduplication module is available."""
         try:
-            from semantica import deduplication
+            from sloth_graphmind import deduplication
             assert deduplication is not None
         except ImportError as e:
             pytest.skip(f"deduplication module not available: {e}")
@@ -257,7 +257,7 @@ class TestExportModule:
     def test_export_module_available(self):
         """Test export module is available."""
         try:
-            from semantica import export
+            from sloth_graphmind import export
             assert export is not None
         except ImportError as e:
             pytest.skip(f"export module not available: {e}")
@@ -269,7 +269,7 @@ class TestParseModule:
     def test_parse_module_available(self):
         """Test parse module is available."""
         try:
-            from semantica import parse
+            from sloth_graphmind import parse
             assert parse is not None
         except ImportError as e:
             pytest.skip(f"parse module not available: {e}")
@@ -281,7 +281,7 @@ class TestNormalizeModule:
     def test_normalize_module_available(self):
         """Test normalize module is available."""
         try:
-            from semantica import normalize
+            from sloth_graphmind import normalize
             assert normalize is not None
         except ImportError as e:
             pytest.skip(f"normalize module not available: {e}")
@@ -293,7 +293,7 @@ class TestOntologyModule:
     def test_ontology_module_available(self):
         """Test ontology module is available."""
         try:
-            from semantica import ontology
+            from sloth_graphmind import ontology
             assert ontology is not None
         except ImportError as e:
             pytest.skip(f"ontology module not available: {e}")
@@ -305,7 +305,7 @@ class TestPipelineModule:
     def test_pipeline_module_available(self):
         """Test pipeline module is available."""
         try:
-            from semantica import pipeline
+            from sloth_graphmind import pipeline
             assert pipeline is not None
         except ImportError as e:
             pytest.skip(f"pipeline module not available: {e}")
@@ -317,7 +317,7 @@ class TestVisualizationModule:
     def test_visualization_module_available(self):
         """Test visualization module is available."""
         try:
-            from semantica import visualization
+            from sloth_graphmind import visualization
             assert visualization is not None
         except ImportError as e:
             pytest.skip(f"visualization module not available: {e}")
@@ -329,7 +329,7 @@ class TestGraphStoreModule:
     def test_graph_store_module_available(self):
         """Test graph_store module is available."""
         try:
-            from semantica import graph_store
+            from sloth_graphmind import graph_store
             assert graph_store is not None
         except ImportError as e:
             pytest.skip(f"graph_store module not available: {e}")
@@ -341,7 +341,7 @@ class TestVectorStoreModule:
     def test_vector_store_module_available(self):
         """Test vector_store module is available."""
         try:
-            from semantica import vector_store
+            from sloth_graphmind import vector_store
             assert vector_store is not None
         except ImportError as e:
             pytest.skip(f"vector_store module not available: {e}")
@@ -353,7 +353,7 @@ class TestTripletStoreModule:
     def test_triplet_store_module_available(self):
         """Test triplet_store module is available."""
         try:
-            from semantica import triplet_store
+            from sloth_graphmind import triplet_store
             assert triplet_store is not None
         except ImportError as e:
             pytest.skip(f"triplet_store module not available: {e}")
@@ -364,14 +364,14 @@ class TestProvenanceModule:
     
     def test_provenance_manager_available(self):
         """Test ProvenanceManager is available."""
-        from semantica.provenance import ProvenanceManager
+        from sloth_graphmind.provenance import ProvenanceManager
         
         prov_mgr = ProvenanceManager()
         assert prov_mgr is not None
     
     def test_all_provenance_exports(self):
         """Test all provenance exports are available."""
-        from semantica.provenance import (
+        from sloth_graphmind.provenance import (
             ProvenanceManager,
             ProvenanceEntry,
             SourceReference,
@@ -391,7 +391,7 @@ class TestProvenanceModule:
     
     def test_bridge_axiom_available(self):
         """Test BridgeAxiom is available."""
-        from semantica.provenance.bridge_axiom import BridgeAxiom
+        from sloth_graphmind.provenance.bridge_axiom import BridgeAxiom
         
         ba = BridgeAxiom(
             axiom_id="TEST",
@@ -417,9 +417,9 @@ class TestCrossModuleIntegration:
         kg tracking actually produced a record via the still-supported
         track_entity()/get_all_sources() pair.
         """
-        from semantica.kg import ProvenanceTracker as KGTracker
-        from semantica.split import ProvenanceTracker as SplitTracker
-        from semantica.split.semantic_chunker import Chunk
+        from sloth_graphmind.kg import ProvenanceTracker as KGTracker
+        from sloth_graphmind.split import ProvenanceTracker as SplitTracker
+        from sloth_graphmind.split.semantic_chunker import Chunk
         
         # Track with kg
         kg_tracker = KGTracker()
@@ -502,9 +502,9 @@ class TestModuleCoverage:
         }
         
         # Verify ready modules work
-        from semantica.kg import ProvenanceTracker as KGTracker
-        from semantica.split import ProvenanceTracker as SplitTracker
-        from semantica.provenance import ProvenanceManager
+        from sloth_graphmind.kg import ProvenanceTracker as KGTracker
+        from sloth_graphmind.split import ProvenanceTracker as SplitTracker
+        from sloth_graphmind.provenance import ProvenanceManager
         
         kg_tracker = KGTracker()
         split_tracker = SplitTracker()

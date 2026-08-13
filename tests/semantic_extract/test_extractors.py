@@ -6,15 +6,15 @@ import os
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from semantica.semantic_extract.ner_extractor import NERExtractor
-from semantica.semantic_extract.ner_extractor import Entity as NEREntity
-from semantica.semantic_extract.relation_extractor import RelationExtractor
-from semantica.semantic_extract.triplet_extractor import TripletExtractor
-from semantica.semantic_extract.event_detector import EventDetector
-from semantica.semantic_extract.semantic_analyzer import SemanticAnalyzer
-from semantica.semantic_extract.semantic_network_extractor import SemanticNetworkExtractor
-from semantica.semantic_extract.named_entity_recognizer import Entity
-from semantica.semantic_extract.relation_extractor import Relation
+from sloth_graphmind.semantic_extract.ner_extractor import NERExtractor
+from sloth_graphmind.semantic_extract.ner_extractor import Entity as NEREntity
+from sloth_graphmind.semantic_extract.relation_extractor import RelationExtractor
+from sloth_graphmind.semantic_extract.triplet_extractor import TripletExtractor
+from sloth_graphmind.semantic_extract.event_detector import EventDetector
+from sloth_graphmind.semantic_extract.semantic_analyzer import SemanticAnalyzer
+from sloth_graphmind.semantic_extract.semantic_network_extractor import SemanticNetworkExtractor
+from sloth_graphmind.semantic_extract.named_entity_recognizer import Entity
+from sloth_graphmind.semantic_extract.relation_extractor import Relation
 
 class TestExtractors(unittest.TestCase):
     
@@ -42,7 +42,7 @@ class TestExtractors(unittest.TestCase):
         except ImportError as e:
             self.fail(f"TripletExtractor initialization failed with ImportError: {e}")
 
-    @patch("semantica.semantic_extract.methods.get_entity_method")
+    @patch("sloth_graphmind.semantic_extract.methods.get_entity_method")
     def test_ner_extraction(self, mock_get_method):
         """Test NER extraction call"""
         mock_method = MagicMock()
@@ -55,7 +55,7 @@ class TestExtractors(unittest.TestCase):
         self.assertIsInstance(entities, list)
         mock_get_method.assert_called()
 
-    @patch("semantica.semantic_extract.methods.get_entity_method")
+    @patch("sloth_graphmind.semantic_extract.methods.get_entity_method")
     def test_ner_extraction_batch_via_extract_entities(self, mock_get_method):
         mock_method = MagicMock()
         mock_method.extract_entities.return_value = []
@@ -70,7 +70,7 @@ class TestExtractors(unittest.TestCase):
         self.assertEqual(len(results), 2)
         self.assertTrue(all(isinstance(r, list) for r in results))
 
-    @patch("semantica.semantic_extract.methods.get_relation_method")
+    @patch("sloth_graphmind.semantic_extract.methods.get_relation_method")
     def test_relation_extraction(self, mock_get_method):
         """Test relation extraction call"""
         mock_method = MagicMock()
@@ -84,7 +84,7 @@ class TestExtractors(unittest.TestCase):
         self.assertIsInstance(relations, list)
         mock_get_method.assert_called()
 
-    @patch("semantica.semantic_extract.methods.get_relation_method")
+    @patch("sloth_graphmind.semantic_extract.methods.get_relation_method")
     def test_relation_extraction_batch_via_extract_relations(self, mock_get_method):
         mock_method = MagicMock()
         mock_method.extract_relations.return_value = []
@@ -99,7 +99,7 @@ class TestExtractors(unittest.TestCase):
         self.assertEqual(len(results), 2)
         self.assertTrue(all(isinstance(r, list) for r in results))
 
-    @patch("semantica.semantic_extract.methods.get_triplet_method")
+    @patch("sloth_graphmind.semantic_extract.methods.get_triplet_method")
     def test_triplet_extraction(self, mock_get_method):
         """Test triplet extraction call"""
         mock_method = MagicMock()
@@ -115,7 +115,7 @@ class TestExtractors(unittest.TestCase):
         self.assertIsInstance(triplets, list)
         mock_get_method.assert_called()
 
-    @patch("semantica.semantic_extract.methods.get_triplet_method")
+    @patch("sloth_graphmind.semantic_extract.methods.get_triplet_method")
     def test_triplet_extraction_batch_via_extract_triplets(self, mock_get_method):
         mock_method = MagicMock()
         mock_method.extract_triplets.return_value = []

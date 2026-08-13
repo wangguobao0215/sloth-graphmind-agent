@@ -4,12 +4,12 @@ description: "Shared utilities for logging, validation, error handling, progress
 icon: "wrench"
 ---
 
-**`semantica.utils`** provides **shared infrastructure** used throughout Semantica:
+**`sloth_graphmind.utils`** provides **shared infrastructure** used throughout GraphMind:
 
 - Structured logging: `setup_logging()`, `get_logger()`, `log_execution_time` decorator
 - Validation helpers: `validate_entity()` and `validate_config()` return `(bool, Optional[str])` without raising
 - Progress tracking: `ProgressTracker` class and `track_progress()` iterable wrapper with ETA
-- Typed exceptions: `SemanticaError`, `ValidationError`, `ProcessingError`, `ConfigurationError`, `QualityError`
+- Typed exceptions: `GraphMindError`, `ValidationError`, `ProcessingError`, `ConfigurationError`, `QualityError`
 
 Most users won't call utils directly: it's the **shared foundation** for all modules.
 
@@ -18,8 +18,8 @@ Most users won't call utils directly: it's the **shared foundation** for all mod
 
 | Name | Type | Role |
 | :--- | :--- | :--- |
-| `setup_logging` | function | Configure the `semantica` root logger: accepts `level`, `file`, `console`, `rotation` kwargs |
-| `get_logger` | function | Get a named logger instance (`semantica.<name>`) |
+| `setup_logging` | function | Configure the `sloth_graphmind` root logger: accepts `level`, `file`, `console`, `rotation` kwargs |
+| `get_logger` | function | Get a named logger instance (`sloth_graphmind.<name>`) |
 | `log_execution_time` | decorator | Wraps a function: logs name, execution time, and success/failure |
 | `log_performance` | function | Log pre-collected performance metrics: `log_performance(func_name, execution_time, **metrics)` |
 | `validate_entity` | function | Validate entity dict: returns `(bool, Optional[str])`; does not raise |
@@ -28,7 +28,7 @@ Most users won't call utils directly: it's the **shared foundation** for all mod
 | `track_progress` | function | Wrap any iterable with a live progress bar |
 | `clean_text` | function | Normalize whitespace and strip zero-width control characters |
 | `hash_data` | function | Deterministic SHA-256 hash of a `str`, `bytes`, or `dict` |
-| `SemanticaError` | exception | Base exception for all Semantica errors |
+| `GraphMindError` | exception | Base exception for all GraphMind errors |
 | `ValidationError` | exception | Raised when input fails validation; has `.field`, `.value`, `.message` |
 | `ProcessingError` | exception | Raised during extraction, graph build, or pipeline step; has `.stage` |
 | `ConfigurationError` | exception | Raised for configuration validation failures |
@@ -40,7 +40,7 @@ Most users won't call utils directly: it's the **shared foundation** for all mod
 - **Validation** — `validate_entity` and `validate_config` with a typed `ValidationError` carrying field and value context.
 - **Progress Tracking** — `track_progress` wraps any iterable: auto-detects console vs Jupyter for the right renderer.
 - **Helper Functions** — `clean_text`, `hash_data`, `safe_filename`, and nested dict utilities used throughout the framework.
-- **Exception Hierarchy** — `SemanticaError` → `ValidationError`, `ProcessingError`: typed exceptions for targeted recovery.
+- **Exception Hierarchy** — `GraphMindError` → `ValidationError`, `ProcessingError`: typed exceptions for targeted recovery.
 - **File Utilities** — `read_json_file` raises `FileNotFoundError` or `json.JSONDecodeError` on failure: no boilerplate try/except around JSON I/O.
 
 ## Logging
@@ -48,19 +48,19 @@ Most users won't call utils directly: it's the **shared foundation** for all mod
 <Steps>
   <Step title="Initialize logging at application startup">
     ```python
-    from semantica.utils import setup_logging, get_logger
+    from sloth_graphmind.utils import setup_logging, get_logger
 
     setup_logging(level="INFO")   # "DEBUG" | "INFO" | "WARNING" | "ERROR"
     logger = get_logger(__name__)
     ```
 
     <Warning>
-      **Call `setup_logging(level="INFO")` once at application startup.** Without it, Semantica falls back to Python's root logger, which may be silent or misconfigured. Call it before importing other Semantica modules to capture initialization messages.
+      **Call `setup_logging(level="INFO")` once at application startup.** Without it, GraphMind falls back to Python's root logger, which may be silent or misconfigured. Call it before importing other GraphMind modules to capture initialization messages.
     </Warning>
   </Step>
   <Step title="Instrument expensive functions with the performance decorator">
     ```python
-    from semantica.utils import log_execution_time
+    from sloth_graphmind.utils import log_execution_time
 
     @log_execution_time
     def expensive_step(data):
@@ -84,7 +84,7 @@ Most users won't call utils directly: it's the **shared foundation** for all mod
 ## Validation
 
 ```python
-from semantica.utils import validate_entity, validate_config, ValidationError
+from sloth_graphmind.utils import validate_entity, validate_config, ValidationError
 
 # validate_entity returns (is_valid, error_message)
 is_valid, error = validate_entity({"id": "1", "type": "PERSON", "text": "Alice"})
@@ -105,7 +105,7 @@ if not is_valid:
 ## Progress Tracking
 
 ```python
-from semantica.utils import track_progress
+from sloth_graphmind.utils import track_progress
 
 # Wraps any iterable: auto-detects console vs Jupyter
 for item in track_progress(items, desc="Processing documents"):
@@ -125,7 +125,7 @@ Supports:
 ## Helper Functions
 
 ```python
-from semantica.utils import clean_text, hash_data, safe_filename
+from sloth_graphmind.utils import clean_text, hash_data, safe_filename
 
 # Normalize whitespace and strip control characters
 clean = clean_text("  Hello   World  ")     # -> "Hello World"
@@ -146,7 +146,7 @@ fname = safe_filename("My File?.txt")       # -> "My_File.txt"
 Helper functions for deep configuration access: used extensively inside `Config` and `ConfigManager`:
 
 ```python
-from semantica.utils import get_nested_value, set_nested_value, merge_dicts
+from sloth_graphmind.utils import get_nested_value, set_nested_value, merge_dicts
 
 config = {
     "processing": {"batch_size": 32, "max_workers": 4},
@@ -173,7 +173,7 @@ merged    = merge_dicts(base, overrides)
   <Accordion title="Exception types and when they're raised">
 
 ```python
-from semantica.utils import SemanticaError, ValidationError, ProcessingError
+from sloth_graphmind.utils import GraphMindError, ValidationError, ProcessingError
 
 try:
     run_pipeline(data)
@@ -183,14 +183,14 @@ except ValidationError as e:
 except ProcessingError as e:
     # Failure during extraction or graph construction
     logger.error("Processing failed at stage %s: %s", e.stage, e)
-except SemanticaError as e:
-    # Catch-all for all Semantica framework errors
+except GraphMindError as e:
+    # Catch-all for all GraphMind framework errors
     logger.error("Framework error: %s", e)
 ```
 
 | Exception | When Raised | Key Attributes |
 | :--------- | :----------- | :-------------- |
-| `SemanticaError` | Base class: all framework errors inherit from this | `.message`, `.context`, `.error_code` |
+| `GraphMindError` | Base class: all framework errors inherit from this | `.message`, `.context`, `.error_code` |
 | `ValidationError` | Input data failed schema or type validation | `.field`, `.value`, `.constraint` |
 | `ProcessingError` | Failure during extraction, graph build, or pipeline step | `.stage`, `.input_data`, `.output_data` |
 | `ConfigurationError` | Configuration key missing or wrong type | `.config_key`, `.config_value`, `.expected_type` |
@@ -200,13 +200,13 @@ except SemanticaError as e:
 </AccordionGroup>
 
 <Tip>
-  **Catch `SemanticaError` as the broadest exception net.** All framework errors inherit from `SemanticaError`, so `except SemanticaError` catches validation failures, processing errors, and everything in between. Use specific subclasses for targeted recovery logic.
+  **Catch `GraphMindError` as the broadest exception net.** All framework errors inherit from `GraphMindError`, so `except GraphMindError` catches validation failures, processing errors, and everything in between. Use specific subclasses for targeted recovery logic.
 </Tip>
 
 ## File Utilities
 
 ```python
-from semantica.utils import read_json_file
+from sloth_graphmind.utils import read_json_file
 
 # Read and parse a JSON file: raises FileNotFoundError or json.JSONDecodeError on failure
 config = read_json_file("config.json")

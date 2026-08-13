@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from unittest.mock import MagicMock, patch
 import numpy as np
-from semantica.vector_store.vector_store import VectorStore
+from sloth_graphmind.vector_store.vector_store import VectorStore
 
 class TestVectorStore(unittest.TestCase):
 
@@ -12,10 +12,10 @@ class TestVectorStore(unittest.TestCase):
         self.mock_logger = MagicMock()
         self.mock_tracker = MagicMock()
         
-        self.logger_patcher = patch('semantica.vector_store.vector_store.get_logger', return_value=self.mock_logger)
-        self.tracker_patcher = patch('semantica.vector_store.vector_store.get_progress_tracker', return_value=self.mock_tracker)
-        self.indexer_patcher = patch('semantica.vector_store.vector_store.VectorIndexer')
-        self.retriever_patcher = patch('semantica.vector_store.vector_store.VectorRetriever')
+        self.logger_patcher = patch('sloth_graphmind.vector_store.vector_store.get_logger', return_value=self.mock_logger)
+        self.tracker_patcher = patch('sloth_graphmind.vector_store.vector_store.get_progress_tracker', return_value=self.mock_tracker)
+        self.indexer_patcher = patch('sloth_graphmind.vector_store.vector_store.VectorIndexer')
+        self.retriever_patcher = patch('sloth_graphmind.vector_store.vector_store.VectorRetriever')
         
         self.logger_patcher.start()
         self.tracker_patcher.start()

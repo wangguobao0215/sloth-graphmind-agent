@@ -45,7 +45,7 @@ Most data pipelines follow a four-stage pattern regardless of domain:
 Each stage can have multiple parallel steps. For example, the Ingest stage might fetch from three different REST APIs simultaneously, while Transform applies different cleaning rules to each source.
 
 <Info>
-  `PipelineBuilder` and `ExecutionEngine` are in `semantica.pipeline`. Failure handling, retry policies, and parallelism management are separate classes you can import individually for fine-grained control. Custom step handlers are plain Python functions — no subclassing required.
+  `PipelineBuilder` and `ExecutionEngine` are in `sloth_graphmind.pipeline`. Failure handling, retry policies, and parallelism management are separate classes you can import individually for fine-grained control. Custom step handlers are plain Python functions — no subclassing required.
 </Info>
 
 ## Your First Pipeline
@@ -72,10 +72,10 @@ builder.connect_steps("ingest_step", "extract_step")
 ```
 
 ```python
-from semantica.pipeline import PipelineBuilder, ExecutionEngine
-from semantica.ingest import ingest_file
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.pipeline import PipelineBuilder, ExecutionEngine
+from sloth_graphmind.ingest import ingest_file
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 # --- Define handler functions ---
 # The engine calls handler(data, **step_config), so the first positional
@@ -160,7 +160,7 @@ else:
 By default, `ExecutionEngine(retry_on_failure=True)` uses an exponential backoff policy: three retries, starting at 1 second, doubling each time, capped at 60 seconds. For steps that call external APIs or databases — where transient failures are expected — you can set per-step-type policies via `FailureHandler`:
 
 ```python
-from semantica.pipeline import ExecutionEngine, FailureHandler, RetryPolicy, RetryStrategy
+from sloth_graphmind.pipeline import ExecutionEngine, FailureHandler, RetryPolicy, RetryStrategy
 
 # Build a custom failure handler
 handler = FailureHandler()
@@ -331,7 +331,7 @@ The `base_version_id` and `target_version_id` are stored on the `PipelineStep` d
 For pipelines defined in config files — useful when different environments (dev, staging, prod) run the same pipeline with different paths and thresholds — pass a dict to `build_pipeline()` instead of calling `add_step()` manually:
 
 ```python
-from semantica.pipeline import PipelineBuilder, ExecutionEngine
+from sloth_graphmind.pipeline import PipelineBuilder, ExecutionEngine
 
 pipeline_config = {
     "name": "cti_pipeline",
@@ -375,10 +375,10 @@ Note that `build_pipeline()` reads step connections from the `"dependencies"` ke
 
 ## Monitoring Progress
 
-`ExecutionEngine` integrates with Semantica's progress tracker automatically — every step start, update, and completion is recorded. To observe progress during a long-running pipeline, inspect step status on the `Pipeline` object after execution:
+`ExecutionEngine` integrates with GraphMind's progress tracker automatically — every step start, update, and completion is recorded. To observe progress during a long-running pipeline, inspect step status on the `Pipeline` object after execution:
 
 ```python
-from semantica.pipeline import StepStatus
+from sloth_graphmind.pipeline import StepStatus
 
 result   = engine.execute_pipeline(pipeline)
 for step in pipeline.steps:
@@ -403,11 +403,11 @@ print(f"Steps failed:    {result.metrics['steps_failed']}")
     A SOC threat intelligence team needs an end-to-end pipeline that ingests STIX bundles from a classified directory, runs entity extraction with custom threat-actor labels, and builds a `ContextGraph` ready for analyst queries. The pipeline runs every six hours; failed steps retry automatically so a transient filesystem error doesn't drop an ingestion cycle.
 
 ```python
-from semantica.pipeline import PipelineBuilder, ExecutionEngine, RetryPolicy, RetryStrategy
-from semantica.ingest import ingest_file
-from semantica.semantic_extract import NamedEntityRecognizer
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.pipeline import PipelineBuilder, ExecutionEngine, RetryPolicy, RetryStrategy
+from sloth_graphmind.ingest import ingest_file
+from sloth_graphmind.semantic_extract import NamedEntityRecognizer
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 def ingest_classified_stix(data, **config):
     files = ingest_file(config["path"], method="directory")
@@ -471,13 +471,13 @@ print(f"CTI pipeline: success={result.success}, "
     During an active P1 incident, the SOC needs a 15-minute pipeline that pulls fresh SIEM alert CSVs, cross-references CVEs from the internal database, and updates the incident knowledge graph. The pipeline runs on a tight cycle — NER failures must not block the graph update, so steps are configured to not retry on NER errors but to retry aggressively on database timeouts.
 
 ```python
-from semantica.pipeline import (
+from sloth_graphmind.pipeline import (
     PipelineBuilder, ExecutionEngine, FailureHandler,
     RetryPolicy, RetryStrategy,
 )
-from semantica.ingest import ingest_file, DBIngestor
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.ingest import ingest_file, DBIngestor
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 def ingest_siem_alerts(data, **config):
     files = ingest_file(config["path"], method="directory")
@@ -540,12 +540,12 @@ print(f"Incident update: {result.success}, "
     A clinical NLP pipeline processes EHR exports after each trial month closes: ingest patient notes from a shared directory, run biomedical NER using a HuggingFace model to extract drug/disease/dosage entities, record ICH E6(R2)-compliant provenance, and append to the trial graph. The pipeline uses delta mode so only notes added since the last run are processed.
 
 ```python
-from semantica.pipeline import PipelineBuilder, ExecutionEngine
-from semantica.ingest import ingest_file
-from semantica.semantic_extract import NamedEntityRecognizer
-from semantica.provenance import ProvenanceManager, SourceReference
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.pipeline import PipelineBuilder, ExecutionEngine
+from sloth_graphmind.ingest import ingest_file
+from sloth_graphmind.semantic_extract import NamedEntityRecognizer
+from sloth_graphmind.provenance import ProvenanceManager, SourceReference
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 def ingest_ehr_notes(data, **config):
     files = ingest_file(config["path"], method="directory")
@@ -627,11 +627,11 @@ print(f"Clinical pipeline: {result.success}, "
     A compliance team runs a monthly incremental pipeline: ingest new BIS publications from the sitemap, extract capital-ratio and threshold entities, and append them to the existing compliance knowledge graph that already holds three years of regulatory history. Delta mode ensures only pages published since the last run are processed.
 
 ```python
-from semantica.pipeline import PipelineBuilder, ExecutionEngine
-from semantica.ingest import ingest_web
-from semantica.semantic_extract import NamedEntityRecognizer, TripletExtractor
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.pipeline import PipelineBuilder, ExecutionEngine
+from sloth_graphmind.ingest import ingest_web
+from sloth_graphmind.semantic_extract import NamedEntityRecognizer, TripletExtractor
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 def ingest_bis_pages(data, **config):
     pages = ingest_web(config["sitemap"], method="sitemap")

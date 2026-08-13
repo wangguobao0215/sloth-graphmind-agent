@@ -3,7 +3,7 @@ title: "Reasoning & Rules"
 description: "Apply forward-chaining, backward-chaining, Datalog, SPARQL, RETE, temporal interval, and LLM-based reasoning over your knowledge graph — derive new facts, check constraints, and explain inferences."
 ---
 
-Semantica's reasoning layer encodes domain logic as rules and applies it to your knowledge graph to derive conclusions that no single document states explicitly. Eight complementary reasoning modes — from symbol-rule forward chaining to recursive Datalog and LLM-backed freeform queries — let you choose the right tool for each inference problem without switching frameworks.
+GraphMind's reasoning layer encodes domain logic as rules and applies it to your knowledge graph to derive conclusions that no single document states explicitly. Eight complementary reasoning modes — from symbol-rule forward chaining to recursive Datalog and LLM-backed freeform queries — let you choose the right tool for each inference problem without switching frameworks.
 
 ## What Is Reasoning?
 
@@ -91,7 +91,7 @@ The reasoning module operates over facts you supply directly or load from a `Con
 The `Reasoner` class maintains a set of ground facts and a list of rules. Facts can be added as predicate strings or loaded from a `ContextGraph`. Start with the explicit knowledge your extraction pipeline produced:
 
 ```python
-from semantica.reasoning import Reasoner, Rule, RuleType
+from sloth_graphmind.reasoning import Reasoner, Rule, RuleType
 
 reasoner = Reasoner()
 
@@ -207,7 +207,7 @@ The premises list is the explanation chain — each item is a fact that was nece
 `DatalogReasoner` handles questions requiring arbitrary-depth traversal — "which actors can transitively reach critical infrastructure?" — using recursive Horn clause rules with semi-naive bottom-up fixpoint evaluation:
 
 ```python
-from semantica.reasoning import DatalogReasoner
+from sloth_graphmind.reasoning import DatalogReasoner
 
 dl = DatalogReasoner()
 
@@ -259,7 +259,7 @@ for row in rows:
 Skip manual `add_fact()` calls by loading a `ContextGraph` directly:
 
 ```python
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 # ... graph populated by AgentContext.store() or extraction pipeline ...
@@ -272,7 +272,7 @@ print("Loaded {} facts from graph".format(count))
 After forward chaining has derived new facts, `SPARQLReasoner` lets you query the enriched working memory using SPARQL triple-pattern matching with optional inference expansion:
 
 ```python
-from semantica.reasoning import SPARQLReasoner
+from sloth_graphmind.reasoning import SPARQLReasoner
 
 sparql = SPARQLReasoner()
 
@@ -317,7 +317,7 @@ print(expanded)
 `ReteEngine` implements the RETE algorithm — a network of alpha nodes (single-condition matching) and beta nodes (join operations) that avoids re-evaluating unchanged conditions on every new fact. Use it when you have 100+ rules or need incremental fact propagation in a streaming or event-driven setting:
 
 ```python
-from semantica.reasoning import ReteEngine, Rule, RuleType, Fact
+from sloth_graphmind.reasoning import ReteEngine, Rule, RuleType, Fact
 
 # Define rules as Rule objects — same Rule class used by Reasoner
 rules = [
@@ -375,7 +375,7 @@ The rule network is compiled once by `build_network()`. Each subsequent `add_fac
 
 ```python
 from datetime import datetime, timezone
-from semantica.reasoning import TemporalReasoningEngine, TemporalInterval, IntervalRelation
+from sloth_graphmind.reasoning import TemporalReasoningEngine, TemporalInterval, IntervalRelation
 
 engine = TemporalReasoningEngine()
 
@@ -418,8 +418,8 @@ An `OVERLAPS` or `EQUALS` result between two campaigns attributed to different a
 `GraphReasoner` routes freeform natural language queries through an LLM provider, using the graph as grounded context. Use it for exploratory questions that do not map cleanly to a predefined rule set:
 
 ```python
-from semantica.reasoning import GraphReasoner
-from semantica.context import ContextGraph
+from sloth_graphmind.reasoning import GraphReasoner
+from sloth_graphmind.context import ContextGraph
 
 # Initialise with any supported LLM provider
 gr = GraphReasoner(provider="openai", model="gpt-4o-mini")
@@ -454,7 +454,7 @@ print(answer)
 `ExplanationGenerator` translates any `InferenceResult` (from forward or backward chaining) into a human-readable explanation, a step-by-step `ReasoningPath`, and a `Justification` with supporting evidence:
 
 ```python
-from semantica.reasoning import Reasoner, Rule, RuleType, ExplanationGenerator
+from sloth_graphmind.reasoning import Reasoner, Rule, RuleType, ExplanationGenerator
 
 # Run inference first
 reasoner = Reasoner()
@@ -508,12 +508,12 @@ Three detail levels control explanation verbosity: `"simple"` gives a one-line s
 A pipeline combining forward chaining, Datalog reachability, and natural language explanations for a threat intelligence graph:
 
 ```python
-from semantica.reasoning import (
+from sloth_graphmind.reasoning import (
     Reasoner, Rule, RuleType,
     DatalogReasoner, ExplanationGenerator,
 )
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 
 def run_threat_reasoning(graph: ContextGraph) -> dict:
@@ -614,7 +614,7 @@ for conclusion, text in report["explanations"].items():
 Attribution chains in threat intelligence require multi-hop confidence propagation: a TTP match raises the probability of actor attribution, corroborating ASN geolocation raises it further, and a known targeting pattern for the attributed sector raises it to actionable confidence. Each hop is a separate rule with its own confidence weight, and `InferenceResult` carries the propagated value through the chain.
 
 ```python
-from semantica.reasoning import Reasoner, Rule, RuleType
+from sloth_graphmind.reasoning import Reasoner, Rule, RuleType
 
 reasoner = Reasoner()
 
@@ -665,7 +665,7 @@ Zero-trust access control decisions can be evaluated at query time by encoding p
 If the backward chain fails, the premises list in the partial result tells the analyst exactly which policy condition was not satisfied — far more useful than a generic "access denied" message.
 
 ```python
-from semantica.reasoning import Reasoner, Rule, RuleType
+from sloth_graphmind.reasoning import Reasoner, Rule, RuleType
 
 reasoner = Reasoner()
 
@@ -713,7 +713,7 @@ Drug-drug interaction detection is a natural fit for forward chaining: facts abo
 Datalog handles the transitive case: if drug A induces enzyme E1, and E1 metabolises drug B, the full exposure chain can be traced recursively without knowing its depth in advance.
 
 ```python
-from semantica.reasoning import Reasoner, DatalogReasoner
+from sloth_graphmind.reasoning import Reasoner, DatalogReasoner
 
 # Forward-chain: detect clinically significant interactions
 reasoner = Reasoner()
@@ -768,7 +768,7 @@ Basel III capital adequacy rules translate naturally into forward-chaining infer
 Backward chaining is useful for stress testing: "under what conditions would this loan receive a `ConditionalApproval`?" answers by proving the goal and surfacing the minimal set of required facts.
 
 ```python
-from semantica.reasoning import Reasoner, Rule, RuleType
+from sloth_graphmind.reasoning import Reasoner, Rule, RuleType
 
 reasoner = Reasoner()
 

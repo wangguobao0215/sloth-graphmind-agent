@@ -38,7 +38,7 @@ from unittest.mock import MagicMock, Mock, patch
 import pytest
 
 # ── Context module ─────────────────────────────────────────────────────────────
-from semantica.context import (
+from sloth_graphmind.context import (
     AgentContext,
     CausalChainAnalyzer,
     ContextGraph,
@@ -48,14 +48,14 @@ from semantica.context import (
     Policy,
     PolicyEngine,
 )
-from semantica.context.decision_models import (
+from sloth_graphmind.context.decision_models import (
     deserialize_decision,
     serialize_decision,
     validate_decision,
 )
 
 # ── KG module ──────────────────────────────────────────────────────────────────
-from semantica.kg import (
+from sloth_graphmind.kg import (
     CentralityCalculator,
     CommunityDetector,
     ConnectivityAnalyzer,
@@ -66,7 +66,7 @@ from semantica.kg import (
     ProvenanceTracker,
     SimilarityCalculator,
 )
-from semantica.kg.kg_provenance import (
+from sloth_graphmind.kg.kg_provenance import (
     GraphBuilderWithProvenance,
     AlgorithmTrackerWithProvenance,
 )
@@ -1001,13 +1001,13 @@ class TestParquetExportRealData:
 
     def test_parquet_exporter_importable(self):
         try:
-            from semantica.export import ParquetExporter
+            from sloth_graphmind.export import ParquetExporter
         except ImportError as e:
             pytest.skip(f"ParquetExporter not available: {e}")
 
     def test_parquet_export_entities_to_file(self, kg_data, tmp_path):
         try:
-            from semantica.export import ParquetExporter
+            from sloth_graphmind.export import ParquetExporter
         except ImportError:
             pytest.skip("pyarrow not installed")
 
@@ -1019,7 +1019,7 @@ class TestParquetExportRealData:
 
     def test_parquet_export_relationships_to_file(self, kg_data, tmp_path):
         try:
-            from semantica.export import ParquetExporter
+            from sloth_graphmind.export import ParquetExporter
         except ImportError:
             pytest.skip("pyarrow not installed")
 
@@ -1031,7 +1031,7 @@ class TestParquetExportRealData:
 
     def test_parquet_export_knowledge_graph(self, kg_data, tmp_path):
         try:
-            from semantica.export import ParquetExporter
+            from sloth_graphmind.export import ParquetExporter
         except ImportError:
             pytest.skip("pyarrow not installed")
 
@@ -1044,7 +1044,7 @@ class TestParquetExportRealData:
 
     def test_parquet_export_snappy_compression(self, kg_data, tmp_path):
         try:
-            from semantica.export import ParquetExporter
+            from sloth_graphmind.export import ParquetExporter
         except ImportError:
             pytest.skip("pyarrow not installed")
         exporter = ParquetExporter(compression="snappy")
@@ -1054,7 +1054,7 @@ class TestParquetExportRealData:
 
     def test_parquet_export_none_compression(self, kg_data, tmp_path):
         try:
-            from semantica.export import ParquetExporter
+            from sloth_graphmind.export import ParquetExporter
         except ImportError:
             pytest.skip("pyarrow not installed")
         exporter = ParquetExporter(compression="none")
@@ -1064,7 +1064,7 @@ class TestParquetExportRealData:
 
     def test_parquet_convenience_function(self, kg_data, tmp_path):
         try:
-            from semantica.export.methods import export_parquet
+            from sloth_graphmind.export.methods import export_parquet
         except ImportError:
             pytest.skip("pyarrow not installed")
         out_path = tmp_path / "convenience_test.parquet"
@@ -1109,12 +1109,12 @@ class TestArangoAQLExportRealData:
         }
 
     def test_arango_exporter_importable(self):
-        from semantica.export.arango_aql_exporter import ArangoAQLExporter
+        from sloth_graphmind.export.arango_aql_exporter import ArangoAQLExporter
         exporter = ArangoAQLExporter()
         assert exporter is not None
 
     def test_arango_export_to_file(self, ai_kg_data, tmp_path):
-        from semantica.export.arango_aql_exporter import ArangoAQLExporter
+        from sloth_graphmind.export.arango_aql_exporter import ArangoAQLExporter
         exporter = ArangoAQLExporter()
         out_path = tmp_path / "arxiv_papers.aql"
         exporter.export(ai_kg_data, str(out_path))
@@ -1122,7 +1122,7 @@ class TestArangoAQLExportRealData:
         assert out_path.stat().st_size > 0
 
     def test_arango_export_contains_aql_inserts(self, ai_kg_data, tmp_path):
-        from semantica.export.arango_aql_exporter import ArangoAQLExporter
+        from sloth_graphmind.export.arango_aql_exporter import ArangoAQLExporter
         exporter = ArangoAQLExporter()
         out_path = tmp_path / "arxiv_aql_check.aql"
         exporter.export(ai_kg_data, str(out_path))
@@ -1131,7 +1131,7 @@ class TestArangoAQLExportRealData:
         assert "INSERT" in content
 
     def test_arango_export_contains_entity_ids(self, ai_kg_data, tmp_path):
-        from semantica.export.arango_aql_exporter import ArangoAQLExporter
+        from sloth_graphmind.export.arango_aql_exporter import ArangoAQLExporter
         exporter = ArangoAQLExporter()
         out_path = tmp_path / "arxiv_entities_check.aql"
         exporter.export(ai_kg_data, str(out_path))
@@ -1140,7 +1140,7 @@ class TestArangoAQLExportRealData:
         assert "arxiv_1706.03762" in content
 
     def test_arango_export_custom_collection_names(self, ai_kg_data, tmp_path):
-        from semantica.export.arango_aql_exporter import ArangoAQLExporter
+        from sloth_graphmind.export.arango_aql_exporter import ArangoAQLExporter
         exporter = ArangoAQLExporter(
             vertex_collection="research_nodes",
             edge_collection="research_edges",
@@ -1151,21 +1151,21 @@ class TestArangoAQLExportRealData:
         assert "research_nodes" in content or "research_edges" in content
 
     def test_arango_export_knowledge_graph_method(self, ai_kg_data, tmp_path):
-        from semantica.export.arango_aql_exporter import ArangoAQLExporter
+        from sloth_graphmind.export.arango_aql_exporter import ArangoAQLExporter
         exporter = ArangoAQLExporter()
         out_path = tmp_path / "kg_method.aql"
         exporter.export_knowledge_graph(ai_kg_data, str(out_path))
         assert out_path.exists()
 
     def test_arango_convenience_function(self, ai_kg_data, tmp_path):
-        from semantica.export.methods import export_arango
+        from sloth_graphmind.export.methods import export_arango
         out_path = tmp_path / "convenience.aql"
         export_arango(ai_kg_data, str(out_path))
         assert out_path.exists()
 
     def test_arango_export_ecommerce_graph(self, tmp_path):
         """Export the e-commerce product catalog to AQL."""
-        from semantica.export.arango_aql_exporter import ArangoAQLExporter
+        from sloth_graphmind.export.arango_aql_exporter import ArangoAQLExporter
         kg_data = {
             "entities": [
                 {"id": e["id"], "type": e["type"],
@@ -1196,12 +1196,12 @@ class TestDeduplicationV2TwoStageScoring:
     """
 
     def _make_detector(self, threshold=0.75, prefilter=True):
-        from semantica.deduplication import DuplicateDetector
+        from sloth_graphmind.deduplication import DuplicateDetector
         return DuplicateDetector(similarity_threshold=threshold)
 
     def test_type_mismatch_prefilter(self):
         """Entities of different types should be rejected early by prefilter."""
-        from semantica.deduplication import DuplicateDetector
+        from sloth_graphmind.deduplication import DuplicateDetector
         entities = [
             {"id": "e1", "name": "Python", "type": "ProgrammingLanguage"},
             {"id": "e2", "name": "Python", "type": "Snake"},  # Different type
@@ -1213,7 +1213,7 @@ class TestDeduplicationV2TwoStageScoring:
 
     def test_company_name_variants_detected(self):
         """Real-world company name variants from data integration pipelines."""
-        from semantica.deduplication import DuplicateDetector
+        from sloth_graphmind.deduplication import DuplicateDetector
         entities = [
             # Meta / Facebook variants
             {"id": "e1", "name": "Meta Platforms Inc.", "type": "Company"},
@@ -1236,7 +1236,7 @@ class TestDeduplicationV2TwoStageScoring:
 
     def test_blocking_v2_with_phonetic_real_data(self):
         """blocking_v2 with real company names — phonetic matching helps catch typos."""
-        from semantica.deduplication import DuplicateDetector
+        from sloth_graphmind.deduplication import DuplicateDetector
         entities = [
             {"id": f"co_{i}", "name": name, "type": "Company"}
             for i, name in enumerate([
@@ -1258,7 +1258,7 @@ class TestDeduplicationV2TwoStageScoring:
 
     def test_hybrid_v2_strategy(self):
         """hybrid_v2 combines blocking_v2 and legacy for best recall."""
-        from semantica.deduplication import DuplicateDetector
+        from sloth_graphmind.deduplication import DuplicateDetector
         entities = [
             {"id": f"ent_{i}", "name": f"Organization Name {i}", "type": "Organization"}
             for i in range(20)
@@ -1276,7 +1276,7 @@ class TestDeduplicationV2TwoStageScoring:
 
     def test_max_candidates_per_entity_budget(self):
         """max_candidates_per_entity prevents O(N²) explosion for large datasets."""
-        from semantica.deduplication import DuplicateDetector
+        from sloth_graphmind.deduplication import DuplicateDetector
         # 50 entities — without budgeting this is 1225 pairs
         entities = [
             {"id": f"node_{i}", "name": f"Technology Company {i}", "type": "Company"}
@@ -1304,7 +1304,7 @@ class TestSemanticRelationshipDeduplicationV2:
     """
 
     def _make_dedup_triplets(self):
-        from semantica.deduplication.methods import dedup_triplets
+        from sloth_graphmind.deduplication.methods import dedup_triplets
         return dedup_triplets
 
     def test_dedup_triplets_exact_duplicates(self):
@@ -1401,7 +1401,7 @@ class TestAgentMemoryRealWorld:
     """
 
     def _make_memory(self, vector_side_effect=None):
-        from semantica.context import AgentMemory
+        from sloth_graphmind.context import AgentMemory
 
         vector_store = Mock()
         vector_store.add = Mock(return_value="vs_mem_001")
@@ -1472,7 +1472,7 @@ class TestAgentMemoryRealWorld:
 
     def test_store_with_entities_and_relationships(self):
         """Store memory item with structured entity/relationship data."""
-        from semantica.context import AgentMemory, MemoryItem
+        from sloth_graphmind.context import AgentMemory, MemoryItem
 
         vector_store = Mock()
         vector_store.add = Mock(return_value="vs_002")
@@ -1583,7 +1583,7 @@ class TestFullE2EWorkflowRealData:
         assert gpt4_decision_id in chain_ids
 
         # 8. Export to AQL
-        from semantica.export.arango_aql_exporter import ArangoAQLExporter
+        from sloth_graphmind.export.arango_aql_exporter import ArangoAQLExporter
         kg_export_data = {
             "entities": [
                 {"id": p["id"], "type": p["type"],
@@ -1602,7 +1602,7 @@ class TestFullE2EWorkflowRealData:
         assert aql_path.stat().st_size > 0
 
         # 9. Deduplication on paper metadata variants
-        from semantica.deduplication import DuplicateDetector
+        from sloth_graphmind.deduplication import DuplicateDetector
         paper_variants = [
             {"id": "p1", "name": "Attention Is All You Need", "type": "Paper"},
             {"id": "p2", "name": "Attention is All You Need", "type": "Paper"},
@@ -1670,7 +1670,7 @@ class TestFullE2EWorkflowRealData:
         assert enforcement["compliant"] is True
 
         # Export ecommerce graph
-        from semantica.export.arango_aql_exporter import ArangoAQLExporter
+        from sloth_graphmind.export.arango_aql_exporter import ArangoAQLExporter
         ec_kg = {
             "entities": [
                 {"id": e["id"], "type": e["type"],
@@ -1729,7 +1729,7 @@ class TestFullE2EWorkflowRealData:
 
     def test_reasoner_infers_ai_company_facts(self):
         """Reasoner forward chaining with GitHub + arXiv domain facts."""
-        from semantica.reasoning.reasoner import Reasoner
+        from sloth_graphmind.reasoning.reasoner import Reasoner
 
         reasoner = Reasoner()
         # Facts from public knowledge
@@ -1750,7 +1750,7 @@ class TestFullE2EWorkflowRealData:
 
     def test_rdf_export_research_graph(self):
         """Export research paper graph as Turtle RDF."""
-        from semantica.export import RDFExporter
+        from sloth_graphmind.export import RDFExporter
 
         kg_data = {
             "entities": [
@@ -2052,7 +2052,7 @@ class TestIncrementalDeltaProcessing:
 
     def test_delta_pipeline_config_accepted(self):
         """Delta mode configuration should be parseable by PipelineBuilder."""
-        from semantica.pipeline import PipelineBuilder
+        from sloth_graphmind.pipeline import PipelineBuilder
         builder = PipelineBuilder()
         step = builder.add_step(
             "delta_ingest",
@@ -2063,7 +2063,7 @@ class TestIncrementalDeltaProcessing:
 
     def test_pipeline_with_version_metadata(self):
         """Pipeline steps can carry delta/version metadata."""
-        from semantica.pipeline import PipelineBuilder, PipelineValidator
+        from sloth_graphmind.pipeline import PipelineBuilder, PipelineValidator
         builder = PipelineBuilder()
         builder.add_step("snapshot_v1", "snapshot_creator", dependencies=[])
         builder.add_step("compute_delta", "delta_computer", dependencies=["snapshot_v1"])

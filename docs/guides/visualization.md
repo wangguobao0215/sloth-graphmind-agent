@@ -81,9 +81,9 @@ Always filter before visualizing. A 10,000-node enterprise graph becomes meaning
 The first thing to put in front of stakeholders is the full network — nodes coloured by entity type, sized by degree centrality, with tooltips showing content on hover.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.visualization import KGVisualizer
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.visualization import KGVisualizer
 
 graph = ContextGraph(advanced_analytics=True)
 ctx   = AgentContext(
@@ -140,7 +140,7 @@ viz.visualize_network(
 After community detection, you have a dict mapping community labels to node ID lists. `visualize_communities` on `KGVisualizer` overlays those clusters on the network; `AnalyticsVisualizer.visualize_community_structure` forwards to that same community graph view.
 
 ```python
-from semantica.visualization import AnalyticsVisualizer
+from sloth_graphmind.visualization import AnalyticsVisualizer
 
 # The community dict you get from graph analytics
 communities = {
@@ -246,7 +246,7 @@ av.visualize_degree_distribution(
 When the story you are telling is temporal — a CVE lifecycle, an incident timeline, a campaign progression — `TemporalVisualizer.visualize_timeline` turns a list of timestamped events into a scrollable interactive chart.
 
 ```python
-from semantica.visualization import TemporalVisualizer
+from sloth_graphmind.visualization import TemporalVisualizer
 
 tv = TemporalVisualizer()
 
@@ -268,7 +268,7 @@ tv.visualize_timeline(
 When the question is "what changed between March 14 and April 14?", `visualize_snapshot_comparison` takes two named snapshots from `TemporalVersionManager` and renders a line chart comparing graph metrics (entities, relationships, density) across the provided snapshots.
 
 ```python
-from semantica.change_management import TemporalVersionManager
+from sloth_graphmind.change_management import TemporalVersionManager
 
 vm    = TemporalVersionManager(storage_path="versions.db")
 snap1 = vm.get_version("pre_patch_march_14")
@@ -331,9 +331,9 @@ tv.visualize_metrics_evolution(
 A full analyst briefing package: interactive threat network, community breakdown, CVE timeline, and graph growth curve — all generated from a live CTI graph before the morning standup.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.visualization import KGVisualizer, AnalyticsVisualizer, TemporalVisualizer
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.visualization import KGVisualizer, AnalyticsVisualizer, TemporalVisualizer
 import os
 
 graph = ContextGraph(advanced_analytics=True)
@@ -400,8 +400,8 @@ tv.visualize_timeline(
 During an active incident, the SOC generates a lateral movement network with the attack path highlighted, a centrality ranking to identify which hosts are most pivotal, and a relationship matrix to show who connects to what.
 
 ```python
-from semantica.context import ContextGraph
-from semantica.visualization import KGVisualizer, AnalyticsVisualizer
+from sloth_graphmind.context import ContextGraph
+from sloth_graphmind.visualization import KGVisualizer, AnalyticsVisualizer
 
 graph = ContextGraph(advanced_analytics=True)
 
@@ -455,10 +455,10 @@ av.visualize_centrality_rankings(
 A drug repurposing exploration: interactive drug-target-disease network, OWL class hierarchy, UMAP embedding projection, and a similarity heatmap to spot structurally equivalent compounds.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.visualization import KGVisualizer, EmbeddingVisualizer, OntologyVisualizer
-from semantica.ontology import OntologyGenerator
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.visualization import KGVisualizer, EmbeddingVisualizer, OntologyVisualizer
+from sloth_graphmind.ontology import OntologyGenerator
 import numpy as np
 
 graph = ContextGraph(advanced_analytics=True)
@@ -516,10 +516,10 @@ ev.visualize_similarity_heatmap(
 Regulatory knowledge graph for model governance: entity network, OWL class hierarchy for documentation, and a graph growth curve across quarterly Basel III updates — all in static PNG for the model governance committee pack.
 
 ```python
-from semantica.context import ContextGraph
-from semantica.change_management import TemporalVersionManager
-from semantica.visualization import KGVisualizer, TemporalVisualizer, OntologyVisualizer
-from semantica.ontology import OntologyGenerator
+from sloth_graphmind.context import ContextGraph
+from sloth_graphmind.change_management import TemporalVersionManager
+from sloth_graphmind.visualization import KGVisualizer, TemporalVisualizer, OntologyVisualizer
+from sloth_graphmind.ontology import OntologyGenerator
 
 graph = ContextGraph(advanced_analytics=True)
 vm    = TemporalVersionManager(storage_path="regulatory_versions.db")

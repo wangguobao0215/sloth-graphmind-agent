@@ -22,7 +22,7 @@ When you merge data from multiple sources, the same real-world entity — a cust
 
 **Conflicting values** — Two or more different values asserted for the same property on the same canonical entity, each reported by a different source.
 
-**Credibility score** — A number between 0.0 and 1.0 you attach to each source record, indicating how reliable that source is. A government registry might carry 0.99; a scraped blog might carry 0.30. You supply these; Semantica uses them during `CREDIBILITY_WEIGHTED` resolution.
+**Credibility score** — A number between 0.0 and 1.0 you attach to each source record, indicating how reliable that source is. A government registry might carry 0.99; a scraped blog might carry 0.30. You supply these; GraphMind uses them during `CREDIBILITY_WEIGHTED` resolution.
 
 **Confidence score** — A number between 0.0 and 1.0 the resolver *computes* after resolution, reflecting how certain the outcome is. A unanimous vote produces high confidence; a close split among equally credible sources produces lower confidence. This appears on `ResolutionResult.confidence` and should be read as a signal, not a guarantee that the resolved value is correct.
 
@@ -76,7 +76,7 @@ flowchart TD
 Before diving into domain-specific scenarios, here is the shortest path through the API. Three systems — a CRM, an ERP, and an LDAP directory — hold slightly different contact details for the same customer. Two of the three agree that the canonical email is `alice.smith@example.com`; the CRM has an older value.
 
 ```python
-from semantica.conflicts import ConflictDetector, ConflictResolver, ResolutionStrategy
+from sloth_graphmind.conflicts import ConflictDetector, ConflictResolver, ResolutionStrategy
 
 # Same customer, three sources — only email disagrees
 customer_records = [
@@ -158,7 +158,7 @@ Without `entity_type`, the detector checks every key found on your entity dicts 
 Use `detect_value_conflicts()` when you already know which property to check, or when you want to apply different detection logic to each property. `ConflictDetector` groups the records by entity ID, then compares each source's value for that property. Any entity where two or more sources report different values produces a `Conflict` object.
 
 ```python
-from semantica.conflicts import ConflictDetector, ConflictResolver, ResolutionStrategy
+from sloth_graphmind.conflicts import ConflictDetector, ConflictResolver, ResolutionStrategy
 
 # Three authoritative sources on the same CVE — all credible, all disagreeing
 cve_records = [
@@ -314,7 +314,7 @@ NVD wins the CVSS score — its credibility weight (0.98) edges out the commerci
 Not every conflict can be auto-resolved. A disagreement about the legal classification of a financial instrument, or about a patient's current medication list, is too consequential to resolve by algorithm. Flag these for review without blocking the rest of the batch:
 
 ```python
-from semantica.conflicts import ConflictDetector, ConflictResolver, ResolutionStrategy
+from sloth_graphmind.conflicts import ConflictDetector, ConflictResolver, ResolutionStrategy
 
 # Drug trial data: efficacy agreed, primary endpoint disputed
 trial_records = [
@@ -474,7 +474,7 @@ A threat intelligence platform merges actor profiles from Mandiant, CrowdStrike,
 Credibility-weighted resolution handles this cleanly: the blog's misattribution is drowned out by the combined weight of the two authoritative vendors. The `first_seen` date disagreement (2008 vs 2009) is also resolved by credibility weight, giving Mandiant's 2008 date the win.
 
 ```python
-from semantica.conflicts import ConflictDetector, ConflictResolver, ResolutionStrategy
+from sloth_graphmind.conflicts import ConflictDetector, ConflictResolver, ResolutionStrategy
 
 actor_profiles = [
     {"id": "apt29", "source": "mandiant",    "nation_state": "Russia",
@@ -517,7 +517,7 @@ A vulnerability management system ingests CVSS scores from NVD, MITRE, and a ven
 The CVSS vector string also conflicts — the scope field (`S:C` vs `S:U`) reflects a genuine interpretive disagreement that affects whether the CVE is classified as a network pivot risk. Both conflicts get the same credibility-weighted treatment.
 
 ```python
-from semantica.conflicts import ConflictDetector, ConflictResolver, ResolutionStrategy
+from sloth_graphmind.conflicts import ConflictDetector, ConflictResolver, ResolutionStrategy
 
 cve_records = [
     {"id": "cve-2024-3400", "source": "nvd",
@@ -562,7 +562,7 @@ A drug safety knowledge graph merges dapagliflozin trial data from three studies
 Efficacy numbers can be credibility-weighted; disputed endpoints must go to expert review. This split handling — auto-resolve what you can, escalate what you can't — is the pattern for regulated data environments.
 
 ```python
-from semantica.conflicts import ConflictDetector, ConflictResolver, ResolutionStrategy
+from sloth_graphmind.conflicts import ConflictDetector, ConflictResolver, ResolutionStrategy
 
 drug_records = [
     {"id": "dapagliflozin", "source": "declare_timi58",
@@ -614,7 +614,7 @@ A credit risk graph merges corporate client data from a CRM, the global LEI regi
 Setting `CREDIBILITY_WEIGHTED` resolution for `legal_name` and `sic_code` with the LEI registry carrying a 0.99 credibility score ensures the legally authoritative value always wins, with full audit evidence for the next regulatory examination.
 
 ```python
-from semantica.conflicts import ConflictDetector, ConflictResolver, ResolutionStrategy
+from sloth_graphmind.conflicts import ConflictDetector, ConflictResolver, ResolutionStrategy
 
 client_records = [
     {"id": "corp-acme-uk", "source": "crm",

@@ -33,9 +33,9 @@ mock_transformers = MagicMock()
 mock_transformers.__spec__ = MagicMock()
 sys.modules["transformers"] = mock_transformers
 
-from semantica.semantic_extract import NERExtractor
-from semantica.semantic_extract.methods import extract_entities_llm, _extract_entities_chunked, extract_relations_llm, extract_triplets_llm
-from semantica.semantic_extract.providers import BaseProvider
+from sloth_graphmind.semantic_extract import NERExtractor
+from sloth_graphmind.semantic_extract.methods import extract_entities_llm, _extract_entities_chunked, extract_relations_llm, extract_triplets_llm
+from sloth_graphmind.semantic_extract.providers import BaseProvider
 
 # Restore real sys.modules entries now that the mocks have served their purpose
 # for the imports above. Leaving them in place would poison other test modules
@@ -57,7 +57,7 @@ class TestRetryLogic(unittest.TestCase):
         self.mock_provider.is_available.return_value = True
         self.mock_provider.generate_typed.return_value = MagicMock(entities=[])
         # Clear the module-level extraction cache to avoid cross-test interference
-        from semantica.semantic_extract.methods import _result_cache
+        from sloth_graphmind.semantic_extract.methods import _result_cache
         _result_cache.clear()
         
     def test_ner_extractor_init_default(self):
@@ -71,7 +71,7 @@ class TestRetryLogic(unittest.TestCase):
         ner = NERExtractor(method="llm", provider="test", max_retries=5)
         self.assertEqual(ner.config.get("max_retries"), 5)
 
-    @patch('semantica.semantic_extract.methods.create_provider')
+    @patch('sloth_graphmind.semantic_extract.methods.create_provider')
     def test_extract_entities_uses_init_value(self, mock_create_provider):
         """Test extract_entities uses initialized max_retries"""
         mock_create_provider.return_value = self.mock_provider
@@ -83,7 +83,7 @@ class TestRetryLogic(unittest.TestCase):
         args, kwargs = self.mock_provider.generate_typed.call_args
         self.assertEqual(kwargs.get("max_retries"), 5)
 
-    @patch('semantica.semantic_extract.methods.create_provider')
+    @patch('sloth_graphmind.semantic_extract.methods.create_provider')
     def test_extract_entities_override(self, mock_create_provider):
         """Test extract_entities override max_retries"""
         mock_create_provider.return_value = self.mock_provider
@@ -95,13 +95,13 @@ class TestRetryLogic(unittest.TestCase):
         args, kwargs = self.mock_provider.generate_typed.call_args
         self.assertEqual(kwargs.get("max_retries"), 1)
 
-    @patch('semantica.semantic_extract.methods.create_provider')
+    @patch('sloth_graphmind.semantic_extract.methods.create_provider')
     def test_chunked_extraction_propagation(self, mock_create_provider):
         """Test max_retries propagation in chunked extraction"""
         mock_create_provider.return_value = self.mock_provider
         
         # Patch TextSplitter where it lives
-        with patch('semantica.split.TextSplitter') as MockSplitter:
+        with patch('sloth_graphmind.split.TextSplitter') as MockSplitter:
             mock_splitter_instance = MockSplitter.return_value
             # Mock split to return 2 chunks
             mock_chunk1 = MagicMock()
@@ -137,7 +137,7 @@ class TestRetryLogic(unittest.TestCase):
         provider.generate_structured = MagicMock(side_effect=Exception("Fail"))
         
         # Mock instructor failing
-        with patch('semantica.semantic_extract.providers.instructor') as mock_instructor:
+        with patch('sloth_graphmind.semantic_extract.providers.instructor') as mock_instructor:
              # Make instructor client fail
             mock_client = MagicMock()
             mock_client.chat.completions.create.side_effect = Exception("Instructor Fail")
@@ -161,7 +161,7 @@ class TestRetryLogic(unittest.TestCase):
         provider.generate_structured = MagicMock(side_effect=Exception("Fail"))
         
         # Mock instructor failing
-        with patch('semantica.semantic_extract.providers.instructor') as mock_instructor:
+        with patch('sloth_graphmind.semantic_extract.providers.instructor') as mock_instructor:
             mock_client = MagicMock()
             mock_client.chat.completions.create.side_effect = Exception("Instructor Fail")
             mock_instructor.from_provider.return_value = mock_client
@@ -175,7 +175,7 @@ class TestRetryLogic(unittest.TestCase):
             # Should NOT try manual generation loop (range(0) is empty)
             self.assertEqual(provider.generate_structured.call_count, 0)
 
-    @patch('semantica.semantic_extract.methods.create_provider')
+    @patch('sloth_graphmind.semantic_extract.methods.create_provider')
     def test_relations_retry_propagation(self, mock_create_provider):
         """Test max_retries propagation in relation extraction"""
         mock_create_provider.return_value = self.mock_provider
@@ -196,12 +196,12 @@ class TestRetryLogic(unittest.TestCase):
         args, kwargs = self.mock_provider.generate_typed.call_args
         self.assertEqual(kwargs.get("max_retries"), 4)
 
-    @patch('semantica.semantic_extract.methods.create_provider')
+    @patch('sloth_graphmind.semantic_extract.methods.create_provider')
     def test_relations_chunked_propagation(self, mock_create_provider):
         """Test max_retries propagation in chunked relation extraction"""
         mock_create_provider.return_value = self.mock_provider
         
-        with patch('semantica.split.TextSplitter') as MockSplitter:
+        with patch('sloth_graphmind.split.TextSplitter') as MockSplitter:
             mock_splitter_instance = MockSplitter.return_value
             mock_chunk1 = MagicMock()
             mock_chunk1.text = "chunk1"
@@ -231,7 +231,7 @@ class TestRetryLogic(unittest.TestCase):
             args, kwargs = self.mock_provider.generate_typed.call_args
             self.assertEqual(kwargs.get("max_retries"), 6)
 
-    @patch('semantica.semantic_extract.methods.create_provider')
+    @patch('sloth_graphmind.semantic_extract.methods.create_provider')
     def test_triplets_retry_propagation(self, mock_create_provider):
         """Test max_retries propagation in triplet extraction"""
         mock_create_provider.return_value = self.mock_provider
@@ -247,12 +247,12 @@ class TestRetryLogic(unittest.TestCase):
         args, kwargs = self.mock_provider.generate_typed.call_args
         self.assertEqual(kwargs.get("max_retries"), 7)
 
-    @patch('semantica.semantic_extract.methods.create_provider')
+    @patch('sloth_graphmind.semantic_extract.methods.create_provider')
     def test_triplets_chunked_propagation(self, mock_create_provider):
         """Test max_retries propagation in chunked triplet extraction"""
         mock_create_provider.return_value = self.mock_provider
         
-        with patch('semantica.split.TextSplitter') as MockSplitter:
+        with patch('sloth_graphmind.split.TextSplitter') as MockSplitter:
             mock_splitter_instance = MockSplitter.return_value
             mock_chunk1 = MagicMock()
             mock_chunk1.text = "chunk1"

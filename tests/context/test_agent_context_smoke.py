@@ -1,7 +1,7 @@
 import pytest
-from semantica.context import AgentContext, ContextGraph
-from semantica.context.decision_models import Policy
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.context.decision_models import Policy
+from sloth_graphmind.vector_store import VectorStore
 from datetime import datetime
 
 

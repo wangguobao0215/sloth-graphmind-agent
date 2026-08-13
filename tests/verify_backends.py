@@ -11,9 +11,9 @@ logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger("verify_backends")
 
 try:
-    from semantica.graph_store.graph_store import GraphStore
+    from sloth_graphmind.graph_store.graph_store import GraphStore
 except ImportError:
-    logger.error("Failed to import semantica. Make sure you are in the project root or semantica is installed.")
+    logger.error("Failed to import sloth_graphmind. Make sure you are in the project root or semantica is installed.")
     exit(1)
 
 pytestmark = pytest.mark.integration

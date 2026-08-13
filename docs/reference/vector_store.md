@@ -4,7 +4,7 @@ description: "Unified interface for FAISS, Pinecone, Weaviate, Qdrant, Milvus, a
 icon: "database"
 ---
 
-`semantica.vector_store` provides a unified API for storing and searching vector embeddings across all major backends:
+`sloth_graphmind.vector_store` provides a unified API for storing and searching vector embeddings across all major backends:
 
 - Swap backends with a one-line change: no application code changes needed
 - `HybridSearch` fuses dense vector similarity with metadata filtering via RRF or weighted average
@@ -57,7 +57,7 @@ icon: "database"
 **`VectorStore`** is the main entry point. Use `"inmemory"` for development and `"faiss"` for **local production**:
 
 ```python
-from semantica.vector_store import VectorStore
+from sloth_graphmind.vector_store import VectorStore
 
 # In-memory (development / testing: no persistence)
 store = VectorStore(backend="inmemory", dimension=384)
@@ -90,7 +90,7 @@ for r in results:
 <Steps>
   <Step title="Create a vector store">
     ```python
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.vector_store import VectorStore
 
     # In-memory (development)
     store = VectorStore(backend="inmemory", dimension=384)
@@ -128,7 +128,7 @@ for r in results:
   </Step>
   <Step title="Filter results by metadata">
     ```python
-    from semantica.vector_store import HybridSearch, MetadataFilter
+    from sloth_graphmind.vector_store import HybridSearch, MetadataFilter
 
     mf = MetadataFilter().eq("category", "research").gt("year", 2022)
 
@@ -160,7 +160,7 @@ No installation or API key required. FAISS requires `pip install faiss-cpu`.
   <Tab title="Pinecone">
 
 ```bash
-pip install "semantica[pinecone]"
+pip install "sloth_graphmind[pinecone]"
 ```
 
 ```python
@@ -169,7 +169,7 @@ store = VectorStore(
     backend="pinecone",
     dimension=768,
     api_key=os.getenv("PINECONE_API_KEY"),
-    index_name="semantica-index",
+    index_name="sloth_graphmind-index",
     environment="us-east-1-aws"
 )
 ```
@@ -178,7 +178,7 @@ store = VectorStore(
   <Tab title="Weaviate">
 
 ```bash
-pip install "semantica[weaviate]"
+pip install "sloth_graphmind[weaviate]"
 ```
 
 ```python
@@ -194,7 +194,7 @@ store = VectorStore(
   <Tab title="Qdrant">
 
 ```bash
-pip install "semantica[qdrant]"
+pip install "sloth_graphmind[qdrant]"
 ```
 
 ```python
@@ -202,7 +202,7 @@ store = VectorStore(
     backend="qdrant",
     dimension=768,
     url="http://localhost:6333",
-    collection_name="semantica"
+    collection_name="sloth_graphmind"
 )
 ```
 
@@ -210,7 +210,7 @@ store = VectorStore(
   <Tab title="PgVector">
 
 ```bash
-pip install "semantica[pgvector]"
+pip install "sloth_graphmind[pgvector]"
 ```
 
 ```python
@@ -237,7 +237,7 @@ store = VectorStore(
     dimension=768,
     host="localhost",
     port=19530,
-    collection_name="semantica"
+    collection_name="sloth_graphmind"
 )
 ```
 
@@ -261,7 +261,7 @@ store = VectorStore(
 `HybridSearch` combines vector similarity with metadata filtering. Pass `vector_store` at construction to avoid supplying raw vectors on every call:
 
 ```python
-from semantica.vector_store import HybridSearch, MetadataFilter
+from sloth_graphmind.vector_store import HybridSearch, MetadataFilter
 
 # With vector_store: search() pulls vectors from the store automatically
 search = HybridSearch(vector_store=store)
@@ -310,7 +310,7 @@ fused = search.multi_source_search(query_vector, sources, k=10)
 `MetadataFilter` supports chained conditions: all conditions are ANDed:
 
 ```python
-from semantica.vector_store import MetadataFilter
+from sloth_graphmind.vector_store import MetadataFilter
 
 mf = MetadataFilter().eq("author", "John Smith")          # equality
 mf = MetadataFilter().ne("status", "archived")            # not equal
@@ -345,7 +345,7 @@ mf = (
 `SearchRanker` fuses results from multiple ranked lists:
 
 ```python
-from semantica.vector_store import SearchRanker
+from sloth_graphmind.vector_store import SearchRanker
 
 # Reciprocal Rank Fusion: robust to score scale differences
 ranker  = SearchRanker(strategy="reciprocal_rank_fusion")
@@ -366,7 +366,7 @@ fused   = ranker.rank([results_list_1, results_list_2], weights=[0.7, 0.3])
 Use `NamespaceManager` to assign vectors to named namespaces for multi-tenant isolation:
 
 ```python
-from semantica.vector_store import NamespaceManager, VectorStore
+from sloth_graphmind.vector_store import NamespaceManager, VectorStore
 
 store      = VectorStore(backend="inmemory", dimension=384)
 ns_manager = NamespaceManager()
@@ -447,7 +447,7 @@ store2.load("./vector_store_backup")
 `MetadataStore` indexes structured metadata and lets you query by field values without a vector:
 
 ```python
-from semantica.vector_store import MetadataStore
+from sloth_graphmind.vector_store import MetadataStore
 
 meta_store = MetadataStore()
 
@@ -482,7 +482,7 @@ stats = meta_store.get_stats()
 FAISS index type is configured by creating a `FAISSStore` directly and calling `create_index()`. Use lowercase type names:
 
 ```python
-from semantica.vector_store import FAISSStore
+from sloth_graphmind.vector_store import FAISSStore
 
 store = FAISSStore(dimension=384)
 
@@ -519,7 +519,7 @@ store.create_index(index_type="pq", metric="L2", m=8)
 <Tabs>
   <Tab title="Semantic search pipeline">
     ```python
-    from semantica.vector_store import VectorStore
+    from sloth_graphmind.vector_store import VectorStore
 
     store = VectorStore(backend="faiss", dimension=384)
 
@@ -541,7 +541,7 @@ store.create_index(index_type="pq", metric="L2", m=8)
   </Tab>
   <Tab title="Filtered retrieval">
     ```python
-    from semantica.vector_store import VectorStore, HybridSearch, MetadataFilter
+    from sloth_graphmind.vector_store import VectorStore, HybridSearch, MetadataFilter
 
     store  = VectorStore(backend="inmemory", dimension=384)
     search = HybridSearch(vector_store=store)
@@ -553,7 +553,7 @@ store.create_index(index_type="pq", metric="L2", m=8)
   </Tab>
   <Tab title="Multi-source fusion">
     ```python
-    from semantica.vector_store import HybridSearch, SearchRanker
+    from sloth_graphmind.vector_store import HybridSearch, SearchRanker
 
     search = HybridSearch()
     sources = [
@@ -569,7 +569,7 @@ store.create_index(index_type="pq", metric="L2", m=8)
   </Tab>
   <Tab title="Multi-tenant namespaces">
     ```python
-    from semantica.vector_store import VectorStore, NamespaceManager
+    from sloth_graphmind.vector_store import VectorStore, NamespaceManager
 
     store = VectorStore(backend="inmemory", dimension=384)
     ns    = NamespaceManager()

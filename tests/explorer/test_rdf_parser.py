@@ -17,7 +17,7 @@ import pytest
 import rdflib
 from rdflib.namespace import RDF, SKOS
 
-from semantica.explorer.utils.rdf_parser import (
+from sloth_graphmind.explorer.utils.rdf_parser import (
     _get_all_labels,
     _get_best_label,
     parse_skos_file,

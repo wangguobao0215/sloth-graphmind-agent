@@ -2,7 +2,7 @@ import os
 import unittest
 import time
 
-from semantica.semantic_extract import NERExtractor, RelationExtractor
+from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
 
 # Use environment variable for API key
 _GROQ_KEY = os.getenv("GROQ_API_KEY") or os.getenv("GROQ_TEST_API_KEY")

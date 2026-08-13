@@ -45,7 +45,7 @@ class TestAgentContextCheckpoint:
 
     @pytest.fixture
     def ctx(self):
-        from semantica.context import AgentContext, ContextGraph
+        from sloth_graphmind.context import AgentContext, ContextGraph
         graph = ContextGraph()
         mock_vs = MagicMock()
         mock_vs.search.return_value = []
@@ -99,7 +99,7 @@ class TestAgentContextDiffCheckpoints:
 
     @pytest.fixture
     def ctx_with_checkpoints(self):
-        from semantica.context import AgentContext, ContextGraph
+        from sloth_graphmind.context import AgentContext, ContextGraph
         graph = ContextGraph()
         mock_vs = MagicMock()
         mock_vs.search.return_value = []
@@ -165,7 +165,7 @@ class TestAgentContextDiffCheckpoints:
             context.diff_checkpoints("before", "ghost")
 
     def test_both_labels_unknown_raises_key_error(self):
-        from semantica.context import AgentContext, ContextGraph
+        from sloth_graphmind.context import AgentContext, ContextGraph
         mock_vs = MagicMock()
         mock_vs.search.return_value = []
         context = AgentContext(vector_store=mock_vs, knowledge_graph=ContextGraph())
@@ -178,7 +178,7 @@ class TestAgentContextFlushCheckpoint:
 
     @pytest.fixture
     def ctx(self):
-        from semantica.context import AgentContext, ContextGraph
+        from sloth_graphmind.context import AgentContext, ContextGraph
         graph = ContextGraph()
         mock_vs = MagicMock()
         mock_vs.search.return_value = []
@@ -211,7 +211,7 @@ class TestAgentContextFlushCheckpoint:
             ctx.flush_checkpoint("nonexistent")
 
     def test_flush_can_be_retrieved_from_version_manager(self, ctx):
-        from semantica.kg.temporal_query import TemporalVersionManager
+        from sloth_graphmind.kg.temporal_query import TemporalVersionManager
         manager = TemporalVersionManager()
         ctx._temporal_version_manager = manager
         ctx.checkpoint("release-1")
@@ -221,8 +221,8 @@ class TestAgentContextFlushCheckpoint:
         assert retrieved["label"] == "release-1"
 
     def test_multiple_checkpoints_flushed_independently(self, ctx):
-        from semantica.context import ContextGraph
-        from semantica.kg.temporal_query import TemporalVersionManager
+        from sloth_graphmind.context import ContextGraph
+        from sloth_graphmind.kg.temporal_query import TemporalVersionManager
         manager = TemporalVersionManager()
         ctx._temporal_version_manager = manager
         ctx.checkpoint("snap-a")
@@ -242,8 +242,8 @@ class TestAuditTrailAdditional:
 
     @pytest.fixture
     def setup(self):
-        from semantica.context import ContextGraph
-        from semantica.change_management.managers import TemporalVersionManager
+        from sloth_graphmind.context import ContextGraph
+        from sloth_graphmind.change_management.managers import TemporalVersionManager
         graph = ContextGraph()
         manager = TemporalVersionManager()
         manager.attach_to_graph(graph)
@@ -287,8 +287,8 @@ class TestNamedTagsAdditional:
 
     @pytest.fixture
     def setup(self):
-        from semantica.context import ContextGraph
-        from semantica.change_management.managers import TemporalVersionManager
+        from sloth_graphmind.context import ContextGraph
+        from sloth_graphmind.change_management.managers import TemporalVersionManager
         graph = ContextGraph()
         manager = TemporalVersionManager()
         graph.add_node("n1", "entity")
@@ -301,7 +301,7 @@ class TestNamedTagsAdditional:
         return manager
 
     def test_list_tags_empty_initially(self):
-        from semantica.change_management.managers import TemporalVersionManager
+        from sloth_graphmind.change_management.managers import TemporalVersionManager
         manager = TemporalVersionManager()
         assert manager.list_tags() == {}
 
@@ -321,13 +321,13 @@ class TestNamedTagsAdditional:
         assert tags["latest"] == "v1.0"
 
     def test_tag_nonexistent_version_raises(self):
-        from semantica.change_management.managers import TemporalVersionManager
+        from sloth_graphmind.change_management.managers import TemporalVersionManager
         manager = TemporalVersionManager()
         with pytest.raises(Exception):
             manager.tag_version("ghost", "my-tag")
 
     def test_diff_alias_equivalent_to_compare_versions(self, setup):
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
         manager = setup
         graph2 = ContextGraph()
         graph2.add_node("n1", "entity")
@@ -344,7 +344,7 @@ class TestNamedTagsAdditional:
         assert set(diff_result.keys()) == set(compare_result.keys())
 
     def test_diff_alias_shows_added_entity(self, setup):
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
         manager = setup
         graph2 = ContextGraph()
         graph2.add_node("n1", "entity")
@@ -364,8 +364,8 @@ class TestRollbackProtectionAdditional:
 
     @pytest.fixture
     def setup_with_snapshot(self):
-        from semantica.context import ContextGraph
-        from semantica.change_management.managers import TemporalVersionManager
+        from sloth_graphmind.context import ContextGraph
+        from sloth_graphmind.change_management.managers import TemporalVersionManager
         graph = ContextGraph()
         graph.add_node("n1", "entity", content="original")
         manager = TemporalVersionManager()
@@ -379,7 +379,7 @@ class TestRollbackProtectionAdditional:
         return graph, manager
 
     def test_restore_requires_confirmation_by_default(self, setup_with_snapshot):
-        from semantica.change_management.managers import ProcessingError
+        from sloth_graphmind.change_management.managers import ProcessingError
         graph, manager = setup_with_snapshot
         with pytest.raises(ProcessingError, match="Rollback protection"):
             manager.restore_snapshot(graph, "v1.0")
@@ -391,7 +391,7 @@ class TestRollbackProtectionAdditional:
 
     def test_restore_to_nonexistent_version_raises(self, setup_with_snapshot):
         graph, manager = setup_with_snapshot
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
         with pytest.raises(ValidationError):
             manager.restore_snapshot(graph, "ghost", require_confirmation=False)
 
@@ -415,7 +415,7 @@ class TestSnapshotSchemaCompatibility:
 
     @pytest.fixture
     def manager(self):
-        from semantica.kg.temporal_query import TemporalVersionManager
+        from sloth_graphmind.kg.temporal_query import TemporalVersionManager
         return TemporalVersionManager()
 
     def test_create_snapshot_with_nodes_edges_schema(self, manager):
@@ -487,7 +487,7 @@ class TestContextGraphPaginationSkip:
 
     @pytest.fixture
     def graph_with_nodes(self):
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
         g = ContextGraph()
         for i in range(6):
             g.add_node(f"n{i}", "entity", content=str(i))
@@ -495,7 +495,7 @@ class TestContextGraphPaginationSkip:
 
     @pytest.fixture
     def graph_with_edges(self):
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
         g = ContextGraph()
         for i in range(6):
             g.add_node(f"n{i}", "entity")
@@ -573,7 +573,7 @@ class TestContextGraphMinWeightNeighborFilter:
 
     @pytest.fixture
     def weighted_graph(self):
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
         g = ContextGraph()
         g.add_node("center", "entity")
         g.add_node("heavy", "entity")
@@ -619,7 +619,7 @@ class TestContextGraphThreadSafety:
     """ContextGraph must be safe for concurrent reads and writes."""
 
     def test_concurrent_add_node_no_corruption(self):
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
         graph = ContextGraph()
         errors = []
 
@@ -640,7 +640,7 @@ class TestContextGraphThreadSafety:
         assert len(graph.nodes) == 100
 
     def test_concurrent_reads_while_writing(self):
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
         graph = ContextGraph()
         for i in range(20):
             graph.add_node(f"initial-{i}", "entity")
@@ -671,7 +671,7 @@ class TestContextGraphThreadSafety:
         assert errors == [], f"Thread errors: {errors}"
 
     def test_concurrent_add_edge_no_corruption(self):
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
         graph = ContextGraph()
         for i in range(40):
             graph.add_node(f"n{i}", "entity")
@@ -694,7 +694,7 @@ class TestContextGraphThreadSafety:
         assert errors == [], f"Thread errors: {errors}"
 
     def test_find_nodes_consistent_under_concurrent_writes(self):
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
         graph = ContextGraph()
         results = []
         errors = []
@@ -732,7 +732,7 @@ class TestSKOSNamespaceHelpers:
 
     @pytest.fixture
     def nm(self):
-        from semantica.ontology.namespace_manager import NamespaceManager
+        from sloth_graphmind.ontology.namespace_manager import NamespaceManager
         return NamespaceManager()
 
     def test_get_skos_uri_prefLabel(self, nm):
@@ -775,7 +775,7 @@ class TestSHACLQualityTiersGap:
 
     @pytest.fixture
     def generator(self):
-        from semantica.ontology.ontology_generator import SHACLGenerator
+        from sloth_graphmind.ontology.ontology_generator import SHACLGenerator
         return SHACLGenerator()
 
     @pytest.fixture
@@ -790,40 +790,40 @@ class TestSHACLQualityTiersGap:
         }
 
     def test_basic_tier_produces_output(self, simple_ontology):
-        from semantica.ontology.ontology_generator import SHACLGenerator
+        from sloth_graphmind.ontology.ontology_generator import SHACLGenerator
         gen = SHACLGenerator(quality_tier="basic")
         result = gen.generate(simple_ontology)
         assert result is not None
         assert len(gen.serialize(result)) > 0
 
     def test_standard_tier_produces_output(self, simple_ontology):
-        from semantica.ontology.ontology_generator import SHACLGenerator
+        from sloth_graphmind.ontology.ontology_generator import SHACLGenerator
         gen = SHACLGenerator(quality_tier="standard")
         result = gen.generate(simple_ontology)
         assert len(gen.serialize(result)) > 0
 
     def test_strict_tier_produces_output(self, simple_ontology):
-        from semantica.ontology.ontology_generator import SHACLGenerator
+        from sloth_graphmind.ontology.ontology_generator import SHACLGenerator
         gen = SHACLGenerator(quality_tier="strict")
         result = gen.generate(simple_ontology)
         assert len(gen.serialize(result)) > 0
 
     def test_strict_tier_contains_closed_constraint(self, simple_ontology):
-        from semantica.ontology.ontology_generator import SHACLGenerator
+        from sloth_graphmind.ontology.ontology_generator import SHACLGenerator
         gen = SHACLGenerator(quality_tier="strict")
         result = gen.generate(simple_ontology)
         turtle = gen.serialize(result)
         assert "sh:closed" in turtle
 
     def test_basic_tier_does_not_contain_closed(self, simple_ontology):
-        from semantica.ontology.ontology_generator import SHACLGenerator
+        from sloth_graphmind.ontology.ontology_generator import SHACLGenerator
         gen = SHACLGenerator(quality_tier="basic")
         result = gen.generate(simple_ontology)
         turtle = gen.serialize(result)
         assert "sh:closed" not in turtle
 
     def test_three_tiers_produce_different_output(self, simple_ontology):
-        from semantica.ontology.ontology_generator import SHACLGenerator
+        from sloth_graphmind.ontology.ontology_generator import SHACLGenerator
         basic_gen = SHACLGenerator(quality_tier="basic")
         strict_gen = SHACLGenerator(quality_tier="strict")
         basic = basic_gen.serialize(basic_gen.generate(simple_ontology))
@@ -835,7 +835,7 @@ class TestRDFExporterExportSHACL:
     """RDFExporter.export_shacl() writes SHACL strings to files."""
 
     def test_export_shacl_writes_ttl_file(self, tmp_path):
-        from semantica.export.rdf_exporter import RDFExporter
+        from sloth_graphmind.export.rdf_exporter import RDFExporter
         exporter = RDFExporter()
         shacl = "@prefix sh: <http://www.w3.org/ns/shacl#> .\n"
         out = tmp_path / "shapes.ttl"
@@ -844,15 +844,15 @@ class TestRDFExporterExportSHACL:
         assert out.read_text().strip().startswith("@prefix")
 
     def test_export_shacl_invalid_extension_raises(self, tmp_path):
-        from semantica.export.rdf_exporter import RDFExporter
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.export.rdf_exporter import RDFExporter
+        from sloth_graphmind.utils.exceptions import ValidationError
         exporter = RDFExporter()
         out = tmp_path / "shapes.txt"
         with pytest.raises((ValueError, ValidationError)):
             exporter.export_shacl("@prefix sh: <…> .", str(out))
 
     def test_export_shacl_jsonld_extension_accepted(self, tmp_path):
-        from semantica.export.rdf_exporter import RDFExporter
+        from sloth_graphmind.export.rdf_exporter import RDFExporter
         exporter = RDFExporter()
         content = '{"@context": {}}'
         out = tmp_path / "shapes.jsonld"
@@ -872,7 +872,7 @@ class TestOllamaProviderBaseURLGap:
         ollama_mock = MagicMock()
         ollama_mock.Client = MagicMock(return_value=MagicMock())
         with patch.dict("sys.modules", {"ollama": ollama_mock}):
-            from semantica.semantic_extract.providers import OllamaProvider
+            from sloth_graphmind.semantic_extract.providers import OllamaProvider
             provider = OllamaProvider(
                 model_name="llama3",
                 base_url="http://192.168.1.10:11434",
@@ -890,7 +890,7 @@ class TestOllamaProviderBaseURLGap:
         client_instance = MagicMock()
         ollama_mock.Client = MagicMock(return_value=client_instance)
         with patch.dict("sys.modules", {"ollama": ollama_mock}):
-            from semantica.semantic_extract.providers import OllamaProvider
+            from sloth_graphmind.semantic_extract.providers import OllamaProvider
             provider = OllamaProvider(model_name="llama3")
             provider._init_client()
             assert provider.client is not ollama_mock
@@ -905,7 +905,7 @@ class TestDatalogReasonerGap:
 
     @pytest.fixture
     def reasoner(self):
-        from semantica.reasoning import DatalogReasoner
+        from sloth_graphmind.reasoning import DatalogReasoner
         return DatalogReasoner()
 
     def test_derive_all_idempotent(self, reasoner):
@@ -939,7 +939,7 @@ class TestDatalogReasonerGap:
         assert "e" in targets
 
     def test_load_from_context_graph(self, reasoner):
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
         graph = ContextGraph()
         graph.add_node("alice", "Person")
         graph.add_node("bob", "Person")

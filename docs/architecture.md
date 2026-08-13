@@ -4,12 +4,12 @@ description: "Four-layer, modular architecture designed for independent componen
 icon: "building"
 ---
 
-Semantica is built around a four-layer modular architecture. Import only what you need: the framework never forces a full stack. Every component is independently swappable, and every layer communicates through clean interfaces with no hidden coupling.
+GraphMind is built around a four-layer modular architecture. Import only what you need: the framework never forces a full stack. Every component is independently swappable, and every layer communicates through clean interfaces with no hidden coupling.
 
 
 ## Four-Layer Architecture
 
-<img src="/assets/img/diagrams/architecture-overview.svg" alt="Semantica four-layer architecture" style={{ width: '100%', borderRadius: '12px', margin: '16px 0 24px' }} />
+<img src="/assets/img/diagrams/architecture-overview.svg" alt="GraphMind four-layer architecture" style={{ width: '100%', borderRadius: '12px', margin: '16px 0 24px' }} />
 
 <Tabs>
 
@@ -84,7 +84,7 @@ Consumes the knowledge graph and vector stores for downstream use cases.
 
 Every pipeline follows the same linear path from raw source to delivered output:
 
-<img src="/assets/img/diagrams/pipeline-flow.svg" alt="Semantica 8-step pipeline: Ingest → Parse → Normalize → Extract → Build KG → QA → Store → Deliver" style={{ width: '100%', borderRadius: '10px', margin: '16px 0 24px' }} />
+<img src="/assets/img/diagrams/pipeline-flow.svg" alt="GraphMind 8-step pipeline: Ingest → Parse → Normalize → Extract → Build KG → QA → Store → Deliver" style={{ width: '100%', borderRadius: '10px', margin: '16px 0 24px' }} />
 
 
 ## Module Map
@@ -105,7 +105,7 @@ Every layer exposes a registry-based extension point. Register custom implementa
 <CodeGroup>
 
 ```python Custom Ingestor
-from semantica.ingest.registry import method_registry
+from sloth_graphmind.ingest.registry import method_registry
 
 def custom_file_ingestor(source):
     # Return a list of document dicts with 'text', 'metadata', 'source'
@@ -118,7 +118,7 @@ available = method_registry.list_all("file")
 ```
 
 ```python Custom Extractor
-from semantica.semantic_extract.registry import method_registry
+from sloth_graphmind.semantic_extract.registry import method_registry
 
 def custom_entity_extractor(text, config=None):
     # Return a list of entity dicts with 'text', 'type', 'confidence'
@@ -129,7 +129,7 @@ method_registry.register("entity", "my_extractor", custom_entity_extractor)
 ```
 
 ```python Custom Plugin
-from semantica.core import PluginRegistry
+from sloth_graphmind.core import PluginRegistry
 
 class MyPlugin:
     def process(self, graph, config):

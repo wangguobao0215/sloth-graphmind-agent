@@ -2,7 +2,7 @@ import os
 import tempfile
 import pandas as pd
 
-from semantica.ingest.pandas_ingestor import PandasIngestor
+from sloth_graphmind.ingest.pandas_ingestor import PandasIngestor
 
 def write_temp_csv(content: str, encoding="utf-8"):
     tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".csv")

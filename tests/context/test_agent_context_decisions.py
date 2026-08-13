@@ -10,9 +10,9 @@ from datetime import datetime
 from unittest.mock import Mock, patch
 from typing import Dict, Any, List
 
-from semantica.context.agent_context import AgentContext
-from semantica.context.decision_models import Decision, Policy
-from semantica.context.context_graph import ContextGraph
+from sloth_graphmind.context.agent_context import AgentContext
+from sloth_graphmind.context.decision_models import Decision, Policy
+from sloth_graphmind.context.context_graph import ContextGraph
 
 
 class TestAgentContextDecisions:

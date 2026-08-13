@@ -6,9 +6,9 @@ with the new unified provenance module.
 """
 
 import pytest
-from semantica.kg import ProvenanceTracker as KGProvenanceTracker
-from semantica.split import ProvenanceTracker as SplitProvenanceTracker
-from semantica.split.semantic_chunker import Chunk
+from sloth_graphmind.kg import ProvenanceTracker as KGProvenanceTracker
+from sloth_graphmind.split import ProvenanceTracker as SplitProvenanceTracker
+from sloth_graphmind.split.semantic_chunker import Chunk
 
 
 class TestKGProvenanceBackwardCompat:
@@ -40,7 +40,7 @@ class TestKGProvenanceBackwardCompat:
     # tracker.track_relationship(), which was never implemented on
     # kg.ProvenanceTracker. This tested an intended unified-backend
     # migration that never happened (#744). ProvenanceTracker is now
-    # deprecated in favor of semantica.provenance.ProvenanceManager.
+    # deprecated in favor of sloth_graphmind.provenance.ProvenanceManager.
     
     def test_get_all_sources_unchanged(self):
         """Test get_all_sources returns expected format."""
@@ -62,7 +62,7 @@ class TestKGProvenanceBackwardCompat:
     # which was ever implemented on kg.ProvenanceTracker. This tested an
     # intended unified-backend migration that never happened (#744).
     # ProvenanceTracker is now deprecated in favor of
-    # semantica.provenance.ProvenanceManager.
+    # sloth_graphmind.provenance.ProvenanceManager.
 
 
 class TestSplitProvenanceBackwardCompat:
@@ -209,7 +209,7 @@ class TestGracefulDegradation:
         # NOTE: tracker.get_lineage() was never implemented on
         # kg.ProvenanceTracker; this tested an intended unified-backend
         # migration that never happened (#744). ProvenanceTracker is now
-        # deprecated in favor of semantica.provenance.ProvenanceManager.
+        # deprecated in favor of sloth_graphmind.provenance.ProvenanceManager.
     
     def test_split_tracker_fallback(self):
         """Test split.ProvenanceTracker falls back to legacy on error."""
@@ -234,7 +234,7 @@ class TestExistingTestsPass:
         # NOTE: tracker.get_provenance() was never implemented on
         # kg.ProvenanceTracker; this tested an intended unified-backend
         # migration that never happened (#744). ProvenanceTracker is now
-        # deprecated in favor of semantica.provenance.ProvenanceManager.
+        # deprecated in favor of sloth_graphmind.provenance.ProvenanceManager.
         tracker.track_entity("e1", "src1")
         
         # Test 2: Multiple sources

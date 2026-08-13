@@ -10,9 +10,9 @@ from datetime import datetime, timedelta
 from unittest.mock import Mock, patch
 from typing import List, Dict, Any
 
-from semantica.context.decision_models import Decision
-from semantica.context.causal_analyzer import CausalChainAnalyzer
-from semantica.context.context_graph import ContextGraph
+from sloth_graphmind.context.decision_models import Decision
+from sloth_graphmind.context.causal_analyzer import CausalChainAnalyzer
+from sloth_graphmind.context.context_graph import ContextGraph
 
 
 class TestCausalChainAnalyzer:

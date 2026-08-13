@@ -8,13 +8,13 @@ import pytest
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from semantica.vector_store.vector_store import VectorStore, VectorIndexer, VectorRetriever, VectorManager
-from semantica.vector_store.registry import MethodRegistry, method_registry
-from semantica.vector_store.faiss_store import FAISSStore, FAISSIndex, FAISSIndexBuilder, FAISSSearch
-from semantica.vector_store.milvus_store import MilvusStore, MilvusClient, MilvusCollection, MilvusSearch
-from semantica.vector_store.qdrant_store import QdrantStore
-from semantica.vector_store.weaviate_store import WeaviateStore
-from semantica.vector_store.hybrid_search import HybridSearch, MetadataFilter, SearchRanker
+from sloth_graphmind.vector_store.vector_store import VectorStore, VectorIndexer, VectorRetriever, VectorManager
+from sloth_graphmind.vector_store.registry import MethodRegistry, method_registry
+from sloth_graphmind.vector_store.faiss_store import FAISSStore, FAISSIndex, FAISSIndexBuilder, FAISSSearch
+from sloth_graphmind.vector_store.milvus_store import MilvusStore, MilvusClient, MilvusCollection, MilvusSearch
+from sloth_graphmind.vector_store.qdrant_store import QdrantStore
+from sloth_graphmind.vector_store.weaviate_store import WeaviateStore
+from sloth_graphmind.vector_store.hybrid_search import HybridSearch, MetadataFilter, SearchRanker
 
 pytestmark = pytest.mark.integration
 
@@ -110,8 +110,8 @@ class TestVectorStoreDeepDive(unittest.TestCase):
         registry.unregister("store", "custom")
         self.assertFalse(registry.has("store", "custom"))
 
-    @patch('semantica.vector_store.faiss_store.faiss')
-    @patch('semantica.vector_store.faiss_store.FAISS_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.faiss_store.faiss')
+    @patch('sloth_graphmind.vector_store.faiss_store.FAISS_AVAILABLE', True)
     def test_faiss_store(self, mock_faiss):
         """Test FAISSStore with mocked faiss."""
         # Setup mock
@@ -149,13 +149,13 @@ class TestVectorStoreDeepDive(unittest.TestCase):
         store.load_index("test.index")
         mock_faiss.read_index.assert_called()
 
-    @patch('semantica.vector_store.milvus_store.connections')
-    @patch('semantica.vector_store.milvus_store.Collection')
-    @patch('semantica.vector_store.milvus_store.utility')
-    @patch('semantica.vector_store.milvus_store.DataType')
-    @patch('semantica.vector_store.milvus_store.FieldSchema')
-    @patch('semantica.vector_store.milvus_store.CollectionSchema')
-    @patch('semantica.vector_store.milvus_store.MILVUS_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.milvus_store.connections')
+    @patch('sloth_graphmind.vector_store.milvus_store.Collection')
+    @patch('sloth_graphmind.vector_store.milvus_store.utility')
+    @patch('sloth_graphmind.vector_store.milvus_store.DataType')
+    @patch('sloth_graphmind.vector_store.milvus_store.FieldSchema')
+    @patch('sloth_graphmind.vector_store.milvus_store.CollectionSchema')
+    @patch('sloth_graphmind.vector_store.milvus_store.MILVUS_AVAILABLE', True)
     def test_milvus_store(self, mock_collection_schema, mock_field_schema, mock_data_type, mock_utility, mock_collection_cls, mock_connections):
         """Test MilvusStore with mocked pymilvus."""
         # Setup mocks
@@ -199,11 +199,11 @@ class TestVectorStoreDeepDive(unittest.TestCase):
         self.assertIsInstance(results[0]["metadata"], dict)
         self.assertIn("vector", results[0])
 
-    @patch('semantica.vector_store.qdrant_store.QdrantClientLib')
-    @patch('semantica.vector_store.qdrant_store.VectorParams')
-    @patch('semantica.vector_store.qdrant_store.Distance')
-    @patch('semantica.vector_store.qdrant_store.PointStruct')
-    @patch('semantica.vector_store.qdrant_store.QDRANT_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.qdrant_store.QdrantClientLib')
+    @patch('sloth_graphmind.vector_store.qdrant_store.VectorParams')
+    @patch('sloth_graphmind.vector_store.qdrant_store.Distance')
+    @patch('sloth_graphmind.vector_store.qdrant_store.PointStruct')
+    @patch('sloth_graphmind.vector_store.qdrant_store.QDRANT_AVAILABLE', True)
     def test_qdrant_store(self, mock_point_struct, mock_distance, mock_vector_params, mock_qdrant_cls):
         """Test QdrantStore with mocked qdrant_client."""
         mock_client = MagicMock()
@@ -245,9 +245,9 @@ class TestVectorStoreDeepDive(unittest.TestCase):
         )
         self.assertEqual(len(matched), 1)
 
-    @patch('semantica.vector_store.weaviate_store.weaviate')
-    @patch('semantica.vector_store.weaviate_store.MetadataQuery')
-    @patch('semantica.vector_store.weaviate_store.WEAVIATE_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.weaviate_store.weaviate')
+    @patch('sloth_graphmind.vector_store.weaviate_store.MetadataQuery')
+    @patch('sloth_graphmind.vector_store.weaviate_store.WEAVIATE_AVAILABLE', True)
     def test_weaviate_store(self, mock_metadata_query, mock_weaviate):
         """Test WeaviateStore with mocked weaviate."""
         mock_client = MagicMock()
@@ -367,7 +367,7 @@ class TestVectorStoreDeepDive(unittest.TestCase):
 
     def test_config(self):
         """Test VectorStoreConfig."""
-        from semantica.vector_store.config import vector_store_config
+        from sloth_graphmind.vector_store.config import vector_store_config
         
         # Test get default
         self.assertEqual(vector_store_config.get("default_backend"), "faiss")

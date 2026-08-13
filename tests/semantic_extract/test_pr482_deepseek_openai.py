@@ -13,7 +13,7 @@ class TestDeepSeekProviderInit(unittest.TestCase):
     """Tests for DeepSeekProvider.__init__ and _init_client after PR #482."""
 
     def setUp(self):
-        from semantica.semantic_extract.providers import DeepSeekProvider
+        from sloth_graphmind.semantic_extract.providers import DeepSeekProvider
         self.DeepSeekProvider = DeepSeekProvider
 
     def test_base_url_set_on_init(self):
@@ -41,7 +41,7 @@ class TestDeepSeekProviderInit(unittest.TestCase):
         with patch.dict("sys.modules", {"openai": MagicMock(OpenAI=mock_openai_cls)}):
             # Re-import to pick up patched sys.modules
             import importlib
-            import semantica.semantic_extract.providers as providers_mod
+            import sloth_graphmind.semantic_extract.providers as providers_mod
             importlib.reload(providers_mod)
             DeepSeekProvider = providers_mod.DeepSeekProvider
 
@@ -55,7 +55,7 @@ class TestDeepSeekProviderInit(unittest.TestCase):
 
     def test_init_client_no_api_key_leaves_client_none(self):
         """Without an API key, client must remain None."""
-        with patch("semantica.semantic_extract.providers.config") as mock_cfg:
+        with patch("sloth_graphmind.semantic_extract.providers.config") as mock_cfg:
             mock_cfg.get_api_key.return_value = None
             with patch.object(self.DeepSeekProvider, "_init_client", return_value=None):
                 provider = self.DeepSeekProvider(api_key=None)
@@ -112,7 +112,7 @@ class TestDeepSeekProviderGenerate(unittest.TestCase):
     """Tests for DeepSeekProvider.generate / generate_structured with OpenAI client."""
 
     def _make_provider(self, api_key="sk-test"):
-        from semantica.semantic_extract.providers import DeepSeekProvider
+        from sloth_graphmind.semantic_extract.providers import DeepSeekProvider
         with patch.object(DeepSeekProvider, "_init_client", return_value=None):
             provider = DeepSeekProvider(api_key=api_key)
         provider.client = MagicMock()
@@ -150,7 +150,7 @@ class TestDeepSeekProviderGenerate(unittest.TestCase):
         self.assertEqual(result, {"key": "value"})
 
     def test_generate_raises_without_client(self):
-        from semantica.semantic_extract.providers import DeepSeekProvider, ProcessingError
+        from sloth_graphmind.semantic_extract.providers import DeepSeekProvider, ProcessingError
         with patch.object(DeepSeekProvider, "_init_client", return_value=None):
             provider = DeepSeekProvider(api_key="sk-test")
         provider.client = None
@@ -159,7 +159,7 @@ class TestDeepSeekProviderGenerate(unittest.TestCase):
             provider.generate("prompt")
 
     def test_generate_structured_raises_without_client(self):
-        from semantica.semantic_extract.providers import DeepSeekProvider, ProcessingError
+        from sloth_graphmind.semantic_extract.providers import DeepSeekProvider, ProcessingError
         with patch.object(DeepSeekProvider, "_init_client", return_value=None):
             provider = DeepSeekProvider(api_key="sk-test")
         provider.client = None
@@ -172,7 +172,7 @@ class TestDeepSeekInstructorPath(unittest.TestCase):
     """Tests for generate_typed instructor path with DeepSeekProvider (OpenAI client)."""
 
     def _make_provider(self, api_key="sk-test"):
-        from semantica.semantic_extract.providers import DeepSeekProvider
+        from sloth_graphmind.semantic_extract.providers import DeepSeekProvider
         from unittest.mock import MagicMock
         from openai import OpenAI
         with patch.object(DeepSeekProvider, "_init_client", return_value=None):
@@ -185,7 +185,7 @@ class TestDeepSeekInstructorPath(unittest.TestCase):
     def test_generate_typed_instructor_openai_isinstance_check(self):
         """After PR #482, client is OpenAI, so instructor path must use from_openai."""
         from openai import OpenAI
-        from semantica.semantic_extract.providers import DeepSeekProvider
+        from sloth_graphmind.semantic_extract.providers import DeepSeekProvider
         with patch.object(DeepSeekProvider, "_init_client", return_value=None):
             provider = DeepSeekProvider(api_key="sk-test")
         provider.client = MagicMock(spec=OpenAI)
@@ -200,7 +200,7 @@ class TestVerboseModeAssignment(unittest.TestCase):
     """Tests for verbose_mode assignment fix in BaseProvider.generate_typed (commit eec3e88)."""
 
     def _make_openai_provider(self):
-        from semantica.semantic_extract.providers import OpenAIProvider
+        from sloth_graphmind.semantic_extract.providers import OpenAIProvider
         with patch.object(OpenAIProvider, "_init_client", return_value=None):
             provider = OpenAIProvider(api_key="sk-test")
         provider.client = MagicMock()
@@ -220,7 +220,7 @@ class TestVerboseModeAssignment(unittest.TestCase):
         mock_instructor.from_provider.side_effect = Exception("skip")
         mock_instructor.Mode.TOOLS = "tools"
 
-        with patch("semantica.semantic_extract.providers.instructor", mock_instructor):
+        with patch("sloth_graphmind.semantic_extract.providers.instructor", mock_instructor):
             try:
                 result = provider.generate_typed("prompt", Schema)
             except NameError as e:
@@ -245,7 +245,7 @@ class TestVerboseModeAssignment(unittest.TestCase):
 
         import io
         captured = io.StringIO()
-        with patch("semantica.semantic_extract.providers.instructor", mock_instructor):
+        with patch("sloth_graphmind.semantic_extract.providers.instructor", mock_instructor):
             with patch("sys.stdout", captured):
                 try:
                     provider.generate_typed("prompt", Schema, verbose=True)
@@ -273,7 +273,7 @@ class TestVerboseModeAssignment(unittest.TestCase):
 
         import io
         captured = io.StringIO()
-        with patch("semantica.semantic_extract.providers.instructor", mock_instructor):
+        with patch("sloth_graphmind.semantic_extract.providers.instructor", mock_instructor):
             with patch("sys.stdout", captured):
                 try:
                     provider.generate_typed("prompt", Schema)
@@ -300,7 +300,7 @@ class TestVerboseModeAssignment(unittest.TestCase):
 
         import io
         captured = io.StringIO()
-        with patch("semantica.semantic_extract.providers.instructor", mock_instructor):
+        with patch("sloth_graphmind.semantic_extract.providers.instructor", mock_instructor):
             with patch("sys.stdout", captured):
                 try:
                     provider.generate_typed("prompt", Schema)
@@ -315,7 +315,7 @@ class TestDeepSeekGenerateTypedInstructorIntegration(unittest.TestCase):
 
     def test_generate_typed_deepseek_uses_openai_client_for_instructor(self):
         """generate_typed instructor path for DeepSeek must reuse the OpenAI client."""
-        from semantica.semantic_extract.providers import DeepSeekProvider
+        from sloth_graphmind.semantic_extract.providers import DeepSeekProvider
         from openai import OpenAI
 
         with patch.object(DeepSeekProvider, "_init_client", return_value=None):
@@ -334,7 +334,7 @@ class TestDeepSeekGenerateTypedInstructorIntegration(unittest.TestCase):
         mock_instructor.Mode.JSON = "json"
         mock_instructor.Mode.TOOLS = "tools"
 
-        with patch("semantica.semantic_extract.providers.instructor", mock_instructor):
+        with patch("sloth_graphmind.semantic_extract.providers.instructor", mock_instructor):
             result = provider.generate_typed("classify this", Schema)
 
         # Must have called from_openai with the existing client (not a fresh one)

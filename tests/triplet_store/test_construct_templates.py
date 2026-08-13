@@ -1,5 +1,5 @@
 """
-Tests for semantica.triplet_store.construct_templates.
+Tests for sloth_graphmind.triplet_store.construct_templates.
 
 Covers:
     - ConstructTemplateRegistry: register/get/list/remove + aliases,
@@ -22,7 +22,7 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from semantica.triplet_store.construct_templates import (
+from sloth_graphmind.triplet_store.construct_templates import (
     ConstructTemplate,
     ConstructTemplateRegistry,
     ParameterDescriptor,
@@ -32,7 +32,7 @@ from semantica.triplet_store.construct_templates import (
     execute_construct_template,
     render_construct_template,
 )
-from semantica.utils.exceptions import ProcessingError, ValidationError
+from sloth_graphmind.utils.exceptions import ProcessingError, ValidationError
 
 
 def _simple_template(**overrides) -> ConstructTemplate:
@@ -710,7 +710,7 @@ class TestExecuteConstructTemplate(unittest.TestCase):
         # carry that datatype/language info through execute_construct_template's
         # Triplet conversion — not just matching lexical string values.
         from unittest.mock import MagicMock, patch as mock_patch
-        from semantica.triplet_store.blazegraph_store import BlazegraphStore
+        from sloth_graphmind.triplet_store.blazegraph_store import BlazegraphStore
 
         turtle_fixture = (
             b"@prefix ex: <http://ex.org/> .\n"
@@ -726,7 +726,7 @@ class TestExecuteConstructTemplate(unittest.TestCase):
         store.connected = True
 
         with mock_patch(
-            "semantica.triplet_store.blazegraph_store.requests.post",
+            "sloth_graphmind.triplet_store.blazegraph_store.requests.post",
             return_value=mock_response,
         ):
             real_query_result = store.execute_sparql(
@@ -1134,7 +1134,7 @@ class TestConstructTemplatePipelineIntegration(unittest.TestCase):
     """
 
     def test_construct_template_step_executes_end_to_end_via_execution_engine(self):
-        from semantica.pipeline import ExecutionEngine, PipelineBuilder
+        from sloth_graphmind.pipeline import ExecutionEngine, PipelineBuilder
 
         registry = ConstructTemplateRegistry()
         registry.register(
@@ -1187,7 +1187,7 @@ class TestConstructTemplatePipelineIntegration(unittest.TestCase):
         self.assertEqual(options.get("graph"), "http://ex.org/pipeline_graph")
 
     def test_construct_template_step_uses_template_target_graph_default(self):
-        from semantica.pipeline import ExecutionEngine, PipelineBuilder
+        from sloth_graphmind.pipeline import ExecutionEngine, PipelineBuilder
 
         registry = ConstructTemplateRegistry()
         registry.register(

@@ -3,13 +3,13 @@
 from datetime import datetime
 from unittest.mock import Mock
 
-from semantica.context.agent_context import AgentContext
-from semantica.context.causal_analyzer import CausalChainAnalyzer
-from semantica.context.decision_methods import capture_decision_trace
-from semantica.context.decision_models import Decision
-from semantica.context.decision_query import DecisionQuery
-from semantica.context.graph_schema import get_schema_info
-from semantica.context.policy_engine import PolicyEngine
+from sloth_graphmind.context.agent_context import AgentContext
+from sloth_graphmind.context.causal_analyzer import CausalChainAnalyzer
+from sloth_graphmind.context.decision_methods import capture_decision_trace
+from sloth_graphmind.context.decision_models import Decision
+from sloth_graphmind.context.decision_query import DecisionQuery
+from sloth_graphmind.context.graph_schema import get_schema_info
+from sloth_graphmind.context.policy_engine import PolicyEngine
 
 
 def _decision() -> Decision:

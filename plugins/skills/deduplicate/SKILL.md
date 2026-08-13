@@ -1,11 +1,11 @@
 ---
 name: deduplicate
-description: Detect duplicate entities, duplicate groups, and relationship duplicates in Semantica using fuzzy matching, schema heuristics, and graph similarity.
+description: Detect duplicate entities, duplicate groups, and relationship duplicates in GraphMind using fuzzy matching, schema heuristics, and graph similarity.
 ---
 
-# /semantica:deduplicate
+# /sloth_graphmind:deduplicate
 
-Remove duplicates from the knowledge graph. Usage: `/semantica:deduplicate <strategy> [args]`
+Remove duplicates from the knowledge graph. Usage: `/sloth_graphmind:deduplicate <strategy> [args]`
 
 `$ARGUMENTS` = deduplication strategy + optional entity or threshold.
 
@@ -16,7 +16,7 @@ Remove duplicates from the knowledge graph. Usage: `/semantica:deduplicate <stra
 Detect duplicate entities and group them by similarity.
 
 ```python
-from semantica.deduplication import DuplicateDetector
+from sloth_graphmind.deduplication import DuplicateDetector
 
 finder = DuplicateDetector()
 candidates = finder.detect_duplicates(entities, threshold=threshold)
@@ -32,7 +32,7 @@ Output: duplicate candidate list, duplicate groups, and representative merge rec
 Detect duplicate relationships and normalize edge representations.
 
 ```python
-from semantica.deduplication import DuplicateDetector
+from sloth_graphmind.deduplication import DuplicateDetector
 
 finder = DuplicateDetector()
 relations = finder.detect_duplicates(relation_list, threshold=similarity)

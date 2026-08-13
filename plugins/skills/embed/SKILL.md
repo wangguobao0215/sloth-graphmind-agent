@@ -1,11 +1,11 @@
 ---
 name: embed
-description: Generate, inspect, and use node/text embeddings in Semantica — compute Node2Vec embeddings, find similar nodes, score link predictions, batch similarity, and pairwise similarity. Uses NodeEmbedder, SimilarityCalculator, LinkPredictor, and AgentContext. Sub-commands: compute, similar, similarity, predict-link, top-links, batch, pairwise.
+description: Generate, inspect, and use node/text embeddings in GraphMind — compute Node2Vec embeddings, find similar nodes, score link predictions, batch similarity, and pairwise similarity. Uses NodeEmbedder, SimilarityCalculator, LinkPredictor, and AgentContext. Sub-commands: compute, similar, similarity, predict-link, top-links, batch, pairwise.
 ---
 
-# /semantica:embed
+# /sloth_graphmind:embed
 
-Generate and inspect graph embeddings. Usage: `/semantica:embed <sub-command> [args]`
+Generate and inspect graph embeddings. Usage: `/sloth_graphmind:embed <sub-command> [args]`
 
 `$ARGUMENTS` = sub-command + arguments.
 
@@ -16,8 +16,8 @@ Generate and inspect graph embeddings. Usage: `/semantica:embed <sub-command> [a
 Generate Node2Vec embeddings for graph nodes.
 
 ```python
-from semantica.kg.node_embeddings import NodeEmbedder
-from semantica.context import ContextGraph
+from sloth_graphmind.kg.node_embeddings import NodeEmbedder
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 embedder = NodeEmbedder()
@@ -60,8 +60,8 @@ Sample (first 5 nodes):
 Find the most similar nodes to a given node in embedding space.
 
 ```python
-from semantica.kg.node_embeddings import NodeEmbedder
-from semantica.context import ContextGraph, AgentContext
+from sloth_graphmind.kg.node_embeddings import NodeEmbedder
+from sloth_graphmind.context import ContextGraph, AgentContext
 
 graph = ContextGraph()
 embedder = NodeEmbedder()
@@ -92,9 +92,9 @@ Return: `| Rank | Node ID | Type | Cosine Similarity | Shared Properties |`
 Compute pairwise similarity between two nodes.
 
 ```python
-from semantica.kg.similarity_calculator import SimilarityCalculator
-from semantica.kg.node_embeddings import NodeEmbedder
-from semantica.context import ContextGraph
+from sloth_graphmind.kg.similarity_calculator import SimilarityCalculator
+from sloth_graphmind.kg.node_embeddings import NodeEmbedder
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 embedder = NodeEmbedder()
@@ -133,8 +133,8 @@ Similarity: "<n1>" ↔ "<n2>"
 Score the likelihood of a relationship between two nodes.
 
 ```python
-from semantica.kg.link_predictor import LinkPredictor
-from semantica.context import ContextGraph
+from sloth_graphmind.kg.link_predictor import LinkPredictor
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 predictor = LinkPredictor()
@@ -164,8 +164,8 @@ Link Prediction: "<n1>" → "<n2>"
 Find the top-N most likely new connections for a node.
 
 ```python
-from semantica.kg.link_predictor import LinkPredictor
-from semantica.context import ContextGraph
+from sloth_graphmind.kg.link_predictor import LinkPredictor
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 predictor = LinkPredictor()
@@ -187,9 +187,9 @@ Return: `| Rank | Target Node | Type | Score | Existing Link? |`
 Score similarity between a query node and a set of target nodes (or all nodes).
 
 ```python
-from semantica.kg.similarity_calculator import SimilarityCalculator
-from semantica.kg.node_embeddings import NodeEmbedder
-from semantica.context import ContextGraph
+from sloth_graphmind.kg.similarity_calculator import SimilarityCalculator
+from sloth_graphmind.kg.node_embeddings import NodeEmbedder
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 embedder = NodeEmbedder()
@@ -215,7 +215,7 @@ Return: `| Node | Type | Score |` sorted descending.
 Compute all pairwise similarities among a set of nodes.
 
 ```python
-from semantica.kg.similarity_calculator import SimilarityCalculator
+from sloth_graphmind.kg.similarity_calculator import SimilarityCalculator
 
 calc = SimilarityCalculator()
 

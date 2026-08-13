@@ -9,7 +9,7 @@ import pytest
 import numpy as np
 from unittest.mock import Mock
 
-from semantica.kg.similarity_calculator import SimilarityCalculator
+from sloth_graphmind.kg.similarity_calculator import SimilarityCalculator
 
 
 class TestSimilarityCalculator:

@@ -20,9 +20,9 @@ import time
 from unittest.mock import Mock, patch
 from typing import Dict, List, Any
 
-from semantica.vector_store import VectorStore, DecisionEmbeddingPipeline, HybridSimilarityCalculator
-from semantica.context import DecisionContext, ContextRetriever
-from semantica.vector_store.decision_vector_methods import (
+from sloth_graphmind.vector_store import VectorStore, DecisionEmbeddingPipeline, HybridSimilarityCalculator
+from sloth_graphmind.context import DecisionContext, ContextRetriever
+from sloth_graphmind.vector_store.decision_vector_methods import (
     quick_decision, find_precedents, explain, similar_to, batch_decisions,
     filter_decisions, get_decision_context, search_by_entities
 )

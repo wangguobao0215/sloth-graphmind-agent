@@ -1,17 +1,17 @@
 ---
 title: "Snowflake Integration"
-description: "Ingest structured data from Snowflake tables and queries into Semantica's KG pipeline."
+description: "Ingest structured data from Snowflake tables and queries into GraphMind's KG pipeline."
 icon: "snowflake"
 ---
 
-> Extract data from Snowflake into Semantica with password, key-pair, OAuth, and SSO authentication.
+> Extract data from Snowflake into GraphMind with password, key-pair, OAuth, and SSO authentication.
 
 
 ## Installation
 
 ```bash
 # Install with Snowflake support
-pip install "semantica[db-snowflake]"
+pip install "sloth_graphmind[db-snowflake]"
 
 # Or install the connector separately
 pip install snowflake-connector-python
@@ -21,7 +21,7 @@ pip install snowflake-connector-python
 ## Basic Usage
 
 ```python
-from semantica.ingest import SnowflakeIngestor
+from sloth_graphmind.ingest import SnowflakeIngestor
 import os
 
 ingestor = SnowflakeIngestor(
@@ -123,7 +123,7 @@ for column in schema["columns"]:
 ```
 
 
-## Export as Semantica Documents
+## Export as GraphMind Documents
 
 ```python
 documents = ingestor.export_as_documents(
@@ -161,7 +161,7 @@ data = ingestor.ingest_query(
 ## Troubleshooting
 
 ```python
-from semantica.ingest import SnowflakeConnector
+from sloth_graphmind.ingest import SnowflakeConnector
 
 connector = SnowflakeConnector(account="myaccount", user="myuser", password="mypassword")
 if not connector.test_connection():

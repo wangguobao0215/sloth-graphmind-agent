@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 import requests
 
-from semantica.ingest.web_ingestor import (
+from sloth_graphmind.ingest.web_ingestor import (
     ContentExtractor,
     ProcessingError,
     RateLimiter,
@@ -124,7 +124,7 @@ def test_ingest_url_happy(mock_get: MagicMock, sample_html: str) -> None:
     assert res.title == "T"
 
 
-@patch("semantica.ingest.web_ingestor.RobotFileParser")
+@patch("sloth_graphmind.ingest.web_ingestor.RobotFileParser")
 def test_robots_blocking(mock_parser_cls: MagicMock) -> None:
     """Test that we actually block if robots says no."""
 
@@ -228,7 +228,7 @@ def test_extract_text_cleaning() -> None:
 def test_robots_checker_cache() -> None:
     """Test that robots.txt is cached per domain."""
 
-    with patch("semantica.ingest.web_ingestor.RobotFileParser") as mock_parser:
+    with patch("sloth_graphmind.ingest.web_ingestor.RobotFileParser") as mock_parser:
         mock_parser.return_value.can_fetch.return_value = True
         checker = RobotsChecker()
 
@@ -249,7 +249,7 @@ def test_web_ingestor_crawl_sitemap_integration() -> None:
 
     # 1. Mock the SitemapCrawler to return 2 URLs
     with patch(
-        "semantica.ingest.web_ingestor.SitemapCrawler.parse_sitemap"
+        "sloth_graphmind.ingest.web_ingestor.SitemapCrawler.parse_sitemap"
     ) as mock_parse:
         mock_parse.return_value = ["http://site.com/1", "http://site.com/2"]
 
@@ -312,7 +312,7 @@ def test_crawl_sitemap_integration() -> None:
 
     # 1. Mock the sitemap parser to return specific URLs
     with patch(
-        "semantica.ingest.web_ingestor.SitemapCrawler.parse_sitemap"
+        "sloth_graphmind.ingest.web_ingestor.SitemapCrawler.parse_sitemap"
     ) as mock_parse:
         mock_parse.return_value = ["http://site.com/1", "http://site.com/2"]
 

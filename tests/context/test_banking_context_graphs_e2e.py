@@ -14,12 +14,12 @@ from unittest.mock import Mock, MagicMock
 # Add the project root to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
-from semantica.context import (
+from sloth_graphmind.context import (
     Decision, Policy, DecisionRecorder, DecisionQuery, 
     AgentContext, ContextGraph, CausalChainAnalyzer, PolicyEngine
 )
-from semantica.vector_store import VectorStore
-from semantica.graph_store import GraphStore
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.graph_store import GraphStore
 
 
 class TestBankingDecisionSystem:
@@ -270,12 +270,12 @@ class TestBankingDecisionSystem:
         print("[OK] Basic AgentContext initialization works")
         
         # Test old DecisionQuery API
-        from semantica.context import DecisionQuery
+        from sloth_graphmind.context import DecisionQuery
         basic_query = DecisionQuery(graph_store=Mock())
         print("[OK] Basic DecisionQuery initialization works")
         
         # Test old ContextGraph API
-        from semantica.context import ContextGraph
+        from sloth_graphmind.context import ContextGraph
         basic_graph = ContextGraph()
         print("[OK] Basic ContextGraph initialization works")
         

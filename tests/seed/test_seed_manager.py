@@ -3,8 +3,8 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from semantica.seed.seed_manager import SeedData, SeedDataManager, SeedDataSource
-from semantica.utils.exceptions import ProcessingError
+from sloth_graphmind.seed.seed_manager import SeedData, SeedDataManager, SeedDataSource
+from sloth_graphmind.utils.exceptions import ProcessingError
 
 
 class TestSeedDataManager(unittest.TestCase):
@@ -57,7 +57,7 @@ class TestSeedDataManager(unittest.TestCase):
         with self.assertRaises(ProcessingError):
             self.manager.load_from_csv("nonexistent.csv")
 
-    @patch("semantica.seed.seed_manager.read_json_file")
+    @patch("sloth_graphmind.seed.seed_manager.read_json_file")
     @patch("pathlib.Path.exists")
     def test_load_from_json(self, mock_exists, mock_read_json):
         mock_exists.return_value = True
@@ -71,7 +71,7 @@ class TestSeedDataManager(unittest.TestCase):
         self.assertEqual(records[0]["entity_type"], "Person")
         self.assertEqual(records[0]["source"], "test_source")
 
-    @patch("semantica.seed.seed_manager.read_json_file")
+    @patch("sloth_graphmind.seed.seed_manager.read_json_file")
     @patch("pathlib.Path.exists")
     def test_load_from_json_dict(self, mock_exists, mock_read_json):
         mock_exists.return_value = True

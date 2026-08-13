@@ -21,10 +21,10 @@ from unittest.mock import MagicMock, patch
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from semantica.semantic_extract.ner_extractor import NERExtractor
-from semantica.semantic_extract.providers import OpenAIProvider
-from semantica.utils.exceptions import ProcessingError
-from semantica.utils.logging import get_logger
+from sloth_graphmind.semantic_extract.ner_extractor import NERExtractor
+from sloth_graphmind.semantic_extract.providers import OpenAIProvider
+from sloth_graphmind.utils.exceptions import ProcessingError
+from sloth_graphmind.utils.logging import get_logger
 
 
 # ---------------------------------------------------------------------------
@@ -101,7 +101,7 @@ class TestBug1ExcInfoOnMethodFailure(unittest.TestCase):
     sees 'Method llm failed: <msg>' but no root cause.
     """
 
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_traceback_logged_on_llm_failure(self, mock_create):
         """Full traceback must appear in the log when the LLM method fails."""
         mock_llm = MagicMock()
@@ -111,7 +111,7 @@ class TestBug1ExcInfoOnMethodFailure(unittest.TestCase):
 
         extractor = NERExtractor(method="llm", provider="openai", llm_model="test-model")
 
-        with self.assertLogs("semantica.ner_extractor", level="WARNING") as log_ctx:
+        with self.assertLogs("sloth_graphmind.ner_extractor", level="WARNING") as log_ctx:
             extractor.extract_entities("Hello World.")
 
         has_traceback = any(r.exc_info is not None for r in log_ctx.records)
@@ -121,7 +121,7 @@ class TestBug1ExcInfoOnMethodFailure(unittest.TestCase):
             "Ensure exc_info=True is in the method-failure warning call.",
         )
 
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_failure_message_contains_method_name(self, mock_create):
         """Warning message must identify which method failed."""
         mock_llm = MagicMock()
@@ -131,13 +131,13 @@ class TestBug1ExcInfoOnMethodFailure(unittest.TestCase):
 
         extractor = NERExtractor(method="llm", provider="openai", llm_model="test-model")
 
-        with self.assertLogs("semantica.ner_extractor", level="WARNING") as log_ctx:
+        with self.assertLogs("sloth_graphmind.ner_extractor", level="WARNING") as log_ctx:
             extractor.extract_entities("Hello World.")
 
         messages = " ".join(r.getMessage() for r in log_ctx.records)
         self.assertIn("llm", messages.lower())
 
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_fallback_to_pattern_on_llm_failure(self, mock_create):
         """After LLM failure the extractor must still return results, not raise."""
         mock_llm = MagicMock()
@@ -147,7 +147,7 @@ class TestBug1ExcInfoOnMethodFailure(unittest.TestCase):
 
         extractor = NERExtractor(method="llm", provider="openai", llm_model="test-model")
 
-        with self.assertLogs("semantica.ner_extractor", level="WARNING"):
+        with self.assertLogs("sloth_graphmind.ner_extractor", level="WARNING"):
             result = extractor.extract_entities(
                 "John Smith visited Microsoft in New York."
             )
@@ -159,10 +159,10 @@ class TestBug1ExcInfoOnMethodFailure(unittest.TestCase):
             f"Unexpected extraction_method values after fallback: {methods}",
         )
 
-    @patch("semantica.semantic_extract.methods.EntitiesResponse",
+    @patch("sloth_graphmind.semantic_extract.methods.EntitiesResponse",
            _StubEntitiesResponse, create=True)
-    @patch("semantica.semantic_extract.methods.SCHEMAS_AVAILABLE", True)
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.SCHEMAS_AVAILABLE", True)
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_llm_success_returns_llm_typed_metadata(self, mock_create):
         """When LLM succeeds, entities must carry extraction_method='llm_typed'."""
         mock_llm = MagicMock()
@@ -400,7 +400,7 @@ class TestBug3GenerateTypedFallbackToPlainGenerate(unittest.TestCase):
         )
         provider.generate = MagicMock(return_value=self._valid_json())
 
-        with self.assertLogs("semantica.test_provider", level="WARNING") as log_ctx:
+        with self.assertLogs("sloth_graphmind.test_provider", level="WARNING") as log_ctx:
             provider.generate_typed(
                 "Extract entities.", schema=_StubEntitiesResponse, max_retries=1
             )
@@ -463,10 +463,10 @@ class TestIssue554EndToEnd(unittest.TestCase):
       - Returned entities must carry extraction_method="llm_typed", not "pattern"
     """
 
-    @patch("semantica.semantic_extract.methods.EntitiesResponse",
+    @patch("sloth_graphmind.semantic_extract.methods.EntitiesResponse",
            _StubEntitiesResponse, create=True)
-    @patch("semantica.semantic_extract.methods.SCHEMAS_AVAILABLE", True)
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.SCHEMAS_AVAILABLE", True)
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_custom_gateway_returns_llm_entities_not_pattern(self, mock_create):
         """
         End-to-end: custom gateway produces LLM entities, NOT pattern-fallback.
@@ -507,7 +507,7 @@ class TestIssue554EndToEnd(unittest.TestCase):
         labels = {e.label for e in result}
         self.assertIn("PERSON", labels)
 
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_instructor_failure_logged_with_traceback(self, mock_create):
         """
         When instructor / generate_typed fails, the warning must carry exc_info
@@ -527,7 +527,7 @@ class TestIssue554EndToEnd(unittest.TestCase):
             base_url="https://qa-llmgateway.local/api/v1beta/llm/messages",
         )
 
-        with self.assertLogs("semantica.ner_extractor", level="WARNING") as log_ctx:
+        with self.assertLogs("sloth_graphmind.ner_extractor", level="WARNING") as log_ctx:
             result = extractor.extract_entities(
                 "John Smith visited Microsoft in Seattle."
             )
@@ -539,10 +539,10 @@ class TestIssue554EndToEnd(unittest.TestCase):
         )
         self.assertIsInstance(result, list)
 
-    @patch("semantica.semantic_extract.methods.EntitiesResponse",
+    @patch("sloth_graphmind.semantic_extract.methods.EntitiesResponse",
            _StubEntitiesResponse, create=True)
-    @patch("semantica.semantic_extract.methods.SCHEMAS_AVAILABLE", True)
-    @patch("semantica.semantic_extract.methods.create_provider")
+    @patch("sloth_graphmind.semantic_extract.methods.SCHEMAS_AVAILABLE", True)
+    @patch("sloth_graphmind.semantic_extract.methods.create_provider")
     def test_fallback_chain_llm_then_pattern(self, mock_create):
         """
         With method=["llm", "pattern"], LLM failure falls through to pattern —
@@ -559,7 +559,7 @@ class TestIssue554EndToEnd(unittest.TestCase):
             llm_model="test-model",
         )
 
-        with self.assertLogs("semantica.ner_extractor", level="WARNING"):
+        with self.assertLogs("sloth_graphmind.ner_extractor", level="WARNING"):
             result = extractor.extract_entities(
                 "Barack Obama visited the United States Capitol."
             )

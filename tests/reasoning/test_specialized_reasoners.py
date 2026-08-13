@@ -1,8 +1,8 @@
 import unittest
-from semantica.reasoning.sparql_reasoner import SPARQLReasoner, SPARQLQueryResult
-from semantica.reasoning.abductive_reasoner import AbductiveReasoner, Observation, HypothesisRanking
-from semantica.reasoning.deductive_reasoner import DeductiveReasoner, Premise, Argument
-from semantica.reasoning.reasoner import Rule
+from sloth_graphmind.reasoning.sparql_reasoner import SPARQLReasoner, SPARQLQueryResult
+from sloth_graphmind.reasoning.abductive_reasoner import AbductiveReasoner, Observation, HypothesisRanking
+from sloth_graphmind.reasoning.deductive_reasoner import DeductiveReasoner, Premise, Argument
+from sloth_graphmind.reasoning.reasoner import Rule
 
 class TestSpecializedReasoners(unittest.TestCase):
     def test_sparql_reasoner_expand_query(self):
@@ -45,7 +45,7 @@ class TestSpecializedReasoners(unittest.TestCase):
         
         h1 = reasoner.generate_hypotheses([Observation("o1", "Symptom(Fever)")]) # dummy, just to get objects
         # Create custom hypotheses for testing ranking
-        from semantica.reasoning.abductive_reasoner import Hypothesis
+        from sloth_graphmind.reasoning.abductive_reasoner import Hypothesis
         hyp1 = Hypothesis("h1", "Expl 1", premises=["P1"], simplicity=0.5)
         hyp2 = Hypothesis("h2", "Expl 2", premises=["P1", "P2"], simplicity=0.3)
         

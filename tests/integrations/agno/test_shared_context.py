@@ -176,7 +176,7 @@ class TestSharedMemoryPool(unittest.TestCase):
 
     def test_upsert_memory_store_failure_logs_warning(self):
         self.shared._context.store.side_effect = RuntimeError("store error")
-        with self.assertLogs("semantica.integrations.agno.shared_context", level="WARNING") as cm:
+        with self.assertLogs("sloth_graphmind.integrations.agno.shared_context", level="WARNING") as cm:
             mem = self.researcher.upsert_memory(self._make_row("Test store fail"))
         self.assertIsNotNone(mem)
         self.assertIn(mem.id, self.researcher._memories)
@@ -185,7 +185,7 @@ class TestSharedMemoryPool(unittest.TestCase):
 
     def test_upsert_memory_record_decision_failure_logs_warning(self):
         self.shared._context.record_decision.side_effect = RuntimeError("decision error")
-        with self.assertLogs("semantica.integrations.agno.shared_context", level="WARNING") as cm:
+        with self.assertLogs("sloth_graphmind.integrations.agno.shared_context", level="WARNING") as cm:
             mem = self.researcher.upsert_memory(self._make_row("Test decision fail"))
         self.assertIsNotNone(mem)
         self.assertIn(mem.id, self.researcher._memories)

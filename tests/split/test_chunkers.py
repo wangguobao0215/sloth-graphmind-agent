@@ -2,14 +2,14 @@
 
 import pytest
 
-from semantica.split.kg_chunkers import (
+from sloth_graphmind.split.kg_chunkers import (
     EntityAwareChunker,
     GraphBasedChunker,
     HierarchicalChunker,
     OntologyAwareChunker,
     RelationAwareChunker,
 )
-from semantica.split.methods import (
+from sloth_graphmind.split.methods import (
     SEMANTIC_EXTRACT_AVAILABLE,
     NETWORKX_AVAILABLE,
     split_by_characters,
@@ -25,15 +25,15 @@ from semantica.split.methods import (
     split_sliding_window,
     split_structural,
 )
-from semantica.split.semantic_chunker import Chunk
-from semantica.split.sliding_window_chunker import SlidingWindowChunker
-from semantica.split.structural_chunker import StructuralChunker, StructuralElement
-from semantica.split.table_chunker import TableChunk, TableChunker
-from semantica.utils.exceptions import ValidationError
+from sloth_graphmind.split.semantic_chunker import Chunk
+from sloth_graphmind.split.sliding_window_chunker import SlidingWindowChunker
+from sloth_graphmind.split.structural_chunker import StructuralChunker, StructuralElement
+from sloth_graphmind.split.table_chunker import TableChunk, TableChunker
+from sloth_graphmind.utils.exceptions import ValidationError
 
 requires_semantic_extract = pytest.mark.skipif(
     not SEMANTIC_EXTRACT_AVAILABLE,
-    reason="semantica.semantic_extract is not available",
+    reason="sloth_graphmind.semantic_extract is not available",
 )
 requires_networkx = pytest.mark.skipif(
     not NETWORKX_AVAILABLE,
@@ -315,7 +315,7 @@ class TestEntityAwareChunker:
     @requires_semantic_extract
     def test_entity_boundaries_preserved_with_pattern_ner(self):
         """Entity spans stay intact when using real pattern NER."""
-        pytest.importorskip("semantica.semantic_extract")
+        pytest.importorskip("sloth_graphmind.semantic_extract")
         entity_text = "AppleInc"
         # Use a contiguous token the pattern NER can latch onto
         text = (
@@ -340,7 +340,7 @@ class TestEntityAwareChunker:
 
     @requires_semantic_extract
     def test_entity_aware_chunker_with_pattern_ner(self):
-        pytest.importorskip("semantica.semantic_extract")
+        pytest.importorskip("sloth_graphmind.semantic_extract")
         text = (
             "Alice Johnson founded Acme Corporation in New York. "
             "Bob Smith joined the company later. "
@@ -367,7 +367,7 @@ class TestRelationAwareChunker:
 
     @requires_semantic_extract
     def test_chunk_with_pattern_extractors(self):
-        pytest.importorskip("semantica.semantic_extract")
+        pytest.importorskip("sloth_graphmind.semantic_extract")
         text = (
             "Alice works at Acme. Bob reports to Alice. "
             "Carol founded Acme in 2010. More padding text follows here. "
@@ -393,7 +393,7 @@ class TestGraphBasedChunker:
     @requires_networkx
     def test_chunk_with_real_optional_deps(self):
         pytest.importorskip("networkx")
-        pytest.importorskip("semantica.semantic_extract")
+        pytest.importorskip("sloth_graphmind.semantic_extract")
         text = (
             "Alice met Bob at Acme Corporation yesterday afternoon. "
             "Bob introduced Carol to the Acme engineering team. "
@@ -431,7 +431,7 @@ class TestOntologyAwareChunker:
 
     @requires_semantic_extract
     def test_chunk_uses_entity_aware_path(self):
-        pytest.importorskip("semantica.semantic_extract")
+        pytest.importorskip("sloth_graphmind.semantic_extract")
         text = "Concept Alpha relates to Concept Beta in the taxonomy. " * 8
         chunker = OntologyAwareChunker(
             chunk_size=120, preserve_concepts=True, ner_method="pattern"
@@ -538,7 +538,7 @@ Body paragraph under a distinct heading for separation checks.
 
     @requires_semantic_extract
     def test_split_entity_aware(self):
-        pytest.importorskip("semantica.semantic_extract")
+        pytest.importorskip("sloth_graphmind.semantic_extract")
         chunks = split_entity_aware(
             self.SAMPLE * 3, chunk_size=80, ner_method="pattern"
         )
@@ -546,7 +546,7 @@ Body paragraph under a distinct heading for separation checks.
 
     @requires_semantic_extract
     def test_split_relation_aware(self):
-        pytest.importorskip("semantica.semantic_extract")
+        pytest.importorskip("sloth_graphmind.semantic_extract")
         chunks = split_relation_aware(
             self.SAMPLE * 3,
             chunk_size=80,
@@ -559,7 +559,7 @@ Body paragraph under a distinct heading for separation checks.
     @requires_networkx
     def test_split_graph_based(self):
         pytest.importorskip("networkx")
-        pytest.importorskip("semantica.semantic_extract")
+        pytest.importorskip("sloth_graphmind.semantic_extract")
         chunks = split_graph_based(
             self.SAMPLE * 3,
             chunk_size=120,
@@ -585,7 +585,7 @@ Body paragraph under a distinct heading for separation checks.
 
     @requires_semantic_extract
     def test_split_ontology_aware(self):
-        pytest.importorskip("semantica.semantic_extract")
+        pytest.importorskip("sloth_graphmind.semantic_extract")
         chunks = split_ontology_aware(
             self.SAMPLE * 3, chunk_size=80, ner_method="pattern"
         )

@@ -8,8 +8,8 @@ import pytest
 import sqlite3
 import tempfile
 import os
-from semantica.provenance.schemas import ProvenanceEntry
-from semantica.provenance.storage import InMemoryStorage, SQLiteStorage
+from sloth_graphmind.provenance.schemas import ProvenanceEntry
+from sloth_graphmind.provenance.storage import InMemoryStorage, SQLiteStorage
 
 
 class TestInMemoryStorage:

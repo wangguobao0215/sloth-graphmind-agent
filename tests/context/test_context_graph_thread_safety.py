@@ -15,7 +15,7 @@ payload inline rather than delegating to ``to_dict``.
 import threading
 import time
 
-from semantica.context.context_graph import ContextGraph
+from sloth_graphmind.context.context_graph import ContextGraph
 
 
 def _seeded_graph(node_count: int = 200) -> ContextGraph:

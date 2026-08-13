@@ -5,7 +5,7 @@ This script demonstrates how to use the ArrowExporter to export
 knowledge graphs, entities, and relationships to Apache Arrow format.
 """
 
-from semantica.export import ArrowExporter, export_arrow
+from sloth_graphmind.export import ArrowExporter, export_arrow
 from pathlib import Path
 import tempfile
 

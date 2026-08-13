@@ -1,5 +1,5 @@
 image:
-  repository: ghcr.io/semantica-agi/semantica-knowledge-explorer
+  repository: ghcr.io/sloth_graphmind-agi/sloth_graphmind-knowledge-explorer
   # Replace this placeholder digest with the digest of the image you publish.
   digest: "sha256:0000000000000000000000000000000000000000000000000000000000000000"
   tag: "0.5.1"

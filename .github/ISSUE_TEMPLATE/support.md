@@ -1,6 +1,6 @@
 ---
 name: Support Request
-about: Get help or support for using Semantica
+about: Get help or support for using GraphMind
 title: '[SUPPORT] '
 labels: support
 assignees: ''
@@ -12,7 +12,7 @@ assignees: ''
 
 ## Your Setup
 
-- **Semantica Version**: 
+- **GraphMind Version**: 
 - **Python Version**: 
 - **OS**: 
 

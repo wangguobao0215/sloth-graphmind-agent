@@ -10,8 +10,8 @@ from datetime import datetime, timedelta
 from unittest.mock import Mock, patch
 from typing import List, Dict, Any
 
-from semantica.context.context_retriever import ContextRetriever, RetrievedContext
-from semantica.context.decision_models import Decision
+from sloth_graphmind.context.context_retriever import ContextRetriever, RetrievedContext
+from sloth_graphmind.context.decision_models import Decision
 
 
 class TestContextRetrieverPrecedents:

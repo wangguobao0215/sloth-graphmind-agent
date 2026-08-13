@@ -1,6 +1,6 @@
 import unittest
 
-from semantica.utils.skos import is_skos_hierarchy_edge, validate_skos_hierarchy
+from sloth_graphmind.utils.skos import is_skos_hierarchy_edge, validate_skos_hierarchy
 
 
 class TestIsSkosHierarchyEdge(unittest.TestCase):

@@ -1,4 +1,4 @@
-name: "Semantica CodeQL Config"
+name: "GraphMind CodeQL Config"
 
 # Exclude auto-generated notebook exports and bundled third-party JS.
 # Files in cookbook/**/*.html are self-contained Plotly/MapLibre bundles

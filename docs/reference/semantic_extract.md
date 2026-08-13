@@ -4,7 +4,7 @@ description: "Named entity recognition, relation extraction, event detection, an
 icon: "magnifying-glass-chart"
 ---
 
-`semantica.semantic_extract` extracts structured information from unstructured text: the foundation of every knowledge graph in Semantica:
+`sloth_graphmind.semantic_extract` extracts structured information from unstructured text: the foundation of every knowledge graph in GraphMind:
 
 - `NERExtractor`: named entity recognition with confidence scores and source attribution
 - `RelationExtractor`: typed relationship extraction (`founded_by`, `located_in`, and custom types)
@@ -21,13 +21,13 @@ icon: "magnifying-glass-chart"
 
 ```bash
 # Basic extraction (pattern methods only)
-pip install semantica
+pip install sloth_graphmind
 
 # HuggingFace models for advanced NER
-pip install semantica[models-huggingface]
+pip install sloth_graphmind[models-huggingface]
 
 # LLM-based extraction (highest accuracy)
-pip install semantica[llm-groq]    # or llm-openai
+pip install sloth_graphmind[llm-groq]    # or llm-openai
 ```
 
 **Step 2: Set API Keys** (for LLM methods only)
@@ -40,7 +40,7 @@ export OPENAI_API_KEY="your_openai_key_here"
 **Step 3: First Extraction**
 
 ```python
-from semantica.semantic_extract import NERExtractor
+from sloth_graphmind.semantic_extract import NERExtractor
 
 # Start with pattern method (no setup required)
 ner = NERExtractor(method="pattern")
@@ -49,7 +49,7 @@ print(f"Found {len(entities)} entities")
 # Output: Found 2 entities
 
 # Upgrade to LLM for better accuracy
-from semantica.llms import Groq
+from sloth_graphmind.llms import Groq
 import os
 
 llm = Groq(api_key=os.getenv("GROQ_API_KEY"))
@@ -90,7 +90,7 @@ entities = ner.extract("Apple Inc. was founded by Steve Jobs.")
     | **Best for** | Quick prototyping, batch processing, air-gapped systems |
 
     ```python
-    from semantica.semantic_extract import NERExtractor, RelationExtractor
+    from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
 
     ner = NERExtractor(method="pattern")
     entities = ner.extract("Apple Inc. was founded by Steve Jobs in Cupertino.")
@@ -104,13 +104,13 @@ entities = ner.extract("Apple Inc. was founded by Steve Jobs.")
 
     | | |
     | :-- | :-- |
-    | **Setup** | `pip install semantica[models-huggingface]` |
+    | **Setup** | `pip install sloth_graphmind[models-huggingface]` |
     | **Cost** | Free (local compute) |
     | **Accuracy** | Excellent for domain-specific NER |
     | **Best for** | Medical NER, custom fine-tunes, no API cost |
 
     ```python
-    from semantica.semantic_extract import NERExtractor
+    from sloth_graphmind.semantic_extract import NERExtractor
 
     ner = NERExtractor(method="huggingface")
 
@@ -126,15 +126,15 @@ entities = ner.extract("Apple Inc. was founded by Steve Jobs.")
 
     | | |
     | :-- | :-- |
-    | **Setup** | `pip install semantica[llm-groq]` + API key |
+    | **Setup** | `pip install sloth_graphmind[llm-groq]` + API key |
     | **Cost** | Depends on provider |
     | **Accuracy** | Highest: handles complex types and context |
     | **Best for** | Production, custom entity types, complex relation schemas |
 
     ```python
     import os
-    from semantica.llms import Groq
-    from semantica.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
+    from sloth_graphmind.llms import Groq
+    from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
 
     llm = Groq(model="llama-3.3-70b-versatile", api_key=os.getenv("GROQ_API_KEY"))
 
@@ -151,7 +151,7 @@ entities = ner.extract("Apple Inc. was founded by Steve Jobs.")
     Try methods in priority order: guarantees non-empty results even when the preferred method is unavailable.
 
     ```python
-    from semantica.semantic_extract import NERExtractor, RelationExtractor
+    from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor
 
     # Try LLM first, fall back to pattern on error
     ner = NERExtractor(method=["llm", "pattern"])
@@ -195,8 +195,8 @@ entities = ner.extract(text)
 ## Quick Start
 
 ```python
-from semantica.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
-from semantica.llms import Groq
+from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
+from sloth_graphmind.llms import Groq
 import os
 
 text = "Apple Inc. was founded by Steve Jobs in Cupertino in 1976."
@@ -221,8 +221,8 @@ triplets      = TripletExtractor(method="llm", llm_provider=llm).extract(text)
 ## NERExtractor
 
 ```python
-from semantica.semantic_extract import NERExtractor
-from semantica.llms import Groq
+from sloth_graphmind.semantic_extract import NERExtractor
+from sloth_graphmind.llms import Groq
 import os
 
 # Pattern-based: fast, no API key, good for standard entity types
@@ -268,7 +268,7 @@ ner = NERExtractor(
 ## RelationExtractor
 
 ```python
-from semantica.semantic_extract import RelationExtractor
+from sloth_graphmind.semantic_extract import RelationExtractor
 
 rel = RelationExtractor(method="llm", llm_provider=llm, max_retries=3)
 relationships = rel.extract(text, entities=entities)
@@ -297,7 +297,7 @@ Available methods:
 Generate RDF-ready `(subject, predicate, object)` triplets directly from text:
 
 ```python
-from semantica.semantic_extract import TripletExtractor
+from sloth_graphmind.semantic_extract import TripletExtractor
 
 trip = TripletExtractor(method="llm", llm_provider=llm)
 triplets = trip.extract(text)
@@ -313,7 +313,7 @@ Detect events with participants and temporal context:
 
 ```python
 from typing import List
-from semantica.semantic_extract import EventDetector, Event
+from sloth_graphmind.semantic_extract import EventDetector, Event
 
 extractor = EventDetector(method="llm", llm_provider=llm)
 events: List[Event] = extractor.extract(text)
@@ -339,7 +339,7 @@ Output fields per event:
 Resolve pronoun and alias references to canonical entities before extraction:
 
 ```python
-from semantica.semantic_extract import CoreferenceResolver
+from sloth_graphmind.semantic_extract import CoreferenceResolver
 
 resolver = CoreferenceResolver()
 resolved_text = resolver.resolve(
@@ -387,8 +387,8 @@ results = ner.extract(documents)  # Entities include document_id in metadata
 The standard extraction pipeline: entities → relationships → triplets:
 
 ```python
-from semantica.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
-from semantica.llms import Groq
+from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
+from sloth_graphmind.llms import Groq
 import os
 
 llm = Groq(model="llama-3.3-70b-versatile", api_key=os.getenv("GROQ_API_KEY"))

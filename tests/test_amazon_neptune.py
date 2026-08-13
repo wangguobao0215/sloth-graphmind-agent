@@ -435,7 +435,7 @@ class TestAmazonNeptuneStoreInit(unittest.TestCase):
         ):
             from importlib import reload
 
-            from semantica.graph_store import amazon_neptune
+            from sloth_graphmind.graph_store import amazon_neptune
 
             reload(amazon_neptune)
 
@@ -467,7 +467,7 @@ class TestAmazonNeptuneStoreInit(unittest.TestCase):
         ):
             from importlib import reload
 
-            from semantica.graph_store import amazon_neptune
+            from sloth_graphmind.graph_store import amazon_neptune
 
             reload(amazon_neptune)
 
@@ -494,7 +494,7 @@ class TestAmazonNeptuneStoreInit(unittest.TestCase):
         ):
             from importlib import reload
 
-            from semantica.graph_store import amazon_neptune
+            from sloth_graphmind.graph_store import amazon_neptune
 
             reload(amazon_neptune)
 
@@ -519,7 +519,7 @@ class TestAmazonNeptuneStoreInit(unittest.TestCase):
         ):
             from importlib import reload
 
-            from semantica.graph_store import amazon_neptune
+            from sloth_graphmind.graph_store import amazon_neptune
 
             reload(amazon_neptune)
 
@@ -557,7 +557,7 @@ class TestAmazonNeptuneStoreOperations(unittest.TestCase):
 
         from importlib import reload
 
-        from semantica.graph_store import amazon_neptune
+        from sloth_graphmind.graph_store import amazon_neptune
 
         reload(amazon_neptune)
 
@@ -663,7 +663,7 @@ class TestAmazonNeptuneStoreIAMAuth(unittest.TestCase):
         ):
             from importlib import reload
 
-            from semantica.graph_store import amazon_neptune
+            from sloth_graphmind.graph_store import amazon_neptune
 
             reload(amazon_neptune)
 
@@ -698,7 +698,7 @@ class TestAmazonNeptuneStoreIAMAuth(unittest.TestCase):
         ):
             from importlib import reload
 
-            from semantica.graph_store import amazon_neptune
+            from sloth_graphmind.graph_store import amazon_neptune
 
             reload(amazon_neptune)
 
@@ -732,7 +732,7 @@ class TestAmazonNeptuneStoreIAMAuth(unittest.TestCase):
         ):
             from importlib import reload
 
-            from semantica.graph_store import amazon_neptune
+            from sloth_graphmind.graph_store import amazon_neptune
 
             reload(amazon_neptune)
 
@@ -775,7 +775,7 @@ class TestAmazonNeptuneStoreGraphAnalytics(unittest.TestCase):
 
         from importlib import reload
 
-        from semantica.graph_store import amazon_neptune
+        from sloth_graphmind.graph_store import amazon_neptune
 
         reload(amazon_neptune)
 
@@ -836,7 +836,7 @@ class TestGraphStoreNeptuneBackend(unittest.TestCase):
         ):
             from importlib import reload
 
-            from semantica.graph_store import amazon_neptune, graph_store
+            from sloth_graphmind.graph_store import amazon_neptune, graph_store
 
             reload(amazon_neptune)
             reload(graph_store)
@@ -870,7 +870,7 @@ class TestAmazonNeptuneStoreCRUD(unittest.TestCase):
 
         from importlib import reload
 
-        from semantica.graph_store import amazon_neptune
+        from sloth_graphmind.graph_store import amazon_neptune
 
         reload(amazon_neptune)
 
@@ -963,7 +963,7 @@ class TestAmazonNeptuneStoreRelationships(unittest.TestCase):
 
         from importlib import reload
 
-        from semantica.graph_store import amazon_neptune
+        from sloth_graphmind.graph_store import amazon_neptune
 
         reload(amazon_neptune)
 
@@ -1084,7 +1084,7 @@ class TestAmazonNeptuneStoreErrors(unittest.TestCase):
 
         from importlib import reload
 
-        from semantica.graph_store import amazon_neptune
+        from sloth_graphmind.graph_store import amazon_neptune
 
         reload(amazon_neptune)
         self.amazon_neptune = amazon_neptune
@@ -1186,7 +1186,7 @@ class TestNeptuneWrapperClasses(unittest.TestCase):
 
         from importlib import reload
 
-        from semantica.graph_store import amazon_neptune
+        from sloth_graphmind.graph_store import amazon_neptune
 
         reload(amazon_neptune)
         self.amazon_neptune = amazon_neptune
@@ -1267,7 +1267,7 @@ class TestAmazonNeptuneStoreBatchOperations(unittest.TestCase):
 
         from importlib import reload
 
-        from semantica.graph_store import amazon_neptune
+        from sloth_graphmind.graph_store import amazon_neptune
 
         reload(amazon_neptune)
 
@@ -1325,7 +1325,7 @@ class TestAmazonNeptuneStoreRetryLogic(unittest.TestCase):
 
         from importlib import reload
 
-        from semantica.graph_store import amazon_neptune
+        from sloth_graphmind.graph_store import amazon_neptune
 
         reload(amazon_neptune)
         self.amazon_neptune = amazon_neptune
@@ -1394,7 +1394,7 @@ class TestAmazonNeptuneStoreSession(unittest.TestCase):
 
         from importlib import reload
 
-        from semantica.graph_store import amazon_neptune
+        from sloth_graphmind.graph_store import amazon_neptune
 
         reload(amazon_neptune)
         self.amazon_neptune = amazon_neptune
@@ -1443,7 +1443,7 @@ class TestAmazonNeptuneStoreGraphAnalyticsDirections(unittest.TestCase):
 
         from importlib import reload
 
-        from semantica.graph_store import amazon_neptune
+        from sloth_graphmind.graph_store import amazon_neptune
 
         reload(amazon_neptune)
 
@@ -1529,7 +1529,7 @@ class TestNeptuneAuthTokenManager(unittest.TestCase):
         ):
             from importlib import reload
 
-            from semantica.graph_store import amazon_neptune
+            from sloth_graphmind.graph_store import amazon_neptune
 
             reload(amazon_neptune)
 
@@ -1564,7 +1564,7 @@ class TestNeptuneAuthTokenManager(unittest.TestCase):
         ):
             from importlib import reload
 
-            from semantica.graph_store import amazon_neptune
+            from sloth_graphmind.graph_store import amazon_neptune
 
             reload(amazon_neptune)
 
@@ -1599,7 +1599,7 @@ class TestNeptuneAuthTokenManager(unittest.TestCase):
         ):
             from importlib import reload
 
-            from semantica.graph_store import amazon_neptune
+            from sloth_graphmind.graph_store import amazon_neptune
 
             reload(amazon_neptune)
 
@@ -1641,7 +1641,7 @@ class TestNeptuneAuthTokenManager(unittest.TestCase):
         ):
             from importlib import reload
 
-            from semantica.graph_store import amazon_neptune
+            from sloth_graphmind.graph_store import amazon_neptune
 
             reload(amazon_neptune)
 
@@ -1682,7 +1682,7 @@ class TestNeptuneAuthTokenManager(unittest.TestCase):
         ):
             from importlib import reload
 
-            from semantica.graph_store import amazon_neptune
+            from sloth_graphmind.graph_store import amazon_neptune
 
             reload(amazon_neptune)
 

@@ -9,7 +9,7 @@ import pytest
 import numpy as np
 from unittest.mock import Mock, patch
 
-from semantica.vector_store import VectorStore
+from sloth_graphmind.vector_store import VectorStore
 
 
 class TestVectorStoreBackwardCompatibility:

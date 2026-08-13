@@ -7,7 +7,7 @@ and PropertySource dataclasses.
 
 import pytest
 from datetime import datetime
-from semantica.provenance.schemas import (
+from sloth_graphmind.provenance.schemas import (
     ProvenanceEntry,
     SourceReference,
     PropertySource,

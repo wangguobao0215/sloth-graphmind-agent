@@ -19,11 +19,11 @@ before any query/update text is built.
 import unittest
 from unittest.mock import patch
 
-from semantica.semantic_extract.triplet_extractor import Triplet
-from semantica.triplet_store.blazegraph_store import BlazegraphStore
-from semantica.triplet_store.rdf4j_store import RDF4JStore
-from semantica.triplet_store.jena_store import JenaStore
-from semantica.utils.exceptions import ProcessingError, ValidationError
+from sloth_graphmind.semantic_extract.triplet_extractor import Triplet
+from sloth_graphmind.triplet_store.blazegraph_store import BlazegraphStore
+from sloth_graphmind.triplet_store.rdf4j_store import RDF4JStore
+from sloth_graphmind.triplet_store.jena_store import JenaStore
+from sloth_graphmind.utils.exceptions import ProcessingError, ValidationError
 
 # The advisory's own injection payload: closes the <...> token, then the
 # triple pattern, then appends a store-wide wipe and a rogue insert.

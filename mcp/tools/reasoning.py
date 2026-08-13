@@ -8,7 +8,7 @@ import logging
 
 from mcp.schemas import ABDUCTIVE_REASONING, RUN_REASONING
 
-log = logging.getLogger("semantica.mcp.tools.reasoning")
+log = logging.getLogger("sloth_graphmind.mcp.tools.reasoning")
 
 
 def handle_run_reasoning(args: dict) -> dict:
@@ -20,7 +20,7 @@ def handle_run_reasoning(args: dict) -> dict:
     if not rules:
         return {"error": "rules list is required", "derived_facts": []}
     try:
-        from semantica.reasoning import Reasoner
+        from sloth_graphmind.reasoning import Reasoner
         reasoner = Reasoner()
         for rule in rules:
             reasoner.add_rule(str(rule))
@@ -44,7 +44,7 @@ def handle_abductive_reasoning(args: dict) -> dict:
         return {"error": "observations list is required", "hypotheses": []}
     max_hypotheses = int(args.get("max_hypotheses", 5))
     try:
-        from semantica.reasoning import AbductiveReasoner
+        from sloth_graphmind.reasoning import AbductiveReasoner
         reasoner = AbductiveReasoner()
         hypotheses = reasoner.generate_hypotheses(observations)
         result = hypotheses if isinstance(hypotheses, list) else list(hypotheses)

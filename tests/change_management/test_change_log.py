@@ -7,8 +7,8 @@ This module tests the standardized metadata structures for version changes.
 import pytest
 from datetime import datetime
 
-from semantica.change_management import ChangeLogEntry
-from semantica.utils.exceptions import ValidationError
+from sloth_graphmind.change_management import ChangeLogEntry
+from sloth_graphmind.utils.exceptions import ValidationError
 
 
 class TestChangeLogEntry:

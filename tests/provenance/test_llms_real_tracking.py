@@ -6,7 +6,7 @@ Tests that actually execute LLM operations with provenance tracking.
 
 import pytest
 import time
-from semantica.provenance import ProvenanceManager
+from sloth_graphmind.provenance import ProvenanceManager
 
 
 class TestRealLLMProvenanceTracking:
@@ -15,7 +15,7 @@ class TestRealLLMProvenanceTracking:
     def test_llm_provenance_manager_creation(self):
         """Test that LLM creates provenance manager correctly."""
         try:
-            from semantica.llms.llms_provenance import GroqLLMWithProvenance
+            from sloth_graphmind.llms.llms_provenance import GroqLLMWithProvenance
             
             llm = GroqLLMWithProvenance(provenance=True)
             

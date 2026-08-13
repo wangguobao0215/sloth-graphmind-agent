@@ -1,15 +1,15 @@
 {
-  "name": "semantica",
+  "name": "sloth_graphmind",
   "description": "Full-stack knowledge graph skills: semantic extraction, decision intelligence, context graphs, reasoning, explainability, ontology, provenance, deduplication, visualization, and multi-format export.",
   "version": "0.1.0",
   "author": {
-    "name": "Semantica Contributors"
+    "name": "GraphMind Contributors"
   },
-  "homepage": "https://github.com/Hawksight-AI/semantica",
-  "repository": "https://github.com/Hawksight-AI/semantica",
+  "homepage": "https://github.com/Hawksight-AI/sloth_graphmind",
+  "repository": "https://github.com/Hawksight-AI/sloth_graphmind",
   "license": "MIT",
   "keywords": [
-    "semantica",
+    "sloth_graphmind",
     "knowledge graph",
     "context graphs",
     "decision intelligence",

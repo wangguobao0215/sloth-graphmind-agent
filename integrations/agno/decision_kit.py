@@ -14,7 +14,7 @@ Install
 
 Example
 -------
-    >>> from semantica.context import AgentContext
+    >>> from sloth_graphmind.context import AgentContext
     >>> from integrations.agno import AgnoDecisionKit
     >>> ctx = AgentContext(decision_tracking=True)
     >>> from agno.agent import Agent
@@ -36,7 +36,7 @@ import json
 import re
 from typing import Any, Dict, List, Optional
 
-from semantica.utils.logging import get_logger
+from sloth_graphmind.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
@@ -67,7 +67,7 @@ class AgnoDecisionKit(_ToolkitBase):  # type: ignore[misc]
     Parameters
     ----------
     context:
-        A ``semantica.context.AgentContext`` (or ``AgentContext``-compatible
+        A ``sloth_graphmind.context.AgentContext`` (or ``AgentContext``-compatible
         object with ``record_decision``, ``find_precedents_advanced``,
         ``analyze_decision_influence`` methods).  A fresh in-memory context is
         created when ``None``.
@@ -99,8 +99,8 @@ class AgnoDecisionKit(_ToolkitBase):  # type: ignore[misc]
 
         # Build or reuse AgentContext
         if context is None:
-            from semantica.context import AgentContext
-            from semantica.vector_store import VectorStore
+            from sloth_graphmind.context import AgentContext
+            from sloth_graphmind.vector_store import VectorStore
 
             context = AgentContext(
                 vector_store=VectorStore(backend="faiss"),

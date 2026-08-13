@@ -5,7 +5,7 @@ Deploy with Azure Developer CLI from this template directory:
 ```bash
 cd deploy/azure
 azd auth login
-azd init --environment semantica-ke
+azd init --environment sloth_graphmind-ke
 azd env set AZURE_LOCATION eastus
 
 # The template defaults to an internal (private) Container Apps environment.

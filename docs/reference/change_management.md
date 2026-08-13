@@ -4,7 +4,7 @@ description: "Version control, SHA-256 checksums, diff analysis, rollback, and a
 icon: "clock-rotate-left"
 ---
 
-**`semantica.change_management`** provides **enterprise-grade versioning and audit trails** for knowledge graphs and ontologies:
+**`sloth_graphmind.change_management`** provides **enterprise-grade versioning and audit trails** for knowledge graphs and ontologies:
 
 - SHA-256 checksums on every snapshot: tamper detection without external infrastructure
 - Structural diff between any two versions: nodes added, removed, or modified
@@ -42,7 +42,7 @@ icon: "clock-rotate-left"
 <Steps>
   <Step title="Initialise the version manager">
     ```python
-    from semantica.change_management import TemporalVersionManager
+    from sloth_graphmind.change_management import TemporalVersionManager
 
     manager = TemporalVersionManager(storage_path="versions.db")
     ```
@@ -183,7 +183,7 @@ for item in diff["entities_modified"]:
 Version control for ontologies: save, diff, and track schema changes:
 
 ```python
-from semantica.change_management import OntologyVersionManager
+from sloth_graphmind.change_management import OntologyVersionManager
 
 manager = OntologyVersionManager()
 
@@ -207,7 +207,7 @@ print("Properties added: ", diff["properties_added"])
 <Tabs>
   <Tab title="SQLite (production)">
     ```python
-    from semantica.change_management import SQLiteVersionStorage, TemporalVersionManager
+    from sloth_graphmind.change_management import SQLiteVersionStorage, TemporalVersionManager
 
     # Pass path directly to the manager (recommended)
     manager = TemporalVersionManager(storage_path="versions.db")
@@ -217,7 +217,7 @@ print("Properties added: ", diff["properties_added"])
   </Tab>
   <Tab title="In-Memory (tests)">
     ```python
-    from semantica.change_management import InMemoryVersionStorage, TemporalVersionManager
+    from sloth_graphmind.change_management import InMemoryVersionStorage, TemporalVersionManager
 
     # Default (no storage_path) uses in-memory storage automatically
     manager = TemporalVersionManager()
@@ -240,7 +240,7 @@ print("Properties added: ", diff["properties_added"])
 SHA-256 checksums detect any unauthorized modification to a graph between snapshots:
 
 ```python
-from semantica.change_management import compute_checksum, verify_checksum
+from sloth_graphmind.change_management import compute_checksum, verify_checksum
 
 # Compute a checksum for any dict
 checksum = compute_checksum({"nodes": [], "edges": []})
@@ -263,7 +263,7 @@ if not is_valid:
 `ChangeLogEntry` is the internal metadata object created inside `create_snapshot`. It validates the author (must be a valid email address) and description (non-empty, max 500 characters) before the snapshot is stored.
 
 ```python
-from semantica.change_management.change_log import ChangeLogEntry
+from sloth_graphmind.change_management.change_log import ChangeLogEntry
 
 # Create using current timestamp
 entry = ChangeLogEntry.create_now(
@@ -294,7 +294,7 @@ class ChangeLogEntry:
 All version snapshots form a tamper-evident audit trail. Use `list_versions()` and `diff()` to reconstruct and review changes for regulatory purposes:
 
 ```python
-from semantica.change_management import TemporalVersionManager
+from sloth_graphmind.change_management import TemporalVersionManager
 
 manager = TemporalVersionManager(storage_path="versions.db")
 
@@ -316,7 +316,7 @@ print("Added: %d | Removed: %d | Modified: %d" % (
 Use `verify_checksum()` before any compliance export to confirm snapshot integrity:
 
 ```python
-from semantica.change_management import verify_checksum
+from sloth_graphmind.change_management import verify_checksum
 
 snapshot = manager.get_version("v1.0")
 is_valid = verify_checksum(snapshot)

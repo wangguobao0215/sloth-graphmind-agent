@@ -1,11 +1,11 @@
 ---
 name: explain
-description: Explain Semantica reasoning, decision logic, and graph results with traceability, causal context, and human-readable rationale.
+description: Explain GraphMind reasoning, decision logic, and graph results with traceability, causal context, and human-readable rationale.
 ---
 
-# /semantica:explain
+# /sloth_graphmind:explain
 
-Produce explanations for decisions, rules, and graph analytics. Usage: `/semantica:explain <target> [args]`
+Produce explanations for decisions, rules, and graph analytics. Usage: `/sloth_graphmind:explain <target> [args]`
 
 `$ARGUMENTS` = explanation target + optional detail level.
 
@@ -16,9 +16,9 @@ Produce explanations for decisions, rules, and graph analytics. Usage: `/semanti
 Explain why a decision was reached.
 
 ```python
-from semantica.reasoning.explanation_generator import ExplanationGenerator
+from sloth_graphmind.reasoning.explanation_generator import ExplanationGenerator
 
-# For decision explainability in Semantica contexts:
+# For decision explainability in GraphMind contexts:
 decision_trace = ctx.trace_decision_explainability(decision_id=decision_id)
 
 # For reasoning/proof explanations:

@@ -29,9 +29,9 @@ assignees: ''
 
 <!-- What goals would this partnership achieve? -->
 
-## Benefit to Semantica
+## Benefit to GraphMind
 
-<!-- How would this benefit the Semantica project and community? -->
+<!-- How would this benefit the GraphMind project and community? -->
 
 ## Timeline
 

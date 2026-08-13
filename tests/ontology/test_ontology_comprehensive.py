@@ -4,12 +4,12 @@ from collections import defaultdict
 
 import pytest
 
-from semantica.ontology.class_inferrer import ClassInferrer
-from semantica.ontology.property_generator import PropertyGenerator
-from semantica.ontology.naming_conventions import NamingConventions
-from semantica.ontology.ontology_generator import OntologyGenerator
-from semantica.ontology.namespace_manager import NamespaceManager
-from semantica.ontology.module_manager import ModuleManager
+from sloth_graphmind.ontology.class_inferrer import ClassInferrer
+from sloth_graphmind.ontology.property_generator import PropertyGenerator
+from sloth_graphmind.ontology.naming_conventions import NamingConventions
+from sloth_graphmind.ontology.ontology_generator import OntologyGenerator
+from sloth_graphmind.ontology.namespace_manager import NamespaceManager
+from sloth_graphmind.ontology.module_manager import ModuleManager
 
 pytestmark = pytest.mark.integration
 
@@ -23,14 +23,14 @@ class TestOntologyComprehensive(unittest.TestCase):
         
         # Patch loggers and trackers
         self.patchers = [
-            patch('semantica.ontology.class_inferrer.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.class_inferrer.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.ontology.property_generator.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.property_generator.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.ontology.naming_conventions.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.naming_conventions.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.ontology.ontology_generator.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.ontology_generator.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.ontology.class_inferrer.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.class_inferrer.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.ontology.property_generator.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.property_generator.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.ontology.naming_conventions.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.naming_conventions.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.ontology.ontology_generator.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.ontology_generator.get_progress_tracker', return_value=self.mock_tracker),
         ]
         
         for p in self.patchers:
@@ -148,7 +148,7 @@ class TestOntologyComprehensive(unittest.TestCase):
     # --- OWLGenerator Tests ---
     def test_owl_generator(self):
         try:
-            from semantica.ontology.owl_generator import OWLGenerator
+            from sloth_graphmind.ontology.owl_generator import OWLGenerator
         except ImportError:
             self.skipTest("OWLGenerator not importable")
             
@@ -167,7 +167,7 @@ class TestOntologyComprehensive(unittest.TestCase):
 
     def test_owl_generator_user_facing_schema_compatibility(self):
         try:
-            from semantica.ontology.owl_generator import OWLGenerator
+            from sloth_graphmind.ontology.owl_generator import OWLGenerator
         except ImportError:
             self.skipTest("OWLGenerator not importable")
 
@@ -202,7 +202,7 @@ class TestOntologyComprehensive(unittest.TestCase):
         self.assertIn("CustomDateType", owl_output)
         self.assertIn(":Person", owl_output)
         self.assertIn(":Agent", owl_output)
-        self.assertNotIn("https://semantica.dev/ontology/", owl_output)
+        self.assertNotIn("https://sloth_graphmind.dev/ontology/", owl_output)
 
     # --- OntologyValidator Tests ---
     # Removed as per request
@@ -210,12 +210,12 @@ class TestOntologyComprehensive(unittest.TestCase):
     # --- LLMOntologyGenerator Tests ---
     def test_llm_ontology_generator(self):
         try:
-            from semantica.ontology.llm_generator import LLMOntologyGenerator
+            from sloth_graphmind.ontology.llm_generator import LLMOntologyGenerator
         except ImportError:
             self.skipTest("LLMOntologyGenerator not importable")
             
         # Mock provider
-        with patch('semantica.ontology.llm_generator.create_provider') as mock_create:
+        with patch('sloth_graphmind.ontology.llm_generator.create_provider') as mock_create:
             mock_provider = MagicMock()
             mock_create.return_value = mock_provider
             
@@ -236,7 +236,7 @@ class TestOntologyComprehensive(unittest.TestCase):
     # --- OntologyEngine Tests ---
     def test_ontology_engine(self):
         try:
-            from semantica.ontology.engine import OntologyEngine
+            from sloth_graphmind.ontology.engine import OntologyEngine
         except ImportError:
             self.skipTest("OntologyEngine not importable")
             
@@ -328,19 +328,19 @@ class TestSHACLGeneration(unittest.TestCase):
         self.mock_tracker.start_tracking.return_value = "track_shacl"
         self.patchers = [
             patch(
-                "semantica.ontology.ontology_generator.get_logger",
+                "sloth_graphmind.ontology.ontology_generator.get_logger",
                 return_value=self.mock_logger,
             ),
             patch(
-                "semantica.ontology.ontology_generator.get_progress_tracker",
+                "sloth_graphmind.ontology.ontology_generator.get_progress_tracker",
                 return_value=self.mock_tracker,
             ),
         ]
         for p in self.patchers:
             p.start()
-        from semantica.ontology.ontology_generator import SHACLGenerator
+        from sloth_graphmind.ontology.ontology_generator import SHACLGenerator
         self.gen = SHACLGenerator(
-            base_uri="https://semantica.dev/shapes/",
+            base_uri="https://sloth_graphmind.dev/shapes/",
             quality_tier="standard",
         )
 
@@ -350,7 +350,7 @@ class TestSHACLGeneration(unittest.TestCase):
 
     # 1
     def test_generate_returns_shacl_graph(self):
-        from semantica.ontology.ontology_generator import SHACLGraph
+        from sloth_graphmind.ontology.ontology_generator import SHACLGraph
         graph = self.gen.generate(self._ONTOLOGY)
         self.assertIsInstance(graph, SHACLGraph)
 
@@ -465,7 +465,7 @@ class TestSHACLGeneration(unittest.TestCase):
 
     # 16
     def test_standard_tier_is_default(self):
-        from semantica.ontology.ontology_generator import SHACLGenerator
+        from sloth_graphmind.ontology.ontology_generator import SHACLGenerator
         gen = SHACLGenerator()
         self.assertEqual(gen.quality_tier, "standard")
 
@@ -479,23 +479,23 @@ class TestSKOSOntologyEngine(unittest.TestCase):
         self.mock_tracker.start_tracking.return_value = "track_id"
 
         patchers = [
-            patch('semantica.ontology.engine.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.engine.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.ontology.ontology_generator.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.ontology_generator.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.ontology.class_inferrer.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.class_inferrer.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.ontology.property_generator.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.property_generator.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.ontology.owl_generator.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.owl_generator.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.ontology.ontology_evaluator.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.ontology_evaluator.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.ontology.ontology_validator.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.llm_generator.get_logger', return_value=self.mock_logger),
-            patch('semantica.ontology.llm_generator.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.change_management.ontology_version_manager.get_logger', return_value=self.mock_logger),
-            patch('semantica.change_management.ontology_version_manager.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.ontology.engine.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.engine.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.ontology.ontology_generator.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.ontology_generator.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.ontology.class_inferrer.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.class_inferrer.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.ontology.property_generator.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.property_generator.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.ontology.owl_generator.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.owl_generator.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.ontology.ontology_evaluator.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.ontology_evaluator.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.ontology.ontology_validator.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.llm_generator.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.ontology.llm_generator.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.change_management.ontology_version_manager.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.change_management.ontology_version_manager.get_progress_tracker', return_value=self.mock_tracker),
         ]
         self.patchers = patchers
         for p in self.patchers:
@@ -503,7 +503,7 @@ class TestSKOSOntologyEngine(unittest.TestCase):
 
         # Mock store with a controllable execute_query
         self.mock_store = MagicMock()
-        from semantica.ontology.engine import OntologyEngine
+        from sloth_graphmind.ontology.engine import OntologyEngine
         self.engine = OntologyEngine(store=self.mock_store)
 
     def tearDown(self):
@@ -519,7 +519,7 @@ class TestSKOSOntologyEngine(unittest.TestCase):
     # --- NamespaceManager SKOS helpers ---
 
     def test_get_skos_uri(self):
-        from semantica.ontology.namespace_manager import NamespaceManager
+        from sloth_graphmind.ontology.namespace_manager import NamespaceManager
         nm = NamespaceManager()
         self.assertEqual(
             nm.get_skos_uri("Concept"),
@@ -531,14 +531,14 @@ class TestSKOSOntologyEngine(unittest.TestCase):
         )
 
     def test_build_concept_scheme_uri(self):
-        from semantica.ontology.namespace_manager import NamespaceManager
+        from sloth_graphmind.ontology.namespace_manager import NamespaceManager
         nm = NamespaceManager(base_uri="https://example.org/onto/")
         uri = nm.build_concept_scheme_uri("My Vocabulary")
         self.assertIn("my-vocabulary", uri)
         self.assertTrue(uri.startswith("https://example.org/onto/"))
 
     def test_build_concept_scheme_uri_special_chars(self):
-        from semantica.ontology.namespace_manager import NamespaceManager
+        from sloth_graphmind.ontology.namespace_manager import NamespaceManager
         nm = NamespaceManager()
         uri = nm.build_concept_scheme_uri("ISO 3166 Countries")
         self.assertIn("iso-3166-countries", uri)
@@ -572,8 +572,8 @@ class TestSKOSOntologyEngine(unittest.TestCase):
         self.assertEqual(len(vocabs), 1)
 
     def test_list_vocabularies_no_store_raises(self):
-        from semantica.utils.exceptions import ProcessingError
-        from semantica.ontology.engine import OntologyEngine
+        from sloth_graphmind.utils.exceptions import ProcessingError
+        from sloth_graphmind.ontology.engine import OntologyEngine
         engine_no_store = OntologyEngine()
         with self.assertRaises(ProcessingError):
             engine_no_store.list_vocabularies()
@@ -602,8 +602,8 @@ class TestSKOSOntologyEngine(unittest.TestCase):
         self.assertEqual(blue["alt_labels"], [])
 
     def test_list_concepts_no_store_raises(self):
-        from semantica.utils.exceptions import ProcessingError
-        from semantica.ontology.engine import OntologyEngine
+        from sloth_graphmind.utils.exceptions import ProcessingError
+        from sloth_graphmind.ontology.engine import OntologyEngine
         engine_no_store = OntologyEngine()
         with self.assertRaises(ProcessingError):
             engine_no_store.list_concepts("http://example.org/vocab/colours")
@@ -640,8 +640,8 @@ class TestSKOSOntologyEngine(unittest.TestCase):
         self.assertEqual(results, [])
 
     def test_search_concepts_no_store_raises(self):
-        from semantica.utils.exceptions import ProcessingError
-        from semantica.ontology.engine import OntologyEngine
+        from sloth_graphmind.utils.exceptions import ProcessingError
+        from sloth_graphmind.ontology.engine import OntologyEngine
         engine_no_store = OntologyEngine()
         with self.assertRaises(ProcessingError):
             engine_no_store.search_concepts("red")

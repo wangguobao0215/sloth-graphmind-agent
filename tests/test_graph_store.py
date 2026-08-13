@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock, patch
 from typing import Any, Dict, List, Optional
-from semantica.graph_store.graph_store import GraphStore
+from sloth_graphmind.graph_store.graph_store import GraphStore
 
 class MockGraphStore:
     def __init__(self, **config):
@@ -141,7 +141,7 @@ class MockGraphStore:
 class TestGraphStore(unittest.TestCase):
     def setUp(self):
         # Patch Neo4jStore to return our MockGraphStore
-        self.patcher = patch('semantica.graph_store.neo4j_store.Neo4jStore', side_effect=MockGraphStore)
+        self.patcher = patch('sloth_graphmind.graph_store.neo4j_store.Neo4jStore', side_effect=MockGraphStore)
         self.mock_store_class = self.patcher.start()
         
         # Initialize GraphStore with 'neo4j' backend (which will use our mock)
@@ -220,13 +220,13 @@ class TestGraphStore(unittest.TestCase):
         interpolates labels/rel_type directly into a Cypher MATCH clause
         (graph_store.py's own query builder, not delegated to the backend),
         so an unvalidated label was a direct injection point."""
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
         evil_label = "N}) MATCH (victim) DETACH DELETE victim //"
         with self.assertRaises(ValidationError):
             self.store._manager.analytics.degree_centrality(labels=[evil_label])
 
     def test_degree_centrality_rejects_malicious_rel_type(self):
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
         evil_rel_type = "R]-() DETACH DELETE n //"
         with self.assertRaises(ValidationError):
             self.store._manager.analytics.degree_centrality(rel_type=evil_rel_type)
@@ -237,13 +237,13 @@ class TestGraphStore(unittest.TestCase):
 
 class TestGraphStoreInitialization(unittest.TestCase):
     def test_falkordb_initialization(self):
-        with patch('semantica.graph_store.falkordb_store.FalkorDBStore', side_effect=MockGraphStore) as mock_falkor:
+        with patch('sloth_graphmind.graph_store.falkordb_store.FalkorDBStore', side_effect=MockGraphStore) as mock_falkor:
             store = GraphStore(backend="falkordb")
             self.assertIsInstance(store._store_backend, MockGraphStore)
             mock_falkor.assert_called_once()
 
     def test_invalid_backend(self):
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
         with self.assertRaises(ValidationError):
             GraphStore(backend="invalid_backend")
 

@@ -27,7 +27,7 @@ import threading
 
 import pytest
 
-from semantica.explorer.routes import ontology as ontology_mod
+from sloth_graphmind.explorer.routes import ontology as ontology_mod
 
 
 def _start_local_server():

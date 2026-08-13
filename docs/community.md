@@ -1,23 +1,23 @@
 ---
 title: "Community"
-description: "Get help, connect with contributors, and share what you build with Semantica."
+description: "Get help, connect with contributors, and share what you build with GraphMind."
 icon: "users"
 ---
 
-Semantica is built in the open, with contributions from researchers, engineers, and practitioners across many domains. Whether you're filing a bug, sharing a project, or reviewing a PR: you're part of the ecosystem.
+GraphMind is built in the open, with contributions from researchers, engineers, and practitioners across many domains. Whether you're filing a bug, sharing a project, or reviewing a PR: you're part of the ecosystem.
 
 
 ## Get Help
 
-- [GitHub Issues](https://github.com/semantica-agi/semantica/issues) — File bug reports and feature requests with full context.
-- [GitHub Discussions](https://github.com/semantica-agi/semantica/discussions) — Ask questions, share ideas, and discuss design decisions.
-- [Pull Requests](https://github.com/semantica-agi/semantica/pulls) — Browse open contributions and submit your own.
-- [Security Issues](https://github.com/semantica-agi/semantica/security/advisories/new) — Report vulnerabilities privately: never in public issues.
+- [GitHub Issues](https://github.com/sloth_graphmind-agi/sloth_graphmind/issues) — File bug reports and feature requests with full context.
+- [GitHub Discussions](https://github.com/sloth_graphmind-agi/sloth_graphmind/discussions) — Ask questions, share ideas, and discuss design decisions.
+- [Pull Requests](https://github.com/sloth_graphmind-agi/sloth_graphmind/pulls) — Browse open contributions and submit your own.
+- [Security Issues](https://github.com/sloth_graphmind-agi/sloth_graphmind/security/advisories/new) — Report vulnerabilities privately: never in public issues.
 
 
 ## Community Guidelines
 
-We follow the [Contributor Covenant Code of Conduct](https://github.com/semantica-agi/semantica/blob/main/CODE_OF_CONDUCT.md). The community is built on four principles:
+We follow the [Contributor Covenant Code of Conduct](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/CODE_OF_CONDUCT.md). The community is built on four principles:
 
 - **Respect**: treat everyone with kindness and patience, regardless of experience level
 - **Inclusion**: welcome all backgrounds, domains, and approaches
@@ -33,7 +33,7 @@ There's no single right way to contribute. Pick the path that fits your skills a
 
 ### Code
 
-- Fix open bugs tagged [`good-first-issue`](https://github.com/semantica-agi/semantica/labels/good-first-issue)
+- Fix open bugs tagged [`good-first-issue`](https://github.com/sloth_graphmind-agi/sloth_graphmind/labels/good-first-issue)
 - Add new features or integrations
 - Improve performance or refactor existing modules
 
@@ -53,17 +53,17 @@ There's no single right way to contribute. Pick the path that fits your skills a
 
 - Answer questions in issues and discussions
 - Review open pull requests
-- Share your Semantica projects in GitHub Discussions
+- Share your GraphMind projects in GitHub Discussions
 
 See the [Contributing Guide](contributing-guide) for the full development workflow.
 
 
 ## Stay Connected
 
-- **[GitHub](https://github.com/semantica-agi/semantica)**: source code, releases, and the public roadmap
-- **[PyPI](https://pypi.org/project/semantica/)**: package releases and download stats
+- **[GitHub](https://github.com/sloth_graphmind-agi/sloth_graphmind)**: source code, releases, and the public roadmap
+- **[PyPI](https://pypi.org/project/sloth_graphmind/)**: package releases and download stats
 - **[Discord](https://discord.gg/sV34vps5hH)**: real-time community chat
-- **[X / Twitter](https://x.com/BuildSemantica)**: announcements and release highlights
+- **[X / Twitter](https://x.com/BuildGraphMind)**: announcements and release highlights
 
 
 ## See Also

@@ -4,7 +4,7 @@ description: "Unified interface for Groq, OpenAI, LiteLLM (Anthropic, Gemini, Ol
 icon: "microchip"
 ---
 
-**`semantica.llms`** provides a **single consistent API** across every major LLM provider:
+**`sloth_graphmind.llms`** provides a **single consistent API** across every major LLM provider:
 
 - Every provider is a drop-in replacement for the `llm_provider=` parameter in extractors, reasoners, and agents
 - `LiteLLM` routes to 100+ providers with a single class and model-string prefixes
@@ -16,7 +16,7 @@ icon: "microchip"
 ## Exported Classes
 
 ```python
-from semantica.llms import Groq, OpenAI, LiteLLM, HuggingFaceLLM
+from sloth_graphmind.llms import Groq, OpenAI, LiteLLM, HuggingFaceLLM
 ```
 
 | Class | Provider | API Key Required |
@@ -53,7 +53,7 @@ from semantica.llms import Groq, OpenAI, LiteLLM, HuggingFaceLLM
 
     ```python
     import os
-    from semantica.llms import Groq
+    from sloth_graphmind.llms import Groq
 
     llm = Groq(
         model="llama-3.1-8b-instant",
@@ -76,7 +76,7 @@ from semantica.llms import Groq, OpenAI, LiteLLM, HuggingFaceLLM
 
     ```python
     import os
-    from semantica.llms import OpenAI
+    from sloth_graphmind.llms import OpenAI
 
     llm = OpenAI(
         model="gpt-4o",
@@ -102,7 +102,7 @@ from semantica.llms import Groq, OpenAI, LiteLLM, HuggingFaceLLM
     ```
 
     ```python
-    from semantica.llms import LiteLLM
+    from sloth_graphmind.llms import LiteLLM
 
     llm = LiteLLM(
         model="ollama/llama3.2:3b",
@@ -126,7 +126,7 @@ from semantica.llms import Groq, OpenAI, LiteLLM, HuggingFaceLLM
 
     ```python
     import os
-    from semantica.llms import LiteLLM
+    from sloth_graphmind.llms import LiteLLM
 
     llm = LiteLLM(
         model="anthropic/claude-sonnet-4-20250514",
@@ -147,7 +147,7 @@ from semantica.llms import Groq, OpenAI, LiteLLM, HuggingFaceLLM
 
     ```python
     import os
-    from semantica.llms import LiteLLM
+    from sloth_graphmind.llms import LiteLLM
 
     llm = LiteLLM(
         model="deepseek/deepseek-chat",
@@ -187,7 +187,7 @@ llm_provider:
 
 ```python
 import os
-from semantica.llms import Groq, LiteLLM
+from sloth_graphmind.llms import Groq, LiteLLM
 
 # Method 1: Direct API key
 llm = Groq(api_key="your-api-key-here", model="llama-3.1-8b-instant")
@@ -222,7 +222,7 @@ llm = Groq(api_key=os.getenv("GROQ_API_KEY"), model="llama-3.1-8b-instant")
 
 ```python Groq
 import os
-from semantica.llms import Groq
+from sloth_graphmind.llms import Groq
 
 llm = Groq(
     model="llama-3.3-70b-versatile",   # recommended; implementation default: llama-3.1-8b-instant
@@ -235,7 +235,7 @@ llm = Groq(
 
 ```python OpenAI
 import os
-from semantica.llms import OpenAI
+from sloth_graphmind.llms import OpenAI
 
 llm = OpenAI(
     model="gpt-4o",                     # recommended; implementation default: gpt-3.5-turbo
@@ -247,9 +247,9 @@ llm = OpenAI(
 
 ```python LiteLLM (100+ providers)
 import os
-from semantica.llms import LiteLLM
+from sloth_graphmind.llms import LiteLLM
 
-# pip install "semantica[llm-litellm]"
+# pip install "sloth_graphmind[llm-litellm]"
 
 # Anthropic Claude
 llm = LiteLLM(model="anthropic/claude-opus-4-5",         api_key=os.getenv("ANTHROPIC_API_KEY"))
@@ -274,7 +274,7 @@ llm = LiteLLM(model="novita/deepseek/deepseek-v3.2",     api_key=os.getenv("NOVI
 ```
 
 ```python HuggingFaceLLM (Local)
-from semantica.llms import HuggingFaceLLM
+from sloth_graphmind.llms import HuggingFaceLLM
 
 llm = HuggingFaceLLM(
     model="mistralai/Mistral-7B-Instruct-v0.3",
@@ -289,11 +289,11 @@ llm = HuggingFaceLLM(
 
 ## LiteLLM: 100+ Providers
 
-`LiteLLM` is the recommended way to access any provider not directly exported by `semantica.llms`. Use the `provider/model` string format:
+`LiteLLM` is the recommended way to access any provider not directly exported by `sloth_graphmind.llms`. Use the `provider/model` string format:
 
 ```python
 import os
-from semantica.llms import LiteLLM
+from sloth_graphmind.llms import LiteLLM
 
 # Pattern: LiteLLM(model="<provider>/<model-name>")
 providers = {
@@ -321,7 +321,7 @@ Any OpenAI-compatible endpoint: internal routing layers, Qwen proxies, or privat
 
 ```python
 import os
-from semantica.llms import OpenAI
+from sloth_graphmind.llms import OpenAI
 
 llm = OpenAI(
     model="qwen2.5-72b",
@@ -340,8 +340,8 @@ All extractors accept any provider as `llm_provider=`:
 
 ```python
 import os
-from semantica.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
-from semantica.llms import Groq
+from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor
+from sloth_graphmind.llms import Groq
 
 llm = Groq(model="llama-3.3-70b-versatile", api_key=os.getenv("GROQ_API_KEY"))
 
@@ -393,8 +393,8 @@ These are the models used when you construct a provider without specifying `mode
 
 ```python
 import os
-from semantica.semantic_extract import NERExtractor
-from semantica.llms import Groq
+from sloth_graphmind.semantic_extract import NERExtractor
+from sloth_graphmind.llms import Groq
 
 llm = Groq(model="llama-3.3-70b-versatile", api_key=os.getenv("GROQ_API_KEY"))
 ner = NERExtractor(method="llm", llm_provider=llm, max_retries=3)
@@ -423,8 +423,8 @@ for text in texts:
 
 ```python
 import os
-from semantica.llms import Groq
-from semantica.semantic_extract import NERExtractor
+from sloth_graphmind.llms import Groq
+from sloth_graphmind.semantic_extract import NERExtractor
 
 llm = Groq(
     model="llama-3.3-70b-versatile",

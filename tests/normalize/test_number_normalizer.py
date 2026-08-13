@@ -1,5 +1,5 @@
 import unittest
-from semantica.normalize.number_normalizer import (
+from sloth_graphmind.normalize.number_normalizer import (
     NumberNormalizer,
     UnitConverter,
     CurrencyNormalizer,

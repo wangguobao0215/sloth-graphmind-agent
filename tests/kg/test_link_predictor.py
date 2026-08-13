@@ -10,7 +10,7 @@ import networkx as nx
 import numpy as np
 from unittest.mock import Mock
 
-from semantica.kg.link_predictor import LinkPredictor
+from sloth_graphmind.kg.link_predictor import LinkPredictor
 
 
 class TestLinkPredictor:

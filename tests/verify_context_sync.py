@@ -7,7 +7,7 @@ import pytest
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from semantica.context import AgentContext, ContextGraph
+from sloth_graphmind.context import AgentContext, ContextGraph
 
 pytestmark = pytest.mark.integration
 
@@ -150,7 +150,7 @@ def test_synchronous_context():
     # 7. Test Token Management
     print("\n--- Testing Token Management ---")
     # Initialize a new memory with small token limit
-    from semantica.context import AgentMemory
+    from sloth_graphmind.context import AgentMemory
     
     # Create isolated memory instance for testing
     token_memory = AgentMemory(

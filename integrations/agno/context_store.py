@@ -21,8 +21,8 @@ Install
 
 Example
 -------
-    >>> from semantica.context import ContextGraph
-    >>> from semantica.vector_store import VectorStore
+    >>> from sloth_graphmind.context import ContextGraph
+    >>> from sloth_graphmind.vector_store import VectorStore
     >>> from integrations.agno import AgnoContextStore
     >>> store = AgnoContextStore(
     ...     vector_store=VectorStore(backend="faiss"),
@@ -41,7 +41,7 @@ import time
 import uuid
 from typing import Any, Dict, List, Optional
 
-from semantica.utils.logging import get_logger
+from sloth_graphmind.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
@@ -100,10 +100,10 @@ class AgnoContextStore(_MemoryDbBase):  # type: ignore[misc]
     Parameters
     ----------
     vector_store:
-        A ``semantica.vector_store.VectorStore`` instance (or ``None`` to use
+        A ``sloth_graphmind.vector_store.VectorStore`` instance (or ``None`` to use
         an in-memory FAISS store created automatically).
     knowledge_graph:
-        A ``semantica.context.ContextGraph`` instance (or ``None`` for a fresh
+        A ``sloth_graphmind.context.ContextGraph`` instance (or ``None`` for a fresh
         in-memory graph).
     decision_tracking:
         Automatically record every ``upsert_memory`` call as a lightweight
@@ -137,8 +137,8 @@ class AgnoContextStore(_MemoryDbBase):  # type: ignore[misc]
         # ------------------------------------------------------------------
         # Build AgentContext from provided components
         # ------------------------------------------------------------------
-        from semantica.context import AgentContext, ContextGraph  # lazy import
-        from semantica.vector_store import VectorStore  # lazy import
+        from sloth_graphmind.context import AgentContext, ContextGraph  # lazy import
+        from sloth_graphmind.vector_store import VectorStore  # lazy import
 
         if knowledge_graph is None:
             knowledge_graph = ContextGraph()
@@ -222,7 +222,7 @@ class AgnoContextStore(_MemoryDbBase):  # type: ignore[misc]
 
         # Extract entities and index them into the knowledge graph
         try:
-            from semantica.semantic_extract import NERExtractor
+            from sloth_graphmind.semantic_extract import NERExtractor
             ner = NERExtractor()
             entities = ner.extract_entities(mem_text) or []
             kg = getattr(self._context, "knowledge_graph", None)

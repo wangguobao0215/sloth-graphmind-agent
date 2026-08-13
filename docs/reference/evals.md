@@ -4,15 +4,15 @@ description: "Evaluation framework for measuring Knowledge Graph quality, extrac
 icon: "chart-line"
 ---
 
-**`semantica.evals`** is planned as a comprehensive evaluation framework for measuring **extraction accuracy, graph quality, and pipeline performance**.
+**`sloth_graphmind.evals`** is planned as a comprehensive evaluation framework for measuring **extraction accuracy, graph quality, and pipeline performance**.
 
 <Warning>
-  **`semantica.evals` is not yet implemented.** The module is a placeholder with `__all__ = []`. No classes or functions are available for import. This page describes the planned API only.
+  **`sloth_graphmind.evals` is not yet implemented.** The module is a placeholder with `__all__ = []`. No classes or functions are available for import. This page describes the planned API only.
 </Warning>
 
 ## Planned Features
 
-When released, `semantica.evals` will provide:
+When released, `sloth_graphmind.evals` will provide:
 
 | Planned Class | Role |
 | :--- | :--- |
@@ -26,10 +26,10 @@ When released, `semantica.evals` will provide:
 
 ## Current Workaround
 
-Until `semantica.evals` ships, use `semantica.ontology.OntologyEvaluator` for ontology quality metrics:
+Until `sloth_graphmind.evals` ships, use `sloth_graphmind.ontology.OntologyEvaluator` for ontology quality metrics:
 
 ```python
-from semantica.ontology import OntologyEvaluator
+from sloth_graphmind.ontology import OntologyEvaluator
 
 evaluator = OntologyEvaluator()
 

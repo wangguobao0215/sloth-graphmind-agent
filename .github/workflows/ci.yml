@@ -56,8 +56,8 @@ jobs:
           with zipfile.ZipFile(wheels[0]) as wheel:
               names = set(wheel.namelist())
 
-          assert "semantica/static/index.html" in names, "Explorer index.html missing from wheel"
-          assert any(name.startswith("semantica/static/assets/") for name in names), "Explorer assets missing from wheel"
+          assert "sloth_graphmind/static/index.html" in names, "Explorer index.html missing from wheel"
+          assert any(name.startswith("sloth_graphmind/static/assets/") for name in names), "Explorer assets missing from wheel"
 
           print("Explorer frontend is packaged")
           PY

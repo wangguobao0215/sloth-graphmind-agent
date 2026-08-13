@@ -4,11 +4,11 @@ import pytest
 from unittest.mock import MagicMock, patch
 from pathlib import Path
 
-from semantica.ingest.file_ingestor import FileIngestor, FileTypeDetector, FileObject
-from semantica.ingest.web_ingestor import WebIngestor, WebContent
-from semantica.ingest.feed_ingestor import FeedIngestor, FeedData
-from semantica.ingest.stream_ingestor import StreamIngestor
-from semantica.ingest import ingest
+from sloth_graphmind.ingest.file_ingestor import FileIngestor, FileTypeDetector, FileObject
+from sloth_graphmind.ingest.web_ingestor import WebIngestor, WebContent
+from sloth_graphmind.ingest.feed_ingestor import FeedIngestor, FeedData
+from sloth_graphmind.ingest.stream_ingestor import StreamIngestor
+from sloth_graphmind.ingest import ingest
 
 class TestFileIngestor:
     def test_file_type_detector(self):
@@ -68,7 +68,7 @@ class TestWebIngestor:
             mock_session_instance.get.return_value = mock_response
 
             # Also patch RobotsChecker to avoid real network calls
-            with patch("semantica.ingest.web_ingestor.RobotsChecker.can_fetch", return_value=True):
+            with patch("sloth_graphmind.ingest.web_ingestor.RobotsChecker.can_fetch", return_value=True):
                 ingestor = WebIngestor()
                 result = ingestor.ingest_url("http://example.com")
         
@@ -141,7 +141,7 @@ class TestUnifiedIngest:
             mock_session_instance.get.return_value = mock_response
 
             # Also patch RobotsChecker to avoid real network calls
-            with patch("semantica.ingest.web_ingestor.RobotsChecker.can_fetch", return_value=True):
+            with patch("sloth_graphmind.ingest.web_ingestor.RobotsChecker.can_fetch", return_value=True):
                 # Should detect as web
                 result = ingest("http://example.com")
                 assert isinstance(result, dict)

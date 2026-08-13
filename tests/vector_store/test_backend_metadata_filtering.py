@@ -2,13 +2,13 @@ import unittest
 from unittest.mock import MagicMock, patch
 import numpy as np
 
-from semantica.vector_store.faiss_store import FAISSStore
-from semantica.vector_store.qdrant_store import QdrantStore
-from semantica.vector_store.pinecone_store import PineconeStore
-from semantica.vector_store.milvus_store import MilvusStore
-from semantica.vector_store.pgvector_store import PgVectorStore
-from semantica.vector_store.weaviate_store import WeaviateStore
-from semantica.utils.exceptions import ProcessingError, ValidationError
+from sloth_graphmind.vector_store.faiss_store import FAISSStore
+from sloth_graphmind.vector_store.qdrant_store import QdrantStore
+from sloth_graphmind.vector_store.pinecone_store import PineconeStore
+from sloth_graphmind.vector_store.milvus_store import MilvusStore
+from sloth_graphmind.vector_store.pgvector_store import PgVectorStore
+from sloth_graphmind.vector_store.weaviate_store import WeaviateStore
+from sloth_graphmind.utils.exceptions import ProcessingError, ValidationError
 
 
 class TestBackendMetadataFiltering(unittest.TestCase):
@@ -28,10 +28,10 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         self.assertEqual(results[0]["id"], "v1")
         self.assertEqual(results[0]["metadata"], {"category": "finance", "score": 10})
 
-    @patch('semantica.vector_store.qdrant_store.FieldCondition', MagicMock())
-    @patch('semantica.vector_store.qdrant_store.MatchValue', MagicMock())
-    @patch('semantica.vector_store.qdrant_store.Filter', MagicMock())
-    @patch('semantica.vector_store.qdrant_store.QDRANT_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.qdrant_store.FieldCondition', MagicMock())
+    @patch('sloth_graphmind.vector_store.qdrant_store.MatchValue', MagicMock())
+    @patch('sloth_graphmind.vector_store.qdrant_store.Filter', MagicMock())
+    @patch('sloth_graphmind.vector_store.qdrant_store.QDRANT_AVAILABLE', True)
     def test_qdrant_store_filter_by_metadata(self):
         store = QdrantStore()
         mock_collection = MagicMock()
@@ -51,10 +51,10 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         self.assertEqual(results[0]["metadata"], {"env": "prod"})
         mock_client.scroll.assert_called_once()
 
-    @patch('semantica.vector_store.qdrant_store.Range', MagicMock())
-    @patch('semantica.vector_store.qdrant_store.FieldCondition', MagicMock())
-    @patch('semantica.vector_store.qdrant_store.Filter', MagicMock())
-    @patch('semantica.vector_store.qdrant_store.QDRANT_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.qdrant_store.Range', MagicMock())
+    @patch('sloth_graphmind.vector_store.qdrant_store.FieldCondition', MagicMock())
+    @patch('sloth_graphmind.vector_store.qdrant_store.Filter', MagicMock())
+    @patch('sloth_graphmind.vector_store.qdrant_store.QDRANT_AVAILABLE', True)
     def test_qdrant_store_filter_by_metadata_range(self):
         """Range filters must construct Range objects and not raise NameError."""
         store = QdrantStore()
@@ -76,13 +76,13 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         mock_client.scroll.assert_called()
 
         # Verify Range was actually called to build the condition (not skipped)
-        import semantica.vector_store.qdrant_store as qs_mod
+        import sloth_graphmind.vector_store.qdrant_store as qs_mod
         qs_mod.Range.assert_called()
 
-    @patch('semantica.vector_store.qdrant_store.Range', MagicMock())
-    @patch('semantica.vector_store.qdrant_store.FieldCondition', MagicMock())
-    @patch('semantica.vector_store.qdrant_store.Filter', MagicMock())
-    @patch('semantica.vector_store.qdrant_store.QDRANT_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.qdrant_store.Range', MagicMock())
+    @patch('sloth_graphmind.vector_store.qdrant_store.FieldCondition', MagicMock())
+    @patch('sloth_graphmind.vector_store.qdrant_store.Filter', MagicMock())
+    @patch('sloth_graphmind.vector_store.qdrant_store.QDRANT_AVAILABLE', True)
     def test_qdrant_store_filter_by_metadata_range_min_and_max(self):
         """Range filters with both min and max must construct Range with both gte and lte."""
         store = QdrantStore()
@@ -95,14 +95,14 @@ class TestBackendMetadataFiltering(unittest.TestCase):
 
         store.filter_by_metadata({"score": {"min": 5, "max": 10}}, limit=10)
 
-        import semantica.vector_store.qdrant_store as qs_mod
+        import sloth_graphmind.vector_store.qdrant_store as qs_mod
         # Range must have been called with gte and lte
         qs_mod.Range.assert_called_with(gte=5, lte=10)
 
-    @patch('semantica.vector_store.qdrant_store.MatchAny', MagicMock())
-    @patch('semantica.vector_store.qdrant_store.FieldCondition', MagicMock())
-    @patch('semantica.vector_store.qdrant_store.Filter', MagicMock())
-    @patch('semantica.vector_store.qdrant_store.QDRANT_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.qdrant_store.MatchAny', MagicMock())
+    @patch('sloth_graphmind.vector_store.qdrant_store.FieldCondition', MagicMock())
+    @patch('sloth_graphmind.vector_store.qdrant_store.Filter', MagicMock())
+    @patch('sloth_graphmind.vector_store.qdrant_store.QDRANT_AVAILABLE', True)
     def test_qdrant_store_filter_by_metadata_list(self):
         """List filters must construct MatchAny objects and not raise NameError."""
         store = QdrantStore()
@@ -123,10 +123,10 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         mock_client.scroll.assert_called()
 
         # Verify MatchAny was actually called with the filter list
-        import semantica.vector_store.qdrant_store as qs_mod
+        import sloth_graphmind.vector_store.qdrant_store as qs_mod
         qs_mod.MatchAny.assert_called_with(any=["python", "ml"])
 
-    @patch('semantica.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
     def test_pinecone_store_filter_by_metadata(self):
         store = PineconeStore(dimension=2)
         mock_index_wrapper = MagicMock()
@@ -152,7 +152,7 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         query_kw = mock_inner_index.query.call_args[1]
         self.assertEqual(len(query_kw["vector"]), 2)
 
-    @patch('semantica.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
     def test_pinecone_store_filter_by_metadata_unknown_dimension_raises(self):
         store = PineconeStore()
         mock_index_wrapper = MagicMock()
@@ -161,7 +161,7 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         with self.assertRaises(ProcessingError):
             store.filter_by_metadata({"status": "active"}, limit=5)
 
-    @patch('semantica.vector_store.milvus_store.MILVUS_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.milvus_store.MILVUS_AVAILABLE', True)
     def test_milvus_store_filter_by_metadata(self):
         store = MilvusStore()
         mock_coll_wrapper = MagicMock()
@@ -177,7 +177,7 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         self.assertEqual(results[0]["id"], "m1")
         self.assertEqual(results[0]["metadata"], {"lang": "py"})
 
-    @patch('semantica.vector_store.milvus_store.MILVUS_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.milvus_store.MILVUS_AVAILABLE', True)
     def test_milvus_store_filter_by_metadata_escaping(self):
         store = MilvusStore()
         mock_coll_wrapper = MagicMock()
@@ -201,7 +201,7 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         self.assertIn('metadata["active"] == true', expr)
         self.assertIn('metadata["tags"] in ["python", "c++ \\"v\\""]', expr)
 
-    @patch('semantica.vector_store.milvus_store.MILVUS_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.milvus_store.MILVUS_AVAILABLE', True)
     def test_milvus_store_filter_by_metadata_invalid_key_raises(self):
         store = MilvusStore()
         mock_coll_wrapper = MagicMock()
@@ -210,8 +210,8 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         with self.assertRaises(ValidationError):
             store.filter_by_metadata({'dept" || 1==1 || "': "val"}, limit=5)
 
-    @patch('semantica.vector_store.pgvector_store.PSYCOPG3_AVAILABLE', True)
-    @patch('semantica.vector_store.pgvector_store.psycopg_sql')
+    @patch('sloth_graphmind.vector_store.pgvector_store.PSYCOPG3_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pgvector_store.psycopg_sql')
     def test_pgvector_store_filter_by_metadata(self, mock_sql):
         store = object.__new__(PgVectorStore)
         store.table_name = "test_vectors"
@@ -230,8 +230,8 @@ class TestBackendMetadataFiltering(unittest.TestCase):
             self.assertEqual(results[0]["id"], "pg1")
             self.assertEqual(results[0]["metadata"], {"org": "acme"})
 
-    @patch('semantica.vector_store.pgvector_store.PSYCOPG3_AVAILABLE', True)
-    @patch('semantica.vector_store.pgvector_store.psycopg_sql')
+    @patch('sloth_graphmind.vector_store.pgvector_store.PSYCOPG3_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pgvector_store.psycopg_sql')
     def test_pgvector_store_filter_by_metadata_bool_true(self, mock_sql):
         """Boolean True must become the string 'true' (lowercase) in the SQL parameter.
 
@@ -272,8 +272,8 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         self.assertNotIn('True', params_passed,
                          "str(True)='True' must NOT appear in SQL params")
 
-    @patch('semantica.vector_store.pgvector_store.PSYCOPG3_AVAILABLE', True)
-    @patch('semantica.vector_store.pgvector_store.psycopg_sql')
+    @patch('sloth_graphmind.vector_store.pgvector_store.PSYCOPG3_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pgvector_store.psycopg_sql')
     def test_pgvector_store_filter_by_metadata_bool_false(self, mock_sql):
         """Boolean False must become the string 'false' (lowercase) in the SQL parameter.
 
@@ -314,8 +314,8 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         self.assertNotIn('False', params_passed,
                          "str(False)='False' must NOT appear in SQL params")
 
-    @patch('semantica.vector_store.pgvector_store.PSYCOPG3_AVAILABLE', True)
-    @patch('semantica.vector_store.pgvector_store.psycopg_sql')
+    @patch('sloth_graphmind.vector_store.pgvector_store.PSYCOPG3_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pgvector_store.psycopg_sql')
     def test_pgvector_store_filter_by_metadata_bool_list(self, mock_sql):
         """List-valued boolean filters must use lowercase 'true'/'false', not
         str(True)/str(False), matching the scalar branch's handling.
@@ -363,7 +363,7 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         results = store.filter_by_metadata({"category": "finance"}, limit=0)
         self.assertEqual(results, [])
 
-    @patch('semantica.vector_store.milvus_store.MILVUS_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.milvus_store.MILVUS_AVAILABLE', True)
     def test_milvus_store_filter_by_metadata_nan_raises(self):
         """NaN/Infinity are not valid Milvus expression literals and must be
         rejected up front rather than silently producing an invalid expression
@@ -376,7 +376,7 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         with self.assertRaises(ValidationError):
             store.filter_by_metadata({"score": {"min": float("nan")}}, limit=5)
 
-    @patch('semantica.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
+    @patch('sloth_graphmind.vector_store.pinecone_store.PINECONE_AVAILABLE', True)
     def test_pinecone_store_get_index_sets_dimension_from_stats(self):
         """get_index() must read stats from the returned PineconeIndex wrapper
         (self.index), not from a nonexistent method on the store itself.
@@ -388,7 +388,7 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         store.client = mock_client
 
         with patch(
-            'semantica.vector_store.pinecone_store.PineconeIndex'
+            'sloth_graphmind.vector_store.pinecone_store.PineconeIndex'
         ) as mock_index_cls:
             mock_index_instance = MagicMock()
             mock_index_instance.describe_index_stats.return_value = {"dimension": 42}
@@ -410,7 +410,7 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         mock_coll.query.fetch_objects.return_value = objs
         store.collection = mock_coll
 
-        with patch('semantica.vector_store.weaviate_store.WEAVIATE_AVAILABLE', True):
+        with patch('sloth_graphmind.vector_store.weaviate_store.WEAVIATE_AVAILABLE', True):
             results = store.filter_by_metadata({"dept": "eng"}, limit=5)
             self.assertEqual(len(results), 1)
             self.assertEqual(results[0]["id"], "w-uuid-1")
@@ -455,7 +455,7 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         mock_coll.query.fetch_objects.side_effect = side_effect
         store.collection = mock_coll
 
-        with patch('semantica.vector_store.weaviate_store.WEAVIATE_AVAILABLE', True):
+        with patch('sloth_graphmind.vector_store.weaviate_store.WEAVIATE_AVAILABLE', True):
             results = store.filter_by_metadata({"dept": "eng"}, limit=5)
             self.assertEqual(len(results), 2)
             self.assertEqual(results[0]["id"], "match-uuid-1")
@@ -471,8 +471,8 @@ class TestBackendMetadataFiltering(unittest.TestCase):
         mock_module = MagicMock()
         mock_module.classes.query.Filter = mock_filter_cls
 
-        with patch('semantica.vector_store.weaviate_store.WEAVIATE_AVAILABLE', True), \
-             patch('semantica.vector_store.weaviate_store.weaviate', mock_module):
+        with patch('sloth_graphmind.vector_store.weaviate_store.WEAVIATE_AVAILABLE', True), \
+             patch('sloth_graphmind.vector_store.weaviate_store.weaviate', mock_module):
 
             # Test exact match
             res = store._build_weaviate_filter({"dept": "eng"})

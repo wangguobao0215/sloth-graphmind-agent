@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
-from semantica.kg import BiTemporalFact, TemporalBound, TemporalGraphQuery
-from semantica.reasoning import IntervalRelation, TemporalInterval, TemporalReasoningEngine
+from sloth_graphmind.kg import BiTemporalFact, TemporalBound, TemporalGraphQuery
+from sloth_graphmind.reasoning import IntervalRelation, TemporalInterval, TemporalReasoningEngine
 
 
 def dt(value: str) -> datetime:

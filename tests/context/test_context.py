@@ -8,11 +8,11 @@ import os
 # Ensure the semantica package is in the path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from semantica.context.entity_linker import EntityLinker, LinkedEntity, EntityLink
-from semantica.context.context_graph import ContextGraph, ContextNode, ContextEdge
-from semantica.context.agent_memory import AgentMemory, MemoryItem
-from semantica.context.context_retriever import ContextRetriever, RetrievedContext
-from semantica.context.agent_context import AgentContext
+from sloth_graphmind.context.entity_linker import EntityLinker, LinkedEntity, EntityLink
+from sloth_graphmind.context.context_graph import ContextGraph, ContextNode, ContextEdge
+from sloth_graphmind.context.agent_memory import AgentMemory, MemoryItem
+from sloth_graphmind.context.context_retriever import ContextRetriever, RetrievedContext
+from sloth_graphmind.context.agent_context import AgentContext
 
 class MockVectorStore:
     def __init__(self):
@@ -184,7 +184,7 @@ class TestContextModule(unittest.TestCase):
         # The store method calls _generate_embedding. If it's not implemented or relies on external service, it might fail.
         # Let's see if we need to mock _generate_embedding.
         
-    @patch('semantica.context.agent_memory.AgentMemory._generate_embedding')
+    @patch('sloth_graphmind.context.agent_memory.AgentMemory._generate_embedding')
     def test_agent_memory_vector_store(self, mock_gen_embedding):
         mock_gen_embedding.return_value = [0.1, 0.2, 0.3]
         memory = AgentMemory(vector_store=self.mock_vector_store)
@@ -227,7 +227,7 @@ class TestContextModule(unittest.TestCase):
         """A cycle already persisted elsewhere in the graph (e.g. legacy data
         written before cycle detection existed) must not poison unrelated
         SKOS hierarchy writes for concepts it doesn't touch."""
-        from semantica.context.context_graph import ContextEdge
+        from sloth_graphmind.context.context_graph import ContextEdge
 
         graph = ContextGraph()
         graph._add_internal_edge(ContextEdge(source_id="X", target_id="Y", edge_type="skos:broader"))
@@ -237,7 +237,7 @@ class TestContextModule(unittest.TestCase):
         self.assertEqual(len(graph.edges), 3)
 
     # --- AgentContext Tests ---
-    @patch('semantica.context.agent_memory.AgentMemory._generate_embedding')
+    @patch('sloth_graphmind.context.agent_memory.AgentMemory._generate_embedding')
     def test_agent_context_end_to_end(self, mock_gen_embedding):
         mock_gen_embedding.return_value = [0.1, 0.1]
         

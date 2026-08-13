@@ -23,13 +23,13 @@ sys.modules['networkx'] = MagicMock()
 sys.modules['graphviz'] = MagicMock()
 
 # Import visualizers
-from semantica.visualization.kg_visualizer import KGVisualizer
-from semantica.visualization.ontology_visualizer import OntologyVisualizer
-from semantica.visualization.embedding_visualizer import EmbeddingVisualizer
-from semantica.visualization.semantic_network_visualizer import SemanticNetworkVisualizer
-from semantica.visualization.analytics_visualizer import AnalyticsVisualizer
-from semantica.visualization.temporal_visualizer import TemporalVisualizer
-from semantica.visualization.utils.color_schemes import ColorScheme
+from sloth_graphmind.visualization.kg_visualizer import KGVisualizer
+from sloth_graphmind.visualization.ontology_visualizer import OntologyVisualizer
+from sloth_graphmind.visualization.embedding_visualizer import EmbeddingVisualizer
+from sloth_graphmind.visualization.semantic_network_visualizer import SemanticNetworkVisualizer
+from sloth_graphmind.visualization.analytics_visualizer import AnalyticsVisualizer
+from sloth_graphmind.visualization.temporal_visualizer import TemporalVisualizer
+from sloth_graphmind.visualization.utils.color_schemes import ColorScheme
 
 pytestmark = pytest.mark.integration
 class TestVisualizationComprehensive(unittest.TestCase):
@@ -40,24 +40,24 @@ class TestVisualizationComprehensive(unittest.TestCase):
         
         # Patch dependencies for all visualizers
         self.patchers = [
-            patch('semantica.visualization.kg_visualizer.get_logger', return_value=self.mock_logger),
-            patch('semantica.visualization.kg_visualizer.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.visualization.ontology_visualizer.get_logger', return_value=self.mock_logger),
-            patch('semantica.visualization.ontology_visualizer.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.visualization.embedding_visualizer.get_logger', return_value=self.mock_logger),
-            patch('semantica.visualization.embedding_visualizer.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.visualization.semantic_network_visualizer.get_logger', return_value=self.mock_logger),
-            patch('semantica.visualization.semantic_network_visualizer.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.visualization.analytics_visualizer.get_logger', return_value=self.mock_logger),
-            patch('semantica.visualization.analytics_visualizer.get_progress_tracker', return_value=self.mock_tracker),
-            patch('semantica.visualization.temporal_visualizer.get_logger', return_value=self.mock_logger),
-            patch('semantica.visualization.temporal_visualizer.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.visualization.kg_visualizer.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.visualization.kg_visualizer.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.visualization.ontology_visualizer.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.visualization.ontology_visualizer.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.visualization.embedding_visualizer.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.visualization.embedding_visualizer.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.visualization.semantic_network_visualizer.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.visualization.semantic_network_visualizer.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.visualization.analytics_visualizer.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.visualization.analytics_visualizer.get_progress_tracker', return_value=self.mock_tracker),
+            patch('sloth_graphmind.visualization.temporal_visualizer.get_logger', return_value=self.mock_logger),
+            patch('sloth_graphmind.visualization.temporal_visualizer.get_progress_tracker', return_value=self.mock_tracker),
             # Mock Layouts
-            patch('semantica.visualization.kg_visualizer.ForceDirectedLayout', MagicMock()),
-            patch('semantica.visualization.kg_visualizer.HierarchicalLayout', MagicMock()),
-            patch('semantica.visualization.kg_visualizer.CircularLayout', MagicMock()),
-            patch('semantica.visualization.ontology_visualizer.HierarchicalLayout', MagicMock()),
-            patch('semantica.visualization.semantic_network_visualizer.ForceDirectedLayout', MagicMock()),
+            patch('sloth_graphmind.visualization.kg_visualizer.ForceDirectedLayout', MagicMock()),
+            patch('sloth_graphmind.visualization.kg_visualizer.HierarchicalLayout', MagicMock()),
+            patch('sloth_graphmind.visualization.kg_visualizer.CircularLayout', MagicMock()),
+            patch('sloth_graphmind.visualization.ontology_visualizer.HierarchicalLayout', MagicMock()),
+            patch('sloth_graphmind.visualization.semantic_network_visualizer.ForceDirectedLayout', MagicMock()),
         ]
         
         for p in self.patchers:
@@ -140,7 +140,7 @@ class TestVisualizationComprehensive(unittest.TestCase):
         }
         
         # Test visualize_network
-        with patch('semantica.visualization.kg_visualizer.KGVisualizer') as MockKG:
+        with patch('sloth_graphmind.visualization.kg_visualizer.KGVisualizer') as MockKG:
             viz.visualize_network(semantic_network)
             MockKG.return_value.visualize_network.assert_called()
             
@@ -161,7 +161,7 @@ class TestVisualizationComprehensive(unittest.TestCase):
         
         # Test visualize_community_structure
         communities = {"node_assignments": {}}
-        with patch('semantica.visualization.kg_visualizer.KGVisualizer') as MockKG:
+        with patch('sloth_graphmind.visualization.kg_visualizer.KGVisualizer') as MockKG:
              viz.visualize_community_structure(graph, communities)
         
         # Test visualize_connectivity
@@ -210,7 +210,7 @@ class TestVisualizationComprehensive(unittest.TestCase):
         embeddings = np.random.rand(10, 10)
         
         # Test visualize_2d_projection (mock UMAP/PCA)
-        with patch('semantica.visualization.embedding_visualizer.umap.UMAP') as MockUMAP:
+        with patch('sloth_graphmind.visualization.embedding_visualizer.umap.UMAP') as MockUMAP:
              MockUMAP.return_value.fit_transform.return_value = np.random.rand(10, 2)
              viz.visualize_2d_projection(embeddings)
              
@@ -219,7 +219,7 @@ class TestVisualizationComprehensive(unittest.TestCase):
         
         # Test visualize_clustering
         clusters = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
-        with patch('semantica.visualization.embedding_visualizer.umap.UMAP') as MockUMAP:
+        with patch('sloth_graphmind.visualization.embedding_visualizer.umap.UMAP') as MockUMAP:
              MockUMAP.return_value.fit_transform.return_value = np.random.rand(10, 2)
              viz.visualize_clustering(embeddings, clusters)
 

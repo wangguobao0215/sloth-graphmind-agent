@@ -2,15 +2,15 @@ from pathlib import Path
 
 import pytest
 
-from semantica.ingest import (
+from sloth_graphmind.ingest import (
     XMLIngestionData,
     XMLIngestor,
     ingest,
     ingest_file,
     ingest_xml,
 )
-from semantica.ingest.xml_ingestor import XML_NAMESPACE
-from semantica.utils.exceptions import ProcessingError, ValidationError
+from sloth_graphmind.ingest.xml_ingestor import XML_NAMESPACE
+from sloth_graphmind.utils.exceptions import ProcessingError, ValidationError
 
 
 def test_xml_ingestor_extracts_structure_namespaces_and_attributes(

@@ -14,7 +14,7 @@ class TestNotebooks(unittest.TestCase):
     def test_12_embedding_generation(self):
         print("\nTesting 12_Embedding_Generation.ipynb logic...")
         try:
-            from semantica.embeddings import EmbeddingGenerator, TextEmbedder
+            from sloth_graphmind.embeddings import EmbeddingGenerator, TextEmbedder
             
             # Test EmbeddingGenerator
             generator = EmbeddingGenerator()
@@ -44,7 +44,7 @@ class TestNotebooks(unittest.TestCase):
     def test_13_vector_store_basic(self):
         print("\nTesting 13_Vector_Store.ipynb logic...")
         try:
-            from semantica.vector_store import VectorStore
+            from sloth_graphmind.vector_store import VectorStore
             
             # Initialize
             store = VectorStore(backend="faiss", dimension=768)
@@ -68,7 +68,7 @@ class TestNotebooks(unittest.TestCase):
     def test_advanced_vector_store(self):
         print("\nTesting Advanced_Vector_Store_and_Search.ipynb logic...")
         try:
-            from semantica.vector_store import FAISSStore, HybridSearch, MetadataFilter, SearchRanker, NamespaceManager
+            from sloth_graphmind.vector_store import FAISSStore, HybridSearch, MetadataFilter, SearchRanker, NamespaceManager
             
             # Part 1: FAISSStore
             store = FAISSStore(dimension=768)

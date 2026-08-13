@@ -4,7 +4,7 @@ description: "Interactive and static knowledge graph, ontology, embedding, and t
 icon: "chart-bar"
 ---
 
-**`semantica.visualization`** renders knowledge graphs, ontologies, embedding spaces, and temporal data as **interactive HTML or static images**: without launching the full Explorer server:
+**`sloth_graphmind.visualization`** renders knowledge graphs, ontologies, embedding spaces, and temporal data as **interactive HTML or static images**: without launching the full Explorer server:
 
 - `KGVisualizer`: interactive network with force, hierarchical, and circular layouts
 - `EmbeddingVisualizer`: 2D/3D UMAP or t-SNE projections with cluster labels
@@ -30,7 +30,7 @@ Requires `plotly`: `pip install plotly`. Some exporters also need `matplotlib` o
 <Steps>
   <Step title="Render a knowledge graph">
     ```python
-    from semantica.visualization import KGVisualizer
+    from sloth_graphmind.visualization import KGVisualizer
 
     viz = KGVisualizer(layout="force", color_scheme="default")
 
@@ -72,7 +72,7 @@ Requires `plotly`: `pip install plotly`. Some exporters also need `matplotlib` o
     Interactive and static knowledge graph rendering:
 
     ```python
-    from semantica.visualization import KGVisualizer
+    from sloth_graphmind.visualization import KGVisualizer
 
     viz = KGVisualizer(layout="force", color_scheme="default")
 
@@ -107,7 +107,7 @@ Requires `plotly`: `pip install plotly`. Some exporters also need `matplotlib` o
     </Tip>
 
     <Tip>
-      **For interactive dashboards, prefer Explorer.** `KGVisualizer.visualize_network()` generates a self-contained HTML file. The Explorer CLI (`semantica-explorer`) gives a full live web app with search, filtering, path-finding, and REST API.
+      **For interactive dashboards, prefer Explorer.** `KGVisualizer.visualize_network()` generates a self-contained HTML file. The Explorer CLI (`sloth_graphmind-explorer`) gives a full live web app with search, filtering, path-finding, and REST API.
     </Tip>
 
     **Layout options (`layout=`):**
@@ -122,7 +122,7 @@ Requires `plotly`: `pip install plotly`. Some exporters also need `matplotlib` o
     Visualize class hierarchies and property relationships:
 
     ```python
-    from semantica.visualization import OntologyVisualizer
+    from sloth_graphmind.visualization import OntologyVisualizer
 
     viz = OntologyVisualizer()
 
@@ -146,7 +146,7 @@ Requires `plotly`: `pip install plotly`. Some exporters also need `matplotlib` o
     Project high-dimensional embeddings into 2D for cluster analysis:
 
     ```python
-    from semantica.visualization import EmbeddingVisualizer
+    from sloth_graphmind.visualization import EmbeddingVisualizer
 
     viz = EmbeddingVisualizer()
 
@@ -173,7 +173,7 @@ Requires `plotly`: `pip install plotly`. Some exporters also need `matplotlib` o
     Visualize how a knowledge graph changes over time:
 
     ```python
-    from semantica.visualization import TemporalVisualizer
+    from sloth_graphmind.visualization import TemporalVisualizer
 
     viz = TemporalVisualizer()
 
@@ -202,7 +202,7 @@ Requires `plotly`: `pip install plotly`. Some exporters also need `matplotlib` o
     Visualize graph analytics results: centrality, communities, and degree distribution:
 
     ```python
-    from semantica.visualization import AnalyticsVisualizer
+    from sloth_graphmind.visualization import AnalyticsVisualizer
 
     viz = AnalyticsVisualizer()
 
@@ -267,7 +267,7 @@ viz = KGVisualizer(color_scheme="vibrant")
 ## Convenience Functions
 
 ```python
-from semantica.visualization import (
+from sloth_graphmind.visualization import (
     visualize_kg, visualize_ontology, visualize_embeddings,
     visualize_semantic_network, visualize_analytics, visualize_temporal,
 )
@@ -285,7 +285,7 @@ fig = visualize_temporal(temporal_data, output="interactive", method="timeline")
 For a full browser-based UI with search, path finding, and the Ontology Hub, launch the Explorer CLI:
 
 ```bash
-semantica-explorer --graph my_graph.json
+sloth_graphmind-explorer --graph my_graph.json
 ```
 
 See the [Explorer reference](explorer) for the full feature set and REST API.

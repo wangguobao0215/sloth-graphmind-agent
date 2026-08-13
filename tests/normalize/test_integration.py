@@ -4,8 +4,8 @@ from datetime import datetime, timezone
 
 import pytest
 
-from semantica.normalize import methods
-from semantica.normalize.config import normalize_config
+from sloth_graphmind.normalize import methods
+from sloth_graphmind.normalize.config import normalize_config
 
 pytestmark = pytest.mark.integration
 
@@ -75,7 +75,7 @@ class TestNormalizeIntegration(unittest.TestCase):
 
     def test_registry_custom_method(self):
         # Register a custom method
-        from semantica.normalize.registry import method_registry
+        from sloth_graphmind.normalize.registry import method_registry
         
         def custom_text_normalizer(text, **kwargs):
             return "CUSTOM: " + text

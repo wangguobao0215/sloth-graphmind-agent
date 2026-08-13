@@ -4,7 +4,7 @@ description: "Interactive FastAPI dashboard for knowledge graph exploration, ont
 icon: "map"
 ---
 
-**`semantica.explorer`** is a **browser-based dashboard** for exploring knowledge graphs, managing ontologies, and running visual analyses:
+**`sloth_graphmind.explorer`** is a **browser-based dashboard** for exploring knowledge graphs, managing ontologies, and running visual analyses:
 
 - Indexed search: 0.004ms on 118k nodes: no full scans
 - Ontology Hub: visual editor, SHACL Studio, alignment authoring, and health dashboard
@@ -18,13 +18,13 @@ icon: "map"
 Install, export your graph to JSON, and launch:
 
 ```bash
-pip install "semantica[explorer]"
+pip install "sloth_graphmind[explorer]"
 ```
 
 ```python
 # 1. Export your graph to a JSON file
 import json
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 
 graph = ContextGraph()
 graph.add_node("Python",  "language",  properties={"paradigm": "multi-paradigm"})
@@ -35,10 +35,10 @@ graph.save_to_file("my_graph.json")
 
 ```bash
 # 2. Launch the Explorer
-semantica-explorer --graph my_graph.json
+sloth_graphmind-explorer --graph my_graph.json
 # → Loading graph...
 # → Graph loaded: 2 nodes, 1 edges
-# → Semantica Explorer · http://127.0.0.1:8000
+# → GraphMind Explorer · http://127.0.0.1:8000
 #     API docs  http://127.0.0.1:8000/docs
 #     Health    http://127.0.0.1:8000/api/health
 ```
@@ -46,7 +46,7 @@ semantica-explorer --graph my_graph.json
 The browser opens automatically at `http://127.0.0.1:8000`. The interactive API docs are at `/docs`.
 
 <Tip>
-  `semantica.explorer` is a **server process**, not an importable Python library. Use the CLI or `python -m semantica.explorer` to launch. The `app.py` module exposes a module-level `app` instance for use with uvicorn or Docker.
+  `sloth_graphmind.explorer` is a **server process**, not an importable Python library. Use the CLI or `python -m sloth_graphmind.explorer` to launch. The `app.py` module exposes a module-level `app` instance for use with uvicorn or Docker.
 </Tip>
 
 ## Launch
@@ -54,24 +54,24 @@ The browser opens automatically at `http://127.0.0.1:8000`. The interactive API 
 <Steps>
   <Step title="Save your graph and launch Explorer">
     ```python
-    from semantica.context import ContextGraph
+    from sloth_graphmind.context import ContextGraph
 
     graph = ContextGraph()
     graph.load_from_file("my_graph.json")   # verify graph loads
     ```
 
     ```bash
-    semantica-explorer --graph my_graph.json
+    sloth_graphmind-explorer --graph my_graph.json
     # Serves at http://127.0.0.1:8000
     ```
   </Step>
   <Step title="Custom host and port">
     ```bash
     # Expose on the network
-    semantica-explorer --graph my_graph.json --host 0.0.0.0 --port 8080
+    sloth_graphmind-explorer --graph my_graph.json --host 0.0.0.0 --port 8080
 
     # Skip auto-opening the browser
-    semantica-explorer --graph my_graph.json --no-browser
+    sloth_graphmind-explorer --graph my_graph.json --no-browser
     ```
   </Step>
   <Step title="Import new data without restarting">
@@ -83,14 +83,14 @@ The browser opens automatically at `http://127.0.0.1:8000`. The interactive API 
   </Step>
   <Step title="Use via Python module">
     ```bash
-    python -m semantica.explorer --graph my_graph.json --port 8080
+    python -m sloth_graphmind.explorer --graph my_graph.json --port 8080
     ```
   </Step>
 </Steps>
 
 ## CLI Reference
 
-The `semantica-explorer` command accepts exactly four flags:
+The `sloth_graphmind-explorer` command accepts exactly four flags:
 
 | Flag | Short | Default | Description |
 | :---- | :----- | :------- | :----------- |
@@ -110,7 +110,7 @@ The `semantica-explorer` command accepts exactly four flags:
 ```bash
 # Full example
 EXPLORER_CORS_ORIGINS="http://myapp.example.com" \
-  semantica-explorer --graph my_graph.json --host 0.0.0.0 --port 8080 --no-browser
+  sloth_graphmind-explorer --graph my_graph.json --host 0.0.0.0 --port 8080 --no-browser
 ```
 
 ## What You Get
@@ -120,7 +120,7 @@ EXPLORER_CORS_ORIGINS="http://myapp.example.com" \
 - **Analytics** — Degree centrality, community detection, connectivity analysis, graph validation, and distance matrices.
 - **REST API** — All features available as a REST API: fully documented at `/docs`.
 - **WebSocket Updates** — Real-time graph mutation events streamed over WebSocket at `/ws/graph-updates`.
-- **CLI Launcher** — `semantica-explorer --graph my_graph.json` for instant local startup.
+- **CLI Launcher** — `sloth_graphmind-explorer --graph my_graph.json` for instant local startup.
 
 ## Features
 
@@ -386,7 +386,7 @@ The browser is launched 1.5 seconds after the server starts. Use `--no-browser` 
 The `--graph` path must be an existing file. Check the path and ensure the file exists before launching.
 
 **`Error: uvicorn is required`**
-Install the explorer extras: `pip install "semantica[explorer]"`.
+Install the explorer extras: `pip install "sloth_graphmind[explorer]"`.
 
 **`Connection refused` on API calls**
 The server only binds to `127.0.0.1` by default. To access Explorer from another machine or container, launch with `--host 0.0.0.0`.
@@ -395,7 +395,7 @@ The server only binds to `127.0.0.1` by default. To access Explorer from another
 The import endpoint (`/api/import`) only parses `.json` and `.csv` files. Other formats return HTTP 422. JSON files must contain a top-level `entities`/`nodes` array or `relationships`/`edges` array.
 
 **`PathFinder not available` error from `/api/graph/path`**
-Path finding requires the `semantica[kg]` extras. Install with `pip install "semantica[all]"`.
+Path finding requires the `sloth_graphmind[kg]` extras. Install with `pip install "sloth_graphmind[all]"`.
 
 **Semantic neighborhood returns 503**
 Semantic neighborhood requires node embeddings stored in node properties (keys `embedding`, `vector`, or `node2vec_embedding`). Graphs without embeddings return 503.

@@ -7,9 +7,9 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from semantica.semantic_extract.triplet_extractor import Triplet
-from semantica.triplet_store.anzo_store import AnzoStore
-from semantica.utils.exceptions import ProcessingError, ValidationError
+from sloth_graphmind.semantic_extract.triplet_extractor import Triplet
+from sloth_graphmind.triplet_store.anzo_store import AnzoStore
+from sloth_graphmind.utils.exceptions import ProcessingError, ValidationError
 
 DATASET_URI = "http://cambridgesemantics.com/Graphmart/abc123"
 
@@ -131,7 +131,7 @@ class TestAnzoStoreExecuteSparql(unittest.TestCase):
         mock_resp.json.return_value = {"head": {"vars": []}, "results": {"bindings": []}}
         mock_resp.raise_for_status = MagicMock()
         with patch(
-            "semantica.triplet_store.anzo_store.requests.post", return_value=mock_resp
+            "sloth_graphmind.triplet_store.anzo_store.requests.post", return_value=mock_resp
         ) as mp:
             store.execute_sparql("SELECT ?s WHERE { ?s ?p ?o }")
         _, kw = mp.call_args
@@ -154,7 +154,7 @@ class TestAnzoStoreExecuteSparql(unittest.TestCase):
         }
         mock_resp.raise_for_status = MagicMock()
         with patch(
-            "semantica.triplet_store.anzo_store.requests.post", return_value=mock_resp
+            "sloth_graphmind.triplet_store.anzo_store.requests.post", return_value=mock_resp
         ) as mp:
             result = store.execute_sparql("SELECT ?s ?p ?o WHERE { ?s ?p ?o }")
         _, kw = mp.call_args
@@ -179,7 +179,7 @@ class TestAnzoStoreExecuteSparql(unittest.TestCase):
         mock_resp.content = b'@prefix ex: <http://ex.org/> .\nex:s1 ex:p1 "v" .\n'
         mock_resp.raise_for_status = MagicMock()
         with patch(
-            "semantica.triplet_store.anzo_store.requests.post", return_value=mock_resp
+            "sloth_graphmind.triplet_store.anzo_store.requests.post", return_value=mock_resp
         ) as mp:
             store.execute_sparql(CONSTRUCT_QUERY)
         _, kw = mp.call_args
@@ -196,7 +196,7 @@ class TestAnzoStoreExecuteSparql(unittest.TestCase):
         mock_resp.content = fixture
         mock_resp.raise_for_status = MagicMock()
         with patch(
-            "semantica.triplet_store.anzo_store.requests.post", return_value=mock_resp
+            "sloth_graphmind.triplet_store.anzo_store.requests.post", return_value=mock_resp
         ):
             result = store.execute_sparql(CONSTRUCT_QUERY)
         self.assertTrue(result["success"])
@@ -211,7 +211,7 @@ class TestAnzoStoreExecuteSparql(unittest.TestCase):
         mock_resp.content = b'@prefix ex: <http://ex.org/> .\nex:s1 ex:p1 "v" .\n'
         mock_resp.raise_for_status = MagicMock()
         with patch(
-            "semantica.triplet_store.anzo_store.requests.post", return_value=mock_resp
+            "sloth_graphmind.triplet_store.anzo_store.requests.post", return_value=mock_resp
         ) as mp:
             result = store.execute_sparql(
                 "SELECT ?s WHERE { ?s ?p ?o }", result_format="construct"
@@ -226,7 +226,7 @@ class TestAnzoStoreExecuteSparql(unittest.TestCase):
         mock_resp.content = b"this is { not [ valid turtle at all !!!"
         mock_resp.raise_for_status = MagicMock()
         with patch(
-            "semantica.triplet_store.anzo_store.requests.post", return_value=mock_resp
+            "sloth_graphmind.triplet_store.anzo_store.requests.post", return_value=mock_resp
         ):
             with self.assertRaises(ProcessingError) as ctx:
                 store.execute_sparql(CONSTRUCT_QUERY)
@@ -255,7 +255,7 @@ class TestAnzoStoreExecuteSparql(unittest.TestCase):
         mock_response.raise_for_status = MagicMock()
 
         with patch(
-            "semantica.triplet_store.anzo_store.requests.post",
+            "sloth_graphmind.triplet_store.anzo_store.requests.post",
             return_value=mock_response,
         ):
             result = store.execute_sparql("CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o }")
@@ -281,7 +281,7 @@ class TestAnzoStoreBulkLoadAndCrud(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.raise_for_status = MagicMock()
         with patch(
-            "semantica.triplet_store.anzo_store.requests.post", return_value=mock_resp
+            "sloth_graphmind.triplet_store.anzo_store.requests.post", return_value=mock_resp
         ) as mp:
             result = store.bulk_load([self._t()])
         self.assertTrue(result["success"])
@@ -299,7 +299,7 @@ class TestAnzoStoreBulkLoadAndCrud(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.raise_for_status = MagicMock()
         with patch(
-            "semantica.triplet_store.anzo_store.requests.post", return_value=mock_resp
+            "sloth_graphmind.triplet_store.anzo_store.requests.post", return_value=mock_resp
         ) as mp:
             store.bulk_load([self._t()], graph="http://ex.org/g")
         update_query = mp.call_args[1]["data"]["update"]
@@ -346,7 +346,7 @@ class TestAnzoStoreBulkLoadAndCrud(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.raise_for_status = MagicMock()
         with patch(
-            "semantica.triplet_store.anzo_store.requests.post", return_value=mock_resp
+            "sloth_graphmind.triplet_store.anzo_store.requests.post", return_value=mock_resp
         ) as mp:
             result = store.delete_triplet(self._t())
         self.assertTrue(result["success"])
@@ -386,7 +386,7 @@ class TestAnzoStoreBulkLoadAndCrud(unittest.TestCase):
         }
         mock_resp.raise_for_status = MagicMock()
         with patch(
-            "semantica.triplet_store.anzo_store.requests.post", return_value=mock_resp
+            "sloth_graphmind.triplet_store.anzo_store.requests.post", return_value=mock_resp
         ):
             triplets = store.get_triplets(subject="http://ex.org/s1")
         self.assertEqual(len(triplets), 1)
@@ -402,7 +402,7 @@ class TestAnzoStoreBulkLoadAndCrud(unittest.TestCase):
         mock_resp.json.return_value = {"head": {"vars": []}, "results": {"bindings": []}}
         mock_resp.raise_for_status = MagicMock()
         with patch(
-            "semantica.triplet_store.anzo_store.requests.post", return_value=mock_resp
+            "sloth_graphmind.triplet_store.anzo_store.requests.post", return_value=mock_resp
         ) as mp:
             store.get_triplets(subject="http://ex.org/s1", predicate="http://ex.org/p1")
         query = mp.call_args[1]["data"]["query"]
@@ -418,7 +418,7 @@ class TestAnzoStoreBulkLoadAndCrud(unittest.TestCase):
         mock_resp.json.return_value = {"head": {"vars": []}, "results": {"bindings": []}}
         mock_resp.raise_for_status = MagicMock()
         with patch(
-            "semantica.triplet_store.anzo_store.requests.post", return_value=mock_resp
+            "sloth_graphmind.triplet_store.anzo_store.requests.post", return_value=mock_resp
         ) as mp:
             store.get_triplets()
         query = mp.call_args[1]["data"]["query"]

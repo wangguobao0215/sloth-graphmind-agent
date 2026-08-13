@@ -52,7 +52,7 @@ Shipped across **v0.3.0** (context temporal validity) and **v0.4.0** (full tempo
     Attach `valid_from` / `valid_until` to any relationship at construction time:
 
     ```python
-    from semantica.kg import GraphBuilder
+    from sloth_graphmind.kg import GraphBuilder
 
     builder = GraphBuilder()
     kg = builder.build(sources=[{
@@ -80,7 +80,7 @@ Shipped across **v0.3.0** (context temporal validity) and **v0.4.0** (full tempo
     `TemporalGraphQuery` takes constructor args; pass the graph into each query call:
 
     ```python
-    from semantica.kg import TemporalGraphQuery
+    from sloth_graphmind.kg import TemporalGraphQuery
 
     query = TemporalGraphQuery(temporal_granularity="day")
 
@@ -104,7 +104,7 @@ Shipped across **v0.3.0** (context temporal validity) and **v0.4.0** (full tempo
   </Step>
   <Step title="Create versioned snapshots">
     ```python
-    from semantica.kg import TemporalVersionManager
+    from sloth_graphmind.kg import TemporalVersionManager
 
     versioner = TemporalVersionManager()          # in-memory storage
     # versioner = TemporalVersionManager(storage_path="versions.db")  # SQLite
@@ -135,7 +135,7 @@ Most systems track only one timeline: when something is currently true. Bi-tempo
     - `valid_until` — date the fact ceased to be true. Omit (or use `TemporalBound.OPEN`) for currently-active facts
 
     ```python
-    from semantica.kg import BiTemporalFact, TemporalBound
+    from sloth_graphmind.kg import BiTemporalFact, TemporalBound
 
     # Create from an existing relationship dict
     rel = {
@@ -178,7 +178,7 @@ Most systems track only one timeline: when something is currently true. Bi-tempo
     `TemporalBound.OPEN` is the single sentinel that represents an open-ended interval — a fact with no defined end date:
 
     ```python
-    from semantica.kg import TemporalBound
+    from sloth_graphmind.kg import TemporalBound
 
     print(TemporalBound.OPEN)          # TemporalBound.OPEN
     print(TemporalBound.OPEN.value)    # "OPEN"
@@ -202,7 +202,7 @@ Most systems track only one timeline: when something is currently true. Bi-tempo
 Constructed once; the graph is passed into each method call:
 
 ```python
-from semantica.kg import TemporalGraphQuery
+from sloth_graphmind.kg import TemporalGraphQuery
 
 query = TemporalGraphQuery(
     enable_temporal_reasoning=True,   # default
@@ -291,7 +291,7 @@ for p in paths["paths"]:
 ### Consistency Validation
 
 ```python
-from semantica.kg import TemporalGraphQuery
+from sloth_graphmind.kg import TemporalGraphQuery
 
 report = TemporalGraphQuery().validate_temporal_consistency(kg)
 
@@ -311,7 +311,7 @@ Warning types: `overlapping_same_edge`, `gap_after_restart`.
 Detect recurring temporal patterns across graph edges. Accessed directly or via `TemporalGraphQuery.query_temporal_pattern()`:
 
 ```python
-from semantica.kg import TemporalPatternDetector
+from sloth_graphmind.kg import TemporalPatternDetector
 
 detector = TemporalPatternDetector()
 
@@ -350,7 +350,7 @@ Each pattern dict has: `pattern_type`, `signature` (tuple of node IDs), `frequen
 `TemporalReasoningEngine` operates on `TemporalInterval` objects — a frozen dataclass with `start: datetime` and `end: datetime | TemporalBound`:
 
 ```python
-from semantica.kg import (
+from sloth_graphmind.kg import (
     TemporalReasoningEngine, TemporalInterval, IntervalRelation, TemporalBound
 )
 from datetime import datetime, timezone
@@ -439,7 +439,7 @@ for event in timeline:
 Converts natural-language temporal phrases into `(valid_from, valid_until)` datetime tuples. **Zero LLM calls.** Pure regex + `dateutil.relativedelta`.
 
 ```python
-from semantica.kg import TemporalNormalizer
+from sloth_graphmind.kg import TemporalNormalizer
 from datetime import datetime, timezone
 
 norm = TemporalNormalizer(
@@ -550,13 +550,13 @@ Extract temporal intent from a natural-language query so downstream retrieval ca
 **Two modes:** regex-only (no LLM) or LLM-assisted for free-form phrasing.
 
 ```python
-from semantica.kg import TemporalQueryRewriter
+from sloth_graphmind.kg import TemporalQueryRewriter
 
 # Regex-only (default — no dependencies beyond standard library)
 rewriter = TemporalQueryRewriter()
 
 # LLM-assisted for more complex phrasings
-from semantica.llms import Groq
+from sloth_graphmind.llms import Groq
 rewriter = TemporalQueryRewriter(
     llm_provider=Groq(model="llama-3.1-8b-instant"),
     reference_date=datetime.now(timezone.utc),
@@ -614,7 +614,7 @@ Supported intent keywords: `before` / `prior to` / `until` / `up to`, `after` / 
 Create and manage versioned graph snapshots with SHA-256 integrity checking. Supports both **in-memory** (default) and **SQLite persistent** storage.
 
 ```python
-from semantica.kg import TemporalVersionManager
+from sloth_graphmind.kg import TemporalVersionManager
 
 # In-memory (default)
 versioner = TemporalVersionManager()
@@ -709,7 +709,7 @@ upgraded = versioner.migrate_snapshot(old_snap)
 The `ContextGraph` exposes temporal awareness directly on graph nodes and decisions, available since v0.3.0:
 
 ```python
-from semantica.context import ContextGraph
+from sloth_graphmind.context import ContextGraph
 from datetime import datetime, timezone
 
 graph = ContextGraph(advanced_analytics=True)
@@ -746,8 +746,8 @@ for p in past_policies:
 ### Temporal Decision Windows
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 context = AgentContext(
     vector_store=VectorStore(backend="faiss", dimension=768),
@@ -781,7 +781,7 @@ new_prec = context.find_precedents("data retention PII", as_of="2024-01-01", lim
 <Tabs>
   <Tab title="Personnel & Org Structure">
     ```python
-    from semantica.kg import GraphBuilder, TemporalGraphQuery
+    from sloth_graphmind.kg import GraphBuilder, TemporalGraphQuery
 
     builder = GraphBuilder()
     kg = builder.build(sources=[{
@@ -805,7 +805,7 @@ new_prec = context.find_precedents("data retention PII", as_of="2024-01-01", lim
   </Tab>
   <Tab title="Policy Evolution">
     ```python
-    from semantica.kg import TemporalVersionManager, TemporalGraphQuery
+    from sloth_graphmind.kg import TemporalVersionManager, TemporalGraphQuery
 
     versioner = TemporalVersionManager(storage_path="policy_history.db")
     versioner.create_snapshot(kg_before, version_label="2023-H1",
@@ -821,7 +821,7 @@ new_prec = context.find_precedents("data retention PII", as_of="2024-01-01", lim
   </Tab>
   <Tab title="Consistency Audit">
     ```python
-    from semantica.kg import TemporalGraphQuery
+    from sloth_graphmind.kg import TemporalGraphQuery
 
     report = TemporalGraphQuery().validate_temporal_consistency(kg)
 
@@ -838,7 +838,7 @@ new_prec = context.find_precedents("data retention PII", as_of="2024-01-01", lim
   </Tab>
   <Tab title="NL Query Rewriting">
     ```python
-    from semantica.kg import TemporalQueryRewriter, TemporalGraphQuery
+    from sloth_graphmind.kg import TemporalQueryRewriter, TemporalGraphQuery
 
     rewriter = TemporalQueryRewriter()
     query    = TemporalGraphQuery()
@@ -879,5 +879,5 @@ kg:
 - [Provenance](provenance) — W3C PROV-O lineage stamped alongside temporal metadata.
 - [Export](export) — OWL, Turtle, JSON-LD, and Parquet export with temporal annotations.
 
-- [Temporal Knowledge Graphs](https://github.com/semantica-agi/semantica/blob/main/cookbook/advanced/10_Temporal_Knowledge_Graphs.ipynb) — Temporal reasoning and Allen algebra · Advanced
-- [Context Module](https://github.com/semantica-agi/semantica/blob/main/cookbook/introduction/19_Context_Module.ipynb) — Including temporal decision windows · Intermediate
+- [Temporal Knowledge Graphs](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/advanced/10_Temporal_Knowledge_Graphs.ipynb) — Temporal reasoning and Allen algebra · Advanced
+- [Context Module](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/cookbook/introduction/19_Context_Module.ipynb) — Including temporal decision windows · Intermediate

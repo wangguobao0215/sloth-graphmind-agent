@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from semantica.export import (
+from sloth_graphmind.export import (
     ArrowExporter,
     JSONExporter,
     CSVExporter,
@@ -22,7 +22,7 @@ from semantica.export import (
     MethodRegistry,
     method_registry
 )
-from semantica.export.rdf_exporter import NamespaceManager, RDFSerializer, RDFValidator
+from sloth_graphmind.export.rdf_exporter import NamespaceManager, RDFSerializer, RDFValidator
 
 class TestExportModule(unittest.TestCase):
     def setUp(self):
@@ -62,7 +62,7 @@ class TestExportModule(unittest.TestCase):
         self.assertTrue(entities_path.exists())
 
     def test_export_knowledge_graph_smoke(self):
-        from semantica.export.methods import export_knowledge_graph
+        from sloth_graphmind.export.methods import export_knowledge_graph
 
         output_path = Path(self.test_dir) / "smoke.json"
         export_knowledge_graph(self.kg, output_path, format="json")

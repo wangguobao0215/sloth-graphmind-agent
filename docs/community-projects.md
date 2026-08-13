@@ -1,21 +1,21 @@
 ---
 title: "Community Projects"
-description: "Projects, extensions, and integrations built by the Semantica community."
+description: "Projects, extensions, and integrations built by the GraphMind community."
 icon: "people-group"
 ---
 
 <Tip>
-  Building something with Semantica? [Submit it on GitHub](https://github.com/semantica-agi/semantica/issues/new?template=community_project.md): we'd love to feature it here.
+  Building something with GraphMind? [Submit it on GitHub](https://github.com/sloth_graphmind-agi/sloth_graphmind/issues/new?template=community_project.md): we'd love to feature it here.
 </Tip>
 
-Semantica is used across academia, enterprise, and independent research. Below is a snapshot of the ecosystem being built by the community.
+GraphMind is used across academia, enterprise, and independent research. Below is a snapshot of the ecosystem being built by the community.
 
 
-## Projects Using Semantica
+## Projects Using GraphMind
 
 ### Research & Academia
 
-Teams in academia are using Semantica to build structured, auditable knowledge from unstructured scientific literature.
+Teams in academia are using GraphMind to build structured, auditable knowledge from unstructured scientific literature.
 
 - **Academic literature mapping**: citation graph construction across multi-year corpora with temporal provenance
 - **Biomedical knowledge graphs**: connecting genes, proteins, drugs, and diseases from PubMed and preprint feeds
@@ -35,9 +35,9 @@ Production deployments span regulated and high-stakes industries where AI accoun
 
 ### Independent & Open Source
 
-- **GraphRAG toolkits**: custom retrieval layers built on top of Semantica's `context` + `vector_store` modules
+- **GraphRAG toolkits**: custom retrieval layers built on top of GraphMind's `context` + `vector_store` modules
 - **Domain-specific extractors**: NER and relation extractors for clinical, legal, and scientific text
-- **Temporal graph dashboards**: visual timelines built with Semantica's `TemporalKnowledgeGraph` + custom visualization adapters
+- **Temporal graph dashboards**: visual timelines built with GraphMind's `TemporalKnowledgeGraph` + custom visualization adapters
 
 
 ## Supported Integrations
@@ -93,15 +93,15 @@ The plugin system (`PluginRegistry`) makes it easy to add new capabilities witho
 - **Export adapters**: specialized serialization formats for proprietary industry systems
 - **Ingestor plugins**: adapters for SharePoint, Notion, Confluence, and custom databases
 - **Visualization plugins**: enhanced dashboards with Plotly, D3.js, and custom graph renderers
-- **Evaluation harnesses**: domain-specific precision/recall benchmarks using `semantica.evals`
+- **Evaluation harnesses**: domain-specific precision/recall benchmarks using `sloth_graphmind.evals`
 
 
 ## Build Your Own Extension
 
-Any Semantica component can be extended via the registry pattern:
+Any GraphMind component can be extended via the registry pattern:
 
 ```python
-from semantica.ingest.registry import method_registry
+from sloth_graphmind.ingest.registry import method_registry
 
 def my_ingestor(source):
     return [{"text": "...", "metadata": {}, "source": source}]
@@ -115,6 +115,6 @@ See [Architecture](architecture#extension-points) for the full extension guide.
 ## How to Contribute
 
 - [Contributing Guide](contributing-guide) — Submit code, documentation, tests, or cookbook notebooks.
-- [GitHub Issues](https://github.com/semantica-agi/semantica/issues) — Report bugs, request features, or propose integrations.
+- [GitHub Issues](https://github.com/sloth_graphmind-agi/sloth_graphmind/issues) — Report bugs, request features, or propose integrations.
 - [Discord](https://discord.gg/sV34vps5hH) — Share what you're building with the community.
-- [GitHub Discussions](https://github.com/semantica-agi/semantica/discussions) — Long-form questions, design discussions, and ideas.
+- [GitHub Discussions](https://github.com/sloth_graphmind-agi/sloth_graphmind/discussions) — Long-form questions, design discussions, and ideas.

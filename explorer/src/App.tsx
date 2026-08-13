@@ -1578,7 +1578,7 @@ function WelcomeScreen({
               <div className="landing-status-dot" />
               <span className="landing-status-text">System Online</span>
               <div className="landing-status-divider" />
-              <span className="landing-status-version">Semantica v2 · Semantic Intelligence</span>
+              <span className="landing-status-version">GraphMind v2 · Semantic Intelligence</span>
             </div>
 
             <div className="landing-kicker" aria-label="Product category">
@@ -1591,7 +1591,7 @@ function WelcomeScreen({
               like a <span>living system.</span>
             </h1>
             <p className="landing-subtitle">
-              Semantica turns dense knowledge graphs into a navigable command center —
+              GraphMind turns dense knowledge graphs into a navigable command center —
               discovery, reasoning, provenance, distance intelligence, and decision context,
               all in one interface.
             </p>
@@ -1599,7 +1599,7 @@ function WelcomeScreen({
             <div className="landing-cta-row">
               <button className="landing-cta-primary" type="button" onClick={onOpenNetwork}>
                 <Network size={16} />
-                Open Semantica Explorer
+                Open GraphMind Explorer
                 <ArrowRight size={15} />
               </button>
               <button className="landing-cta-secondary" type="button" onClick={onOpenReasoning}>
@@ -1615,7 +1615,7 @@ function WelcomeScreen({
               <div className="landing-preview-dot" />
               <div className="landing-preview-dot" />
               <div className="landing-preview-dot" />
-              <div className="landing-preview-tab">Semantica Explorer</div>
+              <div className="landing-preview-tab">GraphMind Explorer</div>
             </div>
             <div className="landing-command-card">
               <div className="landing-command-icon">
@@ -1703,7 +1703,7 @@ function WelcomeScreen({
             <button className="landing-workspace-card landing-workspace-card--primary" type="button" onClick={onOpenNetwork}>
               <div>
                 <div className="landing-workspace-card-eyebrow">Primary Workspace</div>
-                <div className="landing-workspace-card-title">Semantica Explorer</div>
+                <div className="landing-workspace-card-title">GraphMind Explorer</div>
                 <div className="landing-workspace-card-desc">
                   Full graph, grouped communities, focused neighborhoods, and distance intelligence — all in one canvas.
                 </div>
@@ -1793,7 +1793,7 @@ export default function App() {
           tabs={
             <>
               <button className="workspace-tab" data-active={exploreView === 'graph'} onClick={() => setExploreView('graph')}>
-                Semantica Explorer
+                GraphMind Explorer
               </button>
               <button className="workspace-tab" data-active={exploreView === 'vocabulary'} onClick={() => setExploreView('vocabulary')}>
                 Vocabulary Browser
@@ -1953,7 +1953,7 @@ export default function App() {
       <style>{shellStyles}</style>
       <div className="app-shell">
         <aside className="app-rail">
-          <button className="brand-pill" title="Semantica Knowledge Explorer" onClick={() => setActiveWorkspace('welcome')} style={{ cursor: 'pointer', border: '1px solid rgba(127,208,255,0.18)' }}>SKE</button>
+          <button className="brand-pill" title="GraphMind Knowledge Explorer" onClick={() => setActiveWorkspace('welcome')} style={{ cursor: 'pointer', border: '1px solid rgba(127,208,255,0.18)' }}>SKE</button>
           {navItems.map(({ id, label, hint, icon: Icon }) => (
             <button
               key={id}

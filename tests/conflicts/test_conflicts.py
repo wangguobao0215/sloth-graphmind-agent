@@ -2,22 +2,22 @@ import unittest
 from datetime import datetime
 from unittest.mock import MagicMock, patch
 
-from semantica.conflicts.conflict_analyzer import ConflictAnalyzer
-from semantica.conflicts.conflict_detector import (
+from sloth_graphmind.conflicts.conflict_analyzer import ConflictAnalyzer
+from sloth_graphmind.conflicts.conflict_detector import (
     Conflict,
     ConflictDetector,
     ConflictType,
 )
-from semantica.conflicts.conflict_resolver import ConflictResolver
-from semantica.conflicts.investigation_guide import InvestigationGuideGenerator
-from semantica.conflicts.source_tracker import SourceReference, SourceTracker
+from sloth_graphmind.conflicts.conflict_resolver import ConflictResolver
+from sloth_graphmind.conflicts.investigation_guide import InvestigationGuideGenerator
+from sloth_graphmind.conflicts.source_tracker import SourceReference, SourceTracker
 
 
 class TestConflictsModule(unittest.TestCase):
     def setUp(self):
         # Mock progress tracker
         self.mock_tracker_patcher = patch(
-            "semantica.utils.progress_tracker.get_progress_tracker"
+            "sloth_graphmind.utils.progress_tracker.get_progress_tracker"
         )
         self.mock_get_tracker = self.mock_tracker_patcher.start()
         self.mock_tracker = MagicMock()

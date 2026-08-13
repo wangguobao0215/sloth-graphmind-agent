@@ -24,7 +24,7 @@ List the steps you have already taken to solve this problem:
 If your question involves code, please share a minimal, reproducible example:
 
 ```python
-from semantica import Semantica
+from sloth_graphmind import GraphMind
 
 # Your code here
 ```
@@ -40,14 +40,14 @@ If applicable, paste any error messages or describe unexpected behavior:
 ## Environment
 
 - Python version: 
-- Semantica version: 
+- GraphMind version: 
 - OS: 
 - Relevant dependencies: 
 
 ## Checklist
 
-- [ ] I have searched existing [discussions](https://github.com/Hawksight-AI/semantica/discussions) and [issues](https://github.com/Hawksight-AI/semantica/issues)
-- [ ] I have checked the [documentation](https://github.com/Hawksight-AI/semantica/tree/main/docs) and [FAQ](https://github.com/Hawksight-AI/semantica/blob/main/docs/faq.md)
+- [ ] I have searched existing [discussions](https://github.com/Hawksight-AI/sloth_graphmind/discussions) and [issues](https://github.com/Hawksight-AI/sloth_graphmind/issues)
+- [ ] I have checked the [documentation](https://github.com/Hawksight-AI/sloth_graphmind/tree/main/docs) and [FAQ](https://github.com/Hawksight-AI/sloth_graphmind/blob/main/docs/faq.md)
 - [ ] I have provided a minimal code example (if applicable)
 - [ ] I have included error messages (if applicable)
 - [ ] I have provided environment details

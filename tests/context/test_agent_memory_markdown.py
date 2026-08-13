@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 import yaml
 
-from semantica.context.agent_memory import AgentMemory
+from sloth_graphmind.context.agent_memory import AgentMemory
 
 
 class TrackingVectorStore:
@@ -684,7 +684,7 @@ def test_markdown_string_path_inspection_errors_are_actionable():
     )
 
     with patch(
-        "semantica.context.agent_memory.Path.exists",
+        "sloth_graphmind.context.agent_memory.Path.exists",
         side_effect=original_error,
     ):
         with pytest.raises(

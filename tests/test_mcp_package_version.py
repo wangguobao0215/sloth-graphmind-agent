@@ -3,8 +3,8 @@
 
 Covers the same stale-version bug as `test_mcp_server_version.py` for the
 standalone `mcp/` server (run via `python -m mcp.server`), which is a
-separate implementation from `semantica.mcp_server` and was not covered
-by that fix. `semantica.__version__` is the authoritative package
+separate implementation from `sloth_graphmind.mcp_server` and was not covered
+by that fix. `sloth_graphmind.__version__` is the authoritative package
 version (see semantica/mcp_server/__init__.py), so all three surfaces
 are asserted against it directly.
 """
@@ -17,11 +17,11 @@ import unittest
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import mcp
-import semantica
+import sloth_graphmind
 from mcp.resources.registry import _read_schema_info
 from mcp.server import _handle_initialize
 
-_EXPECTED = semantica.__version__
+_EXPECTED = sloth_graphmind.__version__
 
 
 class TestMCPPackageVersion(unittest.TestCase):

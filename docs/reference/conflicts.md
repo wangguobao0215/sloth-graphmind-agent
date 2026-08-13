@@ -4,7 +4,7 @@ description: "Multi-source conflict detection and resolution: value, type, tempo
 icon: "triangle-exclamation"
 ---
 
-**`semantica.conflicts`** detects and resolves **contradictions when multiple sources disagree** on the same fact:
+**`sloth_graphmind.conflicts`** detects and resolves **contradictions when multiple sources disagree** on the same fact:
 
 - Five conflict types: value, type, temporal, logical, and relationship
 - Seven resolution strategies: voting, credibility-weighted, most-recent, first-seen, highest-confidence, manual review, expert review
@@ -17,7 +17,7 @@ icon: "triangle-exclamation"
 
 When you ingest data from multiple sources, contradictions are inevitable. One annual report says Apple's revenue was $391B; a financial newswire says $383B. Without conflict detection, both values land in your graph and queries silently return inconsistent answers.
 
-Semantica's conflict detection makes disagreements explicit and actionable:
+GraphMind's conflict detection makes disagreements explicit and actionable:
 
 - **Value conflicts**: SEC says revenue is $391B; Reuters says $383B
 - **Type conflicts**: "Python" is a `ProgrammingLanguage` in one source, a `Snake` species in another
@@ -57,7 +57,7 @@ Semantica's conflict detection makes disagreements explicit and actionable:
 <Steps>
   <Step title="Set credibility scores before ingestion">
     ```python
-    from semantica.conflicts import SourceTracker
+    from sloth_graphmind.conflicts import SourceTracker
 
     tracker = SourceTracker()
     tracker.set_source_credibility("sec_filings",   0.95)
@@ -68,7 +68,7 @@ Semantica's conflict detection makes disagreements explicit and actionable:
   </Step>
   <Step title="Detect conflicts after building the graph">
     ```python
-    from semantica.conflicts import ConflictDetector
+    from sloth_graphmind.conflicts import ConflictDetector
 
     detector = ConflictDetector()
 
@@ -85,7 +85,7 @@ Semantica's conflict detection makes disagreements explicit and actionable:
   </Step>
   <Step title="Triage by severity">
     ```python
-    from semantica.conflicts import ConflictAnalyzer
+    from sloth_graphmind.conflicts import ConflictAnalyzer
 
     analyzer  = ConflictAnalyzer()
     analysis  = analyzer.analyze_conflicts(conflicts)
@@ -98,7 +98,7 @@ Semantica's conflict detection makes disagreements explicit and actionable:
   </Step>
   <Step title="Auto-resolve low-severity, escalate critical">
     ```python
-    from semantica.conflicts import ConflictResolver, InvestigationGuideGenerator, ResolutionStrategy
+    from sloth_graphmind.conflicts import ConflictResolver, InvestigationGuideGenerator, ResolutionStrategy
 
     resolver = ConflictResolver(source_tracker=tracker)
 
@@ -132,7 +132,7 @@ Semantica's conflict detection makes disagreements explicit and actionable:
 ## ConflictDetector
 
 ```python
-from semantica.conflicts import ConflictDetector
+from sloth_graphmind.conflicts import ConflictDetector
 
 detector = ConflictDetector()
 
@@ -183,7 +183,7 @@ all_conflicts = detector.detect_entity_conflicts(entities)
 ## ConflictResolver
 
 ```python
-from semantica.conflicts import ConflictResolver, ResolutionStrategy
+from sloth_graphmind.conflicts import ConflictResolver, ResolutionStrategy
 
 resolver = ConflictResolver()
 results  = resolver.resolve_conflicts(conflicts, strategy=ResolutionStrategy.VOTING)
@@ -204,7 +204,7 @@ for result in results:
     Weights each source's value by its assigned credibility score: favors authoritative sources automatically:
 
     ```python
-    from semantica.conflicts import ConflictResolver, SourceTracker, ResolutionStrategy
+    from sloth_graphmind.conflicts import ConflictResolver, SourceTracker, ResolutionStrategy
 
     tracker = SourceTracker()
     tracker.set_source_credibility("sec_filings",   0.92)
@@ -270,7 +270,7 @@ for result in results:
 Use the convenience aliases for shorter code:
 
 ```python
-from semantica.conflicts import voting, credibility_weighted, most_recent, highest_confidence
+from sloth_graphmind.conflicts import voting, credibility_weighted, most_recent, highest_confidence
 
 results = resolver.resolve_conflicts(conflicts, strategy=voting)
 ```
@@ -278,7 +278,7 @@ results = resolver.resolve_conflicts(conflicts, strategy=voting)
 ## SourceTracker
 
 ```python
-from semantica.conflicts import SourceTracker, SourceReference
+from sloth_graphmind.conflicts import SourceTracker, SourceReference
 
 tracker = SourceTracker()
 tracker.set_source_credibility("sec_10k",   0.92)
@@ -323,7 +323,7 @@ chain = tracker.get_traceability_chain("apple_inc")
 ## ConflictAnalyzer
 
 ```python
-from semantica.conflicts import ConflictAnalyzer
+from sloth_graphmind.conflicts import ConflictAnalyzer
 
 analyzer = ConflictAnalyzer()
 
@@ -357,7 +357,7 @@ for t in trends:
 Auto-generate human-readable investigation checklists for conflicts requiring manual or expert review:
 
 ```python
-from semantica.conflicts import InvestigationGuideGenerator
+from sloth_graphmind.conflicts import InvestigationGuideGenerator
 
 generator = InvestigationGuideGenerator()
 guide     = generator.generate_guide(conflict)
@@ -414,7 +414,7 @@ class ResolutionResult:
   <Accordion title="ConflictType enum">
 
 ```python
-from semantica.conflicts import ConflictType
+from sloth_graphmind.conflicts import ConflictType
 
 ConflictType.VALUE_CONFLICT         # revenue is $391B in source A, $383B in source B
 ConflictType.TYPE_CONFLICT          # "Apple" is ORGANIZATION in one source, PRODUCT in another

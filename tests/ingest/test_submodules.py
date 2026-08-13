@@ -7,17 +7,17 @@ import sys
 from datetime import datetime
 
 # Import classes to test
-from semantica.ingest.api_ingestor import RESTIngestor, APIData
-from semantica.ingest.duckdb_ingestor import DuckDBIngestor, DuckDBData
-from semantica.ingest.elastic_ingestor import ElasticIngestor, ElasticData
-from semantica.ingest.mcp_ingestor import MCPIngestor, MCPData
-from semantica.ingest.mcp_client import MCPClient, MCPResource, MCPTool
-from semantica.ingest.gdrive_ingestor import GDriveIngestor, GDriveData
-from semantica.ingest.huggingface_ingestor import HuggingFaceIngestor, HFData
-from semantica.ingest.mongo_ingestor import MongoIngestor, MongoData, MongoConnector
-from semantica.ingest.pandas_ingestor import PandasIngestor, PandasData
-from semantica.ingest.repo_ingestor import RepoIngestor, CodeFile
-from semantica.ingest.stream_ingestor import StreamIngestor
+from sloth_graphmind.ingest.api_ingestor import RESTIngestor, APIData
+from sloth_graphmind.ingest.duckdb_ingestor import DuckDBIngestor, DuckDBData
+from sloth_graphmind.ingest.elastic_ingestor import ElasticIngestor, ElasticData
+from sloth_graphmind.ingest.mcp_ingestor import MCPIngestor, MCPData
+from sloth_graphmind.ingest.mcp_client import MCPClient, MCPResource, MCPTool
+from sloth_graphmind.ingest.gdrive_ingestor import GDriveIngestor, GDriveData
+from sloth_graphmind.ingest.huggingface_ingestor import HuggingFaceIngestor, HFData
+from sloth_graphmind.ingest.mongo_ingestor import MongoIngestor, MongoData, MongoConnector
+from sloth_graphmind.ingest.pandas_ingestor import PandasIngestor, PandasData
+from sloth_graphmind.ingest.repo_ingestor import RepoIngestor, CodeFile
+from sloth_graphmind.ingest.stream_ingestor import StreamIngestor
 
 class TestRESTIngestor:
     def test_ingest_endpoint(self):
@@ -87,7 +87,7 @@ class TestRESTIngestor:
 class TestDuckDBIngestor:
     def test_init_raises_if_no_duckdb(self):
         # Simulate missing duckdb
-        with patch("semantica.ingest.duckdb_ingestor.duckdb", None):
+        with patch("sloth_graphmind.ingest.duckdb_ingestor.duckdb", None):
             with pytest.raises(ImportError):
                 DuckDBIngestor()
 
@@ -114,7 +114,7 @@ class TestDuckDBIngestor:
             # description returns list of tuples (name, type, ...)
             mock_conn.description = [('col1', 'INTEGER'), ('col2', 'VARCHAR')]
             
-            with patch("semantica.ingest.duckdb_ingestor.duckdb", mock_duckdb):
+            with patch("sloth_graphmind.ingest.duckdb_ingestor.duckdb", mock_duckdb):
                 ingestor = DuckDBIngestor()
                 result = ingestor.ingest_csv(tmp_path)
                 
@@ -131,7 +131,7 @@ class TestDuckDBIngestor:
 
 class TestElasticIngestor:
     def test_init_raises_if_no_elastic(self):
-        with patch("semantica.ingest.elastic_ingestor.Elasticsearch", None):
+        with patch("sloth_graphmind.ingest.elastic_ingestor.Elasticsearch", None):
             with pytest.raises(ImportError):
                 ElasticIngestor()
 
@@ -147,8 +147,8 @@ class TestElasticIngestor:
             {"_source": {"id": 2, "field": "val2"}}
         ]
         
-        with patch("semantica.ingest.elastic_ingestor.Elasticsearch", mock_es_class), \
-             patch("semantica.ingest.elastic_ingestor.scan", mock_scan):
+        with patch("sloth_graphmind.ingest.elastic_ingestor.Elasticsearch", mock_es_class), \
+             patch("sloth_graphmind.ingest.elastic_ingestor.scan", mock_scan):
             
             ingestor = ElasticIngestor()
             result = ingestor.ingest_index("http://localhost:9200", "test_index")
@@ -161,8 +161,8 @@ class TestElasticIngestor:
 class TestMCPIngestor:
     def test_connect_and_ingest(self):
         # Mock MCPClient and ProgressTracker
-        with patch("semantica.ingest.mcp_ingestor.MCPClient") as MockClient, \
-             patch("semantica.ingest.mcp_ingestor.get_progress_tracker") as mock_get_tracker:
+        with patch("sloth_graphmind.ingest.mcp_ingestor.MCPClient") as MockClient, \
+             patch("sloth_graphmind.ingest.mcp_ingestor.get_progress_tracker") as mock_get_tracker:
             
             mock_tracker = MagicMock()
             mock_get_tracker.return_value = mock_tracker
@@ -281,7 +281,7 @@ class TestMCPClient:
 
 class TestGDriveIngestor:
     def test_init_raises_if_no_google_libs(self):
-        with patch("semantica.ingest.gdrive_ingestor.build", None):
+        with patch("sloth_graphmind.ingest.gdrive_ingestor.build", None):
             with pytest.raises(ImportError):
                 GDriveIngestor()
 
@@ -305,10 +305,10 @@ class TestGDriveIngestor:
         mock_files.get_media.return_value = mock_get_media
         
         # Mock downloader
-        with patch("semantica.ingest.gdrive_ingestor.MediaIoBaseDownload") as MockDownloader, \
-             patch("semantica.ingest.gdrive_ingestor.build") as mock_build, \
-             patch("semantica.ingest.gdrive_ingestor.InstalledAppFlow"), \
-             patch("semantica.ingest.gdrive_ingestor.Credentials"):
+        with patch("sloth_graphmind.ingest.gdrive_ingestor.MediaIoBaseDownload") as MockDownloader, \
+             patch("sloth_graphmind.ingest.gdrive_ingestor.build") as mock_build, \
+             patch("sloth_graphmind.ingest.gdrive_ingestor.InstalledAppFlow"), \
+             patch("sloth_graphmind.ingest.gdrive_ingestor.Credentials"):
             
             mock_build.return_value = mock_service
             
@@ -331,12 +331,12 @@ class TestGDriveIngestor:
 
 class TestHuggingFaceIngestor:
     def test_init_raises_if_no_datasets(self):
-        with patch("semantica.ingest.huggingface_ingestor.load_dataset", None):
+        with patch("sloth_graphmind.ingest.huggingface_ingestor.load_dataset", None):
             with pytest.raises(ImportError):
                 HuggingFaceIngestor()
 
     def test_ingest_dataset(self):
-        with patch("semantica.ingest.huggingface_ingestor.load_dataset") as mock_load:
+        with patch("sloth_graphmind.ingest.huggingface_ingestor.load_dataset") as mock_load:
             # Mock dataset
             mock_data = [
                 {"col1": "val1", "col2": 1},
@@ -361,12 +361,12 @@ class TestHuggingFaceIngestor:
 
 class TestMongoIngestor:
     def test_init_raises_if_no_pymongo(self):
-        with patch("semantica.ingest.mongo_ingestor.MongoClient", None):
+        with patch("sloth_graphmind.ingest.mongo_ingestor.MongoClient", None):
             with pytest.raises(ImportError):
                 MongoIngestor()
 
     def test_ingest_collection(self):
-        with patch("semantica.ingest.mongo_ingestor.MongoClient") as MockClient:
+        with patch("sloth_graphmind.ingest.mongo_ingestor.MongoClient") as MockClient:
             mock_client = MockClient.return_value
             mock_db = MagicMock()
             mock_coll = MagicMock()
@@ -442,10 +442,10 @@ class TestRepoIngestor:
             with open(os.path.join(real_temp_dir, "README.md"), "w") as f:
                 f.write("# Repo")
                 
-            with patch("semantica.ingest.repo_ingestor.git.Repo") as MockRepo, \
-                 patch("semantica.ingest.repo_ingestor.tempfile.mkdtemp") as mock_mkdtemp, \
-                 patch("semantica.ingest.repo_ingestor.shutil.rmtree"), \
-                 patch("semantica.ingest.repo_ingestor.get_progress_tracker") as mock_get_tracker:
+            with patch("sloth_graphmind.ingest.repo_ingestor.git.Repo") as MockRepo, \
+                 patch("sloth_graphmind.ingest.repo_ingestor.tempfile.mkdtemp") as mock_mkdtemp, \
+                 patch("sloth_graphmind.ingest.repo_ingestor.shutil.rmtree"), \
+                 patch("sloth_graphmind.ingest.repo_ingestor.get_progress_tracker") as mock_get_tracker:
                 
                 mock_tracker = MagicMock()
                 mock_get_tracker.return_value = mock_tracker
@@ -484,7 +484,7 @@ class TestRepoIngestor:
 
 class TestStreamIngestor:
     def test_ingest_kafka(self):
-        with patch("semantica.ingest.stream_ingestor.KafkaProcessor") as MockProcessor:
+        with patch("sloth_graphmind.ingest.stream_ingestor.KafkaProcessor") as MockProcessor:
             ingestor = StreamIngestor()
             processor = ingestor.ingest_kafka("topic", ["localhost:9092"])
             

@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 import numpy as np
 import pytest
 
-from semantica.vector_store.faiss_store import FAISSIndex
+from sloth_graphmind.vector_store.faiss_store import FAISSIndex
 
 
 def test_get_vector_reconstructs_from_flat_l2_index():

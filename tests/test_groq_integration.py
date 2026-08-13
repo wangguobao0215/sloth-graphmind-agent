@@ -7,13 +7,13 @@ from pprint import pprint
 # Ensure the package is in the path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from semantica.semantic_extract.methods import (
+from sloth_graphmind.semantic_extract.methods import (
     extract_entities_llm, 
     extract_relations_llm, 
     extract_triplets_llm
 )
-from semantica.semantic_extract.providers import create_provider
-from semantica.utils.exceptions import ProcessingError
+from sloth_graphmind.semantic_extract.providers import create_provider
+from sloth_graphmind.utils.exceptions import ProcessingError
 
 # Set the API key
 # Set the API key from environment
@@ -47,7 +47,7 @@ def test_groq_all():
     print("\n--- Testing Relation Extraction ---")
     try:
         # Use a few entities for relation extraction
-        from semantica.semantic_extract.models import Entity
+        from sloth_graphmind.semantic_extract.models import Entity
         sample_entities = [
             Entity(name="Apple Inc.", type="ORGANIZATION"),
             Entity(name="Steve Jobs", type="PERSON")

@@ -8,7 +8,7 @@ registration and discovery capabilities.
 import pytest
 from unittest.mock import Mock
 
-from semantica.kg.registry import AlgorithmRegistry
+from sloth_graphmind.kg.registry import AlgorithmRegistry
 
 
 class TestAlgorithmRegistry:

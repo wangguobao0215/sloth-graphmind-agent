@@ -8,16 +8,16 @@ from pathlib import Path
 
 import pytest
 
-from semantica.parse.document_parser import DocumentParser, PDFParser, DOCXParser, HTMLParser
-from semantica.parse.pptx_parser import PPTXParser
-from semantica.parse.excel_parser import ExcelParser
-from semantica.parse.structured_data_parser import StructuredDataParser, JSONParser, CSVParser, XMLParser
-from semantica.parse.email_parser import EmailParser
-from semantica.parse.code_parser import CodeParser
-from semantica.parse.media_parser import MediaParser, ImageParser
-from semantica.parse.web_parser import WebParser
-from semantica.parse.registry import MethodRegistry
-from semantica.parse.config import ParseConfig
+from sloth_graphmind.parse.document_parser import DocumentParser, PDFParser, DOCXParser, HTMLParser
+from sloth_graphmind.parse.pptx_parser import PPTXParser
+from sloth_graphmind.parse.excel_parser import ExcelParser
+from sloth_graphmind.parse.structured_data_parser import StructuredDataParser, JSONParser, CSVParser, XMLParser
+from sloth_graphmind.parse.email_parser import EmailParser
+from sloth_graphmind.parse.code_parser import CodeParser
+from sloth_graphmind.parse.media_parser import MediaParser, ImageParser
+from sloth_graphmind.parse.web_parser import WebParser
+from sloth_graphmind.parse.registry import MethodRegistry
+from sloth_graphmind.parse.config import ParseConfig
 
 pytestmark = pytest.mark.integration
 
@@ -31,21 +31,21 @@ class TestParseComprehensive(unittest.TestCase):
         # Patch loggers and trackers
         self.patchers = []
         modules_to_patch = [
-            'semantica.parse.document_parser',
-            'semantica.parse.structured_data_parser',
-            'semantica.parse.email_parser',
-            'semantica.parse.code_parser',
-            'semantica.parse.media_parser',
-            'semantica.parse.web_parser',
-            'semantica.parse.pdf_parser',
-            'semantica.parse.docx_parser',
-            'semantica.parse.pptx_parser',
-            'semantica.parse.excel_parser',
-            'semantica.parse.html_parser',
-            'semantica.parse.json_parser',
-            'semantica.parse.csv_parser',
-            'semantica.parse.xml_parser',
-            'semantica.parse.image_parser'
+            'sloth_graphmind.parse.document_parser',
+            'sloth_graphmind.parse.structured_data_parser',
+            'sloth_graphmind.parse.email_parser',
+            'sloth_graphmind.parse.code_parser',
+            'sloth_graphmind.parse.media_parser',
+            'sloth_graphmind.parse.web_parser',
+            'sloth_graphmind.parse.pdf_parser',
+            'sloth_graphmind.parse.docx_parser',
+            'sloth_graphmind.parse.pptx_parser',
+            'sloth_graphmind.parse.excel_parser',
+            'sloth_graphmind.parse.html_parser',
+            'sloth_graphmind.parse.json_parser',
+            'sloth_graphmind.parse.csv_parser',
+            'sloth_graphmind.parse.xml_parser',
+            'sloth_graphmind.parse.image_parser'
         ]
         
         for module_name in modules_to_patch:
@@ -137,7 +137,7 @@ class TestParseComprehensive(unittest.TestCase):
 
     # --- Document Parser Tests ---
     
-    @patch('semantica.parse.pdf_parser.pdfplumber')
+    @patch('sloth_graphmind.parse.pdf_parser.pdfplumber')
     def test_pdf_parser(self, mock_pdfplumber):
         parser = PDFParser()
         mock_pdf = MagicMock()
@@ -166,7 +166,7 @@ class TestParseComprehensive(unittest.TestCase):
         finally:
             os.remove(tmp_path)
 
-    @patch('semantica.parse.docx_parser.Document')
+    @patch('sloth_graphmind.parse.docx_parser.Document')
     def test_docx_parser(self, mock_document_cls):
         parser = DOCXParser()
         mock_doc = MagicMock()

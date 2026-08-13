@@ -5,9 +5,9 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from semantica.semantic_extract.triplet_extractor import Triplet
-from semantica.triplet_store.rdf4j_store import RDF4JStore
-from semantica.utils.exceptions import ProcessingError
+from sloth_graphmind.semantic_extract.triplet_extractor import Triplet
+from sloth_graphmind.triplet_store.rdf4j_store import RDF4JStore
+from sloth_graphmind.utils.exceptions import ProcessingError
 
 
 def _make_connected_store():
@@ -66,7 +66,7 @@ class TestRDF4JStoreExecuteSparqlConstructPath(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.content = b'@prefix ex: <http://ex.org/> .\nex:s1 ex:p1 "v" .\n'
         mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post",
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post",
                    return_value=mock_resp) as mp:
             store.execute_sparql(CONSTRUCT_QUERY)
         _, kw = mp.call_args
@@ -83,7 +83,7 @@ class TestRDF4JStoreExecuteSparqlConstructPath(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.content = fixture
         mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post", return_value=mock_resp):
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post", return_value=mock_resp):
             result = store.execute_sparql(CONSTRUCT_QUERY)
         self.assertTrue(result["success"])
         self.assertEqual(result["bindings"], [])
@@ -101,7 +101,7 @@ class TestRDF4JStoreExecuteSparqlConstructPath(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.content = b'@prefix ex: <http://ex.org/> .\nex:s1 ex:p1 "v" .\n'
         mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post",
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post",
                    return_value=mock_resp) as mp:
             result = store.execute_sparql("SELECT ?s WHERE { ?s ?p ?o }", result_format="construct")
         _, kw = mp.call_args
@@ -113,7 +113,7 @@ class TestRDF4JStoreExecuteSparqlConstructPath(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.content = b"this is { not [ valid turtle at all !!!"
         mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post", return_value=mock_resp):
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post", return_value=mock_resp):
             with self.assertRaises(ProcessingError) as ctx:
                 store.execute_sparql(CONSTRUCT_QUERY)
         self.assertIsInstance(ctx.exception, ProcessingError)
@@ -129,7 +129,7 @@ class TestRDF4JStoreExecuteSparqlConstructPath(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.content = fixture
         mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post", return_value=mock_resp):
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post", return_value=mock_resp):
             result = store.execute_sparql(CONSTRUCT_QUERY)
         self.assertEqual(len(result["triples"]), 1)
         _s, _p, o, meta = result["triples"][0]
@@ -143,7 +143,7 @@ class TestRDF4JStoreExecuteSparqlConstructPath(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.content = fixture
         mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post", return_value=mock_resp):
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post", return_value=mock_resp):
             result = store.execute_sparql(CONSTRUCT_QUERY)
         self.assertEqual(len(result["triples"]), 1)
         _s, _p, o, meta = result["triples"][0]
@@ -157,7 +157,7 @@ class TestRDF4JStoreExecuteSparqlConstructPath(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.content = fixture
         mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post", return_value=mock_resp):
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post", return_value=mock_resp):
             result = store.execute_sparql(CONSTRUCT_QUERY)
         self.assertEqual(len(result["triples"]), 1)
         _s, _p, obj, meta = result["triples"][0]
@@ -180,7 +180,7 @@ class TestRDF4JStoreProperty9NonConstructUnchanged(unittest.TestCase):
                  "o": {"type": "literal", "value": "v1"}}]},
         }
         mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post",
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post",
                    return_value=mock_resp) as mp:
             result = store.execute_sparql("SELECT ?s ?p ?o WHERE { ?s ?p ?o }")
         _, kw = mp.call_args
@@ -200,7 +200,7 @@ class TestRDF4JStoreProperty9NonConstructUnchanged(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"head": {"vars": []}, "results": {"bindings": []}}
         mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post",
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post",
                    return_value=mock_resp) as mp:
             store.execute_sparql("SELECT ?s WHERE { ?s ?p ?o }")
         _, kw = mp.call_args
@@ -211,7 +211,7 @@ class TestRDF4JStoreProperty9NonConstructUnchanged(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"head": {}, "boolean": True}
         mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post",
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post",
                    return_value=mock_resp) as mp:
             store.execute_sparql("ASK { ?s ?p ?o }")
         _, kw = mp.call_args
@@ -222,7 +222,7 @@ class TestRDF4JStoreProperty9NonConstructUnchanged(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"head": {"vars": []}, "results": {"bindings": []}}
         mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post", return_value=mock_resp):
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post", return_value=mock_resp):
             result = store.execute_sparql("SELECT ?s WHERE { ?s ?p ?o }")
         self.assertNotIn("triples", result)
 
@@ -234,7 +234,7 @@ class TestRDF4JStoreAddTripletsContextParameter(unittest.TestCase):
     def test_graph_present_sends_context_param(self):
         store = _make_connected_store()
         mock_resp = MagicMock(); mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post",
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post",
                    return_value=mock_resp) as mp:
             store.add_triplets([self._t()], graph="http://ex.org/mygraph")
         _, kw = mp.call_args
@@ -244,7 +244,7 @@ class TestRDF4JStoreAddTripletsContextParameter(unittest.TestCase):
     def test_graph_present_encodes_as_angle_bracket_wrapped_iri(self):
         store = _make_connected_store()
         mock_resp = MagicMock(); mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post",
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post",
                    return_value=mock_resp) as mp:
             store.add_triplets([self._t()], graph="http://ex.org/mygraph")
         _, kw = mp.call_args
@@ -254,7 +254,7 @@ class TestRDF4JStoreAddTripletsContextParameter(unittest.TestCase):
     def test_graph_none_sends_no_context_param(self):
         store = _make_connected_store()
         mock_resp = MagicMock(); mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post",
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post",
                    return_value=mock_resp) as mp:
             store.add_triplets([self._t()], graph=None)
         _, kw = mp.call_args
@@ -263,7 +263,7 @@ class TestRDF4JStoreAddTripletsContextParameter(unittest.TestCase):
     def test_graph_omitted_sends_no_context_param(self):
         store = _make_connected_store()
         mock_resp = MagicMock(); mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post",
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post",
                    return_value=mock_resp) as mp:
             store.add_triplets([self._t()])
         _, kw = mp.call_args
@@ -272,7 +272,7 @@ class TestRDF4JStoreAddTripletsContextParameter(unittest.TestCase):
     def test_graph_none_does_not_send_context_null(self):
         store = _make_connected_store()
         mock_resp = MagicMock(); mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post",
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post",
                    return_value=mock_resp) as mp:
             store.add_triplets([self._t()], graph=None)
         _, kw = mp.call_args
@@ -284,7 +284,7 @@ class TestRDF4JStoreAddTripletsContextParameter(unittest.TestCase):
         store = _make_connected_store()
         mock_resp = MagicMock(); mock_resp.raise_for_status = MagicMock()
         graph_uri = "http://ex.org/mygraph"
-        with patch("semantica.triplet_store.rdf4j_store.requests.post",
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post",
                    return_value=mock_resp) as mp:
             store.add_triplets([self._t()], graph=graph_uri)
         _, kw = mp.call_args
@@ -296,7 +296,7 @@ class TestRDF4JStoreAddTripletsContextParameter(unittest.TestCase):
     def test_graph_present_posts_to_statements_endpoint_not_modified_url(self):
         store = _make_connected_store()
         mock_resp = MagicMock(); mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post",
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post",
                    return_value=mock_resp) as mp:
             store.add_triplets([self._t()], graph="http://ex.org/g")
         call_url = mp.call_args[0][0]
@@ -307,7 +307,7 @@ class TestRDF4JStoreAddTripletsContextParameter(unittest.TestCase):
 class TestExecuteConstructTemplateWithRDF4JBackend(unittest.TestCase):
 
     def test_end_to_end_with_rdf4j_backend(self):
-        from semantica.triplet_store.construct_templates import (
+        from sloth_graphmind.triplet_store.construct_templates import (
             ConstructTemplate, ParameterDescriptor, execute_construct_template,
         )
         fixture = b'@prefix ex: <http://ex.org/> .\nex:s1 ex:p1 "Alice" .\n'
@@ -330,7 +330,7 @@ class TestExecuteConstructTemplateWithRDF4JBackend(unittest.TestCase):
             parameters=[ParameterDescriptor(name="value", type="literal", required=True)],
             target_graph="http://ex.org/rdf4j_graph",
         )
-        with patch("semantica.triplet_store.rdf4j_store.requests.post",
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post",
                    return_value=mock_resp):
             result = execute_construct_template(
                 template, params={"value": "Alice"}, store_backend=store)
@@ -340,7 +340,7 @@ class TestExecuteConstructTemplateWithRDF4JBackend(unittest.TestCase):
         self.assertEqual(opts.get("graph"), "http://ex.org/rdf4j_graph")
 
     def test_literal_metadata_round_trips_through_rdf4j_backend(self):
-        from semantica.triplet_store.construct_templates import (
+        from sloth_graphmind.triplet_store.construct_templates import (
             ConstructTemplate, ParameterDescriptor, execute_construct_template,
         )
         fixture = (
@@ -360,7 +360,7 @@ class TestExecuteConstructTemplateWithRDF4JBackend(unittest.TestCase):
             construct_query="CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o }",
             parameters=[ParameterDescriptor(name="value", type="literal", required=True)],
         )
-        with patch("semantica.triplet_store.rdf4j_store.requests.post",
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post",
                    return_value=mock_resp):
             result = execute_construct_template(
                 template, params={"value": "x"}, store_backend=store)
@@ -486,7 +486,7 @@ class TestRDF4JStoreQodoBugfixes(unittest.TestCase):
             self.assertEqual(str(o), "Alice")
 
     def test_add_triplets_validates_graph_uri(self):
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
         store = _make_connected_store()
         t = Triplet(subject="http://ex.org/s1", predicate="http://ex.org/p", object="http://ex.org/o1")
         with self.assertRaises(ValidationError) as ctx:
@@ -494,7 +494,7 @@ class TestRDF4JStoreQodoBugfixes(unittest.TestCase):
         self.assertIn("whitespace", str(ctx.exception))
 
     def test_execute_sparql_validates_result_format(self):
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
         store = _make_connected_store()
         with self.assertRaises(ValidationError) as ctx:
             store.execute_sparql("SELECT ?s WHERE { ?s ?p ?o }", result_format="invalid")
@@ -504,13 +504,13 @@ class TestRDF4JStoreQodoBugfixes(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"head": {"vars": []}, "results": {"bindings": []}}
         mock_resp.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post", return_value=mock_resp):
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post", return_value=mock_resp):
             store.execute_sparql("SELECT ?s WHERE { ?s ?p ?o }", result_format="bindings")
             
         mock_resp_c = MagicMock()
         mock_resp_c.content = b""
         mock_resp_c.raise_for_status = MagicMock()
-        with patch("semantica.triplet_store.rdf4j_store.requests.post", return_value=mock_resp_c):
+        with patch("sloth_graphmind.triplet_store.rdf4j_store.requests.post", return_value=mock_resp_c):
             store.execute_sparql("CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o }", result_format="construct")
 
 

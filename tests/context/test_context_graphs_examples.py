@@ -13,11 +13,11 @@ from unittest.mock import Mock, patch
 # Add the semantica package to Python path for testing
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
-from semantica.context import AgentContext
-from semantica.context.context_graph import ContextGraph
-from semantica.context.decision_models import Decision, Policy, PolicyException
-from semantica.vector_store import VectorStore
-from semantica.embeddings import EmbeddingGenerator
+from sloth_graphmind.context import AgentContext
+from sloth_graphmind.context.context_graph import ContextGraph
+from sloth_graphmind.context.decision_models import Decision, Policy, PolicyException
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.embeddings import EmbeddingGenerator
 
 
 class TestContextGraphsExamples:

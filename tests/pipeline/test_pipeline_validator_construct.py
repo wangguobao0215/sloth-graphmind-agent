@@ -13,9 +13,9 @@ Covers four new behaviours and one explicit regression guard:
 import unittest
 from unittest.mock import MagicMock, patch
 
-from semantica.pipeline.pipeline_builder import Pipeline, PipelineStep
-from semantica.pipeline.pipeline_validator import PipelineValidator
-from semantica.triplet_store.construct_templates import (
+from sloth_graphmind.pipeline.pipeline_builder import Pipeline, PipelineStep
+from sloth_graphmind.pipeline.pipeline_validator import PipelineValidator
+from sloth_graphmind.triplet_store.construct_templates import (
     ConstructTemplate,
     ConstructTemplateRegistry,
     ParameterDescriptor,
@@ -64,7 +64,7 @@ class TestPipelineValidatorConstructRegistry(unittest.TestCase):
 
     def setUp(self):
         self.tracker_patcher = patch(
-            "semantica.utils.progress_tracker.get_progress_tracker"
+            "sloth_graphmind.utils.progress_tracker.get_progress_tracker"
         )
         mock_get_tracker = self.tracker_patcher.start()
         mock_tracker = MagicMock()

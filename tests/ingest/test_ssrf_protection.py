@@ -5,14 +5,14 @@ from unittest.mock import MagicMock, patch
 import pytest
 import urllib3.connectionpool as pool
 
-from semantica.ingest.api_ingestor import RESTIngestor
-from semantica.ingest.ssrf import (
+from sloth_graphmind.ingest.api_ingestor import RESTIngestor
+from sloth_graphmind.ingest.ssrf import (
     parse_bool,
     request_with_ssrf_guard,
     validate_url_for_request,
 )
-from semantica.ingest.web_ingestor import SitemapCrawler, WebIngestor
-from semantica.utils.exceptions import ValidationError
+from sloth_graphmind.ingest.web_ingestor import SitemapCrawler, WebIngestor
+from sloth_graphmind.utils.exceptions import ValidationError
 
 
 class TestParseBool:
@@ -44,7 +44,7 @@ class TestParseBool:
 class TestValidateUrlForRequest:
     def test_accepts_https(self):
         with patch(
-            "semantica.ingest.ssrf.socket.getaddrinfo",
+            "sloth_graphmind.ingest.ssrf.socket.getaddrinfo",
             return_value=[(None, None, None, None, ("93.184.216.34", 0))],
         ):
             validate_url_for_request("https://example.com/path")
@@ -74,7 +74,7 @@ class TestValidateUrlForRequest:
 
     def test_rejects_hostname_resolving_to_private_ip(self):
         with patch(
-            "semantica.ingest.ssrf.socket.getaddrinfo",
+            "sloth_graphmind.ingest.ssrf.socket.getaddrinfo",
             return_value=[(None, None, None, None, ("10.0.0.5", 0))],
         ):
             with pytest.raises(ValidationError, match="blocked"):
@@ -94,7 +94,7 @@ class TestValidateUrlForRequest:
         import socket
 
         with patch(
-            "semantica.ingest.ssrf.socket.getaddrinfo",
+            "sloth_graphmind.ingest.ssrf.socket.getaddrinfo",
             side_effect=socket.gaierror("name or service not known"),
         ):
             with pytest.raises(ValidationError, match="could not be resolved safely"):
@@ -104,7 +104,7 @@ class TestValidateUrlForRequest:
         import concurrent.futures
 
         with patch(
-            "semantica.ingest.ssrf.concurrent.futures.Future.result",
+            "sloth_graphmind.ingest.ssrf.concurrent.futures.Future.result",
             side_effect=concurrent.futures.TimeoutError(),
         ):
             with pytest.raises(ValidationError, match="could not be resolved safely"):
@@ -114,7 +114,7 @@ class TestValidateUrlForRequest:
         """Timeout must not wait on executor shutdown for a blocking resolver."""
         import time
 
-        import semantica.ingest.ssrf as ssrf
+        import sloth_graphmind.ingest.ssrf as ssrf
 
         hang_seconds = 1.5
         bound = 0.1
@@ -124,7 +124,7 @@ class TestValidateUrlForRequest:
             return [(None, None, None, None, ("93.184.216.34", 0))]
 
         with patch.object(ssrf, "_DNS_RESOLVE_TIMEOUT_SECONDS", bound), patch(
-            "semantica.ingest.ssrf.socket.getaddrinfo",
+            "sloth_graphmind.ingest.ssrf.socket.getaddrinfo",
             side_effect=hanging_getaddrinfo,
         ):
             start = time.monotonic()
@@ -149,7 +149,7 @@ class TestRequestWithSsrfGuardRedirects:
         session.request.return_value = redirect
 
         with patch(
-            "semantica.ingest.ssrf.socket.getaddrinfo",
+            "sloth_graphmind.ingest.ssrf.socket.getaddrinfo",
             return_value=[(None, None, None, None, ("93.184.216.34", 0))],
         ):
             with pytest.raises(ValidationError, match="blocked"):
@@ -172,7 +172,7 @@ class TestRequestWithSsrfGuardRedirects:
         session.request.return_value = redirect
 
         with patch(
-            "semantica.ingest.ssrf.socket.getaddrinfo",
+            "sloth_graphmind.ingest.ssrf.socket.getaddrinfo",
             return_value=[(None, None, None, None, ("93.184.216.34", 0))],
         ):
             with pytest.raises(ValidationError, match="blocked"):
@@ -196,7 +196,7 @@ class TestRequestWithSsrfGuardRedirects:
         session.request.side_effect = [redirect, final]
 
         with patch(
-            "semantica.ingest.ssrf.socket.getaddrinfo",
+            "sloth_graphmind.ingest.ssrf.socket.getaddrinfo",
             return_value=[(None, None, None, None, ("93.184.216.34", 0))],
         ):
             response = request_with_ssrf_guard(
@@ -294,7 +294,7 @@ class TestWebIngestorSSRF:
         redirect.close = MagicMock()
 
         with patch.object(ingestor.session, "request", return_value=redirect), patch(
-            "semantica.ingest.ssrf.socket.getaddrinfo",
+            "sloth_graphmind.ingest.ssrf.socket.getaddrinfo",
             return_value=[(None, None, None, None, ("93.184.216.34", 0))],
         ):
             with pytest.raises(ValidationError, match="blocked"):
@@ -325,9 +325,9 @@ class TestSitemapCrawlerSSRF:
         redirect.close = MagicMock()
 
         with patch(
-            "semantica.ingest.ssrf.requests.request", return_value=redirect
+            "sloth_graphmind.ingest.ssrf.requests.request", return_value=redirect
         ), patch(
-            "semantica.ingest.ssrf.socket.getaddrinfo",
+            "sloth_graphmind.ingest.ssrf.socket.getaddrinfo",
             return_value=[(None, None, None, None, ("93.184.216.34", 0))],
         ):
             with pytest.raises(ValidationError, match="blocked"):
@@ -399,7 +399,7 @@ class TestRESTIngestorSSRF:
 
             ingestor = RESTIngestor()
             with patch(
-                "semantica.ingest.ssrf.socket.getaddrinfo",
+                "sloth_graphmind.ingest.ssrf.socket.getaddrinfo",
                 return_value=[(None, None, None, None, ("93.184.216.34", 0))],
             ):
                 with pytest.raises(ValidationError, match="blocked"):

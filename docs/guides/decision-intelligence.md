@@ -1,6 +1,6 @@
 ---
 title: "Decision Intelligence"
-description: "How Semantica records, stores, traces, and queries AI agent decisions as first-class knowledge graph objects — with causal chains, precedent search, policy enforcement, and full explainability."
+description: "How GraphMind records, stores, traces, and queries AI agent decisions as first-class knowledge graph objects — with causal chains, precedent search, policy enforcement, and full explainability."
 icon: "scale-balanced"
 ---
 
@@ -68,8 +68,8 @@ Decision Intelligence coordinates three main components:
 The most common entry point is `AgentContext.record_decision()`. It writes a `Decision` node into the graph, generates embeddings for hybrid similarity search, and returns a UUID you use to link subsequent decisions causally.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 graph   = ContextGraph(advanced_analytics=True)
 context = AgentContext(
@@ -99,7 +99,7 @@ The `decision_maker` field identifies the component, workflow, agent, or system 
 The `Decision` dataclass that backs this node has the following fields — these are what get stored and searched:
 
 ```python
-from semantica.context import Decision
+from sloth_graphmind.context import Decision
 from datetime import datetime
 
 # Constructing a Decision explicitly (alternative to record_decision)
@@ -234,7 +234,7 @@ for chain in chains:
 Before recording a high-stakes decision, check it against a versioned policy. The `PolicyEngine` stores `Policy` nodes in the graph and gates `Decision` objects against their rules.
 
 ```python
-from semantica.context import PolicyEngine, Policy, Decision
+from sloth_graphmind.context import PolicyEngine, Policy, Decision
 from datetime import datetime
 
 engine = PolicyEngine(graph_store=graph)
@@ -273,7 +273,7 @@ else:
 When a high-urgency situation requires bypassing the policy gate, record the exception with the approver identity and justification:
 
 ```python
-from semantica.context import DecisionRecorder
+from sloth_graphmind.context import DecisionRecorder
 
 recorder = DecisionRecorder(graph_store=graph)
 
@@ -341,8 +341,8 @@ Outcomes:
 A CTI pipeline classifies threat clusters, records each classification with confidence and reasoning, links classification decisions to escalation decisions causally, and generates a daily audit report for the threat intelligence lead.
 
 ```python
-from semantica.context import AgentContext, ContextGraph, PolicyEngine, Policy
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph, PolicyEngine, Policy
+from sloth_graphmind.vector_store import VectorStore
 from datetime import datetime
 
 graph   = ContextGraph(advanced_analytics=True)
@@ -407,8 +407,8 @@ print("Mean confidence   :", round(insights["confidence_stats"]["mean"], 2))
 During an incident, the SOC records containment decisions with causal links to the detection decisions that triggered them. Six hours later the post-mortem can replay the exact decision sequence from first alert to final containment.
 
 ```python
-from semantica.context import AgentContext, ContextGraph, DecisionRecorder
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph, DecisionRecorder
+from sloth_graphmind.vector_store import VectorStore
 
 graph    = ContextGraph()
 recorder = DecisionRecorder(graph_store=graph)
@@ -461,9 +461,9 @@ print("Total connections :", explanation["total_connections"])
 A clinical AI assistant records treatment modification decisions with guideline precedents, links them causally to the diagnostic decisions that preceded them, and generates a structured decision record for MDT review and regulatory audit.
 
 ```python
-from semantica.context import AgentContext, ContextGraph, PolicyEngine, Policy
-from semantica.context import Decision, DecisionRecorder
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph, PolicyEngine, Policy
+from sloth_graphmind.context import Decision, DecisionRecorder
+from sloth_graphmind.vector_store import VectorStore
 from datetime import datetime
 
 graph   = ContextGraph()
@@ -529,9 +529,9 @@ print("\nSession decisions: {}  |  mean confidence: {:.2f}".format(
 A credit decisioning system records every loan decision against a versioned lending policy, links borderline approvals to stress-test decisions causally, and exports a complete decision audit trail for SR 11-7 model governance review.
 
 ```python
-from semantica.context import AgentContext, ContextGraph, PolicyEngine, Policy
-from semantica.context import Decision, DecisionRecorder
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph, PolicyEngine, Policy
+from sloth_graphmind.context import Decision, DecisionRecorder
+from sloth_graphmind.vector_store import VectorStore
 from datetime import datetime
 
 graph   = ContextGraph()

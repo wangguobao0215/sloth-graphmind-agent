@@ -8,9 +8,9 @@ import shutil
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from semantica.kg.entity_resolver import EntityResolver
-from semantica.kg.provenance_tracker import ProvenanceTracker
-from semantica.kg.seed_manager import SeedManager
+from sloth_graphmind.kg.entity_resolver import EntityResolver
+from sloth_graphmind.kg.provenance_tracker import ProvenanceTracker
+from sloth_graphmind.kg.seed_manager import SeedManager
 
 class TestEntityResolver(unittest.TestCase):
     def setUp(self):

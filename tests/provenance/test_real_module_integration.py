@@ -5,7 +5,7 @@ Tests that execute actual operations and verify provenance tracking works.
 """
 
 import pytest
-from semantica.provenance import ProvenanceManager
+from sloth_graphmind.provenance import ProvenanceManager
 
 
 class TestRealModuleIntegration:
@@ -14,7 +14,7 @@ class TestRealModuleIntegration:
     def test_context_manager_real_tracking(self):
         """Test context manager actually tracks context additions."""
         try:
-            from semantica.context.context_provenance import ContextManagerWithProvenance
+            from sloth_graphmind.context.context_provenance import ContextManagerWithProvenance
             
             ctx = ContextManagerWithProvenance(provenance=True)
             
@@ -29,8 +29,8 @@ class TestRealModuleIntegration:
     def test_pipeline_real_execution_tracking(self):
         """Test pipeline tracks execution with provenance."""
         try:
-            from semantica.pipeline.pipeline_builder import Pipeline
-            from semantica.pipeline.pipeline_provenance import PipelineWithProvenance
+            from sloth_graphmind.pipeline.pipeline_builder import Pipeline
+            from sloth_graphmind.pipeline.pipeline_provenance import PipelineWithProvenance
 
             pipeline = Pipeline(name="provenance_tracking_test")
             runner = PipelineWithProvenance(pipeline, provenance=True)
@@ -46,7 +46,7 @@ class TestRealModuleIntegration:
     def test_embeddings_real_generation_tracking(self):
         """Test embeddings tracks generation operations."""
         try:
-            from semantica.embeddings.embeddings_provenance import EmbeddingGeneratorWithProvenance
+            from sloth_graphmind.embeddings.embeddings_provenance import EmbeddingGeneratorWithProvenance
             
             embedder = EmbeddingGeneratorWithProvenance(provenance=True)
             
@@ -60,7 +60,7 @@ class TestRealModuleIntegration:
     def test_graph_store_real_node_tracking(self):
         """Test graph store tracks node additions."""
         try:
-            from semantica.graph_store.graph_store_provenance import GraphStoreWithProvenance
+            from sloth_graphmind.graph_store.graph_store_provenance import GraphStoreWithProvenance
             
             store = GraphStoreWithProvenance(provenance=True)
             
@@ -74,7 +74,7 @@ class TestRealModuleIntegration:
     def test_vector_store_real_vector_tracking(self):
         """Test vector store tracks vector additions."""
         try:
-            from semantica.vector_store.vector_store_provenance import VectorStoreWithProvenance
+            from sloth_graphmind.vector_store.vector_store_provenance import VectorStoreWithProvenance
             
             store = VectorStoreWithProvenance(provenance=True)
             
@@ -172,7 +172,7 @@ class TestRealModuleIntegration:
         )
         
         # Track property sources
-        from semantica.provenance import SourceReference
+        from sloth_graphmind.provenance import SourceReference
         
         manager.track_property_source(
             entity_id="company_1",

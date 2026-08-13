@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock, patch
-from semantica.graph_store import methods
-from semantica.graph_store.registry import method_registry
+from sloth_graphmind.graph_store import methods
+from sloth_graphmind.graph_store.registry import method_registry
 
 class TestGraphStoreMethods(unittest.TestCase):
     def setUp(self):
@@ -10,7 +10,7 @@ class TestGraphStoreMethods(unittest.TestCase):
         
         # Mock GraphStore
         self.mock_store = MagicMock()
-        self.mock_store_patcher = patch('semantica.graph_store.methods.GraphStore', return_value=self.mock_store)
+        self.mock_store_patcher = patch('sloth_graphmind.graph_store.methods.GraphStore', return_value=self.mock_store)
         self.MockGraphStore = self.mock_store_patcher.start()
 
     def tearDown(self):
@@ -62,7 +62,7 @@ class TestGraphStoreMethods(unittest.TestCase):
         interpolates property keys directly into a Cypher SET clause
         (methods.py's own query builder, not delegated to the backend
         store), so an unvalidated key was a direct injection point."""
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         evil_key = "x} MATCH (victim) DETACH DELETE victim //"
         with self.assertRaises(ValidationError):

@@ -1,6 +1,6 @@
 # Contributors
 
-Thank you to all the people who have contributed to Semantica! 🎉
+Thank you to all the people who have contributed to GraphMind! 🎉
 
 This project follows the [all-contributors](https://allcontributors.org) specification. Contributions of any kind are welcome!
 
@@ -44,7 +44,7 @@ We recognize all types of contributions:
 All contributors are recognized in:
 
 - This contributors list
-- [GitHub contributors page](https://github.com/Hawksight-AI/semantica/graphs/contributors)
+- [GitHub contributors page](https://github.com/Hawksight-AI/sloth_graphmind/graphs/contributors)
 - Release notes for significant contributions
 - Community appreciation
 
@@ -54,7 +54,7 @@ All contributors are recognized in:
 
 ### Automatic Recognition
 
-If you've made a commit, you'll automatically appear in [GitHub's contributors graph](https://github.com/Hawksight-AI/semantica/graphs/contributors).
+If you've made a commit, you'll automatically appear in [GitHub's contributors graph](https://github.com/Hawksight-AI/sloth_graphmind/graphs/contributors).
 
 ### Using All-Contributors Bot
 
@@ -107,8 +107,8 @@ See [all-contributors specification](https://allcontributors.org/docs/en/emoji-k
 
 ## Thank You!
 
-Every contribution, no matter how small, helps make Semantica better. Thank you for being part of our community! 🙏
+Every contribution, no matter how small, helps make GraphMind better. Thank you for being part of our community! 🙏
 
 **Want to contribute?** 
 
-⭐ Give us a Star • 🍴 [Fork us](https://github.com/Hawksight-AI/semantica/fork) • Check out our [Contributing Guide](CONTRIBUTING.md) to get started!
+⭐ Give us a Star • 🍴 [Fork us](https://github.com/Hawksight-AI/sloth_graphmind/fork) • Check out our [Contributing Guide](CONTRIBUTING.md) to get started!

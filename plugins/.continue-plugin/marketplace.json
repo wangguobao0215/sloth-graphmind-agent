@@ -1,15 +1,15 @@
 {
-  "name": "semantica-continue",
+  "name": "sloth_graphmind-continue",
   "plugins": [
     {
-      "name": "semantica",
-      "description": "Semantica plugin for Continue.dev: knowledge graph context provider, reasoning, and extraction.",
+      "name": "sloth_graphmind",
+      "description": "GraphMind plugin for Continue.dev: knowledge graph context provider, reasoning, and extraction.",
       "source": "./",
       "category": "Productivity",
       "tags": [
         "knowledge-graph",
         "reasoning",
-        "semantica",
+        "sloth_graphmind",
         "continue"
       ]
     }

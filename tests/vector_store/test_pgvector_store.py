@@ -100,7 +100,7 @@ def store(pg_available, unique_table_name) -> Generator:
     if not pg_available:
         pytest.skip("PostgreSQL with pgvector not available")
 
-    from semantica.vector_store.pgvector_store import PgVectorStore, psycopg_sql
+    from sloth_graphmind.vector_store.pgvector_store import PgVectorStore, psycopg_sql
 
     store = PgVectorStore(
         connection_string=TEST_CONNECTION_STRING,
@@ -145,8 +145,8 @@ class TestPgVectorStoreInit:
         if not pg_available:
             pytest.skip("PostgreSQL not available")
 
-        from semantica.vector_store.pgvector_store import PgVectorStore
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.vector_store.pgvector_store import PgVectorStore
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         with pytest.raises(ValidationError, match="Unsupported distance metric"):
             PgVectorStore(
@@ -204,7 +204,7 @@ class TestPgVectorStoreAdd:
 
     def test_add_wrong_dimension(self, store):
         """Test adding vector with wrong dimension."""
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         vector = np.random.rand(64).astype(np.float32)  # Wrong dimension
 
@@ -278,7 +278,7 @@ class TestPgVectorStoreSearch:
 
     def test_search_wrong_dimension(self, store):
         """Test search with wrong query dimension."""
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         query = np.random.rand(64).astype(np.float32)
 
@@ -290,7 +290,7 @@ class TestPgVectorStoreSearch:
         if not pg_available:
             pytest.skip("PostgreSQL not available")
 
-        from semantica.vector_store.pgvector_store import PgVectorStore
+        from sloth_graphmind.vector_store.pgvector_store import PgVectorStore
 
         empty_store = PgVectorStore(
             connection_string=TEST_CONNECTION_STRING,
@@ -310,7 +310,7 @@ class TestPgVectorStoreSearch:
         try:
             with empty_store._get_connection() as conn:
                 cur = conn.cursor()
-                from semantica.vector_store.pgvector_store import psycopg_sql
+                from sloth_graphmind.vector_store.pgvector_store import psycopg_sql
                 drop_sql = psycopg_sql.SQL("DROP TABLE IF EXISTS {}").format(
                     psycopg_sql.Identifier(unique_table_name)
                 )
@@ -412,14 +412,14 @@ class TestPgVectorStoreUpdate:
 
     def test_update_no_changes(self, store):
         """Test update with no changes specified."""
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         with pytest.raises(ValidationError, match="vectors or metadata"):
             store.update(["id_1"])
 
     def test_update_wrong_dimension(self, store):
         """Test updating with wrong vector dimension."""
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         vectors = [np.random.rand(128).astype(np.float32)]
         ids = store.add(vectors)
@@ -431,7 +431,7 @@ class TestPgVectorStoreUpdate:
 
     def test_update_wrong_length(self, store):
         """Test updating with mismatched IDs and vectors length."""
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         with pytest.raises(ValidationError, match="length"):
             store.update(["id_1", "id_2"], vectors=[np.random.rand(128)])
@@ -502,7 +502,7 @@ class TestPgVectorStoreIndex:
 
     def test_create_unsupported_index(self, store):
         """Test creating unsupported index type."""
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         with pytest.raises(ValidationError, match="Unsupported index type"):
             store.create_index(index_type="invalid")
@@ -550,7 +550,7 @@ class TestPgVectorStoreContextManager:
         if not pg_available:
             pytest.skip("PostgreSQL not available")
 
-        from semantica.vector_store.pgvector_store import PgVectorStore
+        from sloth_graphmind.vector_store.pgvector_store import PgVectorStore
 
         with PgVectorStore(
             connection_string=TEST_CONNECTION_STRING,
@@ -572,7 +572,7 @@ class TestPgVectorStoreDistanceMetrics:
         if not pg_available:
             pytest.skip("PostgreSQL not available")
 
-        from semantica.vector_store.pgvector_store import PgVectorStore, psycopg_sql
+        from sloth_graphmind.vector_store.pgvector_store import PgVectorStore, psycopg_sql
 
         store = PgVectorStore(
             connection_string=TEST_CONNECTION_STRING,

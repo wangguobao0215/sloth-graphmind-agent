@@ -8,16 +8,16 @@ from unittest.mock import MagicMock, patch
 # Import semantica modules
 # We use try-except to handle potential missing optional dependencies in the test environment
 try:
-    from semantica.ingest import FileIngestor, WebIngestor, DBIngestor, FeedIngestor
-    from semantica.parse import DocumentParser, PDFParser, StructuredDataParser, JSONParser
-    from semantica.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor, SemanticAnalyzer
-    from semantica.kg import GraphBuilder, GraphAnalyzer, CentralityCalculator, CommunityDetector
-    from semantica.kg import ConnectivityAnalyzer, TemporalGraphQuery, TemporalPatternDetector
-    from semantica.ontology import OntologyGenerator, ClassInferrer, PropertyGenerator, OntologyValidator
-    from semantica.reasoning import Reasoner, ExplanationGenerator
-    from semantica.export import JSONExporter, RDFExporter, OWLExporter, ReportGenerator
+    from sloth_graphmind.ingest import FileIngestor, WebIngestor, DBIngestor, FeedIngestor
+    from sloth_graphmind.parse import DocumentParser, PDFParser, StructuredDataParser, JSONParser
+    from sloth_graphmind.semantic_extract import NERExtractor, RelationExtractor, TripletExtractor, SemanticAnalyzer
+    from sloth_graphmind.kg import GraphBuilder, GraphAnalyzer, CentralityCalculator, CommunityDetector
+    from sloth_graphmind.kg import ConnectivityAnalyzer, TemporalGraphQuery, TemporalPatternDetector
+    from sloth_graphmind.ontology import OntologyGenerator, ClassInferrer, PropertyGenerator, OntologyValidator
+    from sloth_graphmind.reasoning import Reasoner, ExplanationGenerator
+    from sloth_graphmind.export import JSONExporter, RDFExporter, OWLExporter, ReportGenerator
     # Visualization might require matplotlib/networkx which might be missing or headless
-    from semantica.visualization import KGVisualizer, OntologyVisualizer, AnalyticsVisualizer
+    from sloth_graphmind.visualization import KGVisualizer, OntologyVisualizer, AnalyticsVisualizer
 except ImportError as e:
     print(f"Skipping imports due to missing dependencies: {e}")
 

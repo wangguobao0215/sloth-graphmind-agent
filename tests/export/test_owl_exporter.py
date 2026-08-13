@@ -6,7 +6,7 @@ Bug 2: data_properties silently dropped from Turtle output.
 """
 
 import pytest
-from semantica.export import OWLExporter
+from sloth_graphmind.export import OWLExporter
 
 
 # ---------------------------------------------------------------------------

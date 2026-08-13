@@ -6,7 +6,7 @@ import inspect
 # ── bug_003: include_distance_metadata=False is the backward-compat default ───
 
 def test_bug003_metadata_absent_by_default():
-    from semantica.context.context_graph import ContextGraph
+    from sloth_graphmind.context.context_graph import ContextGraph
     g = ContextGraph()
     g.add_node("A", "test")
     g.add_node("B", "test")
@@ -22,7 +22,7 @@ def test_bug003_metadata_absent_by_default():
 
 
 def test_bug003_metadata_present_with_flag():
-    from semantica.context.context_graph import ContextGraph
+    from sloth_graphmind.context.context_graph import ContextGraph
     g = ContextGraph()
     g.add_node("A", "test")
     g.add_node("B", "test")
@@ -35,7 +35,7 @@ def test_bug003_metadata_present_with_flag():
 
 
 def test_bug003_get_neighbor_distances_still_works():
-    from semantica.context.context_graph import ContextGraph
+    from sloth_graphmind.context.context_graph import ContextGraph
     g = ContextGraph()
     g.add_node("A", "test")
     g.add_node("B", "test")
@@ -50,8 +50,8 @@ def test_bug003_get_neighbor_distances_still_works():
 # ── bug_004: weakest_link standardized to edge_weight key ─────────────────────
 
 def test_bug004_weakest_link_uses_edge_weight_key():
-    from semantica.context.context_graph import ContextGraph
-    from semantica.context.causal_analyzer import CausalChainAnalyzer
+    from sloth_graphmind.context.context_graph import ContextGraph
+    from sloth_graphmind.context.causal_analyzer import CausalChainAnalyzer
     g = ContextGraph()
     g.add_node("A", "decision")
     g.add_node("B", "decision")
@@ -68,7 +68,7 @@ def test_bug004_weakest_link_uses_edge_weight_key():
 
 
 def test_bug004_causal_distance_report_schema_validates():
-    from semantica.explorer.schemas import CausalDistanceReport
+    from sloth_graphmind.explorer.schemas import CausalDistanceReport
     report = CausalDistanceReport(
         source_id="A",
         target_id="C",
@@ -85,7 +85,7 @@ def test_bug004_causal_distance_report_schema_validates():
 # ── qual_003: _distance_band static methods removed; classify_path_distance used ─
 
 def test_qual003_distance_band_removed_from_causal_analyzer():
-    from semantica.context.causal_analyzer import CausalChainAnalyzer
+    from sloth_graphmind.context.causal_analyzer import CausalChainAnalyzer
     assert not hasattr(CausalChainAnalyzer, "_distance_band")
     ca_src = inspect.getsource(CausalChainAnalyzer)
     assert "def _distance_band" not in ca_src
@@ -93,7 +93,7 @@ def test_qual003_distance_band_removed_from_causal_analyzer():
 
 
 def test_qual003_distance_band_removed_from_agent_context():
-    import semantica.context.agent_context as ac_mod
+    import sloth_graphmind.context.agent_context as ac_mod
     ac_src = inspect.getsource(ac_mod)
     assert "def _distance_band" not in ac_src
     assert "classify_path_distance" in ac_src
@@ -102,7 +102,7 @@ def test_qual003_distance_band_removed_from_agent_context():
 # ── bug_005: timedelta arithmetic — no timetuple reconstruction ───────────────
 
 def test_bug005_no_timetuple_hack_in_distance_history():
-    from semantica.explorer.routes import temporal
+    from sloth_graphmind.explorer.routes import temporal
     src = inspect.getsource(temporal.distance_history)
     assert "timetuple" not in src, "Old timetuple hack should be gone"
     assert "__import__" not in src, "Dynamic import hack should be gone"
@@ -112,12 +112,12 @@ def test_bug005_no_timetuple_hack_in_distance_history():
 # ── sec_001: node_subset capped at 200 ────────────────────────────────────────
 
 def test_sec001_node_subset_limit_constant_exists():
-    from semantica.explorer.routes.export_import import _DISTANCE_EXPORT_MAX_NODES
+    from sloth_graphmind.explorer.routes.export_import import _DISTANCE_EXPORT_MAX_NODES
     assert _DISTANCE_EXPORT_MAX_NODES == 200
 
 
 def test_sec001_export_endpoint_validates_subset_size():
-    from semantica.explorer.routes import export_import
+    from sloth_graphmind.explorer.routes import export_import
     src = inspect.getsource(export_import.export_distance_enriched)
     assert "_DISTANCE_EXPORT_MAX_NODES" in src
     assert "status_code=413" in src
@@ -126,7 +126,7 @@ def test_sec001_export_endpoint_validates_subset_size():
 # ── sec_002: distance matrix upper-triangle only ──────────────────────────────
 
 def test_sec002_distance_matrix_upper_triangle_loop():
-    from semantica.explorer.routes import graph
+    from sloth_graphmind.explorer.routes import graph
     src = inspect.getsource(graph.distance_matrix)
     assert "range(i + 1, n)" in src, "Should use upper-triangle loop"
     assert "matrix[j][i]" in src, "Should mirror lower triangle"
@@ -135,7 +135,7 @@ def test_sec002_distance_matrix_upper_triangle_loop():
 # ── bug_006: O(L) edge weight index built once ────────────────────────────────
 
 def test_bug006_edge_weight_index_built_once():
-    from semantica.explorer.routes import graph
+    from sloth_graphmind.explorer.routes import graph
     src = inspect.getsource(getattr(graph, "_find_path_impl", graph.find_path))
     assert "edge_weight_index" in src
     assert "for edge in edge_data:" not in src, "Old O(E*L) loop should be gone"
@@ -144,7 +144,7 @@ def test_bug006_edge_weight_index_built_once():
 # ── bug_007: original result id not overwritten ───────────────────────────────
 
 def test_bug007_original_id_not_overwritten():
-    from semantica.context import agent_context
+    from sloth_graphmind.context import agent_context
     src = inspect.getsource(agent_context.AgentContext._apply_proximity_metadata)
     assert (
         '"graph_node_id": result_id' in src
@@ -156,7 +156,7 @@ def test_bug007_original_id_not_overwritten():
 # ── qual_002: no bare except:pass in enrichment blocks ───────────────────────
 
 def test_qual002_no_bare_except_pass_in_find_path():
-    from semantica.explorer.routes import graph
+    from sloth_graphmind.explorer.routes import graph
     src = inspect.getsource(getattr(graph, "_find_path_impl", graph.find_path))
     bare_pass = re.findall(r"except Exception:\s*\n\s*pass", src)
     assert not bare_pass, f"Found bare except:pass: {bare_pass}"

@@ -10,9 +10,9 @@ import numpy as np
 import time
 from typing import Dict, List, Any
 
-from semantica.vector_store import VectorStore
-from semantica.context import DecisionContext
-from semantica.vector_store.decision_vector_methods import (
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.context import DecisionContext
+from sloth_graphmind.vector_store.decision_vector_methods import (
     quick_decision, find_precedents, explain, similar_to
 )
 
@@ -102,7 +102,7 @@ class TestSimpleEndToEnd:
         print("\n=== Convenience Functions ===")
         
         # Set global vector store for convenience functions
-        from semantica.vector_store.decision_vector_methods import set_global_vector_store
+        from sloth_graphmind.vector_store.decision_vector_methods import set_global_vector_store
         set_global_vector_store(self.vector_store)
         
         # Test quick_decision
@@ -199,7 +199,7 @@ class TestSimpleEndToEnd:
         print("\n=== Backward Compatibility ===")
         
         # Set global vector store for convenience functions
-        from semantica.vector_store.decision_vector_methods import set_global_vector_store
+        from sloth_graphmind.vector_store.decision_vector_methods import set_global_vector_store
         set_global_vector_store(self.vector_store)
         
         # Test existing VectorStore functionality

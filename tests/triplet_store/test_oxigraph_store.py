@@ -4,9 +4,9 @@ from unittest.mock import patch
 
 import pytest
 
-from semantica.semantic_extract.triplet_extractor import Triplet
-from semantica.triplet_store import OxigraphStore, TripletStore
-from semantica.utils.exceptions import ProcessingError, ValidationError
+from sloth_graphmind.semantic_extract.triplet_extractor import Triplet
+from sloth_graphmind.triplet_store import OxigraphStore, TripletStore
+from sloth_graphmind.utils.exceptions import ProcessingError, ValidationError
 
 pytest.importorskip("pyoxigraph")
 
@@ -154,7 +154,7 @@ def test_missing_optional_dependency_has_install_hint():
         return real_import_module(name, package)
 
     with patch(
-        "semantica.triplet_store.oxigraph_store.importlib.import_module",
+        "sloth_graphmind.triplet_store.oxigraph_store.importlib.import_module",
         side_effect=import_without_oxigraph,
     ):
         with pytest.raises(ImportError, match="tripletstore-oxigraph"):

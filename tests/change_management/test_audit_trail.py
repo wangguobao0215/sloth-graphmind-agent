@@ -1,7 +1,7 @@
 import pytest
-from semantica.context.context_graph import ContextGraph
-from semantica.change_management.managers import TemporalVersionManager, ProcessingError
-from semantica.utils.exceptions import ValidationError
+from sloth_graphmind.context.context_graph import ContextGraph
+from sloth_graphmind.change_management.managers import TemporalVersionManager, ProcessingError
+from sloth_graphmind.utils.exceptions import ValidationError
 
 @pytest.fixture
 def setup_env():

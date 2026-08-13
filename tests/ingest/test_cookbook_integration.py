@@ -1,8 +1,8 @@
 import pytest
 import json
 from unittest.mock import MagicMock, patch
-from semantica.ingest import MCPIngestor, ingest_mcp, DBIngestor, FileIngestor
-from semantica.ingest.mcp_ingestor import MCPData
+from sloth_graphmind.ingest import MCPIngestor, ingest_mcp, DBIngestor, FileIngestor
+from sloth_graphmind.ingest.mcp_ingestor import MCPData
 
 pytestmark = pytest.mark.integration
 
@@ -107,7 +107,7 @@ class TestCookbookIntegration:
         # But MCPIngestor now handles it gracefully or we can let it run.
         # We need to mock get_progress_tracker to avoid 'NoneType' errors if not initialized properly in some envs
         # although my previous fixes should handle it. Let's patch it to be safe and clean.
-        with patch("semantica.ingest.mcp_ingestor.get_progress_tracker") as mock_tracker:
+        with patch("sloth_graphmind.ingest.mcp_ingestor.get_progress_tracker") as mock_tracker:
             tracker_instance = MagicMock()
             mock_tracker.return_value = tracker_instance
             
@@ -144,7 +144,7 @@ class TestCookbookIntegration:
         mcp_ingestor = MCPIngestor()
         supply_chain_mcp_url = "http://localhost:8000/mcp"
         
-        with patch("semantica.ingest.mcp_ingestor.get_progress_tracker") as mock_tracker:
+        with patch("sloth_graphmind.ingest.mcp_ingestor.get_progress_tracker") as mock_tracker:
             tracker_instance = MagicMock()
             mock_tracker.return_value = tracker_instance
 
@@ -184,7 +184,7 @@ class TestCookbookIntegration:
         mcp_ingestor = MCPIngestor()
         medical_mcp_url = "http://localhost:8000/mcp"
         
-        with patch("semantica.ingest.mcp_ingestor.get_progress_tracker") as mock_tracker:
+        with patch("sloth_graphmind.ingest.mcp_ingestor.get_progress_tracker") as mock_tracker:
             tracker_instance = MagicMock()
             mock_tracker.return_value = tracker_instance
             
@@ -203,7 +203,7 @@ class TestCookbookIntegration:
         mcp_ingestor = MCPIngestor()
         threat_mcp_url = "http://localhost:8000/mcp"
         
-        with patch("semantica.ingest.mcp_ingestor.get_progress_tracker") as mock_tracker:
+        with patch("sloth_graphmind.ingest.mcp_ingestor.get_progress_tracker") as mock_tracker:
             tracker_instance = MagicMock()
             mock_tracker.return_value = tracker_instance
             

@@ -1,4 +1,4 @@
-# Semantica — Architecture
+# GraphMind — Architecture
 
 Complete data flow from every source type to every final output, and the decision intelligence lifecycle.
 
@@ -11,7 +11,7 @@ Every source, every processing step, every final artifact — in one diagram.
 ```mermaid
 flowchart TD
     %% ── SOURCES ──────────────────────────────────────────────────────
-    subgraph SRC["🗂️ Sources  (semantica.ingest)"]
+    subgraph SRC["🗂️ Sources  (sloth_graphmind.ingest)"]
         direction LR
         F["📄 Files\nPDF · DOCX · PPTX · HTML\nTXT · CSV · JSON · Excel · XML"]
         W["🌐 Web\nPages · RSS/Atom Feeds\nPublic REST APIs"]
@@ -32,38 +32,38 @@ flowchart TD
     FI & WI & DI & PI & SI & RI --> RAW[/"📦 Raw Documents"/]
 
     %% ── PARSE ────────────────────────────────────────────────────────
-    RAW --> PRS["🔍 Parse  (semantica.parse)\nDocumentParser · StructuredDataParser\nCodeParser · WebParser · EmailParser"]
+    RAW --> PRS["🔍 Parse  (sloth_graphmind.parse)\nDocumentParser · StructuredDataParser\nCodeParser · WebParser · EmailParser"]
 
-    PRS --> NRM["🧹 Normalize  (semantica.normalize)\nTextNormalizer · EntityNormalizer\nDateNormalizer · NumberNormalizer · DataCleaner"]
+    PRS --> NRM["🧹 Normalize  (sloth_graphmind.normalize)\nTextNormalizer · EntityNormalizer\nDateNormalizer · NumberNormalizer · DataCleaner"]
 
-    NRM --> SPL["✂️ Split  (semantica.split)\nentity_aware · relation_aware\ngraph_based · ontology_aware · hierarchical"]
+    NRM --> SPL["✂️ Split  (sloth_graphmind.split)\nentity_aware · relation_aware\ngraph_based · ontology_aware · hierarchical"]
 
     %% ── EXTRACT ──────────────────────────────────────────────────────
-    SPL --> EXT["🔬 Extract  (semantica.semantic_extract)\nNamedEntityRecognizer · RelationExtractor\nEventDetector · TripletExtractor · CoreferenceResolver"]
+    SPL --> EXT["🔬 Extract  (sloth_graphmind.semantic_extract)\nNamedEntityRecognizer · RelationExtractor\nEventDetector · TripletExtractor · CoreferenceResolver"]
 
-    EXT --> CFT["⚠️ Conflict Detection  (semantica.conflicts)\nConflictDetector · ConflictResolver · SourceTracker"]
+    EXT --> CFT["⚠️ Conflict Detection  (sloth_graphmind.conflicts)\nConflictDetector · ConflictResolver · SourceTracker"]
 
-    CFT --> DDP["🔁 Deduplication  (semantica.deduplication)\nDuplicateDetector · EntityMerger"]
+    CFT --> DDP["🔁 Deduplication  (sloth_graphmind.deduplication)\nDuplicateDetector · EntityMerger"]
 
-    DDP --> KGB["🕸️ KG Construction  (semantica.kg)\nGraphBuilder · EntityResolver\nBiTemporalFact · TemporalGraphQuery"]
+    DDP --> KGB["🕸️ KG Construction  (sloth_graphmind.kg)\nGraphBuilder · EntityResolver\nBiTemporalFact · TemporalGraphQuery"]
 
     KGB --> KG[/"🗺️ Knowledge Graph\nnodes · edges · temporal facts · provenance"/]
 
     %% ── INTELLIGENCE LAYER ───────────────────────────────────────────
-    KG --> ONT["Ontology  (semantica.ontology)\nOntologyGenerator · OntologyValidator\nOWL · SHACL · SKOS"]
-    KG --> RSN["Reasoning  (semantica.reasoning)\nReteEngine · DatalogReasoner\nSPARQLReasoner · ExplanationGenerator"]
-    KG --> PRV["Provenance  (semantica.provenance)\nProvenanceManager · W3C PROV-O"]
-    KG --> CTX["Context & Decisions  (semantica.context)\nContextGraph · AgentContext\nDecisionRecorder · CausalChainAnalyzer · PolicyEngine"]
+    KG --> ONT["Ontology  (sloth_graphmind.ontology)\nOntologyGenerator · OntologyValidator\nOWL · SHACL · SKOS"]
+    KG --> RSN["Reasoning  (sloth_graphmind.reasoning)\nReteEngine · DatalogReasoner\nSPARQLReasoner · ExplanationGenerator"]
+    KG --> PRV["Provenance  (sloth_graphmind.provenance)\nProvenanceManager · W3C PROV-O"]
+    KG --> CTX["Context & Decisions  (sloth_graphmind.context)\nContextGraph · AgentContext\nDecisionRecorder · CausalChainAnalyzer · PolicyEngine"]
 
     ONT & RSN & PRV & CTX --> EKG[/"🗃️ Enriched KG\n+ ontology · inferences · provenance · decisions"/]
 
     %% ── STORAGE ──────────────────────────────────────────────────────
-    EKG --> VS["Vector Store  (semantica.vector_store)\nFAISS · Qdrant · Weaviate · Milvus · Pinecone · PgVector\nHybrid Search · RRF Fusion"]
-    EKG --> GS["Graph Store  (semantica.graph_store)\nNeo4j · FalkorDB · Apache AGE · Amazon Neptune"]
+    EKG --> VS["Vector Store  (sloth_graphmind.vector_store)\nFAISS · Qdrant · Weaviate · Milvus · Pinecone · PgVector\nHybrid Search · RRF Fusion"]
+    EKG --> GS["Graph Store  (sloth_graphmind.graph_store)\nNeo4j · FalkorDB · Apache AGE · Amazon Neptune"]
 
     %% ── OUTPUTS ──────────────────────────────────────────────────────
-    VS & GS --> EXP["📦 Export  (semantica.export)\nRDF Turtle · JSON-LD · N-Triples · OWL · SHACL\nParquet · Cypher · ArangoDB AQL · GraphML · CSV · HTML"]
-    VS & GS --> VIZ["📊 Visualize  (semantica.visualization)\nKGVisualizer · OntologyVisualizer\nEmbeddingVisualizer · TemporalVisualizer"]
+    VS & GS --> EXP["📦 Export  (sloth_graphmind.export)\nRDF Turtle · JSON-LD · N-Triples · OWL · SHACL\nParquet · Cypher · ArangoDB AQL · GraphML · CSV · HTML"]
+    VS & GS --> VIZ["📊 Visualize  (sloth_graphmind.visualization)\nKGVisualizer · OntologyVisualizer\nEmbeddingVisualizer · TemporalVisualizer"]
     EKG --> SVC["🔌 Services\nREST API 100+ endpoints · MCP Server 10+ tools\nCLI 50+ commands · Knowledge Explorer"]
 ```
 
@@ -103,6 +103,6 @@ flowchart LR
 
 ---
 
-*→ [README](README.md) · [Docs](https://docs.getsemantica.ai/) · [Cookbook](https://github.com/semantica-agi/semantica/tree/main/cookbook)*
+*→ [README](README.md) · [Docs](https://docs.graphmind.ai/) · [Cookbook](https://github.com/sloth_graphmind-agi/sloth_graphmind/tree/main/cookbook)*
 
 > Note: `Docs` and `Cookbook` are external resources maintained outside this file and may change over time. If a link is unavailable, refer to the repository `README.md` and in-repo documentation as canonical fallbacks.

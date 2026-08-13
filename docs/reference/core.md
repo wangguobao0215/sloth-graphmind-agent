@@ -4,21 +4,21 @@ description: "Framework orchestration, lifecycle management, configuration, and 
 icon: "gear"
 ---
 
-**`semantica.core`** is the **coordination layer** for the framework:
+**`sloth_graphmind.core`** is the **coordination layer** for the framework:
 
-- `Semantica` orchestrator coordinates the full KG construction pipeline from a YAML config
+- `GraphMind` orchestrator coordinates the full KG construction pipeline from a YAML config
 - `ConfigManager` loads YAML config with deep-merge, validation, and environment variable overrides
 - `PluginRegistry` enables dynamic component registration and loading at runtime
 - `LifecycleManager` manages startup/shutdown with health monitoring and lifecycle hooks
 
 <Tip>
-  Use individual modules directly for the vast majority of use cases. Reach for `semantica.core` only when you need application-level lifecycle management, centralized config, or a plugin system.
+  Use individual modules directly for the vast majority of use cases. Reach for `sloth_graphmind.core` only when you need application-level lifecycle management, centralized config, or a plugin system.
 </Tip>
 
 
 ## What You Get
 
-- **Semantica** — High-level orchestrator: coordinates the full KG construction pipeline from a single `config.yaml`. Entry point for application-level deployments.
+- **GraphMind** — High-level orchestrator: coordinates the full KG construction pipeline from a single `config.yaml`. Entry point for application-level deployments.
 - **ConfigManager** — YAML config with deep-merge, `SEMANTICA_` env var overrides, and dot-notation nested key access. Keeps secrets out of source files.
 - **LifecycleManager** — Ordered startup/shutdown hooks, health monitoring, and a 6-state machine. Essential for long-running services like FastAPI apps.
 - **PluginRegistry** — Register custom ingestors, parsers, exporters, or any component. Load them by name at runtime: no imports required.
@@ -27,24 +27,24 @@ icon: "gear"
 
 | Class | Role |
 | :--- | :--- |
-| `Semantica` | Orchestration entry point: coordinates the full KG construction pipeline |
+| `GraphMind` | Orchestration entry point: coordinates the full KG construction pipeline |
 | `ConfigManager` | YAML config loading, deep-merge, validation, and env var overrides |
 | `LifecycleManager` | Startup/shutdown state machine with health monitoring and lifecycle hooks |
 | `PluginRegistry` | Dynamic plugin discovery, registration, and loading |
 | `method_registry` | Global `MethodRegistry` instance: register and dispatch custom orchestration methods |
 
 
-## Semantica (Orchestration)
+## GraphMind (Orchestration)
 
-**`Semantica`** is the high-level entry point that coordinates the **full KG construction pipeline**:
+**`GraphMind`** is the high-level entry point that coordinates the **full KG construction pipeline**:
 
 ```python
-from semantica.core import Semantica, ConfigManager
+from sloth_graphmind.core import GraphMind, ConfigManager
 
 config_manager = ConfigManager()
 config = config_manager.load_from_file("config.yaml")
 
-framework = Semantica(config=config)
+framework = GraphMind(config=config)
 framework.initialize()
 
 try:
@@ -74,7 +74,7 @@ finally:
 Centralized config loading with deep-merge and environment variable overrides:
 
 ```python
-from semantica.core import ConfigManager
+from sloth_graphmind.core import ConfigManager
 
 manager = ConfigManager()
 config = manager.load_from_file("config.yaml")
@@ -132,7 +132,7 @@ Manages framework state with a defined state machine and ordered startup/shutdow
 **State machine:** `UNINITIALIZED` → `INITIALIZING` → `READY` → `RUNNING` → `STOPPING` → `STOPPED`
 
 ```python
-from semantica.core import LifecycleManager
+from sloth_graphmind.core import LifecycleManager
 
 manager = LifecycleManager()
 
@@ -176,7 +176,7 @@ manager.shutdown(graceful=True)
 Register custom components that participate in the full pipeline: provenance tracking, retry policies, and parallel execution included:
 
 ```python
-from semantica.core import PluginRegistry
+from sloth_graphmind.core import PluginRegistry
 
 class MyPlugin:
     def initialize(self):
@@ -200,8 +200,8 @@ for info in registry.list_plugins():
 Register custom orchestration methods and dispatch them by name:
 
 ```python
-from semantica.core import method_registry
-from semantica.core.methods import build_knowledge_base
+from sloth_graphmind.core import method_registry
+from sloth_graphmind.core.methods import build_knowledge_base
 
 def fast_kb_builder(sources, **kwargs):
     # Custom logic: skip embeddings for speed
@@ -216,14 +216,14 @@ result = build_knowledge_base(sources=["doc.pdf"], method="fast")
 
 | Scenario | Recommended Approach |
 | :-------- | :-------------------- |
-| Single extraction task | `from semantica.semantic_extract import NERExtractor` |
-| Build a knowledge graph | `from semantica.kg import GraphBuilder` |
-| Multi-step pipeline | `from semantica.pipeline import Pipeline` |
-| App-level lifecycle + config | `from semantica.core import Semantica, ConfigManager` |
-| Custom dispatch / plugins | `from semantica.core import method_registry, PluginRegistry` |
+| Single extraction task | `from sloth_graphmind.semantic_extract import NERExtractor` |
+| Build a knowledge graph | `from sloth_graphmind.kg import GraphBuilder` |
+| Multi-step pipeline | `from sloth_graphmind.pipeline import Pipeline` |
+| App-level lifecycle + config | `from sloth_graphmind.core import GraphMind, ConfigManager` |
+| Custom dispatch / plugins | `from sloth_graphmind.core import method_registry, PluginRegistry` |
 
 <Tip>
-  Use `Semantica` and `LifecycleManager` only when building a long-running application (e.g. a FastAPI service) that needs ordered startup, health checks, and graceful shutdown. For scripts and notebooks, use individual modules directly.
+  Use `GraphMind` and `LifecycleManager` only when building a long-running application (e.g. a FastAPI service) that needs ordered startup, health checks, and graceful shutdown. For scripts and notebooks, use individual modules directly.
 </Tip>
 
 - [Pipeline](pipeline) — Pipeline execution and step orchestration.

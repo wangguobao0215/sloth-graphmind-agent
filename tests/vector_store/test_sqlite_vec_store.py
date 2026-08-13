@@ -15,7 +15,7 @@ from typing import Generator
 
 # Check dependencies
 try:
-    from semantica.vector_store.sqlite_vec_store import SQLITE_VEC_AVAILABLE
+    from sloth_graphmind.vector_store.sqlite_vec_store import SQLITE_VEC_AVAILABLE
 except ImportError:
     SQLITE_VEC_AVAILABLE = False
 
@@ -40,7 +40,7 @@ def db_file(tmp_path) -> str:
 @pytest.fixture
 def store(db_file, unique_table_name) -> Generator:
     """Create a SQLiteVecStore instance for testing."""
-    from semantica.vector_store.sqlite_vec_store import SQLiteVecStore
+    from sloth_graphmind.vector_store.sqlite_vec_store import SQLiteVecStore
 
     store = SQLiteVecStore(
         db_path=db_file,
@@ -67,8 +67,8 @@ class TestSQLiteVecStoreInit:
 
     def test_init_unsupported_metric(self, db_file):
         """Test initialization with unsupported distance metric."""
-        from semantica.vector_store.sqlite_vec_store import SQLiteVecStore
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.vector_store.sqlite_vec_store import SQLiteVecStore
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         with pytest.raises(ValidationError, match="Unsupported distance metric"):
             SQLiteVecStore(
@@ -132,7 +132,7 @@ class TestSQLiteVecStoreAdd:
 
     def test_add_wrong_dimension(self, store):
         """Test adding vector with wrong dimension."""
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         vector = np.random.rand(64).astype(np.float32)  # Wrong dimension
 
@@ -208,7 +208,7 @@ class TestSQLiteVecStoreSearch:
 
     def test_search_wrong_dimension(self, store):
         """Test search with wrong query dimension."""
-        from semantica.utils.exceptions import ValidationError
+        from sloth_graphmind.utils.exceptions import ValidationError
 
         query = np.random.rand(64).astype(np.float32)
 
@@ -217,7 +217,7 @@ class TestSQLiteVecStoreSearch:
 
     def test_search_empty_store(self, db_file, unique_table_name):
         """Test search on empty store."""
-        from semantica.vector_store.sqlite_vec_store import SQLiteVecStore
+        from sloth_graphmind.vector_store.sqlite_vec_store import SQLiteVecStore
 
         empty_store = SQLiteVecStore(
             db_path=db_file,
@@ -352,8 +352,8 @@ class TestSQLiteVecStoreReadOnly:
 
     def test_read_only_mode(self, db_file, unique_table_name):
         """Test that read-only mode restricts writes but allows reads."""
-        from semantica.vector_store.sqlite_vec_store import SQLiteVecStore
-        from semantica.utils.exceptions import ProcessingError
+        from sloth_graphmind.vector_store.sqlite_vec_store import SQLiteVecStore
+        from sloth_graphmind.utils.exceptions import ProcessingError
 
         # 1. Create and populate database first
         store_write = SQLiteVecStore(

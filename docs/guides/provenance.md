@@ -1,6 +1,6 @@
 ---
 title: "Provenance & Audit Trails"
-description: "How Semantica tracks the origin and lineage of every entity, relationship, chunk, and property with W3C PROV-O compliant records — with SHA-256 integrity checksums, SQLite persistence, and cross-module audit trails for defense, pharma, banking, and security compliance."
+description: "How GraphMind tracks the origin and lineage of every entity, relationship, chunk, and property with W3C PROV-O compliant records — with SHA-256 integrity checksums, SQLite persistence, and cross-module audit trails for defense, pharma, banking, and security compliance."
 icon: "file-certificate"
 ---
 
@@ -68,7 +68,7 @@ The KG pipeline auto-calls `track_entity()` and `track_relationship()` on everyt
 `ProvenanceManager` supports two storage backends. In-memory storage is zero-dependency and useful for testing. SQLite storage persists across restarts, supports concurrent reads, and gives your compliance team a standard database they can query directly.
 
 ```python
-from semantica.provenance import ProvenanceManager
+from sloth_graphmind.provenance import ProvenanceManager
 
 # In-memory — session only, no persistence
 prov = ProvenanceManager()
@@ -77,7 +77,7 @@ prov = ProvenanceManager()
 prov = ProvenanceManager(storage_path="provenance.db")
 
 # Custom backend — pass any ProvenanceStorage implementation
-from semantica.provenance.storage import SQLiteStorage
+from sloth_graphmind.provenance.storage import SQLiteStorage
 prov = ProvenanceManager(storage=SQLiteStorage("audit.db"))
 ```
 
@@ -155,7 +155,7 @@ When the same property appears in multiple sources with different values — exa
 **SourceReference** is a structured metadata container that captures exactly where a piece of information came from within a document. It includes the document identifier, specific location (page, section, byte range), confidence level, and custom metadata fields for domain-specific attribution requirements.
 
 ```python
-from semantica.provenance.schemas import SourceReference
+from sloth_graphmind.provenance.schemas import SourceReference
 
 nvd_ref = SourceReference(
     document="NVD_feed_2024-04-12",
@@ -218,16 +218,16 @@ Sources seen : ['NVD_feed_2024-04-12', 'commercial_feed_2024-04-12',
                 'NVD_feed_2024-07-18', 'commercial_feed_2024-10-08']
 
 Full version chain (oldest → newest):
-  [2024-04-12T14:22:07]  agent=semantica
+  [2024-04-12T14:22:07]  agent=sloth_graphmind
     source=NVD_feed_2024-04-12
     activity=nvd_feed_ingestion
-  [2024-04-12T15:18:33]  agent=semantica
+  [2024-04-12T15:18:33]  agent=sloth_graphmind
     source=commercial_feed_2024-04-12
     activity=commercial_feed_ingestion
-  [2024-07-18T08:04:11]  agent=semantica
+  [2024-07-18T08:04:11]  agent=sloth_graphmind
     source=NVD_feed_2024-07-18
     activity=nvd_feed_ingestion       # NVD updated their score
-  [2024-10-08T09:11:44]  agent=semantica
+  [2024-10-08T09:11:44]  agent=sloth_graphmind
     source=commercial_feed_2024-10-08
     activity=commercial_feed_ingestion
 ```
@@ -241,7 +241,7 @@ Every `ProvenanceEntry` carries a SHA-256 checksum computed at write time. If an
 Integrity verification is critical for regulatory compliance and forensic analysis. Run integrity checks as part of any compliance audit:
 
 ```python
-from semantica.provenance.integrity import compute_checksum
+from sloth_graphmind.provenance.integrity import compute_checksum
 
 raw_entries = prov.trace_lineage("cve-2024-3400")
 
@@ -348,8 +348,8 @@ A signals intelligence fusion cell tracks custody of every intelligence entity f
 Under ITAR and intelligence community sharing agreements, the provenance record must show which collection method produced the raw data, which analyst processed it, and which fusion activity combined it with other intelligence before the entity reached the finished product. `track_chunk()`, `track_entity()`, and `track_relationship()` each correspond to one tier of that chain.
 
 ```python
-from semantica.provenance import ProvenanceManager
-from semantica.provenance.schemas import SourceReference
+from sloth_graphmind.provenance import ProvenanceManager
+from sloth_graphmind.provenance.schemas import SourceReference
 
 prov = ProvenanceManager(storage_path="intel_provenance.db")
 
@@ -422,9 +422,9 @@ A SOC threat intelligence platform tracks every CVE from its first NVD ingestion
 The version chain created by repeated `track_entity()` calls on the same `entity_id` gives you a complete update history. If NVD revised a score from 7.5 to 9.8 following a proof-of-concept release, the chain shows the exact timestamp of that revision and which pipeline wrote the updated value.
 
 ```python
-from semantica.provenance import ProvenanceManager
-from semantica.provenance.schemas import SourceReference
-from semantica.provenance.integrity import compute_checksum
+from sloth_graphmind.provenance import ProvenanceManager
+from sloth_graphmind.provenance.schemas import SourceReference
+from sloth_graphmind.provenance.integrity import compute_checksum
 
 prov = ProvenanceManager(storage_path="soc_provenance.db")
 
@@ -479,9 +479,9 @@ A clinical evidence graph tracks efficacy data from source publications through 
 `track_property_source()` is particularly important here: when two independent studies report different efficacy values for the same endpoint, each must be tracked separately with full citation metadata. The resulting multi-source record is the evidence base for a meta-analysis, and the provenance entries become the supporting documentation in the regulatory dossier.
 
 ```python
-from semantica.provenance import ProvenanceManager
-from semantica.provenance.schemas import SourceReference
-from semantica.provenance.integrity import compute_checksum
+from sloth_graphmind.provenance import ProvenanceManager
+from sloth_graphmind.provenance.schemas import SourceReference
+from sloth_graphmind.provenance.integrity import compute_checksum
 
 prov = ProvenanceManager(storage_path="clinical_provenance.db")
 
@@ -550,8 +550,8 @@ A mortgage origination system records full provenance for every credit decision,
 Property valuation is tracked from two sources (RICS appraisal and AVM estimate) using `track_property_source()`, giving the compliance team a complete picture of how the LTV was calculated and which valuation method the model ultimately relied on.
 
 ```python
-from semantica.provenance import ProvenanceManager
-from semantica.provenance.schemas import SourceReference
+from sloth_graphmind.provenance import ProvenanceManager
+from sloth_graphmind.provenance.schemas import SourceReference
 
 prov = ProvenanceManager(storage_path="credit_provenance.db")
 app_id = "APP-2026-994421"
@@ -651,11 +651,11 @@ Every `ProvenanceEntry` maps directly to W3C PROV-O terms. If your compliance te
 
 `previous_version_id` and `derived_from_id` are additive alongside `parent_entity_id` — existing code reading `parent_entity_id` keeps working unchanged, while new code gets the two relations disambiguated.
 
-The `checksum` field is not part of the PROV-O standard — it is Semantica's tamper-detection extension. Every entry's SHA-256 now also incorporates `previous_checksum` (the prior entry's checksum, by insertion order via `sequence_id`), chaining every entry to the one before it. `ProvenanceManager.verify_chain()` walks the full chain and reports any break — including a row that was hard-deleted from the underlying table, which a lone per-row checksum can't detect on its own.
+The `checksum` field is not part of the PROV-O standard — it is GraphMind's tamper-detection extension. Every entry's SHA-256 now also incorporates `previous_checksum` (the prior entry's checksum, by insertion order via `sequence_id`), chaining every entry to the one before it. `ProvenanceManager.verify_chain()` walks the full chain and reports any break — including a row that was hard-deleted from the underlying table, which a lone per-row checksum can't detect on its own.
 
 Note: the banking example above passes `agent_id="credit_data_service_v2"` to `track_entities_batch()` — this now actually populates the entry's `agent_id` field (previously a bug caused batch-level typed kwargs like `agent_id`/`entity_type`/`activity_id` to be silently absorbed into the opaque `metadata` blob instead).
 
-`export_prov()` mints entity/agent/activity URIs under `ProvenanceManager.DEFAULT_BASE_URI` (`https://semantica.dev/ns#` by default — the same namespace `RDFExporter`'s `NamespaceManager` uses for its `"semantica"` prefix, so KG-exported and PROV-exported URIs for the same `entity_id` co-resolve) unless overridden via `export_prov(base_uri=...)` or the CLI's `--base-uri` option.
+`export_prov()` mints entity/agent/activity URIs under `ProvenanceManager.DEFAULT_BASE_URI` (`https://sloth_graphmind.dev/ns#` by default — the same namespace `RDFExporter`'s `NamespaceManager` uses for its `"sloth_graphmind"` prefix, so KG-exported and PROV-exported URIs for the same `entity_id` co-resolve) unless overridden via `export_prov(base_uri=...)` or the CLI's `--base-uri` option.
 
 ## Related Guides
 

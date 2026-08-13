@@ -1,6 +1,6 @@
-# Semantica Knowledge Explorer
+# GraphMind Knowledge Explorer
 
-A browser-based graph workbench for the [Semantica](https://github.com/semantica-agi/semantica) platform. Pan and zoom live graphs, scrub the timeline, trace every decision's causal chain, resolve duplicates, and author your ontology visually. Built on React 19 + Sigma.js.
+A browser-based graph workbench for the [GraphMind](https://github.com/sloth_graphmind-agi/sloth_graphmind) platform. Pan and zoom live graphs, scrub the timeline, trace every decision's causal chain, resolve duplicates, and author your ontology visually. Built on React 19 + Sigma.js.
 
 ---
 
@@ -27,13 +27,13 @@ npm --version
 Install the package with the explorer extras. The pre-built frontend bundle is included in the wheel so no Node.js is required.
 
 ```bash
-pip install "semantica[explorer]"
+pip install "sloth_graphmind[explorer]"
 ```
 
 Launch the dashboard by pointing it at any graph JSON file:
 
 ```bash
-semantica-explorer --graph my_graph.json
+sloth_graphmind-explorer --graph my_graph.json
 ```
 
 The server starts at `http://127.0.0.1:8000` and opens the dashboard in your default browser automatically.
@@ -51,16 +51,16 @@ Examples:
 
 ```bash
 # Default — opens at http://127.0.0.1:8000
-semantica-explorer --graph my_graph.json
+sloth_graphmind-explorer --graph my_graph.json
 
 # Custom port
-semantica-explorer --graph my_graph.json --port 8080
+sloth_graphmind-explorer --graph my_graph.json --port 8080
 
 # Suppress auto-open
-semantica-explorer --graph my_graph.json --no-browser
+sloth_graphmind-explorer --graph my_graph.json --no-browser
 
 # Equivalent using python -m
-python -m semantica.explorer --graph my_graph.json
+python -m sloth_graphmind.explorer --graph my_graph.json
 ```
 
 > **Security note:** The Explorer API has no built-in authentication. The default `--host 127.0.0.1` binds to localhost only, so it is not reachable from other machines on your network. If you bind to `0.0.0.0`, all graph data is readable and writable by any host that can reach the port. The CLI will print a warning in that case.
@@ -74,8 +74,8 @@ This mode runs the React dev server with hot module replacement, so frontend cha
 #### Step 1 — Clone the repo
 
 ```bash
-git clone https://github.com/semantica-agi/semantica.git
-cd semantica
+git clone https://github.com/sloth_graphmind-agi/sloth_graphmind.git
+cd sloth_graphmind
 ```
 
 #### Step 2 — Install the Python package
@@ -96,7 +96,7 @@ npm ci
 Open a terminal in the repo root:
 
 ```bash
-semantica-explorer --graph path/to/my_graph.json --no-browser
+sloth_graphmind-explorer --graph path/to/my_graph.json --no-browser
 ```
 
 This starts the API on `http://127.0.0.1:8000`. Keep this terminal open.
@@ -123,7 +123,7 @@ npm ci
 npm run build
 ```
 
-This writes the compiled assets to `../semantica/static/`. The Python server then serves the full dashboard at `http://127.0.0.1:8000` — no separate Vite process needed.
+This writes the compiled assets to `../sloth_graphmind/static/`. The Python server then serves the full dashboard at `http://127.0.0.1:8000` — no separate Vite process needed.
 
 ---
 
@@ -159,7 +159,7 @@ Run these from inside the `explorer/` directory:
 # Start the dev server with hot module replacement
 npm run dev
 
-# Type-check and build the production bundle into ../semantica/static/
+# Type-check and build the production bundle into ../sloth_graphmind/static/
 npm run build
 
 # Preview the production build locally
@@ -212,7 +212,7 @@ explorer/
 │       ├── SparqlWorkspace/           # In-browser SPARQL query editor
 │       └── VocabularyWorkspace/       # SKOS vocabulary manager
 ├── index.html
-├── vite.config.ts                     # Dev proxy → 127.0.0.1:8000, build → ../semantica/static
+├── vite.config.ts                     # Dev proxy → 127.0.0.1:8000, build → ../sloth_graphmind/static
 └── package.json
 ```
 
@@ -224,7 +224,7 @@ explorer/
 
 The frontend bundle is missing from the server's static directory. Fix options:
 
-- **If you installed via pip:** `pip install --upgrade "semantica[explorer]"` — the wheel includes the pre-built bundle.
+- **If you installed via pip:** `pip install --upgrade "sloth_graphmind[explorer]"` — the wheel includes the pre-built bundle.
 - **If you installed from source:** run `cd explorer && npm ci && npm run build` from the repo root, then restart the server.
 - **In dev mode:** use the Vite dev server at `http://localhost:5173` instead of the backend URL.
 
@@ -270,4 +270,4 @@ Vite automatically tries the next available port and prints the actual URL in th
 
 ## Contributing
 
-See the root [CONTRIBUTING.md](../CONTRIBUTING.md) and open issues on the main [Semantica repository](https://github.com/semantica-agi/semantica).
+See the root [CONTRIBUTING.md](../CONTRIBUTING.md) and open issues on the main [GraphMind repository](https://github.com/sloth_graphmind-agi/sloth_graphmind).

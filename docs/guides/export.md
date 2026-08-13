@@ -5,23 +5,23 @@ description: "Export knowledge graphs to RDF (Turtle, JSON-LD, N-Triples), Graph
 
 ## What Is Export?
 
-Export converts Semantica graph data into formats used by external tools and systems. Unlike internal persistence mechanisms that keep data within Semantica, export is specifically designed for interoperability with external consumers.
+Export converts GraphMind graph data into formats used by external tools and systems. Unlike internal persistence mechanisms that keep data within GraphMind, export is specifically designed for interoperability with external consumers.
 
 **Export vs. internal persistence:**
-- **`AgentContext.store()`** and graph persistence keep data inside Semantica for continued processing, retrieval, and reasoning
+- **`AgentContext.store()`** and graph persistence keep data inside GraphMind for continued processing, retrieval, and reasoning
 - **Export functions** serialize graph data into standardized formats that external systems can consume directly
 
 Export enables integration with analytics platforms, graph databases, RDF triple stores, semantic web systems, data warehouses, business intelligence tools, and downstream consumers that need access to your knowledge graph data in their native formats.
 
 ## Why Use Export?
 
-**Build once, export many.** Create your knowledge graph through Semantica's extraction and reasoning workflows, then export the same graph data to multiple formats for different consumers without rebuilding or reprocessing.
+**Build once, export many.** Create your knowledge graph through GraphMind's extraction and reasoning workflows, then export the same graph data to multiple formats for different consumers without rebuilding or reprocessing.
 
-**Interoperability with existing ecosystems.** Connect Semantica graphs to established tools and workflows in your organization, from Neo4j graph databases to Gephi visualizations to pandas data analysis pipelines.
+**Interoperability with existing ecosystems.** Connect GraphMind graphs to established tools and workflows in your organization, from Neo4j graph databases to Gephi visualizations to pandas data analysis pipelines.
 
 **Analytics and reporting workflows.** Feed graph data into business intelligence tools, statistical analysis platforms, and machine learning pipelines that require specific data formats like CSV, Parquet, or RDF.
 
-**Graph database migration and deployment.** Move graphs from Semantica's in-memory representation to production graph databases like Neo4j, ArangoDB, or triple stores for scalable query performance.
+**Graph database migration and deployment.** Move graphs from GraphMind's in-memory representation to production graph databases like Neo4j, ArangoDB, or triple stores for scalable query performance.
 
 **RDF and semantic web integration.** Export to semantic web standards (Turtle, JSON-LD, N-Triples) for integration with ontology tools, SPARQL endpoints, and semantic reasoning systems.
 
@@ -32,7 +32,7 @@ Export enables integration with analytics platforms, graph databases, RDF triple
 ## When To Use / When Not To Use
 
 **Use export when:**
-- Integrating Semantica graphs with external systems and tools
+- Integrating GraphMind graphs with external systems and tools
 - Sharing graph data with teams using different technology stacks
 - Building analytics pipelines that consume graph data in downstream processing
 - Working with RDF and ontology workflows requiring semantic web standards
@@ -41,16 +41,16 @@ Export enables integration with analytics platforms, graph databases, RDF triple
 - Meeting compliance requirements for specific data format submissions
 
 **Do not use export when:**
-- You simply want to save and reload Semantica state—use built-in persistence mechanisms instead
+- You simply want to save and reload GraphMind state—use built-in persistence mechanisms instead
 - Agent persistence and memory continuity are your primary goals
 - Internal retrieval, reasoning, and graph operations are sufficient for your use case
-- Export would add unnecessary complexity to workflows that operate entirely within Semantica
+- Export would add unnecessary complexity to workflows that operate entirely within GraphMind
 - You need real-time access to evolving graph data—export creates static snapshots
 
 **Consider internal persistence instead when:**
-- Your workflow involves iterative graph building, querying, and reasoning within Semantica
+- Your workflow involves iterative graph building, querying, and reasoning within GraphMind
 - You need to maintain agent memory, conversation history, and decision tracking
-- Graph data will continue to be processed and enriched within Semantica workflows
+- Graph data will continue to be processed and enriched within GraphMind workflows
 
 `export_rdf`, `export_graph`, `export_lpg`, and related functions serialize a `ContextGraph` to any of ten formats in a single call, preserving node types, edge weights, and metadata faithfully. Use them when downstream consumers — triple stores, graph databases, visualization tools, ML pipelines, or spreadsheet auditors — each expect a different format from the same in-memory graph.
 
@@ -63,8 +63,8 @@ Export enables integration with analytics platforms, graph databases, RDF triple
 Before the first export, populate a graph. Every example below starts from this shared setup:
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
 
 vs    = VectorStore(backend="faiss", dimension=768)
 graph = ContextGraph()
@@ -87,10 +87,10 @@ graph_data = graph.to_dict()   # single dict, reused across all exports below
 
 **RDF (Resource Description Framework)** is the foundational data model for the semantic web, representing information as subject-predicate-object triplets. RDF formats are essential for integration with semantic web technologies, ontology tools, and systems requiring formal knowledge representation.
 
-When your consumers are triple stores (GraphDB, Stardog, Apache Jena) or OWL reasoners (HermiT, Pellet), you want RDF. Semantica exports to all five standard RDF serializations through a single `export_rdf` call.
+When your consumers are triple stores (GraphDB, Stardog, Apache Jena) or OWL reasoners (HermiT, Pellet), you want RDF. GraphMind exports to all five standard RDF serializations through a single `export_rdf` call.
 
 ```python
-from semantica.export import export_rdf
+from sloth_graphmind.export import export_rdf
 
 # Turtle — the human-readable default; best for review and Git storage
 export_rdf(graph_data, "threat_graph.ttl", format="turtle")
@@ -111,10 +111,10 @@ The format to reach for depends on your consumer. Turtle is ideal for human revi
 
 **Labeled Property Graph (LPG)** formats represent networks with typed nodes and edges that carry attributes and metadata. These formats are optimized for graph visualization tools and network analysis platforms that focus on exploring relationships and structural patterns.
 
-GraphML, GEXF, and DOT are the native formats of graph analysis and visualization tools. They preserve node attributes, edge weights, and type labels, so the graph you built in Semantica renders immediately in Gephi or NetworkX with full attribute data.
+GraphML, GEXF, and DOT are the native formats of graph analysis and visualization tools. They preserve node attributes, edge weights, and type labels, so the graph you built in GraphMind renders immediately in Gephi or NetworkX with full attribute data.
 
 ```python
-from semantica.export import export_graph
+from sloth_graphmind.export import export_graph
 
 # GraphML — widest tool support: Gephi, yEd, NetworkX, Maltego
 export_graph(graph_data, "threat_graph.graphml", format="graphml")
@@ -135,7 +135,7 @@ The GEXF format is worth knowing about if you use Gephi for analyst briefings �
 When the SOC team wants to run Cypher queries against the graph — finding threat actors that share infrastructure, or tracing multi-hop attack paths — you export to Cypher and load the result into Neo4j Desktop or Memgraph with a single command.
 
 ```python
-from semantica.export import export_lpg
+from sloth_graphmind.export import export_lpg
 
 export_lpg(graph_data, "threat_graph.cypher", method="cypher")
 ```
@@ -155,7 +155,7 @@ Load into Neo4j with `cypher-shell < threat_graph.cypher` or drag the file into 
 ArangoDB combines graph traversal with document queries and full-text search in a single query language. When your compliance team needs to join the graph against structured regulatory documents, ArangoDB is the right backend.
 
 ```python
-from semantica.export import export_arango
+from sloth_graphmind.export import export_arango
 
 export_arango(
     graph_data,
@@ -176,7 +176,7 @@ The `include_collection_creation=True` flag means the AQL file is self-contained
 The compliance team lives in Excel. The data science team lives in pandas. Both of them need CSV. `export_csv` writes the graph as flat rows — entities and relationships as separate files when you pass a base path.
 
 ```python
-from semantica.export import export_csv
+from sloth_graphmind.export import export_csv
 
 # Single CSV — nodes and edges interleaved with a "record_type" column
 export_csv(graph_data, "threat_graph.csv")
@@ -198,7 +198,7 @@ The split form is more useful for downstream tools: the entities CSV feeds a piv
 When the data science team runs feature engineering over graph attributes in DuckDB, Spark, or a lakehouse, Parquet is the format they want. It is columnar, compressed, and readable by every major ML framework.
 
 ```python
-from semantica.export import export_parquet
+from sloth_graphmind.export import export_parquet
 
 export_parquet(graph_data, "threat_graph_entities.parquet")
 ```
@@ -214,8 +214,8 @@ Once in Parquet, the graph entities become a DataFrame that can be joined agains
 When you have generated an OWL ontology from your graph using `OntologyGenerator`, you can export it for Protégé, HermiT reasoning, or regulatory submission.
 
 ```python
-from semantica.export import export_owl
-from semantica.ontology import OntologyGenerator
+from sloth_graphmind.export import export_owl
+from sloth_graphmind.ontology import OntologyGenerator
 
 ontology = OntologyGenerator(base_uri="https://example.org/cti/") \
                .generate_from_graph(graph_data)
@@ -225,7 +225,7 @@ export_owl(ontology, "cti_ontology.owl", format="owl-xml")
 
 ## Common Pitfalls
 
-**Confusing export with persistence.** Export creates external snapshots for interoperability, while persistence maintains Semantica's internal state. Don't use export when you need to save and reload agent memory or continue graph-based workflows—use built-in persistence mechanisms instead.
+**Confusing export with persistence.** Export creates external snapshots for interoperability, while persistence maintains GraphMind's internal state. Don't use export when you need to save and reload agent memory or continue graph-based workflows—use built-in persistence mechanisms instead.
 
 **Exporting stale graph data after graph changes.** Always call `graph.to_dict()` after your final graph modifications. If you store `graph_data` early in your workflow and then modify the graph, exports will reflect the outdated state, not your latest changes.
 
@@ -248,10 +248,10 @@ export_owl(ontology, "cti_ontology.owl", format="owl-xml")
 A CTI team needs the same threat graph in four places simultaneously: a SPARQL endpoint for cross-team queries, Gephi for the analyst briefing, Neo4j for graph-pattern threat hunting, and a JSON-LD feed for the SIEM ingestion pipeline. Four exports, one graph dict.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.ingest import ingest_file
-from semantica.export import export_rdf, export_graph, export_lpg
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.ingest import ingest_file
+from sloth_graphmind.export import export_rdf, export_graph, export_lpg
 import os
 
 vs    = VectorStore(backend="faiss", dimension=768)
@@ -286,9 +286,9 @@ print("Threat graph exported to 4 formats.")
 During an active incident the SOC needs the graph in Neo4j for hunting, in GEXF for the Gephi timeline visualization, and in GraphML for import into Maltego. All three from the same in-memory graph.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.export import export_lpg, export_graph
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.export import export_lpg, export_graph
 import os
 
 vs    = VectorStore(backend="faiss", dimension=768)
@@ -329,10 +329,10 @@ print("SOC graph exported — load incident_graph.cypher into Neo4j Desktop.")
 Clinical trial data needs to reach a SPARQL endpoint for cross-trial federated queries, a CSV for statistical analysis in R, and a Turtle file for regulatory submission. The graph encodes compound-target-disease relationships extracted from trial protocols.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.ingest import DBIngestor
-from semantica.export import export_rdf, export_csv
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.ingest import DBIngestor
+from sloth_graphmind.export import export_rdf, export_csv
 
 vs    = VectorStore(backend="faiss", dimension=768)
 graph = ContextGraph(advanced_analytics=True)
@@ -381,10 +381,10 @@ print("Clinical graph exported — ready for SPARQL endpoint and statistical rev
 A regulatory knowledge graph must reach ArangoDB for multi-model compliance queries, RDF/XML for the long-term regulatory archive, and JSON-LD for the compliance dashboard API. Basel III regulations, risk parameters, and their relationships are all captured as graph nodes.
 
 ```python
-from semantica.context import AgentContext, ContextGraph
-from semantica.vector_store import VectorStore
-from semantica.ingest import ingest_file
-from semantica.export import export_arango, export_rdf
+from sloth_graphmind.context import AgentContext, ContextGraph
+from sloth_graphmind.vector_store import VectorStore
+from sloth_graphmind.ingest import ingest_file
+from sloth_graphmind.export import export_arango, export_rdf
 import os
 
 vs    = VectorStore(backend="faiss", dimension=768)

@@ -15,9 +15,9 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from semantica.kg.provenance_tracker import ProvenanceTracker
-from semantica.export.rdf_exporter import RDFExporter
-from semantica.kg.temporal_query import TemporalVersionManager
+from sloth_graphmind.kg.provenance_tracker import ProvenanceTracker
+from sloth_graphmind.export.rdf_exporter import RDFExporter
+from sloth_graphmind.kg.temporal_query import TemporalVersionManager
 
 
 # ---------------------------------------------------------------------------

@@ -1,10 +1,10 @@
 ---
 title: "MCP Server"
-description: "Model Context Protocol server: expose Semantica's full capability set to Claude Desktop, VS Code, Cursor, and any MCP-aware tool."
+description: "Model Context Protocol server: expose GraphMind's full capability set to Claude Desktop, VS Code, Cursor, and any MCP-aware tool."
 icon: "plug"
 ---
 
-**`semantica.mcp_server`** exposes Semantica's knowledge graph, decision intelligence, semantic extraction, and reasoning capabilities as an [MCP (Model Context Protocol)](https://modelcontextprotocol.io) **server over stdio**:
+**`sloth_graphmind.mcp_server`** exposes GraphMind's knowledge graph, decision intelligence, semantic extraction, and reasoning capabilities as an [MCP (Model Context Protocol)](https://modelcontextprotocol.io) **server over stdio**:
 
 - 12 MCP tools exposed: extract entities, query graph, record decisions, run reasoning, export results
 - No Python code required after launch: configure once, use from any MCP-aware client
@@ -16,8 +16,8 @@ icon: "plug"
 // Configure in your MCP client (Claude Desktop, Windsurf, Cursor, VS Code, etc.)
 {
   "mcpServers": {
-    "semantica": {
-      "command": "semantica-mcp"
+    "sloth_graphmind": {
+      "command": "sloth_graphmind-mcp"
     }
   }
 }
@@ -25,13 +25,13 @@ icon: "plug"
 
 ```bash
 # Or run directly
-semantica-mcp
+sloth_graphmind-mcp
 # or
-python -m semantica.mcp_server
+python -m sloth_graphmind.mcp_server
 ```
 
 <Tip>
-  `semantica.mcp_server` is a **stdio server process**, not a Python library. It exposes no importable classes: all interaction happens through MCP tool calls from a connected AI client.
+  `sloth_graphmind.mcp_server` is a **stdio server process**, not a Python library. It exposes no importable classes: all interaction happens through MCP tool calls from a connected AI client.
 </Tip>
 
 <Warning>
@@ -41,7 +41,7 @@ python -m semantica.mcp_server
 ## What You Get
 
 - **12 MCP Tools** — Extract entities, extract relations, record decisions, query decisions, find precedents, trace causal chains, add entities, add relationships, run analytics, summarise graph, run reasoning, export graph.
-- **3 Readable Resources** — Live graph JSON (`semantica://graph/summary`), decision list, and schema/version info: readable by any MCP client.
+- **3 Readable Resources** — Live graph JSON (`sloth_graphmind://graph/summary`), decision list, and schema/version info: readable by any MCP client.
 - **Zero Infrastructure** — Runs over stdio: no server, no port, no Docker required. One config block to activate in any MCP client.
 - **Persistent Graphs** — Point `SEMANTICA_KG_PATH` at a saved graph file to reload it automatically on every server startup.
 - **Decision Intelligence** — Record decisions, find precedents via hybrid similarity search, and trace causal chains across agent runs.
@@ -50,7 +50,7 @@ python -m semantica.mcp_server
 ## Installation
 
 ```bash
-pip install semantica
+pip install sloth_graphmind
 ```
 
 The MCP server is included in the base install: no extras required.
@@ -69,15 +69,15 @@ The MCP server is included in the base install: no extras required.
     | Windsurf / Cline / Roo Code | App-specific settings → MCP Servers |
 
   </Step>
-  <Step title="Add the Semantica MCP server config">
+  <Step title="Add the GraphMind MCP server config">
 
     <CodeGroup>
 
     ```json Claude Desktop / Windsurf / Cline
     {
       "mcpServers": {
-        "semantica": {
-          "command": "semantica-mcp"
+        "sloth_graphmind": {
+          "command": "sloth_graphmind-mcp"
         }
       }
     }
@@ -86,8 +86,8 @@ The MCP server is included in the base install: no extras required.
     ```json Cursor
     {
       "mcpServers": {
-        "semantica": {
-          "command": "semantica-mcp",
+        "sloth_graphmind": {
+          "command": "sloth_graphmind-mcp",
           "env": {
             "SEMANTICA_KG_PATH": "/path/to/my_graph.json"
           }
@@ -99,9 +99,9 @@ The MCP server is included in the base install: no extras required.
     ```json VS Code / Continue / Roo Code
     {
       "mcpServers": {
-        "semantica": {
+        "sloth_graphmind": {
           "command": "python",
-          "args": ["-m", "semantica.mcp_server"]
+          "args": ["-m", "sloth_graphmind.mcp_server"]
         }
       }
     }
@@ -110,8 +110,8 @@ The MCP server is included in the base install: no extras required.
     ```json With persistent graph
     {
       "mcpServers": {
-        "semantica": {
-          "command": "semantica-mcp",
+        "sloth_graphmind": {
+          "command": "sloth_graphmind-mcp",
           "env": {
             "SEMANTICA_KG_PATH": "/path/to/my_graph.json",
             "SEMANTICA_LOG_LEVEL": "INFO"
@@ -124,20 +124,20 @@ The MCP server is included in the base install: no extras required.
     </CodeGroup>
 
     <Warning>
-      **Configure your MCP client's `command` field exactly.** The `command` field must point to the exact executable path (use `which semantica-mcp` on macOS/Linux to find it). A wrong path fails silently: the server just doesn't appear in the tools list. Test with the raw `echo | semantica-mcp` command first to confirm the binary works.
+      **Configure your MCP client's `command` field exactly.** The `command` field must point to the exact executable path (use `which sloth_graphmind-mcp` on macOS/Linux to find it). A wrong path fails silently: the server just doesn't appear in the tools list. Test with the raw `echo | sloth_graphmind-mcp` command first to confirm the binary works.
     </Warning>
 
   </Step>
   <Step title="Test locally before configuring your client">
     ```bash
     # Run the server directly (reads from stdin, writes to stdout)
-    semantica-mcp
+    sloth_graphmind-mcp
 
     # Or via Python module
-    python -m semantica.mcp_server
+    python -m sloth_graphmind.mcp_server
 
     # Send a JSON-RPC initialize message to confirm it's working
-    echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}' | semantica-mcp
+    echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}' | sloth_graphmind-mcp
     ```
   </Step>
 </Steps>
@@ -154,7 +154,7 @@ The MCP server is included in the base install: no extras required.
 </Warning>
 
 <Tip>
-  **Enable debug logging for troubleshooting.** Set `SEMANTICA_LOG_LEVEL=DEBUG` in your MCP client's `env` block, or run `python -m semantica.mcp_server` directly and inspect stderr output.
+  **Enable debug logging for troubleshooting.** Set `SEMANTICA_LOG_LEVEL=DEBUG` in your MCP client's `env` block, or run `python -m sloth_graphmind.mcp_server` directly and inspect stderr output.
 </Tip>
 
 ## Tools
@@ -182,7 +182,7 @@ The MCP server exposes 12 tools that any connected AI assistant can call:
 
 <Accordion title="extract_entities" icon="tag">
 
-Extract named entities (people, places, organisations, concepts) from text using Semantica NER.
+Extract named entities (people, places, organisations, concepts) from text using GraphMind NER.
 
 **Input:**
 
@@ -441,11 +441,11 @@ The MCP server exposes three readable resources:
 
 | URI | Description |
 | :--- | :----------- |
-| `semantica://graph/summary` | High-level graph statistics |
-| `semantica://decisions/list` | All recorded decisions (up to 50) |
-| `semantica://schema/info` | Server version and available tools |
+| `sloth_graphmind://graph/summary` | High-level graph statistics |
+| `sloth_graphmind://decisions/list` | All recorded decisions (up to 50) |
+| `sloth_graphmind://schema/info` | Server version and available tools |
 
 - [Context](context) — The ContextGraph that the MCP server operates on.
 - [Semantic Extract](semantic_extract) — NER and relation extraction powering the MCP tools.
 - [Reasoning](reasoning) — Forward-chaining engine behind run_reasoning.
-- [Agno Integration](../integrations/agno) — Use Semantica inside Agno multi-agent teams.
+- [Agno Integration](../integrations/agno) — Use GraphMind inside Agno multi-agent teams.

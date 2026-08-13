@@ -8,7 +8,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from semantica.kg import TemporalQueryRewriter, TemporalQueryResult
+from sloth_graphmind.kg import TemporalQueryRewriter, TemporalQueryResult
 
 
 def _utc(year, month=1, day=1):
@@ -325,13 +325,13 @@ class TestNoReconstructAtTime:
 
     def test_reconstruct_at_time_never_called_on_regex_path(self):
         rw = TemporalQueryRewriter()
-        with patch("semantica.kg.temporal_query.TemporalGraphQuery") as mock_tgq:
+        with patch("sloth_graphmind.kg.temporal_query.TemporalGraphQuery") as mock_tgq:
             rw.rewrite("threat actors active before 2021")
             mock_tgq.assert_not_called()
 
     def test_reconstruct_at_time_never_called_on_no_phrase(self):
         rw = TemporalQueryRewriter()
-        with patch("semantica.kg.temporal_query.TemporalGraphQuery") as mock_tgq:
+        with patch("sloth_graphmind.kg.temporal_query.TemporalGraphQuery") as mock_tgq:
             rw.rewrite("list all suppliers")
             mock_tgq.assert_not_called()
 
@@ -413,6 +413,6 @@ class TestLLMAssistedRewrite:
     def test_llm_rewrite_never_calls_reconstruct_at_time(self):
         self._set_llm("2021", "before")
         rw = TemporalQueryRewriter(llm_provider=self.mock_llm)
-        with patch("semantica.kg.temporal_query.TemporalGraphQuery") as mock_tgq:
+        with patch("sloth_graphmind.kg.temporal_query.TemporalGraphQuery") as mock_tgq:
             rw.rewrite("suppliers before the 2021 audit")
             mock_tgq.assert_not_called()

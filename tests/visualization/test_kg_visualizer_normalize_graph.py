@@ -28,8 +28,8 @@ sys.modules.setdefault("plotly.subplots", MagicMock())
 sys.modules.setdefault("graphviz", MagicMock())
 sys.modules.setdefault("seaborn", MagicMock())
 
-from semantica.utils.exceptions import ProcessingError  # noqa: E402
-from semantica.visualization.kg_visualizer import KGVisualizer  # noqa: E402
+from sloth_graphmind.utils.exceptions import ProcessingError  # noqa: E402
+from sloth_graphmind.visualization.kg_visualizer import KGVisualizer  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Minimal fixtures
@@ -71,11 +71,11 @@ def _make_viz():
     mock_tracker.start_tracking.return_value = "tid"
 
     patches = [
-        patch("semantica.visualization.kg_visualizer.get_logger", return_value=mock_logger),
-        patch("semantica.visualization.kg_visualizer.get_progress_tracker", return_value=mock_tracker),
-        patch("semantica.visualization.kg_visualizer.ForceDirectedLayout", MagicMock()),
-        patch("semantica.visualization.kg_visualizer.HierarchicalLayout", MagicMock()),
-        patch("semantica.visualization.kg_visualizer.CircularLayout", MagicMock()),
+        patch("sloth_graphmind.visualization.kg_visualizer.get_logger", return_value=mock_logger),
+        patch("sloth_graphmind.visualization.kg_visualizer.get_progress_tracker", return_value=mock_tracker),
+        patch("sloth_graphmind.visualization.kg_visualizer.ForceDirectedLayout", MagicMock()),
+        patch("sloth_graphmind.visualization.kg_visualizer.HierarchicalLayout", MagicMock()),
+        patch("sloth_graphmind.visualization.kg_visualizer.CircularLayout", MagicMock()),
     ]
     with contextlib.ExitStack() as stack:
         for p in patches:
@@ -208,11 +208,11 @@ class TestVisualizeNetworkAcceptsKGObject(unittest.TestCase):
         # ColorPalette helpers
         with (
             patch(
-                "semantica.visualization.kg_visualizer.ColorPalette.get_entity_type_colors",
+                "sloth_graphmind.visualization.kg_visualizer.ColorPalette.get_entity_type_colors",
                 return_value={"Person": "#ff0000"},
             ),
             patch(
-                "semantica.visualization.kg_visualizer.ColorPalette.get_colors",
+                "sloth_graphmind.visualization.kg_visualizer.ColorPalette.get_colors",
                 return_value=["#ff0000"],
             ),
         ):
@@ -255,7 +255,7 @@ class TestAllVisualizeMethodsAcceptKGObject(unittest.TestCase):
         self.viz._visualize_network_plotly = MagicMock(return_value=MagicMock())
         communities = {"node_assignments": {"e1": 0, "e2": 1}, "num_communities": 2}
         with patch(
-            "semantica.visualization.kg_visualizer.ColorPalette.get_community_colors",
+            "sloth_graphmind.visualization.kg_visualizer.ColorPalette.get_community_colors",
             return_value=["#ff0000", "#00ff00"],
         ):
             self.viz.visualize_communities(self.kg, communities=communities)
@@ -291,21 +291,21 @@ class TestFormalKnowledgeGraphType(unittest.TestCase):
     """
     Regression tests for issue #471.
 
-    The formal ``semantica.kg.KnowledgeGraph`` dataclass must be accepted by
+    The formal ``sloth_graphmind.kg.KnowledgeGraph`` dataclass must be accepted by
     every public visualize_* method without requiring any manual conversion.
     """
 
     @classmethod
     def setUpClass(cls):
         try:
-            from semantica.kg.knowledge_graph import KnowledgeGraph
+            from sloth_graphmind.kg.knowledge_graph import KnowledgeGraph
             cls.KnowledgeGraph = KnowledgeGraph
         except ImportError:
             cls.KnowledgeGraph = None
 
     def _make_kg(self):
         if self.KnowledgeGraph is None:
-            self.skipTest("semantica.kg.KnowledgeGraph not available")
+            self.skipTest("sloth_graphmind.kg.KnowledgeGraph not available")
         return self.KnowledgeGraph(
             entities=ENTITIES,
             relationships=RELATIONSHIPS,
@@ -373,11 +373,11 @@ class TestFormalKnowledgeGraphType(unittest.TestCase):
         viz.circular_layout = MagicMock()
         with (
             patch(
-                "semantica.visualization.kg_visualizer.ColorPalette.get_entity_type_colors",
+                "sloth_graphmind.visualization.kg_visualizer.ColorPalette.get_entity_type_colors",
                 return_value={"Person": "#ff0000"},
             ),
             patch(
-                "semantica.visualization.kg_visualizer.ColorPalette.get_colors",
+                "sloth_graphmind.visualization.kg_visualizer.ColorPalette.get_colors",
                 return_value=["#ff0000"],
             ),
         ):
@@ -393,7 +393,7 @@ class TestFormalKnowledgeGraphType(unittest.TestCase):
         viz._visualize_network_plotly = MagicMock(return_value=MagicMock())
         communities = {"node_assignments": {"e1": 0, "e2": 1}, "num_communities": 2}
         with patch(
-            "semantica.visualization.kg_visualizer.ColorPalette.get_community_colors",
+            "sloth_graphmind.visualization.kg_visualizer.ColorPalette.get_community_colors",
             return_value=["#ff0000", "#00ff00"],
         ):
             viz.visualize_communities(kg, communities=communities)
@@ -426,12 +426,12 @@ class TestFormalKnowledgeGraphType(unittest.TestCase):
 
     def test_knowledge_graph_importable_from_kg_module(self):
         if self.KnowledgeGraph is None:
-            self.skipTest("semantica.kg.KnowledgeGraph not available")
+            self.skipTest("sloth_graphmind.kg.KnowledgeGraph not available")
         try:
-            import semantica.kg as _kg_module
+            import sloth_graphmind.kg as _kg_module
             _ = _kg_module.KnowledgeGraph
         except (ImportError, AttributeError) as exc:
-            self.fail(f"KnowledgeGraph not exported from semantica.kg: {exc}")
+            self.fail(f"KnowledgeGraph not exported from sloth_graphmind.kg: {exc}")
 
     def test_knowledge_graph_empty_defaults(self):
         kg = self.KnowledgeGraph()

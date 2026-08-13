@@ -6,7 +6,7 @@ import click
 import pytest
 from click.testing import CliRunner, Result
 
-import semantica.cli as cli_module
+import sloth_graphmind.cli as cli_module
 
 
 @pytest.fixture
@@ -346,10 +346,10 @@ def _runtime_dir(name: str) -> Path:
 
 
 def test_log_directory_probe_does_not_delete_active_log_file(monkeypatch):
-    """doctor probes with a temp file instead of touching semantica.log."""
+    """doctor probes with a temp file instead of touching sloth_graphmind.log."""
     work_dir = _runtime_dir("doctor-log-probe")
     monkeypatch.chdir(work_dir)
-    log_path = work_dir / "semantica.log"
+    log_path = work_dir / "sloth_graphmind.log"
     log_path.write_text("existing log", encoding="utf-8")
 
     config = cli_module._build_runtime_config(None, None)
@@ -371,7 +371,7 @@ def test_log_directory_probe_accepts_console_only_logging():
 def test_doctor_json_log_directory_check_is_not_false_failure(runner, monkeypatch):
     work_dir = _runtime_dir("doctor-json")
     monkeypatch.chdir(work_dir)
-    (work_dir / "semantica.log").write_text("existing log", encoding="utf-8")
+    (work_dir / "sloth_graphmind.log").write_text("existing log", encoding="utf-8")
 
     result = runner.invoke(cli_module.main, ["--json", "doctor"])
 
@@ -542,7 +542,7 @@ def test_require_ctx_raises_click_exception_on_none():
 
 def test_require_ctx_returns_ctx_unchanged():
     """_require_ctx is a pass-through when ctx is valid."""
-    from semantica.core.config_manager import Config, ConfigManager
+    from sloth_graphmind.core.config_manager import Config, ConfigManager
 
     cfg = ConfigManager().load_from_dict({}, validate=False)
     ctx = cli_module.CLIContext(config_path=None, config=cfg, log_level="INFO")

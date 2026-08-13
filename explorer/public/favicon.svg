@@ -13,19 +13,19 @@
     C 48,53 54,46 56,39
     C 58,31 56,23 52,16
     C 48,9 39,4 32,4 Z
-  " fill="none" stroke="#1A5B6A" stroke-width="2.2"/>
+  " fill="none" stroke="#074873" stroke-width="2.2"/>
 
   <!-- Central sulcus -->
-  <path d="M 32,4 C 33,20 32,46 32,64" fill="none" stroke="#1A5B6A" stroke-width="1.6" opacity="0.5"/>
+  <path d="M 32,4 C 33,20 32,46 32,64" fill="none" stroke="#074873" stroke-width="1.6" opacity="0.5"/>
 
   <!-- Left hemisphere fold -->
-  <path d="M 8,24 C 13,22 18,22 21,26" fill="none" stroke="#1A5B6A" stroke-width="1.1" opacity="0.5"/>
+  <path d="M 8,24 C 13,22 18,22 21,26" fill="none" stroke="#074873" stroke-width="1.1" opacity="0.5"/>
 
   <!-- Right hemisphere fold -->
-  <path d="M 56,24 C 51,22 46,22 43,26" fill="none" stroke="#1A5B6A" stroke-width="1.1" opacity="0.5"/>
+  <path d="M 56,24 C 51,22 46,22 43,26" fill="none" stroke="#074873" stroke-width="1.1" opacity="0.5"/>
 
   <!-- Neural network edges -->
-  <g stroke="#2AABCC" stroke-width="1.4">
+  <g stroke="#5EB3D4" stroke-width="1.4">
     <line x1="17" y1="15" x2="32" y2="26"/>
     <line x1="47" y1="15" x2="32" y2="26"/>
     <line x1="8"  y1="33" x2="32" y2="26"/>
@@ -38,11 +38,11 @@
   </g>
 
   <!-- Neural nodes -->
-  <circle cx="17" cy="15" r="4"   fill="#F5A623" stroke="white" stroke-width="1.2"/>
-  <circle cx="47" cy="15" r="4"   fill="#2AABCC" stroke="white" stroke-width="1.2"/>
-  <circle cx="8"  cy="33" r="4"   fill="#2AABCC" stroke="white" stroke-width="1.2"/>
-  <circle cx="32" cy="26" r="5"   fill="#2AABCC" stroke="white" stroke-width="1.5"/>
-  <circle cx="56" cy="33" r="4"   fill="#2AABCC" stroke="white" stroke-width="1.2"/>
-  <circle cx="16" cy="47" r="4"   fill="#2AABCC" stroke="white" stroke-width="1.2"/>
-  <circle cx="48" cy="47" r="4"   fill="#F5A623" stroke="white" stroke-width="1.2"/>
+  <circle cx="17" cy="15" r="4"   fill="#074873" stroke="white" stroke-width="1.2"/>
+  <circle cx="47" cy="15" r="4"   fill="#5EB3D4" stroke="white" stroke-width="1.2"/>
+  <circle cx="8"  cy="33" r="4"   fill="#5EB3D4" stroke="white" stroke-width="1.2"/>
+  <circle cx="32" cy="26" r="5"   fill="#5EB3D4" stroke="white" stroke-width="1.5"/>
+  <circle cx="56" cy="33" r="4"   fill="#5EB3D4" stroke="white" stroke-width="1.2"/>
+  <circle cx="16" cy="47" r="4"   fill="#5EB3D4" stroke="white" stroke-width="1.2"/>
+  <circle cx="48" cy="47" r="4"   fill="#074873" stroke="white" stroke-width="1.2"/>
 </svg>

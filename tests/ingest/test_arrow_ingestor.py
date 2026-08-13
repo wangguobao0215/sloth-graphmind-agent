@@ -7,7 +7,7 @@ import pytest
 pa = pytest.importorskip("pyarrow")
 ipc = pytest.importorskip("pyarrow.ipc")
 
-from semantica.ingest import (  # noqa: E402
+from sloth_graphmind.ingest import (  # noqa: E402
     ArrowData,
     ArrowIngestor,
     ingest,
@@ -15,8 +15,8 @@ from semantica.ingest import (  # noqa: E402
     ingest_file,
     list_available_methods,
 )
-from semantica.ingest.file_ingestor import FileTypeDetector  # noqa: E402
-from semantica.utils.exceptions import ProcessingError, ValidationError  # noqa: E402
+from sloth_graphmind.ingest.file_ingestor import FileTypeDetector  # noqa: E402
+from sloth_graphmind.utils.exceptions import ProcessingError, ValidationError  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Fixtures

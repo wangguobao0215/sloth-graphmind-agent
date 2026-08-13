@@ -9,20 +9,20 @@ key for any raw-text build.
 import unittest
 from unittest.mock import patch
 
-from semantica.kg.graph_builder import GraphBuilder
+from sloth_graphmind.kg.graph_builder import GraphBuilder
 
 
 class TestGraphBuilderExtractionDefaults(unittest.TestCase):
 
     def setUp(self):
         self.ner_patcher = patch(
-            "semantica.semantic_extract.ner_extractor.NERExtractor"
+            "sloth_graphmind.semantic_extract.ner_extractor.NERExtractor"
         )
         self.rel_patcher = patch(
-            "semantica.semantic_extract.relation_extractor.RelationExtractor"
+            "sloth_graphmind.semantic_extract.relation_extractor.RelationExtractor"
         )
         self.trip_patcher = patch(
-            "semantica.semantic_extract.triplet_extractor.TripletExtractor"
+            "sloth_graphmind.semantic_extract.triplet_extractor.TripletExtractor"
         )
         self.NER = self.ner_patcher.start()
         self.Rel = self.rel_patcher.start()
@@ -92,7 +92,7 @@ class TestGraphBuilderExtractorReuse(unittest.TestCase):
 
     def setUp(self):
         self.ner_patcher = patch(
-            "semantica.semantic_extract.ner_extractor.NERExtractor"
+            "sloth_graphmind.semantic_extract.ner_extractor.NERExtractor"
         )
         self.NER = self.ner_patcher.start()
         self.addCleanup(self.ner_patcher.stop)
@@ -123,13 +123,13 @@ class TestGraphBuilderForwardsRelationsToTriplets(unittest.TestCase):
 
     def setUp(self):
         self.ner_patcher = patch(
-            "semantica.semantic_extract.ner_extractor.NERExtractor"
+            "sloth_graphmind.semantic_extract.ner_extractor.NERExtractor"
         )
         self.rel_patcher = patch(
-            "semantica.semantic_extract.relation_extractor.RelationExtractor"
+            "sloth_graphmind.semantic_extract.relation_extractor.RelationExtractor"
         )
         self.trip_patcher = patch(
-            "semantica.semantic_extract.triplet_extractor.TripletExtractor"
+            "sloth_graphmind.semantic_extract.triplet_extractor.TripletExtractor"
         )
         self.NER = self.ner_patcher.start()
         self.Rel = self.rel_patcher.start()
@@ -178,13 +178,13 @@ class TestGraphBuilderFallbackMethodLists(unittest.TestCase):
 
     def setUp(self):
         self.ner_patcher = patch(
-            "semantica.semantic_extract.ner_extractor.NERExtractor"
+            "sloth_graphmind.semantic_extract.ner_extractor.NERExtractor"
         )
         self.rel_patcher = patch(
-            "semantica.semantic_extract.relation_extractor.RelationExtractor"
+            "sloth_graphmind.semantic_extract.relation_extractor.RelationExtractor"
         )
         self.trip_patcher = patch(
-            "semantica.semantic_extract.triplet_extractor.TripletExtractor"
+            "sloth_graphmind.semantic_extract.triplet_extractor.TripletExtractor"
         )
         self.NER = self.ner_patcher.start()
         self.Rel = self.rel_patcher.start()
@@ -247,7 +247,7 @@ class TestGraphBuilderDefaultsRunOffline(unittest.TestCase):
 
         # No mocks: this runs the real ml/pattern extractors end to end. If any
         # default resolved to "llm", this would attempt a provider call.
-        with patch("semantica.semantic_extract.providers.create_provider") as provider:
+        with patch("sloth_graphmind.semantic_extract.providers.create_provider") as provider:
             builder._extract_from_text(
                 "Apple Inc. was founded by Steve Jobs in 1976.",
                 entities,

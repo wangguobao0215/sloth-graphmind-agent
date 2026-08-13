@@ -4,8 +4,8 @@ from pathlib import Path
 import json
 import tempfile
 import os
-from semantica.parse.structured_data_parser import StructuredDataParser
-from semantica.parse.json_parser import JSONParser, JSONData
+from sloth_graphmind.parse.structured_data_parser import StructuredDataParser
+from sloth_graphmind.parse.json_parser import JSONParser, JSONData
 
 class TestParser(unittest.TestCase):
 
@@ -13,10 +13,10 @@ class TestParser(unittest.TestCase):
         self.mock_logger = MagicMock()
         self.mock_tracker = MagicMock()
         
-        self.logger_patcher = patch('semantica.parse.structured_data_parser.get_logger', return_value=self.mock_logger)
-        self.tracker_patcher = patch('semantica.parse.structured_data_parser.get_progress_tracker', return_value=self.mock_tracker)
-        self.logger_patcher_jp = patch('semantica.parse.json_parser.get_logger', return_value=self.mock_logger)
-        self.tracker_patcher_jp = patch('semantica.parse.json_parser.get_progress_tracker', return_value=self.mock_tracker)
+        self.logger_patcher = patch('sloth_graphmind.parse.structured_data_parser.get_logger', return_value=self.mock_logger)
+        self.tracker_patcher = patch('sloth_graphmind.parse.structured_data_parser.get_progress_tracker', return_value=self.mock_tracker)
+        self.logger_patcher_jp = patch('sloth_graphmind.parse.json_parser.get_logger', return_value=self.mock_logger)
+        self.tracker_patcher_jp = patch('sloth_graphmind.parse.json_parser.get_progress_tracker', return_value=self.mock_tracker)
         
         self.logger_patcher.start()
         self.tracker_patcher.start()
@@ -62,7 +62,7 @@ class TestParser(unittest.TestCase):
         self.assertTrue(hasattr(parser, 'csv_parser'))
         self.assertTrue(hasattr(parser, 'xml_parser'))
 
-    @patch('semantica.parse.structured_data_parser.JSONParser')
+    @patch('sloth_graphmind.parse.structured_data_parser.JSONParser')
     def test_structured_data_parser_delegation(self, mock_json_parser_cls):
         mock_instance = mock_json_parser_cls.return_value
         parser = StructuredDataParser()

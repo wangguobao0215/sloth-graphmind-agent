@@ -7,7 +7,7 @@ WORKDIR /app/explorer
 RUN npm ci
 
 COPY explorer/ ./
-RUN mkdir -p /app/semantica && npm run build
+RUN mkdir -p /app/graphmind && npm run build
 
 FROM python:3.14-slim AS runtime
 
@@ -19,22 +19,22 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-RUN groupadd --system semantica \
-    && useradd --system --gid semantica --home-dir /app --shell /usr/sbin/nologin semantica
+RUN groupadd --system graphmind \
+    && useradd --system --gid graphmind --home-dir /app --shell /usr/sbin/nologin graphmind
 
 COPY pyproject.toml README.md LICENSE MANIFEST.in ./
-COPY semantica/ ./semantica/
+COPY sloth_graphmind/ ./sloth_graphmind/
 COPY integrations/ ./integrations/
-COPY --from=frontend-builder /app/semantica/static ./semantica/static
+COPY --from=frontend-builder /app/graphmind/static ./sloth_graphmind/static
 
 RUN pip install --no-cache-dir ".[explorer]" \
-    && chown -R semantica:semantica /app
+    && chown -R graphmind:graphmind /app
 
-USER semantica
+USER graphmind
 
 EXPOSE 8000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
     CMD python -c "import json, urllib.request; data=json.load(urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)); raise SystemExit(0 if data.get('status') == 'ok' else 1)"
 
-CMD ["python", "-m", "uvicorn", "semantica.explorer.app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python", "-m", "uvicorn", "sloth_graphmind.explorer.app:app", "--host", "0.0.0.0", "--port", "8000"]

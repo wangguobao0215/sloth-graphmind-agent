@@ -15,7 +15,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List, Dict, Any, Tuple
 
 import pytest
-from semantica.change_management import (
+from sloth_graphmind.change_management import (
     TemporalVersionManager,
     OntologyVersionManager,
     InMemoryVersionStorage,

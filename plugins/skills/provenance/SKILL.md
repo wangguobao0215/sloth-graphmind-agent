@@ -1,11 +1,11 @@
 ---
 name: provenance
-description: Trace data lineage, source attribution, audit trails, and provenance assertions in Semantica graphs.
+description: Trace data lineage, source attribution, audit trails, and provenance assertions in GraphMind graphs.
 ---
 
-# /semantica:provenance
+# /sloth_graphmind:provenance
 
-Inspect provenance metadata. Usage: `/semantica:provenance <task> [args]`
+Inspect provenance metadata. Usage: `/sloth_graphmind:provenance <task> [args]`
 
 `$ARGUMENTS` = task + optional node, edge, or time range.
 
@@ -16,7 +16,7 @@ Inspect provenance metadata. Usage: `/semantica:provenance <task> [args]`
 Trace the provenance of a node or fact.
 
 ```python
-from semantica.provenance import ProvenanceTracer
+from sloth_graphmind.provenance import ProvenanceTracer
 
 tracer = ProvenanceTracer()
 trace = tracer.trace_node(node_id=node_id, depth=depth)

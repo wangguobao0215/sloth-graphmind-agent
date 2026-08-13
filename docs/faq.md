@@ -1,6 +1,6 @@
 ---
 title: "FAQ"
-description: "Common questions about Semantica: installation, features, integrations, and troubleshooting."
+description: "Common questions about GraphMind: installation, features, integrations, and troubleshooting."
 icon: "circle-question"
 ---
 
@@ -15,7 +15,7 @@ icon: "circle-question"
 | License? | MIT: free forever, no paywalled features |
 | Python version? | 3.8+ (3.11+ recommended) |
 | API key required? | Optional: pattern extraction works with no keys |
-| Works with LangChain / LlamaIndex? | Yes: Semantica is a layer on top, not a replacement |
+| Works with LangChain / LlamaIndex? | Yes: GraphMind is a layer on top, not a replacement |
 | Production-ready? | Yes: 1,000+ tests, v0.5.0 ships with 12 security fixes |
 | Latest version? | **v0.6.5** (August 2026) |
 | Local LLMs? | Yes: Ollama via LiteLLM, HuggingFaceLLM for air-gapped |
@@ -25,15 +25,15 @@ icon: "circle-question"
 
 <AccordionGroup>
 
-<Accordion title="What is Semantica?" icon="info-circle">
+<Accordion title="What is GraphMind?" icon="info-circle">
 
-Semantica is an open-source framework for building context graphs and decision intelligence layers for AI. It transforms unstructured data: documents, APIs, databases: into structured knowledge graphs with full provenance tracking, making AI systems explainable and auditable.
+GraphMind is an open-source framework for building context graphs and decision intelligence layers for AI. It transforms unstructured data: documents, APIs, databases: into structured knowledge graphs with full provenance tracking, making AI systems explainable and auditable.
 
 It's not a replacement for LangChain or LlamaIndex. It's the **accountability layer** that goes on top: recording decisions, tracing facts to sources, and making reasoning transparent.
 
 </Accordion>
 
-<Accordion title="What can I build with Semantica?" icon="hammer">
+<Accordion title="What can I build with GraphMind?" icon="hammer">
 
 - Knowledge graphs from documents and multi-source data
 - GraphRAG systems with graph-grounded retrieval and source attribution
@@ -44,17 +44,17 @@ It's not a replacement for LangChain or LlamaIndex. It's the **accountability la
 
 </Accordion>
 
-<Accordion title="What makes Semantica different from LangChain or LlamaIndex?" icon="scale-balanced">
+<Accordion title="What makes GraphMind different from LangChain or LlamaIndex?" icon="scale-balanced">
 
-Most frameworks stop at retrieval or generation. Semantica adds an **accountability layer**: every decision is recorded, every fact links to a source, and every reasoning step is explainable. It's designed for environments where you need to audit *why* an AI reached a conclusion: not just what it said.
+Most frameworks stop at retrieval or generation. GraphMind adds an **accountability layer**: every decision is recorded, every fact links to a source, and every reasoning step is explainable. It's designed for environments where you need to audit *why* an AI reached a conclusion: not just what it said.
 
-Semantica works alongside these frameworks, not against them.
+GraphMind works alongside these frameworks, not against them.
 
 </Accordion>
 
-<Accordion title="Is Semantica free?" icon="tag">
+<Accordion title="Is GraphMind free?" icon="tag">
 
-Yes: MIT licensed, no vendor lock-in, no paywalled features. Some capabilities require third-party API keys (e.g., OpenAI embeddings, Groq inference), but Semantica itself is always free and open source.
+Yes: MIT licensed, no vendor lock-in, no paywalled features. Some capabilities require third-party API keys (e.g., OpenAI embeddings, Groq inference), but GraphMind itself is always free and open source.
 
 </Accordion>
 
@@ -65,7 +65,7 @@ Yes: MIT licensed, no vendor lock-in, no paywalled features. Some capabilities r
 Highlights: Ontology Hub, Distance Intelligence, Parquet/XML ingestion, 12 security fixes, Graph Explorer redesign, NER gateway fix.
 
 ```bash
-pip install --upgrade semantica
+pip install --upgrade sloth_graphmind
 ```
 
 </Accordion>
@@ -77,10 +77,10 @@ pip install --upgrade semantica
 
 <AccordionGroup>
 
-<Accordion title="How do I install Semantica?" icon="download">
+<Accordion title="How do I install GraphMind?" icon="download">
 
 ```bash
-pip install semantica
+pip install sloth_graphmind
 ```
 
 See [Installation](installation) for virtual environment setup, optional extras (`[gpu]`, `[all]`, provider-specific), and platform-specific troubleshooting.
@@ -98,10 +98,10 @@ Python **3.8 or higher**. Python 3.11+ is recommended for best performance and c
 This was a known bug: fixed in **v0.5.0**. Upgrade:
 
 ```bash
-pip install --upgrade semantica
+pip install --upgrade sloth_graphmind
 ```
 
-If you're on an older version, install extras individually: `pip install "semantica[core]"`, then add `[llm-openai]`, `[gpu]`, etc.
+If you're on an older version, install extras individually: `pip install "sloth_graphmind[core]"`, then add `[llm-openai]`, `[gpu]`, etc.
 
 </Accordion>
 
@@ -123,7 +123,7 @@ If you're on an older version, install extras individually: `pip install "semant
 
 <AccordionGroup>
 
-<Accordion title="What data sources does Semantica support?" icon="database">
+<Accordion title="What data sources does GraphMind support?" icon="database">
 
 | Category | Sources |
 | :-------- | :------- |
@@ -139,7 +139,7 @@ If you're on an older version, install extras individually: `pip install "semant
 
 <Accordion title="Can I use my own models?" icon="robot">
 
-Yes. Semantica supports:
+Yes. GraphMind supports:
 
 - **Custom NER and extraction models**: register via `method_registry`
 - **Custom embedding models**: any model with a `.encode()` interface
@@ -148,19 +148,19 @@ Yes. Semantica supports:
 
 </Accordion>
 
-<Accordion title="Does Semantica support GPUs?" icon="bolt">
+<Accordion title="Does GraphMind support GPUs?" icon="bolt">
 
 Yes. When available, GPUs are used automatically for embedding generation, ML model inference, and vector operations. Install GPU support:
 
 ```bash
-pip install "semantica[gpu]"
+pip install "sloth_graphmind[gpu]"
 ```
 
 This includes PyTorch with CUDA, FAISS GPU, and CuPy.
 
 </Accordion>
 
-<Accordion title="How does Semantica handle large datasets?" icon="layer-group">
+<Accordion title="How does GraphMind handle large datasets?" icon="layer-group">
 
 - **Batching**: process documents in configurable chunks to control memory usage
 - **Parallel processing**: `Pipeline(workers=N)` runs extraction steps concurrently
@@ -174,7 +174,7 @@ This includes PyTorch with CUDA, FAISS GPU, and CuPy.
 `TemporalKnowledgeGraph` attaches `valid_from` / `valid_until` windows to nodes and edges, enabling point-in-time queries and historical analysis. Supports all 13 Allen interval algebra relations and OWL-Time export.
 
 ```python
-from semantica.kg import TemporalKnowledgeGraph
+from sloth_graphmind.kg import TemporalKnowledgeGraph
 
 tkg = TemporalKnowledgeGraph()
 tkg.add_temporal_triple("A", "caused", "B", valid_from="2024-01", valid_until="2024-06")
@@ -187,7 +187,7 @@ Available since v0.4.0.
 
 <Accordion title="What is the Ontology Hub?" icon="sitemap">
 
-A visual browser UI for the full ontology lifecycle: launched via `semantica.explorer`. Includes:
+A visual browser UI for the full ontology lifecycle: launched via `sloth_graphmind.explorer`. Includes:
 
 - **Visual editor**: create and edit classes, properties, and relationships
 - **SHACL Studio**: author, validate, and export SHACL shapes
@@ -217,7 +217,7 @@ Available since v0.5.0.
 Fixed in **v0.5.0**. The `response_format=json_object` parameter is now conditionally omitted for incompatible gateways, with a plain `generate()` plus JSON parsing fallback applied automatically. Upgrade to fix:
 
 ```bash
-pip install --upgrade semantica
+pip install --upgrade sloth_graphmind
 ```
 
 </Accordion>
@@ -257,7 +257,7 @@ Groq, OpenAI, Anthropic, Google Gemini, Ollama (fully local), DeepSeek, Novita A
 
 </Accordion>
 
-<Accordion title="Is Semantica production-ready?" icon="shield-check">
+<Accordion title="Is GraphMind production-ready?" icon="shield-check">
 
 Yes. v0.5.0 ships with:
 
@@ -276,13 +276,13 @@ Yes. v0.5.0 ships with:
 
 <AccordionGroup>
 
-<Accordion title="ModuleNotFoundError: No module named 'semantica'" icon="xmark-circle">
+<Accordion title="ModuleNotFoundError: No module named 'sloth_graphmind'" icon="xmark-circle">
 
 Ensure the correct Python environment is active:
 
 ```bash
-pip list | grep semantica
-pip install --upgrade semantica
+pip list | grep sloth_graphmind
+pip install --upgrade sloth_graphmind
 ```
 
 </Accordion>
@@ -291,7 +291,7 @@ pip install --upgrade semantica
 
 ```bash
 pip install --upgrade pip wheel
-pip install semantica
+pip install sloth_graphmind
 ```
 
 If `[all]` fails on Windows, install extras individually instead.
@@ -303,7 +303,7 @@ If `[all]` fails on Windows, install extras individually instead.
 Reduce batch sizes, enable streaming ingestion, or switch to a persistent graph backend:
 
 ```python
-from semantica.graph_store import FalkorDBStore
+from sloth_graphmind.graph_store import FalkorDBStore
 store   = FalkorDBStore(host="localhost", port=6379)
 builder = GraphBuilder(merge_entities=True, graph_store=store)
 ```
@@ -315,7 +315,7 @@ builder = GraphBuilder(merge_entities=True, graph_store=store)
 Install GPU support and confirm CUDA is available:
 
 ```bash
-pip install "semantica[gpu]"
+pip install "sloth_graphmind[gpu]"
 nvidia-smi  # confirm GPU is visible
 ```
 
@@ -326,7 +326,7 @@ nvidia-smi  # confirm GPU is visible
 Fixed in **v0.5.0**. Upgrade, or set the encoding environment variable for older versions:
 
 ```bash
-pip install --upgrade semantica
+pip install --upgrade sloth_graphmind
 # or for older versions:
 set PYTHONIOENCODING=utf-8
 ```
@@ -339,5 +339,5 @@ set PYTHONIOENCODING=utf-8
 ## Support
 
 - [Discord](https://discord.gg/sV34vps5hH) — Community chat and live support.
-- [GitHub Issues](https://github.com/semantica-agi/semantica/issues) — Bug reports and feature requests.
-- [Contributing](contributing-guide) — Help improve Semantica.
+- [GitHub Issues](https://github.com/sloth_graphmind-agi/sloth_graphmind/issues) — Bug reports and feature requests.
+- [Contributing](contributing-guide) — Help improve GraphMind.

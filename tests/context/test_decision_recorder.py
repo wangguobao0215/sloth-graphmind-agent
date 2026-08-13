@@ -10,8 +10,8 @@ from datetime import datetime
 from unittest.mock import Mock, patch
 from typing import Dict, Any
 
-from semantica.context.decision_models import Decision
-from semantica.context.decision_recorder import DecisionRecorder
+from sloth_graphmind.context.decision_models import Decision
+from sloth_graphmind.context.decision_recorder import DecisionRecorder
 
 
 class TestDecisionRecorder:
@@ -257,7 +257,7 @@ class TestDecisionRecorder:
     
     def test_store_exception_node(self, decision_recorder, mock_graph_store):
         """Test storing exception node in graph."""
-        from semantica.context.decision_models import PolicyException
+        from sloth_graphmind.context.decision_models import PolicyException
         
         exception = PolicyException(
             exception_id="exc_001",
@@ -285,7 +285,7 @@ class TestDecisionRecorder:
     
     def test_store_approval_node(self, decision_recorder, mock_graph_store):
         """Test storing approval node in graph."""
-        from semantica.context.decision_models import ApprovalChain
+        from sloth_graphmind.context.decision_models import ApprovalChain
         
         approval = ApprovalChain(
             approval_id="app_001",

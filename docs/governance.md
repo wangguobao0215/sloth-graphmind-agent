@@ -4,14 +4,14 @@ description: "Project governance model: roles, decision process, release cadence
 icon: "scale-balanced"
 ---
 
-> Semantica is maintained by Hawksight AI with community contributions under an open governance model.
+> GraphMind is maintained by Hawksight AI with community contributions under an open governance model.
 
 
 ## Roles
 
 - **Maintainers** — Hawksight AI team: review and merge PRs, manage releases and code quality, set project direction and community standards.
-- **Contributors** — Submit code, documentation, and bug reports. Help with issues and reviews. Recognized in [CONTRIBUTORS.md](https://github.com/semantica-agi/semantica/blob/main/CONTRIBUTORS.md).
-- **Community Members** — Use Semantica, provide feedback, share use cases, and participate in GitHub Discussions and Discord.
+- **Contributors** — Submit code, documentation, and bug reports. Help with issues and reviews. Recognized in [CONTRIBUTORS.md](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/CONTRIBUTORS.md).
+- **Community Members** — Use GraphMind, provide feedback, share use cases, and participate in GitHub Discussions and Discord.
 
 
 ## Decision Process
@@ -35,7 +35,7 @@ icon: "scale-balanced"
 
 ## Releases
 
-Semantica follows **Semantic Versioning** (`MAJOR.MINOR.PATCH`):
+GraphMind follows **Semantic Versioning** (`MAJOR.MINOR.PATCH`):
 
 | Level | Trigger | Cadence |
 | :------- | :--------- | :--------- |
@@ -60,7 +60,7 @@ Semantica follows **Semantic Versioning** (`MAJOR.MINOR.PATCH`):
 - **GitHub Issues**: bug reports, feature requests, questions
 - **GitHub PRs**: code contributions
 - **GitHub Discussions**: community conversation
-- **Security Advisories**: [report security issues privately](https://github.com/semantica-agi/semantica/security/advisories/new)
+- **Security Advisories**: [report security issues privately](https://github.com/sloth_graphmind-agi/sloth_graphmind/security/advisories/new)
 
 
 ## Project Goals
@@ -74,7 +74,7 @@ Semantica follows **Semantic Versioning** (`MAJOR.MINOR.PATCH`):
 
 ## License
 
-MIT License: see [LICENSE](https://github.com/semantica-agi/semantica/blob/main/LICENSE) and the [License page](project-license).
+MIT License: see [LICENSE](https://github.com/sloth_graphmind-agi/sloth_graphmind/blob/main/LICENSE) and the [License page](project-license).
 
 
 ## See Also

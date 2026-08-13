@@ -1,7 +1,7 @@
 """Tests for RDFExporter format alias resolution (issue #355)."""
 
 import pytest
-from semantica.export import RDFExporter
+from sloth_graphmind.export import RDFExporter
 
 
 RDF_DATA = {
@@ -60,7 +60,7 @@ def test_canonical_formats_unaffected(exporter):
 
 
 def test_unsupported_format_raises(exporter):
-    from semantica.utils.exceptions import ValidationError
+    from sloth_graphmind.utils.exceptions import ValidationError
 
     with pytest.raises(ValidationError):
         exporter.export_to_rdf(RDF_DATA, format="parquet")
@@ -75,7 +75,7 @@ def test_ttl_export_to_file(exporter, tmp_path):
 
 def test_non_string_format_raises_validation_error(exporter):
     """format=None or non-string must raise ValidationError, not AttributeError."""
-    from semantica.utils.exceptions import ValidationError
+    from sloth_graphmind.utils.exceptions import ValidationError
 
     with pytest.raises(ValidationError):
         exporter.export_to_rdf(RDF_DATA, format=None)

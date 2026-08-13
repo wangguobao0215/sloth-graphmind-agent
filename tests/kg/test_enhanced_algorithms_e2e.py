@@ -10,7 +10,7 @@ import numpy as np
 from typing import Dict, List, Any, Tuple
 import time
 
-from semantica.kg import (
+from sloth_graphmind.kg import (
     NodeEmbedder,
     SimilarityCalculator,
     PathFinder,
